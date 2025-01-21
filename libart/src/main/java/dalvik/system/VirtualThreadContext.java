@@ -19,6 +19,8 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import jdk.internal.misc.Unsafe;
+
 /**
  * {@link Thread} holds this object to indicate that the thread is running a virtual
  * thread.
@@ -26,6 +28,8 @@ import java.util.concurrent.atomic.AtomicLong;
  * @hide
  */
 public final class VirtualThreadContext implements Runnable {
+
+    private final static Unsafe UNSAFE = Unsafe.getUnsafe();
 
     /**
      * Currently, id is only used for debugging purpose, and the carrier thread name.
@@ -49,6 +53,15 @@ public final class VirtualThreadContext implements Runnable {
      */
     public volatile VirtualThreadParkedStates parkedStates;
 
+    /**
+     * If the virtual thread is parked and pinned, this field references the carrier thread object.
+     * For simplicity, other platform thread reads this field to determine if a virtual thread
+     * is pinned or not, and thus we use volatile to ensure the memory order here.
+     * A single state machine will likely be used instead in the future implementation to keep track
+     * the status of a virtual thread.
+     */
+    public volatile Thread pinnedCarrierThread;
+
     private VirtualThreadContext(Runnable target, long id) {
         Objects.requireNonNull(target);
         this.id = id;
@@ -69,5 +82,28 @@ public final class VirtualThreadContext implements Runnable {
     @Override
     public void run() {
         target.run();
+    }
+
+    public boolean isParked() {
+        return parkedStates != null || pinnedCarrierThread != null;
+    }
+
+    public boolean isPinned() {
+        return pinnedCarrierThread != null;
+    }
+
+    public void parkOnCarrierThreadIfPinned() {
+        if (!isPinned()) {
+            return;
+        }
+
+        UNSAFE.park(false, 0L);
+    }
+
+    public Thread unparkOnCarrierThread() {
+        Thread t = pinnedCarrierThread;
+        pinnedCarrierThread = null;
+        UNSAFE.unpark(t);
+        return t;
     }
 }

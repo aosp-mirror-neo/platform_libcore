@@ -303,10 +303,20 @@ class Thread implements Runnable {
 
     /**
      * Unpark a virtual thread if it's parked.
+     * Start a new carrier thread if the virtual thread is pinned.
+     *
+     * @throws IllegalStateException if the virtual thread isn't parked.
      * @hide
      */
     public static Thread unparkVirtual(VirtualThreadContext context) {
-        return Thread.startVirtual(context);
+        if (!context.isParked()) {
+            throw new IllegalStateException("This virtual thread isn't parked.");
+        }
+        if (context.isPinned()) {
+            return context.unparkOnCarrierThread();
+        } else {
+            return Thread.startVirtual(context);
+        }
     }
 
     private static Thread startVirtual(VirtualThreadContext context) {
@@ -328,6 +338,9 @@ class Thread implements Runnable {
         // TODO: Consider avoiding passing from java, but getting the static instance from ART.
         VirtualThreadParkingError error = VirtualThreadParkingError.INSTANCE;
         parkVirtualInternal(context, parkedStates, error);
+        // If the virtual thread is pinned, ART sets the state in VirtualThreadContext.
+        // Now, we call the regular java code to park the carrier thread.
+        context.parkOnCarrierThreadIfPinned();
     }
 
     private static native void parkVirtualInternal(VirtualThreadContext context,
