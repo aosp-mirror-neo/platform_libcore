@@ -320,6 +320,9 @@ class Thread implements Runnable {
     }
 
     private static Thread startVirtual(VirtualThreadContext context) {
+        if (!com.android.art.flags.Flags.virtualThreadImplV1()) {
+            throw new UnsupportedOperationException("Virtual Thread isn't supported.");
+        }
         Thread carrier = new Thread(context, context.carrierName);
         carrier.start();
         return carrier;
