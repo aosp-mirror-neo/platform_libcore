@@ -251,6 +251,9 @@ cc_test {
     ],
 
     static_libs: ["libnativehelper_compat_libc++"],
+    visibility: [
+        "//platform_testing:__subpackages__",
+    ],
 }
 
 // Set of benchmarks for libjavacore functions.
@@ -273,5 +276,8 @@ cc_benchmark {
     shared_libs: [
         "liblog",
         "libnativehelper",
+    ],
+    visibility: [
+        "//platform_testing:__subpackages__",
     ],
 }
