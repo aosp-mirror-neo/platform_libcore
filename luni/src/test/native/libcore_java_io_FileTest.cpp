@@ -59,13 +59,10 @@ extern "C" void Java_libcore_java_io_FileTest_nativeTestFilesWithSurrogatePairs(
 extern "C" int Java_libcore_java_io_FileTest_installSeccompFilter(JNIEnv* , jclass /* clazz */) {
     struct sock_filter filter[] = {
         BPF_STMT(BPF_LD|BPF_W|BPF_ABS, offsetof(struct seccomp_data, nr)),
-
-// for arm, x86.
-#ifdef __NR_fstatat64
-        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K, __NR_fstatat64, 0, 1),
-#else
-// for arm64, x86_64.
+#ifdef __LP64__
         BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K, __NR_newfstatat, 0, 1),
+#else
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K, __NR_fstatat64, 0, 1),
 #endif
         BPF_STMT(BPF_RET|BPF_K, SECCOMP_RET_ERRNO | EPERM),
         BPF_STMT(BPF_RET|BPF_K, SECCOMP_RET_ALLOW),
