@@ -4213,7 +4213,7 @@ assertEquals("boojum", (String) catTrace.invokeExact("boo", "jum"));
         MethodType gtype = test.type();
         MethodType ttype = target.type();
         MethodType ftype = fallback.type();
-        if (!ttype.equals(ftype))
+        if (ttype != ftype)
             throw misMatchedTypes("target and fallback types", ttype, ftype);
         if (gtype.returnType() != boolean.class)
             throw newIllegalArgumentException("guard type is not a predicate "+gtype);
@@ -5867,9 +5867,7 @@ assertEquals("boojum", (String) catTrace.invokeExact("boo", "jum"));
 
         for (MethodHandle mh : caseActions) {
             Objects.requireNonNull(mh);
-            // Android-changed: MethodType's not interned.
-            // if (mh.type() != expectedType)
-            if (!mh.type().equals(expectedType))
+            if (mh.type() != expectedType)
                 throw new IllegalArgumentException(
                     "Case actions must have the same type: " + Arrays.toString(caseActions));
         }
