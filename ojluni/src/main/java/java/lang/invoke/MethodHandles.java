@@ -1468,7 +1468,7 @@ assertEquals(""+l, (String) MH_this.invokeExact(subl)); // Listie method
                 // either.
                 if (refc != lookupClass()) {
                     throw new IllegalAccessException("no private access for invokespecial : "
-                            + refc + ", from" + this);
+                            + refc + ", from " + this);
                 }
 
                 // This is a private method, so there's nothing special to do.
@@ -1481,6 +1481,10 @@ assertEquals(""+l, (String) MH_this.invokeExact(subl)); // Listie method
             // handle once we check that there really is a "super" relationship between them.
             if (!method.getDeclaringClass().isAssignableFrom(specialCaller)) {
                 throw new IllegalAccessException(refc + "is not assignable from " + specialCaller);
+            }
+
+            if (Modifier.isAbstract(method.getModifiers())) {
+                throw new IllegalAccessException("no such method: " + method + "/invokeSpecial");
             }
 
             // Note that we restrict the receiver to "specialCaller" instances.
@@ -2258,7 +2262,7 @@ return mh1;
                                          refc.isAssignableFrom(specialCaller));
             if (!hasPrivateAccess() || (specialCaller != lookupClass() && !isInterfaceLookup)) {
                 throw new IllegalAccessException("no private access for invokespecial : "
-                        + specialCaller + ", from" + this);
+                        + specialCaller + ", from " + this);
             }
         }
 
