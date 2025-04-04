@@ -3,16 +3,16 @@
 THIS_DIR=$(realpath $(dirname ${BASH_SOURCE[0]:-$0}))
 
 pushd ${THIS_DIR}
-git fetch aosp main
-git fetch aosp expected_upstream
+git fetch goog main
+git fetch goog expected_upstream
 # -t option to fetch tags used in the EXPECTED_UPSTREAM file
-git fetch -t aosp upstream-openjdk7u
-git fetch -t aosp upstream-openjdk8u
-git fetch -t aosp upstream-openjdk9
-git fetch -t aosp upstream-openjdk11u
-git fetch -t aosp upstream-openjdk17u
-git fetch -t aosp upstream-openjdk21u
-git fetch -t aosp upstream-openjdk
+git fetch -t goog upstream-openjdk7u
+git fetch -t goog upstream-openjdk8u
+git fetch -t goog upstream-openjdk9
+git fetch -t goog upstream-openjdk11u
+git fetch -t goog upstream-openjdk17u
+git fetch -t goog upstream-openjdk21u
+git fetch -t goog upstream-openjdk
 popd
 
 alias ojluni_refresh_files=${THIS_DIR}/ojluni_refresh_files.py

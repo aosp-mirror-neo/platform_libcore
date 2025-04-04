@@ -9,7 +9,7 @@ the right documentation.
 -----------B----------D----------   main
 ```
 
-The general idea is to get a change from OpenJDK into libcore in AOSP by
+The general idea is to get a change from OpenJDK into libcore by
 `git merge` from an OpenJDK branch. However, each file in `ojluni/` can come
 from a different OpenJDK version. `expected_upstream` is a staging branch
 storing the OpenJDK version of each file. Thus, we can use `git merge` when
@@ -22,7 +22,7 @@ automatically merge the file if no merge conflict.
 * python3
 * python3-git
   * Install it via `apt install python3-git`
-* A remote `aosp` is setup in your local git repository
+* A remote `goog` is setup in your local git repository
 
 ## 1. Setup
 ```shell
@@ -85,15 +85,15 @@ the change with the following commands
 
 ```shell
 # Upload the original upstream files to the expected_upstream branch
-$ git push aosp HEAD^2:refs/for/expected_upstream
+$ git push goog HEAD^2:refs/for/expected_upstream
 # Upload the merge commit to the main branch
 $ repo upload --cbr .
 ```
 
 # Directory Layout
-in the `aosp/expected_upstream` branch.
+in the `goog/expected_upstream` branch.
 1. `ojluni/`
-    * It has the same layout as the ojluni/ files in `aosp/main`
+    * It has the same layout as the ojluni/ files in `goog/main`
 2. `EXPECTED_UPSTREAM` file
     * The table has 3 columns, i.e.
         1. Destination path in `ojluni/`
@@ -105,17 +105,17 @@ in the `aosp/expected_upstream` branch.
 
 # Understanding your change
 
-## Changes that should be made via the `aosp/expected_upstream` branch
+## Changes that should be made via the `goog/expected_upstream` branch
 1. Add or upgrade a file from the upstream OpenJDK
     * You are reading the right document! This documentation tells you how to
       import the file from the upstream. Later, you can merge the file and
-      `expected_upstream` into `aosp/main` branch.
+      `expected_upstream` into `goog/main` branch.
 2. Remove an `ojluni/` file that originally came from the OpenJDK
-    * Please remove the file on both `aosp/main` and `aosp/expected_upstream`
+    * Please remove the file on both `goog/main` and `goog/expected_upstream`
       branches. Don't forget to remove the entry in the `EXPECTED_UPSTREAM` too.
-3. Revert the merge commit on `aosp/main` from `expected_upstream`
-    * If you don't plan to re-land your change on `aosp/main`, you should
-      probably revert the change `aosp/expected_upstream` as well.
+3. Revert the merge commit on `goog/main` from `expected_upstream`
+    * If you don't plan to re-land your change on `goog/main`, you should
+      probably revert the change `goog/expected_upstream` as well.
     * If you plan to re-land your change, your re-landing commit won't be
       a merge commit, because `git` doesn't allow you to merge the same commit
       twice into the same branch. You have 2 options
@@ -123,27 +123,27 @@ in the `aosp/expected_upstream` branch.
           when you reland your change
         2. Just accept that the re-landing commit won't be a merge commit.
 
-## Changes that shouldn't happen in the `aosp/expected_upstream` branch
+## Changes that shouldn't happen in the `goog/expected_upstream` branch
 In general, if you want to change an `ojluni/` file by a text editor / IDE
-manually, you should make the change on `aosp/main`.
+manually, you should make the change on `goog/main`.
 
 1. Changes to non-OpenJDK files
     * Those files are usually under the `luni/` folder, you can make the change
-      directly on `aosp/main`
+      directly on `goog/main`
 2. Adding / updating a patch to an existing `ojluni/` file
-    * You can make the change directly on `aosp/main`. Please follow this
+    * You can make the change directly on `goog/main`. Please follow this
       [patch style guideline](https://goto.google.com/libcore-openjdk8-verify).
 3. Cherry-picking a commit from upstream
     * You should first try to update an `ojluni/` file to a particular upstream
       version. If you can't but still want to cherry-pick a upstream fix, you
-      should do so on the `aosp/main` branch.
+      should do so on the `goog/main` branch.
 4. Changes to non-OpenJDK files in `ojluni/`
     * Files, e.g. Android.bp, don't come from the upstream. You can make the
-      change directly on `aosp/main`.
+      change directly on `goog/main`.
 
 
 
-# [Only relevant if using `ojluni_refresh_files`] Submit your change in [AOSP gerrit](http://r.android.com/)
+# [Only relevant if using `ojluni_refresh_files`] Submit your change in gerrit
 ```text
 ----11.0.13-ga----------------   openjdk/jdk11u
          \
@@ -202,7 +202,7 @@ Typically, you will need 5 CLs
 * `repo upload` may not succeed because gerrit returns error.
     1. Just try to run `repo upload` again!
         * The initial upload takes a long time because it tries to sync with the
-          remote AOSP gerrit server. The second upload is much faster because
+          remote gerrit server. The second upload is much faster because
           the `git` objects have been uploaded.
     2. `repo upload` returns TimeOutException, but the CL has been uploaded.
        Just find your CL in http://r.android.com/. See http://b/202848945
@@ -224,4 +224,4 @@ Typically, you will need 5 CLs
 
 # Report bugs
 * Report bugs if the git repository is corrupted!
-    * Sometimes, you can recover the repository by running `git reset aosp/expected_upstream`
+    * Sometimes, you can recover the repository by running `git reset goog/expected_upstream`
