@@ -108,7 +108,7 @@ def merge_files_and_create_commit(entry_set: List[ExpectedUpstreamEntry],
                                   repo: Repo, checkout_only: bool) -> None:
   r"""Create the commits importing the given files into the current branch.
 
-  `--------<ref>---------------   aosp/upstream_openjdkXXX
+  `--------<ref>---------------   goog/upstream_openjdkXXX
              \
         <first_commit>
               \
@@ -209,8 +209,8 @@ def merge_files_and_create_commit(entry_set: List[ExpectedUpstreamEntry],
 def create_commits(repo: Repo, checkout_only: bool) -> None:
   """Create the commits importing files according to the EXPECTED_UPSTREAM."""
   current_tracking_branch = repo.active_branch.tracking_branch()
-  if current_tracking_branch.name != "aosp/expected_upstream":
-    print("This script should only run on aosp/expected_upstream branch. "
+  if current_tracking_branch.name != "goog/expected_upstream":
+    print("This script should only run on goog/expected_upstream branch. "
           f"Currently, this is on branch {repo.active_branch} "
           f"tracking {current_tracking_branch}")
     return
