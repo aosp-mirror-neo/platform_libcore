@@ -1201,7 +1201,7 @@ public final class System {
      * <tr><td>java.ext.dirs</td>      <td>(Not useful on Android)</td>           <td>Empty</td></tr>
      * <tr><td>java.home</td>          <td>Location of the VM on the file system</td> <td>{@code /apex/com.android.art/}</td></tr>
      * <tr><td>java.io.tmpdir</td>     <td>Location of a temporary directory.<br>The location varies by application.<br>See {@link java.io.File#createTempFile}</td> <td>{@code /data/user/0/com.android.app/cache}</td></tr>
-     * <tr><td>java.library.path</td>  <td>Search path for JNI libraries</td>     <td>{@code /vendor/lib:/system/lib}</td></tr>
+     * <tr><td>java.library.path</td>  <td>Search path for JNI libraries</td>     <td>{@code /system/lib:/system_ext/lib}</td></tr>
      * <tr><td>java.vendor</td>        <td>Human-readable VM vendor</td>          <td>{@code The Android Project}</td></tr>
      * <tr><td>java.vendor.url</td>    <td>URL for VM vendor's web site</td>      <td>{@code http://www.android.com/}</td></tr>
      * <tr><td>java.version</td>       <td>(Not useful on Android)</td>           <td>{@code 0}</td></tr>

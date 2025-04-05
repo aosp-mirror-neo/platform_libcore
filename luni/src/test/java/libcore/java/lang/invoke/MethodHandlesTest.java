@@ -440,17 +440,29 @@ public class MethodHandlesTest extends TestCase {
         } catch (IllegalAccessException e) {}
 
         // Check doing invokeSpecial on abstract interface methods gets appropriate errors. We
-        // expect it to throw an IllegalAccessError.
-        MethodHandle mh2 =
+        // expect it to throw an IllegalAccessException.
+        try {
             MethodHandles.lookup().findSpecial(
                     Foo.class /* refC */,
                     "foo",
                     methodType(String.class),
                     Bar.class /* specialCaller */);
+            fail("findSpecial can't target abstract interface methods");
+        } catch (IllegalAccessException expected) {
+            assertTrue(expected.toString(), expected.getMessage().contains("no such method"));
+        }
+
         try {
-          mh2.invoke(new BarImpl());
-          fail();
-        } catch (IllegalAccessException e) {}
+            MethodHandles.privateLookupIn(BarAbstractSuper.class, MethodHandles.lookup())
+                    .findSpecial(
+                            BarAbstractSuper.class,
+                            "abstractSuperPublicMethod",
+                            methodType(String.class),
+                            BarAbstractSuper.class);
+            fail("findSpecial can't target abstract methods");
+        } catch (IllegalAccessException expected) {
+            assertTrue(expected.toString(), expected.getMessage().contains("no such method"));
+        }
     }
 
     public void testfindSpecial_invokeDirectBehaviour() throws Throwable {

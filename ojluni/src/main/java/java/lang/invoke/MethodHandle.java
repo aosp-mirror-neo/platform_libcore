@@ -699,7 +699,7 @@ public abstract class MethodHandle {
         // BEGIN Android-changed: Android specific implementation.
         // return invocationType.invokers().spreadInvoker(0).invokeExact(asType(invocationType), arguments);
         MethodHandle invoker = cachedSpreadInvoker;
-        if (invoker == null || !invoker.type().equals(invocationType)) {
+        if (invoker == null || invoker.type() != invocationType) {
             invoker = MethodHandles.spreadInvoker(invocationType, 0);
             cachedSpreadInvoker = invoker;
         }
@@ -830,8 +830,7 @@ public abstract class MethodHandle {
     public MethodHandle asType(MethodType newType) {
         // Fast path alternative to a heavyweight {@code asType} call.
         // Return 'this' if the conversion will be a no-op.
-        // Android-changed: use equals() rather than = since MethodTypes are not interned.
-        if (newType.equals(type)) {
+        if (newType == type) {
             return this;
         }
         // Return 'this.asTypeCache' if the conversion is already memoized.
@@ -844,8 +843,7 @@ public abstract class MethodHandle {
 
     private MethodHandle asTypeCached(MethodType newType) {
         MethodHandle atc = asTypeCache;
-        // Android-changed: use equals() rather than = since MethodTypes are not interned.
-        if (atc != null && newType.equals(atc.type)) {
+        if (atc != null && newType == atc.type) {
             return atc;
         }
         return null;

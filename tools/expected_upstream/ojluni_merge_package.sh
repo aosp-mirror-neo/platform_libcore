@@ -204,7 +204,7 @@ function ojluni-merge-package
   done
 
   local version_id=$(echo "${version}" | grep -oE "^[^/]+")
-  local branch="aosp/upstream-open${version_id}"
+  local branch="goog/upstream-open${version_id}"
   local new_classes=$(git diff --name-only --diff-filter=D "${branch}" -- \
     "src/java.base/share/classes/${package_path}" \
     "ojluni/src/main/java/${package_path}")

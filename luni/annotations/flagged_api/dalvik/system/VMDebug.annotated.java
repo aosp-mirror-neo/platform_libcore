@@ -124,7 +124,7 @@ public static class ExecutableMethodFileOffsets {
   public long getMethodOffset();
 }
 
-@android.annotation.FlaggedApi(com.android.art.flags.Flags.FLAG_EXECUTABLE_METHOD_FILE_OFFSETS)
+@android.annotation.FlaggedApi(com.android.art.flags.Flags.FLAG_EXECUTABLE_METHOD_FILE_OFFSETS_DEPRECATION)
 public static VMDebug.ExecutableMethodFileOffsets getExecutableMethodFileOffsets(
         @NonNull java.lang.reflect.Method javaMethod);
 

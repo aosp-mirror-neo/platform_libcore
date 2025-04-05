@@ -35,13 +35,20 @@ import java.security.AccessControlContext;
 import java.security.PrivilegedAction;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.LockSupport;
+
+import dalvik.annotation.optimization.NeverInline;
+import dalvik.system.VirtualThreadContext;
+import dalvik.system.VirtualThreadParkingError;
+import dalvik.system.VirtualThreadParkedStates;
 import jdk.internal.misc.Unsafe;
 import sun.nio.ch.Interruptible;
 import sun.reflect.CallerSensitive;
 import dalvik.system.VMStack;
+
 import libcore.util.EmptyArray;
 import jdk.internal.vm.annotation.IntrinsicCandidate;
 
@@ -280,6 +287,89 @@ class Thread implements Runnable {
      */
     private volatile Interruptible blocker;
     private final Object blockerLock = new Object();
+
+    /**
+     * Starts a virtual thread. Compared to {@linkplain startVirtualThread(Runnable)}, it returns
+     * the carrier thread. This is useful for internal testing and verifying the states of a
+     * carrier thread.
+     *
+     * @hide
+     */
+    public static Thread startVirtual(Runnable task) {
+        Objects.requireNonNull(task);
+        VirtualThreadContext vContext = new VirtualThreadContext(task);
+        return Thread.startVirtual(vContext);
+    }
+
+    /**
+     * Unpark a virtual thread if it's parked.
+     * Start a new carrier thread if the virtual thread is pinned.
+     *
+     * @throws IllegalStateException if the virtual thread isn't parked.
+     * @hide
+     */
+    public static Thread unparkVirtual(VirtualThreadContext context) {
+        if (!context.isParked()) {
+            throw new IllegalStateException("This virtual thread isn't parked.");
+        }
+        if (context.isPinned()) {
+            return context.unparkOnCarrierThread();
+        } else {
+            return Thread.startVirtual(context);
+        }
+    }
+
+    private static Thread startVirtual(VirtualThreadContext context) {
+        if (!com.android.art.flags.Flags.virtualThreadImplV1()) {
+            throw new UnsupportedOperationException("Virtual Thread isn't supported.");
+        }
+        Thread carrier = new Thread(context, context.carrierName);
+        carrier.start();
+        return carrier;
+    }
+
+    /**
+     * @hide
+     */
+    public static void parkVirtual() {
+        // The bytecode generated for this method may keep a reference to the carrier
+        // java.lang.Thread object for the lifetime of this method. To avoid this, we invoke
+        // getCurrentVirtualThreadContext() to get the context, and mark this method as
+        // @NeverInline, which ensures this method is not inlined by dexers / JIT / AOT.
+        VirtualThreadContext context = getCurrentVirtualThreadContext();
+        VirtualThreadParkedStates parkedStates = new VirtualThreadParkedStates();
+        // TODO: Consider avoiding passing from java, but getting the static instance from ART.
+        VirtualThreadParkingError error = VirtualThreadParkingError.INSTANCE;
+        parkVirtualInternal(context, parkedStates, error);
+        // If the virtual thread is pinned, ART sets the state in VirtualThreadContext.
+        // Now, we call the regular java code to park the carrier thread.
+        context.parkOnCarrierThreadIfPinned();
+    }
+
+    private static native void parkVirtualInternal(VirtualThreadContext context,
+            VirtualThreadParkedStates parkedStates, VirtualThreadParkingError error);
+
+    /**
+     *
+     * Annotated with @NeverInline to avoid the reference to carrier java.lang.thread object.
+     * @hide
+     */
+    @NeverInline
+    public static VirtualThreadContext getCurrentVirtualThreadContext() {
+        Thread t = Thread.currentThread();
+        return t.getVirtualThreadContext();
+    }
+
+    /**
+     * @hide
+     */
+    public VirtualThreadContext getVirtualThreadContext() {
+        if (!(target instanceof VirtualThreadContext context)) {
+            throw new IllegalThreadStateException(
+                    "getVirtualThreadContext() can't be called on a regular thread.");
+        }
+        return context;
+    }
 
     // Android-changed: Make blockedOn() @hide public, for internal use.
     // Changed comment to reflect usage on Android
@@ -1030,9 +1120,9 @@ class Thread implements Runnable {
      * @since 21
      */
     public final boolean isVirtual() {
-        // Android-changed: Virtual threads are not supported in Android.
+        // Android-changed: Android has its own implementation.
         // return (this instanceof BaseVirtualThread);
-        return false;
+        return target instanceof VirtualThreadContext;
     }
 
     /**

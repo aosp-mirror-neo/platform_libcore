@@ -1666,10 +1666,20 @@ public class ScanTest {
     }
 
     static Scanner scannerFor(String input, int sourceType) {
-        if (sourceType == 1)
-            return new Scanner(input);
-        else
-            return new Scanner(new StutteringInputStream(input));
+        // Android-changed: Use Locale.US to ensure consistent parsing of decimal numbers.
+        // if (sourceType == 1)
+        //     return new Scanner(input);
+        // else
+        //     return new Scanner(new StutteringInputStream(input));
+        if (sourceType == 1) {
+            Scanner scanner = new Scanner(input);
+            scanner.useLocale(Locale.US);
+            return scanner;
+        } else {
+            Scanner scanner = new Scanner(new StutteringInputStream(input));
+            scanner.useLocale(Locale.US);
+            return scanner;
+        }
     }
 
     static class ThrowingReadable implements Readable {
