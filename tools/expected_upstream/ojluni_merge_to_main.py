@@ -97,7 +97,7 @@ MSG_FIRST_COMMIT = ("Import {summary}\n"
                     "{change_id_str}")
 
 MSG_SECOND_COMMIT = ("Merge {summary} into the "
-                     "aosp/main branch\n"
+                     "goog/main branch\n"
                      "\n"
                      "List of files:\n"
                      "  {files}\n"
@@ -332,8 +332,8 @@ def get_diff_entries(repo: Repo, base_expected_commit: Commit) -> Tuple[
     a list of entries
   """
   current_tracking_branch = repo.active_branch.tracking_branch()
-  if current_tracking_branch.name != "aosp/main":
-    print("This script should only run on aosp/main branch. "
+  if current_tracking_branch.name != "goog/main":
+    print("This script should only run on goog/main branch. "
           f"Currently, this is on branch {repo.active_branch} "
           f"tracking {current_tracking_branch}", file=sys.stderr)
     return INVALID_DIFF
@@ -457,7 +457,7 @@ def main_run(
       bug_id = extract_bug_id(last_expected_commit)
   else:
     if expected_upstream_base is None:
-      expected_upstream_base = "aosp/expected_upstream"
+      expected_upstream_base = "goog/expected_upstream"
     try:
       base_expected_branch_commit = repo.commit(expected_upstream_base)
     finally:
@@ -486,7 +486,7 @@ def main_run(
   master_head = repo.active_branch
   branch_name = create_random_branch_name()
   new_branch = repo.create_head(branch_name, base_expected_branch_commit.hexsha)
-  new_branch.set_tracking_branch(repo.remotes.aosp.refs.expected_upstream)
+  new_branch.set_tracking_branch(repo.remotes.goog.refs.expected_upstream)
   new_branch = create_commit_at_expected_upstream(
       repo, new_branch, diff_entries, removed_paths, bug_id,
       last_expected_change_id, discard_working_tree)
