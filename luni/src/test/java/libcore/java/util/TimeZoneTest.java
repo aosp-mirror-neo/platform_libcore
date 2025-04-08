@@ -213,6 +213,7 @@ public class TimeZoneTest extends TestCaseWithRules {
     }
 
     // http://b.corp.google.com/issue?id=6556561
+    @NonCts(bug = 401130471, reason = NonCtsReasons.NON_BREAKING_BEHAVIOR_FIX)
     public void testCustomZoneIds() throws Exception {
         // These are all okay (and equivalent).
         assertEquals("GMT+05:00", TimeZone.getTimeZone("GMT+05:00").getID());
@@ -374,10 +375,11 @@ public class TimeZoneTest extends TestCaseWithRules {
     }
 
     // http://b/7955614
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY)
     public void testApia() {
         TimeZone tz = TimeZone.getTimeZone("Pacific/Apia");
-        assertEquals("Apia Daylight Time", tz.getDisplayName(true, TimeZone.LONG, Locale.US));
-        assertEquals("Apia Standard Time", tz.getDisplayName(false, TimeZone.LONG, Locale.US));
+        assertEquals("Samoa Daylight Time", tz.getDisplayName(true, TimeZone.LONG, Locale.US));
+        assertEquals("Samoa Standard Time", tz.getDisplayName(false, TimeZone.LONG, Locale.US));
 
         long samoaStandardTime = 1630315635000L; // 30 Aug 2021
         long samoaDst = 1614504435000L; // 28 Feb 2021
