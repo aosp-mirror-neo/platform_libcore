@@ -37,6 +37,16 @@ except ModuleNotFoundError:
 THIS_DIR = Path(__file__).resolve().parent
 LIBCORE_DIR = THIS_DIR.parent.parent.resolve()
 
+AUTOCOMPLETE_TAGS = [
+    'jdk21u/jdk-21.0.6-ga',
+    'jdk17u/jdk-17.0.14-ga',
+    'jdk11u/jdk-11.0.26-ga',
+    'jdk9/jdk-9+181',
+    'jdk8u/jdk8u121-b13',
+    'jdk8u/jdk8u60-b31',
+    'jdk7u/jdk7u40-b60',
+]
+
 UPSTREAM_CLASS_PATHS = [
     'jdk/src/share/classes/',
     'src/java.base/share/classes/',

@@ -1,14 +1,10 @@
 #!/bin/bash
 
 SELF=$(basename "${0}")
-DEFAULT_TAG="jdk21u/jdk-21.0.2-ga"
-SUPPORTED_TAGS="jdk7u/jdk7u40-b60"
-SUPPORTED_TAGS="${SUPPORTED_TAGS} jdk8u/jdk8u121-b13"
-SUPPORTED_TAGS="${SUPPORTED_TAGS} jdk8u/jdk8u60-b31"
-SUPPORTED_TAGS="${SUPPORTED_TAGS} jdk9/jdk-9+181"
-SUPPORTED_TAGS="${SUPPORTED_TAGS} jdk11u/jdk-11.0.22-ga"
-SUPPORTED_TAGS="${SUPPORTED_TAGS} jdk17u/jdk-17.0.10-ga"
-SUPPORTED_TAGS="${SUPPORTED_TAGS} jdk21u/jdk-21.0.2-ga"
+DIR=$(dirname "${0}")
+
+SUPPORTED_TAGS=$("${DIR}/ojluni_print_autocomplete_jdk_versions.py")
+DEFAULT_TAG=$(echo "${SUPPORTED_TAGS}" | cut -d ' ' -f1)
 
 
 USAGE=$(cat << EndOfUsage

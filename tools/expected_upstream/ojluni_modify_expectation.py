@@ -28,6 +28,7 @@ from typing import (
 from common_util import (
     ExpectedUpstreamEntry,
     ExpectedUpstreamFile,
+    AUTOCOMPLETE_TAGS,
     LIBCORE_DIR,
     OpenjdkFinder,
     OjluniFinder,
@@ -39,16 +40,6 @@ from git import (Commit, Repo)
 from gitdb.exc import BadName
 
 LIBCORE_REPO = Repo(LIBCORE_DIR.as_posix())
-
-AUTOCOMPLETE_TAGS = [
-    'jdk7u/jdk7u40-b60',
-    'jdk8u/jdk8u121-b13',
-    'jdk8u/jdk8u60-b31',
-    'jdk9/jdk-9+181',
-    'jdk11u/jdk-11.0.22-ga',
-    'jdk17u/jdk-17.0.10-ga',
-    'jdk21u/jdk-21.0.4-ga',
-]
 
 
 def error_and_exit(msg: str) -> None:
