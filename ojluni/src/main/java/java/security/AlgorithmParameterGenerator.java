@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2017, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -30,6 +30,7 @@ import dalvik.system.VMRuntime;
 
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.Objects;
+import sun.security.jca.JCAUtil;
 
 /**
  * The {@code AlgorithmParameterGenerator} class is used to generate a
@@ -320,7 +321,7 @@ public class AlgorithmParameterGenerator {
      * @param size the size (number of bits).
      */
     public final void init(int size) {
-        paramGenSpi.engineInit(size, new SecureRandom());
+        paramGenSpi.engineInit(size, JCAUtil.getDefSecureRandom());
     }
 
     /**
@@ -351,7 +352,7 @@ public class AlgorithmParameterGenerator {
      */
     public final void init(AlgorithmParameterSpec genParamSpec)
         throws InvalidAlgorithmParameterException {
-            paramGenSpi.engineInit(genParamSpec, new SecureRandom());
+            paramGenSpi.engineInit(genParamSpec, JCAUtil.getDefSecureRandom());
     }
 
     /**

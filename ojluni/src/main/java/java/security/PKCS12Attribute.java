@@ -76,6 +76,8 @@ public final class PKCS12Attribute implements KeyStore.Entry.Attribute {
         // Validate name
         ObjectIdentifier type;
         try {
+            // Android-change: Temporary patch until ObjectIdentifier is updated to 11.
+            // type = ObjectIdentifier.of(name);
             type = new ObjectIdentifier(name);
         } catch (IOException e) {
             throw new IllegalArgumentException("Incorrect format: name", e);

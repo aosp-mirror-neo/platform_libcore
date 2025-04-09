@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2014 The Android Open Source Project
  * Copyright (c) 1995, 2018, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2019, Azul Systems, Inc. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -523,7 +524,7 @@ public class Runtime {
      */
     public Process exec(String command, String[] envp, File dir)
         throws IOException {
-        if (command.length() == 0)
+        if (command.isEmpty())
             throw new IllegalArgumentException("Empty command");
 
         StringTokenizer st = new StringTokenizer(command);
@@ -919,6 +920,12 @@ public class Runtime {
 
     // BEGIN Android-changed: Different implementation of load0(Class, String).
     synchronized void load0(Class<?> fromClass, String filename) {
+        /*
+        SecurityManager security = System.getSecurityManager();
+        if (security != null) {
+            security.checkLink(filename);
+        }
+        */
         File file = new File(filename);
         if (!(file.isAbsolute())) {
             throw new UnsatisfiedLinkError(
@@ -995,14 +1002,14 @@ public class Runtime {
 
     // BEGIN Android-changed: Different implementation of loadLibrary0(Class, String).
     /*
-    synchronized void loadLibrary0(Class<?> fromClass, String libname) {
+    void loadLibrary0(Class<?> fromClass, String libname) {
         SecurityManager security = System.getSecurityManager();
         if (security != null) {
             security.checkLink(libname);
         }
         if (libname.indexOf((int)File.separatorChar) != -1) {
             throw new UnsatisfiedLinkError(
-    "Directory separator should not appear in library name: " + libname);
+                "Directory separator should not appear in library name: " + libname);
         }
         ClassLoader.loadLibrary(fromClass, libname, false);
     }
