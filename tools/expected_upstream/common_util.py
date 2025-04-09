@@ -37,6 +37,16 @@ except ModuleNotFoundError:
 THIS_DIR = Path(__file__).resolve().parent
 LIBCORE_DIR = THIS_DIR.parent.parent.resolve()
 
+AUTOCOMPLETE_TAGS = [
+    'jdk21u/jdk-21.0.6-ga',
+    'jdk17u/jdk-17.0.14-ga',
+    'jdk11u/jdk-11.0.26-ga',
+    'jdk9/jdk-9+181',
+    'jdk8u/jdk8u121-b13',
+    'jdk8u/jdk8u60-b31',
+    'jdk7u/jdk7u40-b60',
+]
+
 UPSTREAM_CLASS_PATHS = [
     'jdk/src/share/classes/',
     'src/java.base/share/classes/',
@@ -57,6 +67,7 @@ UPSTREAM_SEARCH_PATHS = UPSTREAM_CLASS_PATHS + UPSTREAM_TEST_PATHS
 
 OJLUNI_JAVA_BASE_PATH = 'ojluni/src/main/java/'
 OJLUNI_TEST_PATH = 'ojluni/src/'
+TEST_PATH = OJLUNI_TEST_PATH + 'test/'
 
 
 @dataclass
@@ -133,8 +144,7 @@ class ExpectedUpstreamFile:
     entries[0].comment_lines = header + entries[0].comment_lines
     self.write_all_entries(entries)
 
-  def get_new_or_modified_entries(
-      self, other: ExpectedUpstreamEntry) -> List[ExpectedUpstreamEntry]:
+  def get_new_or_modified_entries(self, other) -> List[ExpectedUpstreamEntry]:
     r"""Return a list of modified and added entries from the other file.
 
     Args:
@@ -156,6 +166,23 @@ class ExpectedUpstreamFile:
         result.append(e)
 
     return result
+
+  def get_removed_paths(self, other: ExpectedUpstreamEntry) -> Set[str]:
+    r"""Returns a list of dst paths removed in the new list.
+
+    Args:
+      other: the other file
+
+    Returns:
+      A list of removed paths
+    """
+    this_paths = list(map(lambda e: e.dst_path, self.read_all_entries()))
+    that_entries = other.read_all_entries()
+    that_map = {}
+    for e in that_entries:
+      that_map[e.dst_path] = e
+
+    return set(filter(lambda p: p not in that_map, this_paths))
 
   @staticmethod
   def parse_line(line: str, comment_lines: str) -> ExpectedUpstreamEntry:
@@ -317,7 +344,6 @@ class OpenjdkFinder:
     base_paths = None
     relative_path = None
 
-    TEST_PATH = OJLUNI_TEST_PATH + 'test/'
     if ojluni_path.startswith(OJLUNI_JAVA_BASE_PATH):
       base_paths = UPSTREAM_CLASS_PATHS
       length = len(OJLUNI_JAVA_BASE_PATH)

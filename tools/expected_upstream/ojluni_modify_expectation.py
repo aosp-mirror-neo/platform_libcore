@@ -28,6 +28,7 @@ from typing import (
 from common_util import (
     ExpectedUpstreamEntry,
     ExpectedUpstreamFile,
+    AUTOCOMPLETE_TAGS,
     LIBCORE_DIR,
     OpenjdkFinder,
     OjluniFinder,
@@ -39,16 +40,6 @@ from git import (Commit, Repo)
 from gitdb.exc import BadName
 
 LIBCORE_REPO = Repo(LIBCORE_DIR.as_posix())
-
-AUTOCOMPLETE_TAGS = [
-    'jdk7u/jdk7u40-b60',
-    'jdk8u/jdk8u121-b13',
-    'jdk8u/jdk8u60-b31',
-    'jdk9/jdk-9+181',
-    'jdk11u/jdk-11+28',
-    'jdk11u/jdk-11.0.13-ga',
-    'jdk17u/jdk-17.0.6-ga',
-]
 
 
 def error_and_exit(msg: str) -> None:
@@ -71,7 +62,7 @@ def autocomplete_tag_or_commit(str_tag_or_commit: str) -> List[str]:
       filter(lambda tag: tag.startswith(str_tag_or_commit), AUTOCOMPLETE_TAGS))
 
 
-COMMAND_ACTIONS = ['add', 'modify', 'sort']
+COMMAND_ACTIONS = ['add', 'modify', 'remove', 'sort']
 
 
 def autocomplete_action(partial_str: str) -> None:
@@ -129,6 +120,11 @@ def main(argv: Sequence[str]) -> None:
   modify_parser.add_argument(
       'source_file', nargs='?', help='A upstream source path')
 
+  modify_parser = subparsers.add_parser(
+      'remove', help='Remove an entry in the EXPECTED_UPSTREAM file')
+  modify_parser.add_argument(
+      'class_or_ojluni_path', nargs=parser_nargs, help='File path in ojluni/')
+
   subparsers.add_parser(
       'sort', help='Sort the entries in the EXPECTED_UPSTREAM file')
 
@@ -141,7 +137,7 @@ def main(argv: Sequence[str]) -> None:
     no_args = args.autocomplete
 
     autocomp_result = []
-    if args.command == 'modify':
+    if args.command == 'modify' or args.command == 'remove':
       if no_args == 2:
         input_class_or_ojluni_path = args.class_or_ojluni_path
         if input_class_or_ojluni_path is None:
@@ -157,7 +153,7 @@ def main(argv: Sequence[str]) -> None:
         # Case 2: Treat the input as java package / class name
         autocomp_result += ojluni_finder.match_classname_prefix(
             input_class_or_ojluni_path)
-      elif no_args == 3:
+      elif no_args == 3 and args.command == 'modify':
         autocomp_result += autocomplete_tag_or_commit(args.tag_or_commit)
     elif args.command == 'add':
       if no_args == 2:
@@ -222,6 +218,18 @@ def main(argv: Sequence[str]) -> None:
     entry.src_path = src_path
     expected_upstream_file.write_all_entries(expected_entries)
     print(f'Modified the entry {entry}')
+  elif args.command == 'remove':
+    dst_class_or_file = args.class_or_ojluni_path[0]
+    dst_path = OjluniFinder.translate_from_class_name_to_ojluni_path(
+        dst_class_or_file)
+    matches = list(filter(lambda e: dst_path == e.dst_path, expected_entries))
+    if not matches:
+      error_and_exit(f'{dst_path} is not found in the EXPECTED_UPSTREAM.')
+
+    entry: ExpectedUpstreamEntry = matches[0]
+    expected_entries.remove(entry)
+    expected_upstream_file.write_all_entries(expected_entries)
+    print(f'Removed the entry {entry}')
   elif args.command == 'add':
     class_or_src_path = args.class_or_source_file[0]
     str_tag_or_commit = args.tag_or_commit[0]
