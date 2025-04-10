@@ -1904,7 +1904,6 @@ ojluni/src/main/native/UnixCopyFile.c,jdk8u/jdk8u121-b13,jdk/src/solaris/native/
 ojluni/src/main/native/UnixDomainSockets.c,jdk17u/jdk-17.0.14-ga,src/java.base/unix/native/libnio/ch/UnixDomainSockets.c
 ojluni/src/main/native/UnixFileSystem_md.c,jdk11u/jdk-11.0.26-ga,src/java.base/unix/native/libjava/UnixFileSystem_md.c
 ojluni/src/main/native/UnixNativeDispatcher.c,jdk8u/jdk8u60-b31,jdk/src/solaris/native/sun/nio/fs/UnixNativeDispatcher.c
-ojluni/src/main/native/ZipFile.c,jdk8u/jdk8u60-b31,jdk/src/share/native/java/util/zip/ZipFile.c
 ojluni/src/main/native/canonicalize_md.c,jdk7u/jdk7u40-b60,jdk/src/solaris/native/java/io/canonicalize_md.c
 ojluni/src/main/native/io_util.c,jdk7u/jdk7u40-b60,jdk/src/share/native/java/io/io_util.c
 ojluni/src/main/native/io_util_md.c,jdk17u/jdk-17.0.14-ga,src/java.base/unix/native/libjava/io_util_md.c
@@ -1917,8 +1916,6 @@ ojluni/src/main/native/linux_close.cpp,jdk7u/jdk7u40-b60,jdk/src/solaris/native/
 ojluni/src/main/native/net_util.c,jdk8u/jdk8u121-b13,jdk/src/share/native/java/net/net_util.c
 ojluni/src/main/native/net_util_md.c,jdk7u/jdk7u40-b60,jdk/src/solaris/native/java/net/net_util_md.c
 # socket_tagger_util.cpp doesn’t come from the upstream OpenJDK.
-ojluni/src/main/native/zip_util.c,jdk17u/jdk-17.0.6-ga,src/java.base/share/native/libzip/zip_util.c
-ojluni/src/main/native/zip_util.h,jdk17u/jdk-17.0.14-ga,src/java.base/share/native/libzip/zip_util.h
 ojluni/src/main/resources/calendars.properties,jdk8u/jdk8u212-b01,jdk/src/share/lib/calendars.properties
 ojluni/src/main/resources/java/time/chrono/hijrah-config-Hijrah-umalqura_islamic-umalqura.properties,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/time/chrono/hijrah-config-Hijrah-umalqura_islamic-umalqura.properties
 ojluni/src/test/java/io/CharArrayReader/ReadCharBuffer.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/io/CharArrayReader/ReadCharBuffer.java
