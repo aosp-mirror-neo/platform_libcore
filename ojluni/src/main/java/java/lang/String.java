@@ -582,10 +582,163 @@ public final class String
         if (charset == null)
             throw new NullPointerException("charset");
         checkBoundsOffCount(offset, length, bytes.length);
-        StringCoding.Result ret =
-            StringCoding.decode(charset, bytes, offset, length);
-        this.value = ret.value;
-        this.coder = ret.coder;
+        if (length == 0) {
+            this.value = "".value;
+            this.coder = "".coder;
+        } else if (charset == UTF_8.INSTANCE) {
+            if (COMPACT_STRINGS && !StringCoding.hasNegatives(bytes, offset, length)) {
+                this.value = Arrays.copyOfRange(bytes, offset, offset + length);
+                this.coder = LATIN1;
+            } else {
+                int sl = offset + length;
+                int dp = 0;
+                byte[] dst = null;
+                if (COMPACT_STRINGS) {
+                    dst = new byte[length];
+                    while (offset < sl) {
+                        int b1 = bytes[offset];
+                        if (b1 >= 0) {
+                            dst[dp++] = (byte)b1;
+                            offset++;
+                            continue;
+                        }
+                        if ((b1 & 0xfe) == 0xc2 && offset + 1 < sl) { // b1 either 0xc2 or 0xc3
+                            int b2 = bytes[offset + 1];
+                            if (!isNotContinuation(b2)) {
+                                dst[dp++] = (byte)decode2(b1, b2);
+                                offset += 2;
+                                continue;
+                            }
+                        }
+                        // anything not a latin1, including the repl
+                        // we have to go with the utf16
+                        break;
+                    }
+                    if (offset == sl) {
+                        if (dp != dst.length) {
+                            dst = Arrays.copyOf(dst, dp);
+                        }
+                        this.value = dst;
+                        this.coder = LATIN1;
+                        return;
+                    }
+                }
+                if (dp == 0 || dst == null) {
+                    dst = StringUTF16.newBytesFor(length);
+                } else {
+                    byte[] buf = StringUTF16.newBytesFor(length);
+                    StringLatin1.inflate(dst, 0, buf, 0, dp);
+                    dst = buf;
+                }
+                dp = decodeUTF8_UTF16(bytes, offset, sl, dst, dp, true);
+                if (dp != length) {
+                    dst = Arrays.copyOf(dst, dp << 1);
+                }
+                this.value = dst;
+                this.coder = UTF16;
+            }
+        } else if (charset == ISO_8859_1.INSTANCE) {
+            if (COMPACT_STRINGS) {
+                this.value = Arrays.copyOfRange(bytes, offset, offset + length);
+                this.coder = LATIN1;
+            } else {
+                this.value = StringLatin1.inflate(bytes, offset, length);
+                this.coder = UTF16;
+            }
+        } else if (charset == US_ASCII.INSTANCE) {
+            if (COMPACT_STRINGS && !StringCoding.hasNegatives(bytes, offset, length)) {
+                this.value = Arrays.copyOfRange(bytes, offset, offset + length);
+                this.coder = LATIN1;
+            } else {
+                byte[] dst = StringUTF16.newBytesFor(length);
+                int dp = 0;
+                while (dp < length) {
+                    int b = bytes[offset++];
+                    StringUTF16.putChar(dst, dp++, (b >= 0) ? (char) b : REPL);
+                }
+                this.value = dst;
+                this.coder = UTF16;
+            }
+        } else {
+            // (1)We never cache the "external" cs, the only benefit of creating
+            // an additional StringDe/Encoder object to wrap it is to share the
+            // de/encode() method. These SD/E objects are short-lived, the young-gen
+            // gc should be able to take care of them well. But the best approach
+            // is still not to generate them if not really necessary.
+            // (2)The defensive copy of the input byte/char[] has a big performance
+            // impact, as well as the outgoing result byte/char[]. Need to do the
+            // optimization check of (sm==null && classLoader0==null) for both.
+            CharsetDecoder cd = charset.newDecoder();
+            // ArrayDecoder fastpaths
+            if (cd instanceof ArrayDecoder ad) {
+                // ascii
+                if (ad.isASCIICompatible() && !StringCoding.hasNegatives(bytes, offset, length)) {
+                    if (COMPACT_STRINGS) {
+                        this.value = Arrays.copyOfRange(bytes, offset, offset + length);
+                        this.coder = LATIN1;
+                        return;
+                    }
+                    this.value = StringLatin1.inflate(bytes, offset, length);
+                    this.coder = UTF16;
+                    return;
+                }
+
+                // fastpath for always Latin1 decodable single byte
+                if (COMPACT_STRINGS && ad.isLatin1Decodable()) {
+                    byte[] dst = new byte[length];
+                    ad.decodeToLatin1(bytes, offset, length, dst);
+                    this.value = dst;
+                    this.coder = LATIN1;
+                    return;
+                }
+
+                int en = scale(length, cd.maxCharsPerByte());
+                cd.onMalformedInput(CodingErrorAction.REPLACE)
+                        .onUnmappableCharacter(CodingErrorAction.REPLACE);
+                char[] ca = new char[en];
+                int clen = ad.decode(bytes, offset, length, ca);
+                if (COMPACT_STRINGS) {
+                    byte[] bs = StringUTF16.compress(ca, 0, clen);
+                    if (bs != null) {
+                        value = bs;
+                        coder = LATIN1;
+                        return;
+                    }
+                }
+                coder = UTF16;
+                value = StringUTF16.toBytes(ca, 0, clen);
+                return;
+            }
+
+            // decode using CharsetDecoder
+            int en = scale(length, cd.maxCharsPerByte());
+            cd.onMalformedInput(CodingErrorAction.REPLACE)
+                    .onUnmappableCharacter(CodingErrorAction.REPLACE);
+            char[] ca = new char[en];
+            if (charset.getClass().getClassLoader0() != null &&
+                    System.getSecurityManager() != null) {
+                bytes = Arrays.copyOfRange(bytes, offset, offset + length);
+                offset = 0;
+            }
+
+            int caLen;
+            try {
+                caLen = decodeWithDecoder(cd, ca, bytes, offset, length);
+            } catch (CharacterCodingException x) {
+                // Substitution is enabled, so this shouldn't happen
+                throw new Error(x);
+            }
+            if (COMPACT_STRINGS) {
+                byte[] bs = StringUTF16.compress(ca, 0, caLen);
+                if (bs != null) {
+                    value = bs;
+                    coder = LATIN1;
+                    return;
+                }
+            }
+            coder = UTF16;
+            value = StringUTF16.toBytes(ca, 0, caLen);
+        }
         */
         throw new UnsupportedOperationException("Use StringFactory instead.");
         // END Android-changed: Implemented as compiler and runtime intrinsics.

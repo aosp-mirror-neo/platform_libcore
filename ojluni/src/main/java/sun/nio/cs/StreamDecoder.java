@@ -33,6 +33,7 @@ import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
 import java.nio.charset.*;
+import java.util.Arrays;
 
 public class StreamDecoder extends Reader
 {
@@ -177,8 +178,14 @@ public class StreamDecoder extends Reader
                 cbuf[off] = (char)c;
                 return n + 1;
             }
+            // Android-changed: Cherry-pick the fix for JDK-8287003
+            // Read remaining characters
+            int nr = implRead(cbuf, off, off + len);
 
-            return n + implRead(cbuf, off, off + len);
+            // At this point, n is either 1 if a leftover character was read,
+            // or 0 if no leftover character was read. If n is 1 and nr is -1,
+            // indicating EOF, then we don't return their sum as this loses data.
+            return (nr < 0) ? (n == 1 ? 1 : nr) : (n + nr);
         }
     }
 
@@ -202,6 +209,17 @@ public class StreamDecoder extends Reader
         return isOpen;
     }
 
+    // Android-added: Cherry-pick fillZeroToPosition() for JDK-8320798.
+    public void fillZeroToPosition() throws IOException {
+        Object lock = this.lock;
+        synchronized (lock) {
+            lockedFillZeroToPosition();
+        }
+    }
+
+    private void lockedFillZeroToPosition() {
+        Arrays.fill(bb.array(), bb.arrayOffset(), bb.arrayOffset() + bb.position(), (byte)0);
+    }
 
     // -- Charset-based stream decoder impl --
 
