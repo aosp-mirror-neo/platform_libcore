@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2016, 2021, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -26,6 +26,7 @@
 package jdk.internal.ref;
 
 import java.lang.ref.Cleaner;
+import java.util.concurrent.ThreadFactory;
 
 /**
  * CleanerFactory provides a Cleaner for use within system modules.
@@ -40,14 +41,8 @@ public final class CleanerFactory {
     private final static Cleaner commonCleaner = Cleaner.create(new ThreadFactory() {
         @Override
         public Thread newThread(Runnable r) {
-            return AccessController.doPrivileged(new PrivilegedAction<>() {
-                @Override
-                public Thread run() {
-                    Thread t = InnocuousThread.newSystemThread("Common-Cleaner", r);
-                    t.setPriority(Thread.MAX_PRIORITY - 2);
-                    return t;
-                }
-            });
+            return InnocuousThread.newSystemThread("Common-Cleaner",
+                    r, Thread.MAX_PRIORITY - 2);
         }
     });
     */
