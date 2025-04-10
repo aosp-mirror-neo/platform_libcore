@@ -58,7 +58,7 @@ ojluni/src/main/java/java/io/FileNotFoundException.java,jdk21u/jdk-21.0.6-ga,src
 ojluni/src/main/java/java/io/FileOutputStream.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/io/FileOutputStream.java
 ojluni/src/main/java/java/io/FilePermission.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/io/FilePermission.java
 ojluni/src/main/java/java/io/FileReader.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/io/FileReader.java
-ojluni/src/main/java/java/io/FileSystem.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/java/io/FileSystem.java
+ojluni/src/main/java/java/io/FileSystem.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/io/FileSystem.java
 ojluni/src/main/java/java/io/FileWriter.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/io/FileWriter.java
 ojluni/src/main/java/java/io/FilenameFilter.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/io/FilenameFilter.java
 ojluni/src/main/java/java/io/FilterInputStream.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/io/FilterInputStream.java
@@ -112,7 +112,7 @@ ojluni/src/main/java/java/io/StringWriter.java,jdk11u/jdk-11.0.26-ga,src/java.ba
 ojluni/src/main/java/java/io/SyncFailedException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/io/SyncFailedException.java
 ojluni/src/main/java/java/io/UTFDataFormatException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/io/UTFDataFormatException.java
 ojluni/src/main/java/java/io/UncheckedIOException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/io/UncheckedIOException.java
-ojluni/src/main/java/java/io/UnixFileSystem.java,jdk11u/jdk-11.0.13-ga,src/java.base/unix/classes/java/io/UnixFileSystem.java
+ojluni/src/main/java/java/io/UnixFileSystem.java,jdk11u/jdk-11.0.26-ga,src/java.base/unix/classes/java/io/UnixFileSystem.java
 ojluni/src/main/java/java/io/UnsupportedEncodingException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/io/UnsupportedEncodingException.java
 ojluni/src/main/java/java/io/WriteAbortedException.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/io/WriteAbortedException.java
 ojluni/src/main/java/java/io/Writer.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/io/Writer.java
@@ -194,7 +194,7 @@ ojluni/src/main/java/java/lang/ProcessImpl.java,jdk8u/jdk8u121-b13,jdk/src/solar
 ojluni/src/main/java/java/lang/Readable.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/Readable.java
 ojluni/src/main/java/java/lang/ReflectiveOperationException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/ReflectiveOperationException.java
 ojluni/src/main/java/java/lang/Runnable.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/Runnable.java
-ojluni/src/main/java/java/lang/Runtime.java,jdk11u/jdk-11.0.2-ga,src/java.base/share/classes/java/lang/Runtime.java
+ojluni/src/main/java/java/lang/Runtime.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/lang/Runtime.java
 ojluni/src/main/java/java/lang/RuntimeException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/RuntimeException.java
 ojluni/src/main/java/java/lang/RuntimePermission.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/RuntimePermission.java
 ojluni/src/main/java/java/lang/SafeVarargs.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/SafeVarargs.java
@@ -208,8 +208,8 @@ ojluni/src/main/java/java/lang/StackTraceElement.java,jdk11u/jdk-11.0.26-ga,src/
 ojluni/src/main/java/java/lang/StackWalker.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/StackWalker.java
 ojluni/src/main/java/java/lang/StrictMath.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/StrictMath.java
 ojluni/src/main/java/java/lang/String.java,jdk17u/jdk-17.0.6-ga,src/java.base/share/classes/java/lang/String.java
-ojluni/src/main/java/java/lang/StringBuffer.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/java/lang/StringBuffer.java
-ojluni/src/main/java/java/lang/StringBuilder.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/java/lang/StringBuilder.java
+ojluni/src/main/java/java/lang/StringBuffer.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/lang/StringBuffer.java
+ojluni/src/main/java/java/lang/StringBuilder.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/lang/StringBuilder.java
 ojluni/src/main/java/java/lang/StringIndexOutOfBoundsException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/StringIndexOutOfBoundsException.java
 ojluni/src/main/java/java/lang/StringLatin1.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/lang/StringLatin1.java
 ojluni/src/main/java/java/lang/StringUTF16.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/lang/StringUTF16.java
@@ -381,7 +381,7 @@ ojluni/src/main/java/java/net/SocketInputStream.java,jdk11u/jdk-11.0.26-ga,src/j
 ojluni/src/main/java/java/net/SocketOption.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/net/SocketOption.java
 ojluni/src/main/java/java/net/SocketOptions.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/net/SocketOptions.java
 ojluni/src/main/java/java/net/SocketOutputStream.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/net/SocketOutputStream.java
-ojluni/src/main/java/java/net/SocketPermission.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/java/net/SocketPermission.java
+ojluni/src/main/java/java/net/SocketPermission.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/net/SocketPermission.java
 ojluni/src/main/java/java/net/SocketSecrets.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/java/net/SocketSecrets.java
 ojluni/src/main/java/java/net/SocketTimeoutException.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/net/SocketTimeoutException.java
 ojluni/src/main/java/java/net/SocksConsts.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/net/SocksConsts.java
@@ -541,7 +541,7 @@ ojluni/src/main/java/java/security/AccessControlContext.java,jdk11u/jdk-11.0.26-
 ojluni/src/main/java/java/security/AccessControlException.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/AccessControlException.java
 ojluni/src/main/java/java/security/AccessController.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/AccessController.java
 ojluni/src/main/java/java/security/AlgorithmConstraints.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/security/AlgorithmConstraints.java
-ojluni/src/main/java/java/security/AlgorithmParameterGenerator.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/java/security/AlgorithmParameterGenerator.java
+ojluni/src/main/java/java/security/AlgorithmParameterGenerator.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/AlgorithmParameterGenerator.java
 ojluni/src/main/java/java/security/AlgorithmParameterGeneratorSpi.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/AlgorithmParameterGeneratorSpi.java
 ojluni/src/main/java/java/security/AlgorithmParameters.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/AlgorithmParameters.java
 ojluni/src/main/java/java/security/AlgorithmParametersSpi.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/AlgorithmParametersSpi.java
@@ -549,7 +549,7 @@ ojluni/src/main/java/java/security/AllPermission.java,jdk11u/jdk-11.0.26-ga,src/
 ojluni/src/main/java/java/security/AuthProvider.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/java/security/AuthProvider.java
 ojluni/src/main/java/java/security/BasicPermission.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/BasicPermission.java
 ojluni/src/main/java/java/security/Certificate.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/Certificate.java
-ojluni/src/main/java/java/security/CodeSigner.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/java/security/CodeSigner.java
+ojluni/src/main/java/java/security/CodeSigner.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/CodeSigner.java
 ojluni/src/main/java/java/security/CodeSource.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/CodeSource.java
 ojluni/src/main/java/java/security/CryptoPrimitive.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/security/CryptoPrimitive.java
 ojluni/src/main/java/java/security/DigestException.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/DigestException.java
@@ -572,7 +572,7 @@ ojluni/src/main/java/java/security/KeyFactory.java,jdk11u/jdk-11.0.26-ga,src/jav
 ojluni/src/main/java/java/security/KeyFactorySpi.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/KeyFactorySpi.java
 ojluni/src/main/java/java/security/KeyManagementException.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/KeyManagementException.java
 ojluni/src/main/java/java/security/KeyPair.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/KeyPair.java
-ojluni/src/main/java/java/security/KeyPairGenerator.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/java/security/KeyPairGenerator.java
+ojluni/src/main/java/java/security/KeyPairGenerator.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/KeyPairGenerator.java
 ojluni/src/main/java/java/security/KeyPairGeneratorSpi.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/KeyPairGeneratorSpi.java
 ojluni/src/main/java/java/security/KeyRep.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/KeyRep.java
 ojluni/src/main/java/java/security/KeyStore.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/KeyStore.java
@@ -582,7 +582,7 @@ ojluni/src/main/java/java/security/MessageDigest.java,jdk11u/jdk-11.0.26-ga,src/
 ojluni/src/main/java/java/security/MessageDigestSpi.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/MessageDigestSpi.java
 ojluni/src/main/java/java/security/NoSuchAlgorithmException.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/NoSuchAlgorithmException.java
 ojluni/src/main/java/java/security/NoSuchProviderException.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/NoSuchProviderException.java
-ojluni/src/main/java/java/security/PKCS12Attribute.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/java/security/PKCS12Attribute.java
+ojluni/src/main/java/java/security/PKCS12Attribute.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/PKCS12Attribute.java
 ojluni/src/main/java/java/security/Permission.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/Permission.java
 ojluni/src/main/java/java/security/PermissionCollection.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/PermissionCollection.java
 ojluni/src/main/java/java/security/Permissions.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/Permissions.java
@@ -611,7 +611,7 @@ ojluni/src/main/java/java/security/Signer.java,jdk11u/jdk-11.0.26-ga,src/java.ba
 ojluni/src/main/java/java/security/Timestamp.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/Timestamp.java
 ojluni/src/main/java/java/security/UnrecoverableEntryException.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/UnrecoverableEntryException.java
 ojluni/src/main/java/java/security/UnrecoverableKeyException.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/UnrecoverableKeyException.java
-ojluni/src/main/java/java/security/UnresolvedPermission.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/java/security/UnresolvedPermission.java
+ojluni/src/main/java/java/security/UnresolvedPermission.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/UnresolvedPermission.java
 ojluni/src/main/java/java/security/UnresolvedPermissionCollection.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/UnresolvedPermissionCollection.java
 ojluni/src/main/java/java/security/acl/Acl.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/acl/Acl.java
 ojluni/src/main/java/java/security/acl/AclEntry.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/security/acl/AclEntry.java
@@ -1430,15 +1430,15 @@ ojluni/src/main/java/jdk/internal/math/FloatingDecimal.java,jdk21u/jdk-21.0.6-ga
 ojluni/src/main/java/jdk/internal/math/FormattedFPDecimal.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/math/FormattedFPDecimal.java
 ojluni/src/main/java/jdk/internal/math/FormattedFloatingDecimal.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/jdk/internal/math/FormattedFloatingDecimal.java
 ojluni/src/main/java/jdk/internal/math/MathUtils.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/math/MathUtils.java
-ojluni/src/main/java/jdk/internal/misc/InnocuousThread.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/jdk/internal/misc/InnocuousThread.java
+ojluni/src/main/java/jdk/internal/misc/InnocuousThread.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/jdk/internal/misc/InnocuousThread.java
 ojluni/src/main/java/jdk/internal/misc/TerminatingThreadLocal.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/jdk/internal/misc/TerminatingThreadLocal.java
 ojluni/src/main/java/jdk/internal/misc/Unsafe.java,jdk17u/jdk-17.0.6-ga,src/java.base/share/classes/jdk/internal/misc/Unsafe.java
 ojluni/src/main/java/jdk/internal/misc/UnsafeConstants.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/misc/UnsafeConstants.java
 ojluni/src/main/java/jdk/internal/misc/VM.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/jdk/internal/misc/VM.java
 ojluni/src/main/java/jdk/internal/misc/VirtualThreads.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/misc/VirtualThreads.java
 ojluni/src/main/java/jdk/internal/ref/Cleaner.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/jdk/internal/ref/Cleaner.java
-ojluni/src/main/java/jdk/internal/ref/CleanerFactory.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/jdk/internal/ref/CleanerFactory.java
-ojluni/src/main/java/jdk/internal/ref/CleanerImpl.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/jdk/internal/ref/CleanerImpl.java
+ojluni/src/main/java/jdk/internal/ref/CleanerFactory.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/jdk/internal/ref/CleanerFactory.java
+ojluni/src/main/java/jdk/internal/ref/CleanerImpl.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/jdk/internal/ref/CleanerImpl.java
 ojluni/src/main/java/jdk/internal/ref/PhantomCleanable.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/jdk/internal/ref/PhantomCleanable.java
 ojluni/src/main/java/jdk/internal/reflect/CallerSensitive.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/reflect/CallerSensitive.java
 ojluni/src/main/java/jdk/internal/reflect/Reflection.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/jdk/internal/reflect/Reflection.java
@@ -1605,7 +1605,7 @@ ojluni/src/main/java/sun/nio/ch/SocketChannelImpl.java,jdk8u/jdk8u121-b13,jdk/sr
 ojluni/src/main/java/sun/nio/ch/SocketDispatcher.java,jdk8u/jdk8u121-b13,jdk/src/solaris/classes/sun/nio/ch/SocketDispatcher.java
 # sun.nio.ch.SocketOptionRegistry was generated by C code and Make file in 8u121-b13. In the future, we can map this file to
 # src/java.base/share/classes/sun/nio/ch/SocketOptionRegistry.java.template when the file is upgraded to OpenJDK 11
-# ojluni/src/main/java/sun/nio/ch/SocketOptionRegistry.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/sun/nio/ch/SocketOptionRegistry.java.template
+# ojluni/src/main/java/sun/nio/ch/SocketOptionRegistry.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/sun/nio/ch/SocketOptionRegistry.java.template
 ojluni/src/main/java/sun/nio/ch/SourceChannelImpl.java,jdk8u/jdk8u121-b13,jdk/src/solaris/classes/sun/nio/ch/SourceChannelImpl.java
 ojluni/src/main/java/sun/nio/ch/ThreadPool.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/sun/nio/ch/ThreadPool.java
 ojluni/src/main/java/sun/nio/ch/UnixAsynchronousServerSocketChannelImpl.java,jdk11u/jdk-11.0.26-ga,src/java.base/unix/classes/sun/nio/ch/UnixAsynchronousServerSocketChannelImpl.java
@@ -1648,7 +1648,7 @@ ojluni/src/main/java/sun/nio/fs/PollingWatchService.java,jdk8u/jdk8u121-b13,jdk/
 ojluni/src/main/java/sun/nio/fs/UnixChannelFactory.java,jdk8u/jdk8u121-b13,jdk/src/solaris/classes/sun/nio/fs/UnixChannelFactory.java
 # sun.nio.fs.UnixConstants was generated by C code and Make-like file in jdk8u/jdk8u121. But in a later version, the file
 # is generated by a template file, and we can map to the template when the file is upgraded to OpenJDK 11.
-# ojluni/src/main/java/sun/nio/fs/UnixConstants.java,jdk11u/jdk-11.0.13-ga,src/java.base/unix/classes/sun/nio/fs/UnixConstants.java.template
+# ojluni/src/main/java/sun/nio/fs/UnixConstants.java,jdk11u/jdk-11.0.26-ga,src/java.base/unix/classes/sun/nio/fs/UnixConstants.java.template
 ojluni/src/main/java/sun/nio/fs/UnixCopyFile.java,jdk8u/jdk8u121-b13,jdk/src/solaris/classes/sun/nio/fs/UnixCopyFile.java
 ojluni/src/main/java/sun/nio/fs/UnixDirectoryStream.java,jdk8u/jdk8u121-b13,jdk/src/solaris/classes/sun/nio/fs/UnixDirectoryStream.java
 ojluni/src/main/java/sun/nio/fs/UnixException.java,jdk11u/jdk-11.0.26-ga,src/java.base/unix/classes/sun/nio/fs/UnixException.java
@@ -1698,11 +1698,11 @@ ojluni/src/main/java/sun/security/provider/certpath/BasicChecker.java,jdk8u/jdk8
 ojluni/src/main/java/sun/security/provider/certpath/BuildStep.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/sun/security/provider/certpath/BuildStep.java
 ojluni/src/main/java/sun/security/provider/certpath/Builder.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/sun/security/provider/certpath/Builder.java
 ojluni/src/main/java/sun/security/provider/certpath/CertId.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/sun/security/provider/certpath/CertId.java
-ojluni/src/main/java/sun/security/provider/certpath/CertPathHelper.java,jdk11u/jdk-11+28,src/java.base/share/classes/sun/security/provider/certpath/CertPathHelper.java
+ojluni/src/main/java/sun/security/provider/certpath/CertPathHelper.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/sun/security/provider/certpath/CertPathHelper.java
 ojluni/src/main/java/sun/security/provider/certpath/CertStoreHelper.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/sun/security/provider/certpath/CertStoreHelper.java
 ojluni/src/main/java/sun/security/provider/certpath/ConstraintsChecker.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/sun/security/provider/certpath/ConstraintsChecker.java
 ojluni/src/main/java/sun/security/provider/certpath/DistributionPointFetcher.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/sun/security/provider/certpath/DistributionPointFetcher.java
-ojluni/src/main/java/sun/security/provider/certpath/ForwardBuilder.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/sun/security/provider/certpath/ForwardBuilder.java
+ojluni/src/main/java/sun/security/provider/certpath/ForwardBuilder.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/sun/security/provider/certpath/ForwardBuilder.java
 ojluni/src/main/java/sun/security/provider/certpath/ForwardState.java,jdk17u/jdk-17.0.6-ga,src/java.base/share/classes/sun/security/provider/certpath/ForwardState.java
 ojluni/src/main/java/sun/security/provider/certpath/KeyChecker.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/sun/security/provider/certpath/KeyChecker.java
 ojluni/src/main/java/sun/security/provider/certpath/OCSP.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/sun/security/provider/certpath/OCSP.java
@@ -1720,7 +1720,7 @@ ojluni/src/main/java/sun/security/provider/certpath/SunCertPathBuilderException.
 ojluni/src/main/java/sun/security/provider/certpath/SunCertPathBuilderResult.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/sun/security/provider/certpath/SunCertPathBuilderResult.java
 ojluni/src/main/java/sun/security/provider/certpath/URICertStore.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/sun/security/provider/certpath/URICertStore.java
 ojluni/src/main/java/sun/security/provider/certpath/Vertex.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/sun/security/provider/certpath/Vertex.java
-ojluni/src/main/java/sun/security/provider/certpath/X509CertPath.java,jdk11u/jdk-11.0.13-ga,src/java.base/share/classes/sun/security/provider/certpath/X509CertPath.java
+ojluni/src/main/java/sun/security/provider/certpath/X509CertPath.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/sun/security/provider/certpath/X509CertPath.java
 ojluni/src/main/java/sun/security/provider/certpath/X509CertificatePair.java,jdk17u/jdk-17.0.6-ga,src/java.base/share/classes/sun/security/provider/certpath/X509CertificatePair.java
 ojluni/src/main/java/sun/security/timestamp/TimestampToken.java,jdk8u/jdk8u60-b31,jdk/src/share/classes/sun/security/timestamp/TimestampToken.java
 ojluni/src/main/java/sun/security/util/AbstractAlgorithmConstraints.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/sun/security/util/AbstractAlgorithmConstraints.java
@@ -1924,7 +1924,7 @@ ojluni/src/main/resources/java/time/chrono/hijrah-config-Hijrah-umalqura_islamic
 ojluni/src/test/java/io/CharArrayReader/ReadCharBuffer.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/io/CharArrayReader/ReadCharBuffer.java
 ojluni/src/test/java/io/FileInputStream/ReadXBytes.java,jdk21u/jdk-21.0.4-ga,test/jdk/java/io/FileInputStream/ReadXBytes.java
 ojluni/src/test/java/io/InputStreamReader/ReadCharBuffer.java,jdk17u/jdk-17.0.10-ga,test/jdk/java/io/InputStreamReader/ReadCharBuffer.java
-ojluni/src/test/java/io/Reader/NullReader.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/io/Reader/NullReader.java
+ojluni/src/test/java/io/Reader/NullReader.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/io/Reader/NullReader.java
 ojluni/src/test/java/io/Reader/TransferTo.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/io/Reader/TransferTo.java
 ojluni/src/test/java/io/Serializable/records/AbsentStreamValuesTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/io/Serializable/records/AbsentStreamValuesTest.java
 ojluni/src/test/java/io/Serializable/records/BadValues.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/io/Serializable/records/BadValues.java
@@ -1939,7 +1939,7 @@ ojluni/src/test/java/io/Serializable/records/ThrowingConstructorTest.java,jdk21u
 ojluni/src/test/java/io/Serializable/records/UnsharedTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/io/Serializable/records/UnsharedTest.java
 ojluni/src/test/java/io/Serializable/records/WriteReplaceTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/io/Serializable/records/WriteReplaceTest.java
 ojluni/src/test/java/io/Writer/Append.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/io/Writer/Append.java
-ojluni/src/test/java/io/Writer/NullWriter.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/io/Writer/NullWriter.java
+ojluni/src/test/java/io/Writer/NullWriter.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/io/Writer/NullWriter.java
 ojluni/src/test/java/lang/AbstractCompressExpandTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/AbstractCompressExpandTest.java
 ojluni/src/test/java/lang/CharSequence/Emptiness.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/CharSequence/Emptiness.java
 ojluni/src/test/java/lang/Character/CharacterName.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/Character/CharacterName.java
@@ -2033,35 +2033,35 @@ ojluni/src/test/java/lang/constant/access_test/pkg1/MethodTypeDescriptorAccessTe
 ojluni/src/test/java/lang/constant/access_test/pkg2/NonPublicClass.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/constant/access_test/pkg2/NonPublicClass.java
 ojluni/src/test/java/lang/constant/access_test/pkg2/PublicClass.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/constant/access_test/pkg2/PublicClass.java
 ojluni/src/test/java/lang/invoke/ClassValueTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/invoke/ClassValueTest.java
-ojluni/src/test/java/lang/invoke/MethodHandlesGeneralTest.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/MethodHandlesGeneralTest.java
+ojluni/src/test/java/lang/invoke/MethodHandlesGeneralTest.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/MethodHandlesGeneralTest.java
 ojluni/src/test/java/lang/invoke/VarHandles/VarHandleBaseByteArrayTest.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleBaseByteArrayTest.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleBaseTest.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleBaseTest.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleBaseTest.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleBaseTest.java
 ojluni/src/test/java/lang/invoke/VarHandles/VarHandleMethodReferenceTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleMethodReferenceTest.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessBoolean.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessBoolean.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessByte.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessByte.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessChar.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessChar.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessDouble.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessDouble.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessFloat.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessFloat.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessInt.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessInt.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessLong.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessLong.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessBoolean.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessBoolean.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessByte.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessByte.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessChar.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessChar.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessDouble.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessDouble.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessFloat.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessFloat.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessInt.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessInt.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessLong.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessLong.java
 ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessModeMethodNames.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessModeMethodNames.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessShort.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessShort.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessString.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessString.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsChar.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsChar.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsDouble.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsDouble.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsFloat.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsFloat.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsInt.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsInt.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsLong.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsLong.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsShort.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsShort.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessBoolean.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessBoolean.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessByte.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessByte.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessChar.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessChar.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessDouble.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessDouble.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessFloat.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessFloat.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessInt.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessInt.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessLong.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessLong.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessShort.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessShort.java
-ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessString.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessString.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessShort.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessShort.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestAccessString.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestAccessString.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsChar.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsChar.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsDouble.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsDouble.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsFloat.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsFloat.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsInt.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsInt.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsLong.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsLong.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsShort.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestByteArrayAsShort.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessBoolean.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessBoolean.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessByte.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessByte.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessChar.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessChar.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessDouble.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessDouble.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessFloat.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessFloat.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessInt.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessInt.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessLong.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessLong.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessShort.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessShort.java
+ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessString.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodHandleAccessString.java
 ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodTypeBoolean.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodTypeBoolean.java
 ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodTypeByte.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodTypeByte.java
 ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodTypeChar.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodTypeChar.java
@@ -2072,9 +2072,9 @@ ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodTypeLong.java,jdk
 ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodTypeShort.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodTypeShort.java
 ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestMethodTypeString.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestMethodTypeString.java
 ojluni/src/test/java/lang/invoke/VarHandles/VarHandleTestReflection.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleTestReflection.java
-ojluni/src/test/java/lang/invoke/VarHandles/X-VarHandleTestAccess.java.template,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/X-VarHandleTestAccess.java.template
-ojluni/src/test/java/lang/invoke/VarHandles/X-VarHandleTestByteArrayView.java.template,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/X-VarHandleTestByteArrayView.java.template
-ojluni/src/test/java/lang/invoke/VarHandles/X-VarHandleTestMethodHandleAccess.java.template,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/X-VarHandleTestMethodHandleAccess.java.template
+ojluni/src/test/java/lang/invoke/VarHandles/X-VarHandleTestAccess.java.template,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/X-VarHandleTestAccess.java.template
+ojluni/src/test/java/lang/invoke/VarHandles/X-VarHandleTestByteArrayView.java.template,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/X-VarHandleTestByteArrayView.java.template
+ojluni/src/test/java/lang/invoke/VarHandles/X-VarHandleTestMethodHandleAccess.java.template,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/X-VarHandleTestMethodHandleAccess.java.template
 ojluni/src/test/java/lang/invoke/VarHandles/X-VarHandleTestMethodType.java.template,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/X-VarHandleTestMethodType.java.template
 ojluni/src/test/java/lang/invoke/VarHandles/accessibility/TestFieldLookupAccessibility.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/accessibility/TestFieldLookupAccessibility.java
 ojluni/src/test/java/lang/invoke/VarHandles/accessibility/pkg/A.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/invoke/VarHandles/accessibility/pkg/A.java
@@ -2082,7 +2082,7 @@ ojluni/src/test/java/lang/invoke/VarHandles/accessibility/pkg/B_extends_A.java,j
 ojluni/src/test/java/lang/invoke/VarHandles/accessibility/pkg/C.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/invoke/VarHandles/accessibility/pkg/C.java
 ojluni/src/test/java/lang/invoke/VarHandles/accessibility/pkg/subpkg/B_extends_A.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/invoke/VarHandles/accessibility/pkg/subpkg/B_extends_A.java
 ojluni/src/test/java/lang/invoke/VarHandles/accessibility/pkg/subpkg/C.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/invoke/VarHandles/accessibility/pkg/subpkg/C.java
-ojluni/src/test/java/lang/invoke/VarHandles/generate-vh-tests.sh,jdk11u/jdk-11.0.13-ga,test/jdk/java/lang/invoke/VarHandles/generate-vh-tests.sh
+ojluni/src/test/java/lang/invoke/VarHandles/generate-vh-tests.sh,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/generate-vh-tests.sh
 ojluni/src/test/java/lang/ref/CleanerTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/ref/CleanerTest.java
 ojluni/src/test/java/lang/reflect/records/CheckEqualityIsBasedOnFields.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/reflect/records/CheckEqualityIsBasedOnFields.java
 ojluni/src/test/java/lang/reflect/records/RecordReflectionTest.java,jdk17u/jdk-17.0.14-ga,test/jdk/java/lang/reflect/records/RecordReflectionTest.java
@@ -2107,7 +2107,7 @@ ojluni/src/test/java/math/BigDecimal/PrecisionTests.java,jdk21u/jdk-21.0.6-ga,te
 ojluni/src/test/java/math/BigDecimal/RangeTests.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/math/BigDecimal/RangeTests.java
 ojluni/src/test/java/math/BigDecimal/RoundingTests.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/math/BigDecimal/RoundingTests.java
 ojluni/src/test/java/math/BigDecimal/ScaleByPowerOfTenTests.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/math/BigDecimal/ScaleByPowerOfTenTests.java
-ojluni/src/test/java/math/BigDecimal/SerializationTests.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/math/BigDecimal/SerializationTests.java
+ojluni/src/test/java/math/BigDecimal/SerializationTests.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/math/BigDecimal/SerializationTests.java
 ojluni/src/test/java/math/BigDecimal/SquareRootTests.java,jdk17u/jdk-17.0.14-ga,test/jdk/java/math/BigDecimal/SquareRootTests.java
 ojluni/src/test/java/math/BigDecimal/StringConstructor.java,jdk17u/jdk-17.0.14-ga,test/jdk/java/math/BigDecimal/StringConstructor.java
 ojluni/src/test/java/math/BigDecimal/StrippingZerosTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/math/BigDecimal/StrippingZerosTest.java
@@ -2165,7 +2165,7 @@ ojluni/src/test/java/nio/Buffer/genBasic.sh,jdk21u/jdk-21.0.6-ga,test/jdk/java/n
 ojluni/src/test/java/nio/Buffer/genCopyDirectMemory.sh,jdk21u/jdk-21.0.6-ga,test/jdk/java/nio/Buffer/genCopyDirectMemory.sh
 ojluni/src/test/java/nio/Buffer/genOrder.sh,jdk21u/jdk-21.0.6-ga,test/jdk/java/nio/Buffer/genOrder.sh
 ojluni/src/test/java/nio/MappedByteBuffer/ForceViews.java,jdk21u/jdk-21.0.4-ga,test/jdk/java/nio/MappedByteBuffer/ForceViews.java
-ojluni/src/test/java/nio/channels/SelectionKey/AtomicUpdates.java,jdk11u/jdk-11.0.13-ga,test/jdk/java/nio/channels/SelectionKey/AtomicUpdates.java
+ojluni/src/test/java/nio/channels/SelectionKey/AtomicUpdates.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/nio/channels/SelectionKey/AtomicUpdates.java
 ojluni/src/test/java/nio/channels/Selector/ByteServer.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/nio/channels/Selector/ByteServer.java
 ojluni/src/test/java/nio/channels/Selector/SelectAfterRead.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/nio/channels/Selector/SelectAfterRead.java
 ojluni/src/test/java/nio/channels/Selector/SelectWithConsumer.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/nio/channels/Selector/SelectWithConsumer.java
