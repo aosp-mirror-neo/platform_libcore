@@ -52,6 +52,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.Condition;
+
+import jdk.internal.access.SharedSecrets;
 import jdk.internal.misc.Unsafe;
 
 // Android-changed: Substituted @systemProperty tag with @code.
@@ -989,11 +991,9 @@ public class ForkJoinPool extends AbstractExecutorService {
         implements ForkJoinWorkerThreadFactory {
         public final ForkJoinWorkerThread newThread(ForkJoinPool pool) {
             boolean isCommon = (pool.workerNamePrefix == null);
-            @SuppressWarnings("removal")
-            SecurityManager sm = System.getSecurityManager();
-            if (sm == null)
-                return new ForkJoinWorkerThread(null, pool, true, false);
-            else if (isCommon)
+            // Android-changed: Android has no real SecurityManager and policy.
+            // if (isCommon && JLA.allowSecurityManager())
+            if (isCommon)
                 return newCommonWithACC(pool);
             else
                 return newRegularWithACC(pool);
@@ -1009,6 +1009,8 @@ public class ForkJoinPool extends AbstractExecutorService {
          */
         @SuppressWarnings("removal")
         static volatile AccessControlContext regularACC, commonACC;
+
+        private static final JavaLangAccess JLA = SharedSecrets.getJavaLangAccess();
 
         @SuppressWarnings("removal")
         static ForkJoinWorkerThread newRegularWithACC(ForkJoinPool pool) {
