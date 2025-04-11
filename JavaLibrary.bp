@@ -692,6 +692,7 @@ java_test {
             "-Xep:ModifyingCollectionWithItself:WARN",
             "-Xep:ReturnValueIgnored:WARN",
             "-Xep:HashtableContains:WARN",
+            "-Xep:BoxedPrimitiveEquality:WARN",
         ],
     },
 }
