@@ -150,6 +150,7 @@ filegroup {
         "luni/src/main/java/android/system/NetlinkSocketAddress.java",
         "luni/src/main/java/android/system/Os.java",
         "luni/src/main/java/android/system/OsConstants.java",
+        "luni/src/main/java/android/system/OsConstantsHolder.java",
         "luni/src/main/java/android/system/PacketSocketAddress.java",
         "luni/src/main/java/android/system/StructAddrinfo.java",
         "luni/src/main/java/android/system/StructCapUserData.java",
