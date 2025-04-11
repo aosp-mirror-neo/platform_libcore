@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,9 +25,14 @@
 
 package sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.util.*;
 import java.io.IOException;
+import java.nio.file.attribute.DosFileAttributeView;
+import java.nio.file.attribute.FileAttributeView;
+import java.nio.file.attribute.PosixFileAttributeView;
+import java.nio.file.attribute.UserDefinedFileAttributeView;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Linux implementation of FileStore
@@ -66,6 +71,8 @@ class LinuxFileStore
         }
 
         // step 2: find mount point
+        List<UnixMountEntry> procMountsEntries =
+            fs.getMountEntries("/proc/mounts");
         UnixPath parent = path.getParent();
         while (parent != null) {
             UnixFileAttributes attrs = null;
@@ -74,16 +81,23 @@ class LinuxFileStore
             } catch (UnixException x) {
                 x.rethrowAsIOException(parent);
             }
-            if (attrs.dev() != dev())
-                break;
+            if (attrs.dev() != dev()) {
+                // step 3: lookup mounted file systems (use /proc/mounts to
+                // ensure we find the file system even when not in /etc/mtab)
+                byte[] dir = path.asByteArray();
+                for (UnixMountEntry entry : procMountsEntries) {
+                    if (Arrays.equals(dir, entry.dir()))
+                        return entry;
+                }
+            }
             path = parent;
             parent = parent.getParent();
         }
 
-        // step 3: lookup mounted file systems (use /proc/mounts to ensure we
-        // find the file system even when not in /etc/mtab)
+        // step 3: lookup mounted file systems (use /proc/mounts to
+        // ensure we find the file system even when not in /etc/mtab)
         byte[] dir = path.asByteArray();
-        for (UnixMountEntry entry: fs.getMountEntries("/proc/mounts")) {
+        for (UnixMountEntry entry : procMountsEntries) {
             if (Arrays.equals(dir, entry.dir()))
                 return entry;
         }
@@ -94,24 +108,34 @@ class LinuxFileStore
     // returns true if extended attributes enabled on file system where given
     // file resides, returns false if disabled or unable to determine.
     private boolean isExtendedAttributesEnabled(UnixPath path) {
+        int fd = -1;
         try {
-            int fd = path.openForAttributeAccess(false);
-            try {
-                // fgetxattr returns size if called with size==0
-                byte[] name = Util.toBytes("user.java");
-                LinuxNativeDispatcher.fgetxattr(fd, name, 0L, 0);
+            fd = path.openForAttributeAccess(false);
+
+            // fgetxattr returns size if called with size==0
+            byte[] name = Util.toBytes("user.java");
+            LinuxNativeDispatcher.fgetxattr(fd, name, 0L, 0);
+            return true;
+        } catch (UnixException e) {
+            // attribute does not exist
+            if (e.errno() == UnixConstants.ENODATA)
                 return true;
-            } catch (UnixException e) {
-                // attribute does not exist
-                if (e.errno() == UnixConstants.ENODATA)
-                    return true;
-            } finally {
-                UnixNativeDispatcher.close(fd);
-            }
-        } catch (IOException ignore) {
-            // nothing we can do
+        } finally {
+            UnixNativeDispatcher.close(fd);
         }
         return false;
+    }
+
+    // get kernel version as a three element array {major, minor, micro}
+    private static int[] getKernelVersion() {
+        Pattern pattern = Pattern.compile("\\D+");
+        String[] matches = pattern.split(System.getProperty("os.version"));
+        int[] majorMinorMicro = new int[3];
+        int length = Math.min(matches.length, majorMinorMicro.length);
+        for (int i = 0; i < length; i++) {
+            majorMinorMicro[i] = Integer.valueOf(matches[i]);
+        }
+        return majorMinorMicro;
     }
 
     @Override
@@ -133,12 +157,28 @@ class LinuxFileStore
             if ((entry().hasOption("user_xattr")))
                 return true;
 
-            // user_xattr option not present but we special-case ext3/4 as we
-            // know that extended attributes are not enabled by default.
-            if (entry().fstype().equals("ext3") || entry().fstype().equals("ext4"))
+            // check for explicit disabling of extended attributes
+            if (entry().hasOption("nouser_xattr")) {
                 return false;
+            }
 
-            // not ext3/4 so probe mount point
+            // user_xattr option not present but we special-case ext4 as we
+            // know that extended attributes are enabled by default for
+            // kernel version >= 2.6.39
+            if (entry().fstype().equals("ext4")) {
+                if (!xattrChecked) {
+                    // check kernel version
+                    int[] kernelVersion = getKernelVersion();
+                    xattrEnabled = kernelVersion[0] > 2 ||
+                        (kernelVersion[0] == 2 && kernelVersion[1] > 6) ||
+                        (kernelVersion[0] == 2 && kernelVersion[1] == 6 &&
+                            kernelVersion[2] >= 39);
+                    xattrChecked = true;
+                }
+                return xattrEnabled;
+            }
+
+            // not ext4 so probe mount point
             if (!xattrChecked) {
                 UnixPath dir = new UnixPath(file().getFileSystem(), entry().dir());
                 xattrEnabled = isExtendedAttributesEnabled(dir);
