@@ -103,4 +103,8 @@ def main(argv: Sequence[str]) -> None:
 
 
 if __name__ == '__main__':
-  main(sys.argv[1:])
+  try:
+    main(sys.argv[1:])
+  finally:
+    # Avoid ImportError when __del__ runs during python3 shutdown. b/409528854
+    LIBCORE_REPO.close()
