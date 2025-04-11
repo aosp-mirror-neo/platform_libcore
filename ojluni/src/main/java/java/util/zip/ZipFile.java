@@ -35,13 +35,15 @@ import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.io.UncheckedIOException;
 import java.lang.ref.Cleaner.Cleanable;
-import java.nio.DirectByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.DirectByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.InvalidPathException;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.Files;
@@ -74,6 +76,8 @@ import jdk.internal.misc.VM;
 import jdk.internal.ref.CleanerFactory;
 import jdk.internal.vm.annotation.Stable;
 import sun.misc.Cleaner;
+import sun.nio.fs.DefaultFileSystemProvider;
+import sun.security.action.GetPropertyAction;
 import sun.security.util.SignatureFileVerifier;
 
 import dalvik.system.CloseGuard;
@@ -130,6 +134,15 @@ public class ZipFile implements ZipConstants, Closeable {
     public static final int OPEN_DELETE = 0x4;
 
     // Android-changed: Additional ZipException throw scenario with ZipPathValidator.
+    /**
+     * Flag to specify whether the Extra ZIP64 validation should be
+     * disabled.
+     */
+    private static final boolean DISABLE_ZIP64_EXTRA_VALIDATION =
+            // Android-changed: The validation isn't enabled on Android
+            // getDisableZip64ExtraFieldValidation();
+            true;
+
     /**
      * Opens a zip file for reading.
      *
@@ -1177,10 +1190,30 @@ public class ZipFile implements ZipConstants, Closeable {
         }
     }
 
-    // Android-removed: this code does not run on Windows and JavaUtilZipFileAccess is not imported.
-    /*
-    private static boolean isWindows;
+    // Android-removed: this code does not run on Windows.
+    // private static boolean isWindows;
+    /**
+     * Returns the value of the System property which indicates whether the
+     * Extra ZIP64 validation should be disabled.
+     */
 
+    // Android-removed: The validation isn't enabled on Android.
+    /*
+    static boolean getDisableZip64ExtraFieldValidation() {
+        boolean result;
+        String value = GetPropertyAction.privilegedGetProperty(
+                "jdk.util.zip.disableZip64ExtraFieldValidation");
+        if (value == null) {
+            result = false;
+        } else {
+            result = value.isEmpty() || value.equalsIgnoreCase("true");
+        }
+        return result;
+    }
+    */
+
+    // Android-removed: JavaUtilZipFileAccess is not imported.
+    /*
     static {
         SharedSecrets.setJavaUtilZipFileAccess(
             new JavaUtilZipFileAccess() {
@@ -1303,6 +1336,16 @@ public class ZipFile implements ZipConstants, Closeable {
             if (entryPos + nlen > cen.length - ENDHDR) {
                 zerror("invalid CEN header (bad header size)");
             }
+
+            int elen = CENEXT(cen, pos);
+            if (elen > 0 && !DISABLE_ZIP64_EXTRA_VALIDATION) {
+                long extraStartingOffset = pos + CENHDR + nlen;
+                if ((int)extraStartingOffset != extraStartingOffset) {
+                    zerror("invalid CEN header (bad extra offset)");
+                }
+                checkExtraFields(pos, (int)extraStartingOffset, elen);
+            }
+
             try {
                 ZipCoder zcp = zipCoderForPos(cen, pos);
                 int hash = zcp.checkedHash(cen, entryPos, nlen);
@@ -1319,6 +1362,140 @@ public class ZipFile implements ZipConstants, Closeable {
             return nlen;
         }
 
+        /**
+         * Validate the Zip64 Extra block fields
+         * @param startingOffset Extra Field starting offset within the CEN
+         * @param extraFieldLen Length of this Extra field
+         * @throws ZipException  If an error occurs validating the Zip64 Extra
+         * block
+         */
+        private void checkExtraFields(int cenPos, int startingOffset,
+                                      int extraFieldLen) throws ZipException {
+            // Extra field Length cannot exceed 65,535 bytes per the PKWare
+            // APP.note 4.4.11
+            if (extraFieldLen > 0xFFFF) {
+                zerror("invalid extra field length");
+            }
+            // CEN Offset where this Extra field ends
+            int extraEndOffset = startingOffset + extraFieldLen;
+            // Android-changed: don't keep CEN bytes in heap memory after initialization.
+            //if (extraEndOffset > cen.length) {
+            if (extraEndOffset > cen.limit()) {
+                zerror("Invalid CEN header (extra data field size too long)");
+            }
+            int currentOffset = startingOffset;
+            // Walk through each Extra Header. Each Extra Header Must consist of:
+            //       Header ID - 2 bytes
+            //       Data Size - 2 bytes:
+            while (currentOffset + Integer.BYTES <= extraEndOffset) {
+                int tag = get16(cen, currentOffset);
+                currentOffset += Short.BYTES;
+
+                int tagBlockSize = get16(cen, currentOffset);
+                currentOffset += Short.BYTES;
+                int tagBlockEndingOffset = currentOffset + tagBlockSize;
+
+                //  The ending offset for this tag block should not go past the
+                //  offset for the end of the extra field
+                if (tagBlockEndingOffset > extraEndOffset) {
+                    zerror(String.format(
+                            "Invalid CEN header (invalid extra data field size for " +
+                                    "tag: 0x%04x at %d)",
+                            tag, cenPos));
+                }
+
+                if (tag == ZIP64_EXTID) {
+                    // Get the compressed size;
+                    long csize = CENSIZ(cen, cenPos);
+                    // Get the uncompressed size;
+                    long size = CENLEN(cen, cenPos);
+
+                    checkZip64ExtraFieldValues(currentOffset, tagBlockSize,
+                            csize, size);
+                }
+                currentOffset += tagBlockSize;
+            }
+        }
+
+        /**
+         * Validate the Zip64 Extended Information Extra Field (0x0001) block
+         * size and that the uncompressed size and compressed size field
+         * values are not negative.
+         * Note:  As we do not use the LOC offset or Starting disk number
+         * field value we will not validate them
+         * @param off the starting offset for the Zip64 field value
+         * @param blockSize the size of the Zip64 Extended Extra Field
+         * @param csize CEN header compressed size value
+         * @param size CEN header uncompressed size value
+         * @throws ZipException if an error occurs
+         */
+        private void checkZip64ExtraFieldValues(int off, int blockSize, long csize,
+                                                long size)
+                throws ZipException {
+            // Android-changed: don't keep CEN bytes in heap memory after initialization.
+            // byte[] cen = this.cen;
+            DirectByteBuffer cen = this.cen;
+            // if ZIP64_EXTID blocksize == 0, which may occur with some older
+            // versions of Apache Ant and Commons Compress, validate csize and size
+            // to make sure neither field == ZIP64_MAGICVAL
+            if (blockSize == 0) {
+                if (csize == ZIP64_MAGICVAL || size == ZIP64_MAGICVAL) {
+                    zerror("Invalid CEN header (invalid zip64 extra data field size)");
+                }
+                // Only validate the ZIP64_EXTID data if the block size > 0
+                return;
+            }
+            // Validate the Zip64 Extended Information Extra Field (0x0001)
+            // length.
+            if (!isZip64ExtBlockSizeValid(blockSize)) {
+                zerror("Invalid CEN header (invalid zip64 extra data field size)");
+            }
+            // Check the uncompressed size is not negative
+            // Note we do not need to check blockSize is >= 8 as
+            // we know its length is at least 8 from the call to
+            // isZip64ExtBlockSizeValid()
+            if ((size == ZIP64_MAGICVAL)) {
+                if(get64(cen, off) < 0) {
+                    zerror("Invalid zip64 extra block size value");
+                }
+            }
+            // Check the compressed size is not negative
+            if ((csize == ZIP64_MAGICVAL) && (blockSize >= 16)) {
+                if (get64(cen, off + 8) < 0) {
+                    zerror("Invalid zip64 extra block compressed size value");
+                }
+            }
+        }
+
+        /**
+         * Validate the size and contents of a Zip64 extended information field
+         * The order of the Zip64 fields is fixed, but the fields MUST
+         * only appear if the corresponding LOC or CEN field is set to 0xFFFF:
+         * or 0xFFFFFFFF:
+         * Uncompressed Size - 8 bytes
+         * Compressed Size   - 8 bytes
+         * LOC Header offset - 8 bytes
+         * Disk Start Number - 4 bytes
+         * See PKWare APP.Note Section 4.5.3 for more details
+         *
+         * @param blockSize the Zip64 Extended Information Extra Field size
+         * @return true if the extra block size is valid; false otherwise
+         */
+        private static boolean isZip64ExtBlockSizeValid(int blockSize) {
+            /*
+             * As the fields must appear in order, the block size indicates which
+             * fields to expect:
+             *  8 - uncompressed size
+             * 16 - uncompressed size, compressed size
+             * 24 - uncompressed size, compressed sise, LOC Header offset
+             * 28 - uncompressed size, compressed sise, LOC Header offset,
+             * and Disk start number
+             */
+            return switch(blockSize) {
+                case 8, 16, 24, 28 -> true;
+                default -> false;
+            };
+        }
         private int getEntryHash(int index) { return entries[index]; }
         private int getEntryNext(int index) { return entries[index + 1]; }
         private int getEntryPos(int index)  { return entries[index + 2]; }
@@ -1382,7 +1559,14 @@ public class ZipFile implements ZipConstants, Closeable {
             }
         }
         private static final HashMap<Key, Source> files = new HashMap<>();
-
+        /**
+         * Use the platform's default file system to avoid
+         * issues when the VM is configured to use a custom file system provider.
+         */
+        private static final java.nio.file.FileSystem builtInFS =
+        // Android-changed: Temporary patch until DefaultFileSystemProvider is updated to 17.
+        //         DefaultFileSystemProvider.theFileSystem();
+                FileSystems.getDefault();
 
         // Android-changed: pass izZipFilePathValidatorEnabled argument.
         // static Source get(File file, boolean toDelete, ZipCoder zc) throws IOException {
@@ -1393,12 +1577,12 @@ public class ZipFile implements ZipConstants, Closeable {
                 // BEGIN Android-changed: isZipFilePathValidatorEnabled passed as part of Key.
                 /*
                 key = new Key(file,
-                        Files.readAttributes(file.toPath(), BasicFileAttributes.class),
-                        zc);
+                        Files.readAttributes(builtInFS.getPath(file.getPath()),
+                                BasicFileAttributes.class), zc);
                 */
                 key = new Key(file,
-                        Files.readAttributes(file.toPath(), BasicFileAttributes.class),
-                        zc, isZipPathValidatorEnabled);
+                        Files.readAttributes(builtInFS.getPath(file.getPath()),
+                                BasicFileAttributes.class), zc, isZipPathValidatorEnabled);
                 // END Android-changed: isZipFilePathValidatorEnabled passed as part of Key.
             } catch (InvalidPathException ipe) {
                 throw new IOException(ipe);
@@ -1659,8 +1843,14 @@ public class ZipFile implements ZipConstants, Closeable {
                     zerror("invalid END header (bad central directory offset)");
                 }
                 // read in the CEN and END
+                if (end.cenlen + ENDHDR >= Integer.MAX_VALUE) {
+                    zerror("invalid END header (central directory size too large)");
+                }
                 // BEGIN Android-changed: don't keep CEN bytes in heap memory after initialization.
                 // cen = this.cen = new byte[(int)(end.cenlen + ENDHDR)];
+                // if (readFullyAt(cen, 0, cen.length, cenpos) != end.cenlen + ENDHDR) {
+                //     zerror("read CEN tables failed");
+                // }
                 cenlen = (int) (end.cenlen + ENDHDR);
                 DirectByteBuffer cenBuf = this.cen = (DirectByteBuffer) zfile.getChannel()
                         .map(MapMode.READ_ONLY, cenpos, cenlen);
@@ -1831,12 +2021,17 @@ public class ZipFile implements ZipConstants, Closeable {
                         // slash
                         int entryLen = entry.length();
                         int nameLen = name.length();
-                        if ((entryLen == nameLen && entry.equals(name)) ||
-                                (addSlash &&
-                                nameLen + 1 == entryLen &&
-                                entry.startsWith(name) &&
-                                entry.charAt(entryLen - 1) == '/')) {
+                        if (entryLen == nameLen && entry.equals(name)) {
+                            // Found our match
                             return pos;
+                        }
+                        // If addSlash is true we'll now test for name+/ providing
+                        if (addSlash && nameLen + 1 == entryLen
+                                && entry.startsWith(name) &&
+                                entry.charAt(entryLen - 1) == '/') {
+                            // Found the entry "name+/", now find the CEN entry pos
+                            int exactPos = getEntryPos(name, false);
+                            return exactPos == -1 ? pos : exactPos;
                         }
                     } catch (IllegalArgumentException iae) {
                         // Ignore

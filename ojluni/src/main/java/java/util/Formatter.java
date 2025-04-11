@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 The Android Open Source Project
- * Copyright (c) 2003, 2021, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -4713,10 +4713,9 @@ public final class Formatter implements Closeable, Flushable {
             }
 
             // apply zero padding
-            if (width != -1 && f.contains(Flags.ZERO_PAD)) {
-                for (int k = sb.length(); k < width; k++) {
-                    sb.insert(begin, zero);
-                }
+            if (width > sb.length() && f.contains(Flags.ZERO_PAD)) {
+                String zeros = String.valueOf(zero).repeat(width - sb.length());
+                sb.insert(begin, zeros);
             }
 
             return sb;

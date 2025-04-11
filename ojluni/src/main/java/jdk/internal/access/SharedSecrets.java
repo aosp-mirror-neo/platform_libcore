@@ -24,9 +24,20 @@
  */
 package jdk.internal.access;
 
-import jdk.internal.misc.Unsafe;
+import javax.crypto.SealedObject;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.Console;
+import java.io.FileDescriptor;
+import java.io.FilePermission;
 import java.io.ObjectInputStream;
 import java.io.FileDescriptor;
+import java.lang.invoke.MethodHandles;
+import java.security.Security;
+import java.security.spec.EncodedKeySpec;
+import java.util.ResourceBundle;
+import java.util.jar.JarFile;
+import jdk.internal.misc.Unsafe;
+
 /** A repository of "shared secrets", which are a mechanism for
  calling implementation-private methods in another package without
  using reflection. A package-private class implements a public
@@ -82,6 +93,7 @@ public class SharedSecrets {
     private static JavaUtilZipFileAccess javaUtilZipFileAccess;
     private static JavaUtilResourceBundleAccess javaUtilResourceBundleAccess;
     private static JavaSecurityAccess javaSecurityAccess;
+    private static JavaSecurityPropertiesAccess javaSecurityPropertiesAccess;
     private static JavaSecuritySignatureAccess javaSecuritySignatureAccess;
     private static JavaSecuritySpecAccess javaSecuritySpecAccess;
     private static JavaxCryptoSealedObjectAccess javaxCryptoSealedObjectAccess;
@@ -271,6 +283,20 @@ public class SharedSecrets {
         }
         return access;
     }
+
+    public static void setJavaSecurityPropertiesAccess(JavaSecurityPropertiesAccess jspa) {
+        javaSecurityPropertiesAccess = jspa;
+    }
+
+    public static JavaSecurityPropertiesAccess getJavaSecurityPropertiesAccess() {
+        var access = javaSecurityPropertiesAccess;
+        if (access == null) {
+            ensureClassInitialized(Security.class);
+            access = javaSecurityPropertiesAccess;
+        }
+        return access;
+    }
+
     public static JavaUtilZipFileAccess getJavaUtilZipFileAccess() {
         var access = javaUtilZipFileAccess;
         if (access == null) {

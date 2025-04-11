@@ -128,6 +128,21 @@ public class DirectByteBuffer extends MappedByteBuffer implements DirectBuffer {
         memoryRef = new MemoryRef(addr, null);
         address = addr;
         cleaner = Cleaner.create(memoryRef, unmapper);
+        // TODO: Consider unmapping the memory if OOME is thrown. See JDK-8294717.
+        // However, this constructor is a @SystemApi and existing client code may handle OOME and
+        // unmap the memory. If we incorporate this change, the memory could be unmapped twice.
+        // We need to guard this change with an platform compat flag.
+        /*
+        try {
+            memoryRef = new MemoryRef(addr, null);
+            cleaner = Cleaner.create(memoryRef, unmapper);
+        } catch (Throwable t) {
+            if (unmapper != null) {
+                unmapper.run();
+            }
+            throw t;
+        }
+        */
     }
     // END Android-changed: Remove MemorySegmentProxy and merge with read-only buffer.
 
