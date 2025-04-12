@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2018, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -32,6 +32,8 @@ package test.java.math.BigInteger;
 
 import java.math.BigInteger;
 import static java.math.BigInteger.ONE;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 //
@@ -63,6 +65,13 @@ public class LargeValueExceptions {
 
     // Half BigInteger.MAX_MAG_LENGTH
     private static final int MAX_INTS_HALF = MAX_INTS / 2;
+
+    // Print the run time of each sub-test in milliseconds
+    @AfterMethod
+    public void getRunTime(ITestResult tr) {
+        long time = tr.getEndMillis() - tr.getStartMillis();
+        System.out.printf("Run time: %d ms%n", time);
+    }
 
     // --- squaring ---
 
