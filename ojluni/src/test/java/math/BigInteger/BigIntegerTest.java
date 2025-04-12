@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998, 2020, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -981,6 +981,7 @@ public class BigIntegerTest {
         }
     }
 
+
     private static final int ORDER_1 = ORDER_MEDIUM;
     private static final int ORDER_2 = ORDER_SMALL;
     private static final int ORDER_3 = ORDER_KARATSUBA;
@@ -1125,6 +1126,100 @@ public class BigIntegerTest {
     public void testMultiplyLarge() {
         multiplyLarge();
     }
+
+    // Android-removed: Split main into smaller test cases.
+    /*
+    /**
+     * Main to interpret arguments and run several tests.
+     *
+     * Up to three arguments may be given to specify the SIZE of BigIntegers
+     * used for call parameters 1, 2, and 3. The SIZE is interpreted as
+     * the maximum number of decimal digits that the parameters will have.
+     *
+     * /
+    public static void main(String[] args) throws Exception {
+        // subset zero indicates to run all subsets
+        int subset = Integer.valueOf(System.getProperty("subset",
+            String.valueOf(1 + random.nextInt(3))));
+        if (subset < 0 || subset > 3) {
+            throw new RuntimeException("Unknown subset " + subset);
+        }
+        if (subset == 0)
+            System.out.println("Testing all subsets");
+        else
+            System.out.println("Testing subset " + subset);
+
+        // Some variables for sizing test numbers in bits
+        int order1 = ORDER_MEDIUM;
+        int order2 = ORDER_SMALL;
+        int order3 = ORDER_KARATSUBA;
+        int order4 = ORDER_TOOM_COOK;
+
+        if (args.length >0)
+            order1 = (int)((Integer.parseInt(args[0]))* 3.333);
+        if (args.length >1)
+            order2 = (int)((Integer.parseInt(args[1]))* 3.333);
+        if (args.length >2)
+            order3 = (int)((Integer.parseInt(args[2]))* 3.333);
+        if (args.length >3)
+            order4 = (int)((Integer.parseInt(args[3]))* 3.333);
+
+        if (subset == 0 || subset == 1) {
+            constructor();
+
+            prime();
+            nextProbablePrime();
+
+            arithmetic(order1);   // small numbers
+            arithmetic(order3);   // Karatsuba range
+            arithmetic(order4);   // Toom-Cook / Burnikel-Ziegler range
+
+            divideAndRemainder(order1);   // small numbers
+            divideAndRemainder(order3);   // Karatsuba range
+            divideAndRemainder(order4);   // Toom-Cook / Burnikel-Ziegler range
+
+            pow(order1);
+            pow(order3);
+            pow(order4);
+
+            square(ORDER_MEDIUM);
+            square(ORDER_KARATSUBA_SQUARE);
+            square(ORDER_TOOM_COOK_SQUARE);
+
+            squareRoot();
+            squareRootAndRemainder();
+
+            bitCount();
+            bitLength();
+            bitOps(order1);
+            bitwise(order1);
+
+            shift(order1);
+
+            byteArrayConv(order1);
+
+            modInv(order1);   // small numbers
+            modInv(order3);   // Karatsuba range
+        }
+        if (subset == 0 || subset == 2) {
+            modInv(order4);   // Toom-Cook / Burnikel-Ziegler range
+
+            modExp(order1, order2);
+            modExp2(order1);
+        }
+        if (subset == 0 || subset == 3) {
+            stringConv();
+            serialize();
+
+            multiplyLarge();
+            squareLarge();
+            divideLarge();
+        }
+
+        if (failure)
+            throw new RuntimeException("Failure in BigIntegerTest.");
+    }
+    */
 
     @Test
     public void testSquareLarge() {

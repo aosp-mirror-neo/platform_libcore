@@ -3850,15 +3850,13 @@ public final class Unsafe {
      * Ensures that stores before the fence will not be reordered with
      * stores after the fence.
      *
-     * @implNote
-     * This method is operationally equivalent to {@link #storeFence()}.
-     *
      * @since 9
      */
+    @IntrinsicCandidate
     public final void storeStoreFence() {
+        // If storeStoreFence intrinsic is not available, fall back to storeFence.
         storeFence();
     }
-
 
     // BEGIN Android-removed: Not used in Android.
     /*

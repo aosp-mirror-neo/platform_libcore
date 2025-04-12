@@ -455,6 +455,11 @@ public abstract class ClassLoader {
         }
         return nid;
     }
+
+    // Returns nameAndId string for exception message printing
+    String nameAndId() {
+        return nameAndId;
+    }
     */
 
     /**

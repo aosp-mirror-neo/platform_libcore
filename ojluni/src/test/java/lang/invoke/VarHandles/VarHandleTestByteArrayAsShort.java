@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, 2018, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015, 2022, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -27,9 +27,9 @@ package test.java.lang.invoke.VarHandles;
 /*
  * @test
  * @bug 8154556
- * @run testng/othervm -Diters=20000 -XX:TieredStopAtLevel=1 VarHandleTestByteArrayAsShort
- * @run testng/othervm -Diters=20000                         VarHandleTestByteArrayAsShort
- * @run testng/othervm -Diters=20000 -XX:-TieredCompilation  VarHandleTestByteArrayAsShort
+ * @run testng/othervm/timeout=360 -Diters=20000 -XX:TieredStopAtLevel=1 VarHandleTestByteArrayAsShort
+ * @run testng/othervm/timeout=360 -Diters=20000                         VarHandleTestByteArrayAsShort
+ * @run testng/othervm/timeout=360 -Diters=20000 -XX:-TieredCompilation  VarHandleTestByteArrayAsShort
  */
 
 import org.testng.annotations.DataProvider;
