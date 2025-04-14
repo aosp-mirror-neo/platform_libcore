@@ -11,19 +11,21 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
+ * limitations under the License
  */
 
 package libcore.java.nio.file;
 
+import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.assertTrue;
+import static libcore.java.nio.file.LinuxFileSystemTestData.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import com.sun.nio.file.ExtendedWatchEventModifier;
-
-import java.nio.file.WatchEvent.Kind;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -37,20 +39,18 @@ import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.WatchEvent;
+import java.nio.file.WatchEvent.Kind;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
-import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertNull;
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
+@RunWith(JUnit4.class)
 public class LinuxPathTest {
 
     @Rule
@@ -577,8 +577,47 @@ public class LinuxPathTest {
         assertEquals("/dir", p.toString());
     }
 
-    private static class NonStandardEvent<T> implements WatchEvent.Kind<T> {
+    @Test
+    public void test_ofString() {
+        List<TestData> inputOutputTestCases = getPathInputOutputTestData();
+        for (TestData inputOutputTestCase : inputOutputTestCases) {
+            assertEquals(inputOutputTestCase.output, Path.of(inputOutputTestCase.input,
+                inputOutputTestCase.inputArray).toString());
+        }
 
+        List<TestData> exceptionTestCases = getPathExceptionTestData();
+        for (TestData exceptionTestCase : exceptionTestCases) {
+            try {
+                Path.of(exceptionTestCase.input, exceptionTestCase.inputArray);
+                fail();
+            } catch (Exception expected) {
+                assertEquals(exceptionTestCase.exceptionClass, expected.getClass());
+            }
+        }
+
+    }
+
+    @Test
+    public void test_get_URI() throws URISyntaxException {
+        List<TestData> inputOutputTestCases = getPath_URI_InputOutputTestData();
+        for (TestData inputOutputTestCase : inputOutputTestCases) {
+            assertEquals(inputOutputTestCase.output, Path.of(new URI(inputOutputTestCase.input)).
+                toString());
+        }
+
+        List<TestData> exceptionTestCases = getPath_URI_ExceptionTestData();
+        for (TestData exceptionTestCase : exceptionTestCases) {
+            try {
+                Path.of(new URI(exceptionTestCase.input));
+                fail();
+            } catch (Exception expected) {
+                assertEquals(exceptionTestCase.exceptionClass, expected.getClass());
+            }
+        }
+    }
+
+
+    private static class NonStandardEvent<T> implements WatchEvent.Kind<T> {
         @Override
         public String name() {
             return null;
