@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -40,7 +40,9 @@ import static sun.nio.fs.UnixConstants.*;
  * Solaris/Linux implementation of java.nio.file.Path
  */
 
-class UnixPath implements Path {
+class UnixPath
+    extends AbstractPath
+{
     private static ThreadLocal<SoftReference<CharsetEncoder>> encoder =
         new ThreadLocal<SoftReference<CharsetEncoder>>();
 
@@ -121,7 +123,7 @@ class UnixPath implements Path {
             ce = Util.jnuEncoding().newEncoder()
                 .onMalformedInput(CodingErrorAction.REPORT)
                 .onUnmappableCharacter(CodingErrorAction.REPORT);
-            encoder.set(new SoftReference<>(ce));
+            encoder.set(new SoftReference<CharsetEncoder>(ce));
         }
 
         char[] ca = fs.normalizeNativePath(input.toCharArray());
@@ -243,7 +245,6 @@ class UnixPath implements Path {
     }
 
     // returns {@code true} if this path is an empty path
-    // Android-changed: Make it package-private until UnixFileSystemProvider is updated to 11.
     boolean isEmpty() {
         return path.length == 0;
     }
@@ -765,11 +766,11 @@ class UnixPath implements Path {
     // -- file operations --
 
     // package-private
-    int openForAttributeAccess(boolean followLinks) throws UnixException {
+    int openForAttributeAccess(boolean followLinks) throws IOException {
         int flags = O_RDONLY;
         if (!followLinks) {
             if (O_NOFOLLOW == 0)
-                throw new UnixException("NOFOLLOW_LINKS is not supported on this platform");
+                throw new IOException("NOFOLLOW_LINKS is not supported on this platform");
             flags |= O_NOFOLLOW;
         }
         try {
@@ -779,7 +780,12 @@ class UnixPath implements Path {
             if (getFileSystem().isSolaris() && x.errno() == EINVAL)
                 x.setError(ELOOP);
 
-            throw x;
+            if (x.errno() == ELOOP)
+                throw new FileSystemException(getPathForExceptionMessage(), null,
+                    x.getMessage() + " or unable to access attributes of symbolic link");
+
+            x.rethrowAsIOException(this);
+            return -1; // keep compile happy
         }
     }
 

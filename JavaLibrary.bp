@@ -107,32 +107,11 @@ rewrite_openjdk_doc_links = "sed -E 's" +
 gensrcs {
     name: "core_oj_api_files",
     cmd: rewrite_openjdk_doc_links,
-    srcs: [
-        ":openjdk_javadoc_files",
-        ":openjdk_api_only_files",
-    ],
-    exclude_srcs: [
-        // OpenJDK 11 changed some methods in Path from abstract to default, and affects app compat.
-        // b/236956396 explains how an Android app could be broken on older Android versions.
-        // We can't simply remove the default modifier because other OpenJDK codes depend on it.
-        // The temp workaround here is to publish the abstract methods in the SDK, but keep default
-        // method implementation in the libcore.
-        // See "openjdk_api_only_files" for the published API surface.
-        "ojluni/src/main/java/java/nio/file/Path.java",
-    ],
+    srcs: [":openjdk_javadoc_files"],
     output_extension: "java",
 }
 
-filegroup {
-    name: "openjdk_api_only_files",
-    licenses: ["libcore_ojluni_src_main_license"],
-    srcs: [
-        "ojluni/src/main/api_only/java/nio/file/Path.java",
-    ],
-    path: "ojluni/src/main/api_only/",
-}
-
-// The source files that go into core-libart.
+// The source files that go into core-libart.l
 filegroup {
     name: "core_libart_java_files",
     visibility: [
