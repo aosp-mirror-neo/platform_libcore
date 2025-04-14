@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2019, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -169,11 +169,12 @@ Java_sun_nio_fs_LinuxNativeDispatcher_setmntent0(JNIEnv* env, jclass this, jlong
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_LinuxNativeDispatcher_getmntent0(JNIEnv* env, jclass this,
-    jlong value, jobject entry, jlong buffer, jint bufLen)
+Java_sun_nio_fs_LinuxNativeDispatcher_getmntent(JNIEnv* env, jclass this,
+    jlong value, jobject entry)
 {
     struct mntent ent;
-    char * buf = (char*)jlong_to_ptr(buffer);
+    char buf[1024];
+    int buflen = sizeof(buf);
     struct mntent* m;
     FILE* fp = jlong_to_ptr(value);
     jsize len;
@@ -183,7 +184,7 @@ Java_sun_nio_fs_LinuxNativeDispatcher_getmntent0(JNIEnv* env, jclass this,
     char* fstype;
     char* options;
 
-    m = getmntent_r(fp, &ent, buf, (int)bufLen);
+    m = getmntent_r(fp, &ent, (char*)&buf, buflen);
     if (m == NULL)
         return -1;
     name = m->mnt_fsname;
