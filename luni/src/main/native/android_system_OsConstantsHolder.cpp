@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#define LOG_TAG "OsConstants"
+#define LOG_TAG "OsConstantsHolder"
 
 #include <errno.h>
 #include <fcntl.h>
@@ -61,7 +61,7 @@ static void initConstant(JNIEnv* env, jclass c, const char* fieldName, int value
     env->SetStaticIntField(c, field, value);
 }
 
-static void OsConstants_initConstants(JNIEnv* env, jclass c) {
+static void OsConstantsHolder_initConstants(JNIEnv* env, jclass c) {
     initConstant(env, c, "AF_INET", AF_INET);
     initConstant(env, c, "AF_INET6", AF_INET6);
     initConstant(env, c, "AF_PACKET", AF_PACKET);
@@ -634,8 +634,8 @@ static void OsConstants_initConstants(JNIEnv* env, jclass c) {
 }
 
 static JNINativeMethod gMethods[] = {
-    NATIVE_METHOD(OsConstants, initConstants, "()V"),
+    NATIVE_METHOD(OsConstantsHolder, initConstants, "()V"),
 };
-void register_android_system_OsConstants(JNIEnv* env) {
-    jniRegisterNativeMethods(env, "android/system/OsConstants", gMethods, NELEM(gMethods));
+void register_android_system_OsConstantsHolder(JNIEnv* env) {
+    jniRegisterNativeMethods(env, "android/system/OsConstantsHolder", gMethods, NELEM(gMethods));
 }
