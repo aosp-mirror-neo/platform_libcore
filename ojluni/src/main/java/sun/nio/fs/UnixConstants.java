@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
- *
+ * Copyright (c) 2008, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -22,7 +21,6 @@
  * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
  * or visit www.oracle.com if you need additional information or have any
  * questions.
- *
  */
 // AUTOMATICALLY GENERATED FILE - DO NOT EDIT
 package sun.nio.fs;
@@ -55,6 +53,8 @@ class UnixConstants {
     static final int O_DSYNC = OsConstants.O_DSYNC;
 
     static final int O_NOFOLLOW = OsConstants.O_NOFOLLOW;
+
+    static final int O_DIRECT = OsConstants.O_DIRECT;
 
     static final int S_IAMB = get_S_IAMB();
 
@@ -100,6 +100,8 @@ class UnixConstants {
 
     static final int ENOENT = OsConstants.ENOENT;
 
+    static final int ENXIO = OsConstants.ENXIO;
+
     static final int EACCES = OsConstants.EACCES;
 
     static final int EEXIST = OsConstants.EEXIST;
@@ -117,6 +119,9 @@ class UnixConstants {
     static final int ENOSPC = OsConstants.ENOSPC;
 
     static final int EAGAIN = OsConstants.EAGAIN;
+
+    // TODO: Add this OsConstants.
+    // static final int EWOULDBLOCK = OsConstants.EWOULDBLOCK;
 
     static final int ENOSYS = OsConstants.ENOSYS;
 
@@ -142,4 +147,4 @@ class UnixConstants {
 
     static final int AT_SYMLINK_NOFOLLOW = 0x100;
     static final int AT_REMOVEDIR = 0x200;
-}                                                                              
+}
