@@ -101,4 +101,11 @@ public class VersionCodes {
      */
     @IntraCoreApi
     public static final int BAKLAVA = 36;
+
+    /**
+     * C.
+     * C comes after B. Not yet announced Android release.
+     * @hide
+     */
+    public static final int C = CUR_DEVELOPMENT;
 }
