@@ -35,7 +35,7 @@ jint JNI_OnLoad(JavaVM* vm, void*) {
     ScopedLocalFrame localFrame(env);
 
 #define REGISTER(FN) extern void FN(JNIEnv*); FN(env)
-    REGISTER(register_android_system_OsConstantsHolder);
+    REGISTER(register_android_system_OsConstants);
     //    REGISTER(register_java_lang_StringToReal);
     REGISTER(register_java_lang_invoke_MethodHandle);
     REGISTER(register_java_lang_invoke_VarHandle);
