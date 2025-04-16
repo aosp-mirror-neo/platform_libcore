@@ -91,9 +91,14 @@ class UnixNativeDispatcher {
         throws UnixException;
 
     /**
-     * close(int filedes)
+     * close(int filedes). If fd is -1 this is a no-op.
      */
-    static native void close(int fd);
+    static void close(int fd) {
+        if (fd != -1) {
+            close0(fd);
+        }
+    }
+    private static native void close0(int fd);
 
     /**
      * FILE* fopen(const char *filename, const char* mode);
@@ -115,6 +120,16 @@ class UnixNativeDispatcher {
      * fclose(FILE* stream)
      */
     static native void fclose(long stream) throws UnixException;
+
+    /**
+     * void rewind(FILE* stream);
+     */
+    static native void rewind(long stream) throws UnixException;
+
+    /**
+     * ssize_t getline(char **lineptr, size_t *n, FILE *stream);
+     */
+    static native int getlinelen(long stream) throws UnixException;
 
     /**
      * link(const char* existing, const char* new)
@@ -603,7 +618,7 @@ class UnixNativeDispatcher {
     static {
         // Android-removed: Code to load native libraries, doesn't make sense on Android.
         /*
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
+        AccessController.doPrivileged(new PrivilegedAction<>() {
             public Void run() {
                 System.loadLibrary("nio");
                 return null;
