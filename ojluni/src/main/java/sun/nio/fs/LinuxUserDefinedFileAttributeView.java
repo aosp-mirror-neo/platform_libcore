@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -29,7 +29,7 @@ import java.nio.file.*;
 import java.nio.ByteBuffer;
 import java.io.IOException;
 import java.util.*;
-import jdk.internal.misc.Unsafe;
+import sun.misc.Unsafe;
 
 import static sun.nio.fs.UnixConstants.*;
 import static sun.nio.fs.LinuxNativeDispatcher.*;
@@ -97,12 +97,7 @@ class LinuxUserDefinedFileAttributeView
         if (System.getSecurityManager() != null)
             checkAccess(file.getPathForPermissionCheck(), true, false);
 
-        int fd = -1;
-        try {
-            fd = file.openForAttributeAccess(followLinks);
-        } catch (UnixException x) {
-            x.rethrowAsIOException(file);
-        }
+        int fd = file.openForAttributeAccess(followLinks);
         NativeBuffer buffer = null;
         try {
             int size = 1024;
@@ -138,12 +133,7 @@ class LinuxUserDefinedFileAttributeView
         if (System.getSecurityManager() != null)
             checkAccess(file.getPathForPermissionCheck(), true, false);
 
-        int fd = -1;
-        try {
-            fd = file.openForAttributeAccess(followLinks);
-        } catch (UnixException x) {
-            x.rethrowAsIOException(file);
-        }
+        int fd = file.openForAttributeAccess(followLinks);
         try {
             // fgetxattr returns size if called with size==0
             return fgetxattr(fd, nameAsBytes(file,name), 0L, 0);
@@ -179,12 +169,7 @@ class LinuxUserDefinedFileAttributeView
             address = nb.address();
         }
 
-        int fd = -1;
-        try {
-            fd = file.openForAttributeAccess(followLinks);
-        } catch (UnixException x) {
-            x.rethrowAsIOException(file);
-        }
+        int fd = file.openForAttributeAccess(followLinks);
         try {
             try {
                 int n = fgetxattr(fd, nameAsBytes(file,name), address, rem);
@@ -251,12 +236,7 @@ class LinuxUserDefinedFileAttributeView
             }
         }
 
-        int fd = -1;
-        try {
-            fd = file.openForAttributeAccess(followLinks);
-        } catch (UnixException x) {
-            x.rethrowAsIOException(file);
-        }
+        int fd = file.openForAttributeAccess(followLinks);
         try {
             try {
                 fsetxattr(fd, nameAsBytes(file,name), address, rem);
@@ -280,12 +260,7 @@ class LinuxUserDefinedFileAttributeView
         if (System.getSecurityManager() != null)
             checkAccess(file.getPathForPermissionCheck(), false, true);
 
-        int fd = -1;
-        try {
-            fd = file.openForAttributeAccess(followLinks);
-        } catch (UnixException x) {
-            x.rethrowAsIOException(file);
-        }
+        int fd = file.openForAttributeAccess(followLinks);
         try {
             fremovexattr(fd, nameAsBytes(file,name));
         } catch (UnixException x) {

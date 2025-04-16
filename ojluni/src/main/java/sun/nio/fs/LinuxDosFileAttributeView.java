@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -29,7 +29,7 @@ import java.nio.file.attribute.*;
 import java.util.Map;
 import java.util.Set;
 import java.io.IOException;
-import jdk.internal.misc.Unsafe;
+import sun.misc.Unsafe;
 
 import static sun.nio.fs.UnixNativeDispatcher.*;
 import static sun.nio.fs.UnixConstants.*;
@@ -117,9 +117,8 @@ class LinuxDosFileAttributeView
     public DosFileAttributes readAttributes() throws IOException {
         file.checkRead();
 
-        int fd = -1;
+        int fd = file.openForAttributeAccess(followLinks);
         try {
-             fd = file.openForAttributeAccess(followLinks);
              final UnixFileAttributes attrs = UnixFileAttributes.get(fd);
              final int dosAttribute = getDosAttribute(fd);
 
@@ -254,9 +253,8 @@ class LinuxDosFileAttributeView
     private void updateDosAttribute(int flag, boolean enable) throws IOException {
         file.checkWrite();
 
-        int fd = -1;
+        int fd = file.openForAttributeAccess(followLinks);
         try {
-            fd = file.openForAttributeAccess(followLinks);
             int oldValue = getDosAttribute(fd);
             int newValue = oldValue;
             if (enable) {
