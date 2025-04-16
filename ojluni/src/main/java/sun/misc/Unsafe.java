@@ -25,7 +25,10 @@
 
 package sun.misc;
 
+import dalvik.annotation.compat.VersionCodes;
 import dalvik.annotation.optimization.FastNative;
+import dalvik.system.VMRuntime;
+
 import jdk.internal.vm.annotation.IntrinsicCandidate;
 import sun.reflect.Reflection;
 
@@ -45,6 +48,7 @@ public final class Unsafe {
     private static final Unsafe THE_ONE = new Unsafe();
 
     private static final Unsafe theUnsafe = THE_ONE;
+    private static final jdk.internal.misc.Unsafe theInternalUnsafe = jdk.internal.misc.Unsafe.getUnsafe();
     public static final int INVALID_FIELD_OFFSET   = -1;
 
     /**
@@ -70,19 +74,37 @@ public final class Unsafe {
         return THE_ONE;
     }
 
+    // Android-added: allow existing apps to get offset of record fields for compat purposes.
+    private static boolean forbidObtainingRecordFieldOffsets() {
+        return VMRuntime.getSdkVersion() > VersionCodes.BAKLAVA &&
+                VMRuntime.getRuntime().getTargetSdkVersion() > VersionCodes.BAKLAVA;
+    }
+
     /**
      * Gets the raw byte offset from the start of an object's memory to
      * the memory used to store the indicated instance field.
      *
-     * @param field non-{@code null}; the field in question, which must be an
+     * @param f non-{@code null}; the field in question, which must be an
      * instance field
      * @return the offset to the field
      */
-    public long objectFieldOffset(Field field) {
-        if (Modifier.isStatic(field.getModifiers())) {
+    public long objectFieldOffset(Field f) {
+        if (f == null) {
+            throw new NullPointerException();
+        }
+        Class<?> declaringClass = f.getDeclaringClass();
+        if (Modifier.isStatic(f.getModifiers())) {
             throw new IllegalArgumentException("valid for instance fields only");
         }
-        return field.getOffset();
+        if (declaringClass.isHidden()) {
+            throw new UnsupportedOperationException("can't get field offset on a hidden class: " + f);
+        }
+        // Android-changed: compat check added.
+        // if (declaringClass.isRecord()) {
+        if (forbidObtainingRecordFieldOffsets() && declaringClass.isRecord()) {
+            throw new UnsupportedOperationException("can't get field offset on a record class: " + f);
+        }
+        return theInternalUnsafe.objectFieldOffset(f);
     }
 
     /**
