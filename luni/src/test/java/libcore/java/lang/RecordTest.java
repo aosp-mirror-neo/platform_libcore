@@ -19,15 +19,28 @@ package libcore.java.lang;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 
+import dalvik.annotation.compat.VersionCodes;
+import dalvik.system.VMRuntime;
+
+import libcore.junit.util.SwitchTargetSdkVersionRule;
+import libcore.junit.util.SwitchTargetSdkVersionRule.TargetSdkVersion;
+
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
 public class RecordTest {
+
+    @Rule
+    public TestRule switchTargetSdkVersionRule = SwitchTargetSdkVersionRule.getInstance();
 
     public record RecordInteger(int x) {};
 
@@ -76,5 +89,22 @@ public class RecordTest {
         assertTrue(a.getClass().isRecord());
         assertEquals(Arrays.deepToString(a.getClass().getRecordComponents()),
                 1, a.getClass().getRecordComponents().length);
+    }
+
+    @Test
+    @TargetSdkVersion(VersionCodes.C)
+    public void gettingRecordFieldOffset_shouldThrow_afterBaklava() throws Throwable {
+        // Check is for C+ only. For compat purposes on older OS version this is allowed.
+        assumeTrue(VMRuntime.getSdkVersion() > VersionCodes.BAKLAVA);
+
+        Class<?> unsafeClass = Class.forName("sun.misc.Unsafe");
+        Field theUnsafeField = unsafeClass.getDeclaredField("theUnsafe");
+        theUnsafeField.setAccessible(true);
+        sun.misc.Unsafe unsafe = (sun.misc.Unsafe) theUnsafeField.get(null);
+
+        Field xField = RecordInteger.class.getDeclaredField("x");
+        assertThrows(
+                UnsupportedOperationException.class,
+                () -> unsafe.objectFieldOffset(xField));
     }
 }

@@ -16,20 +16,70 @@
 
 package libcore.java.lang.reflect;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
+
+import dalvik.annotation.compat.VersionCodes;
+import dalvik.system.VMRuntime;
+
+import libcore.junit.util.SwitchTargetSdkVersionRule;
+import libcore.junit.util.SwitchTargetSdkVersionRule.TargetSdkVersion;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import junit.framework.TestCase;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-public final class FieldTest extends TestCase {
+@RunWith(JUnit4.class)
+public final class FieldTest {
     private static final long MY_LONG = 5073258162644648461L;
+    private static final Object MY_REF = new Object();
+
+    @Rule
+    public TestRule switchTargetSdkVersionRule = SwitchTargetSdkVersionRule.getInstance();
 
     // Reflection for static long fields was broken http://b/1120750
+    @Test
     public void testLongFieldReflection() throws Exception {
         Field field = getClass().getDeclaredField("MY_LONG");
         assertEquals(5073258162644648461L, field.getLong(null));
     }
 
+    @Test
+    @TargetSdkVersion(VersionCodes.C)
+    public void testSetStaticFinalField_shouldThrow_afterBaklava() throws Exception {
+        // Prior to Android C it was possible to override static final fields.
+        assumeTrue(VMRuntime.getSdkVersion() >= VersionCodes.C);
+        Field longField = getClass().getDeclaredField("MY_LONG");
+        longField.setAccessible(true);
+
+        try {
+            longField.set(null, 1001L);
+            fail("Should fail to override static final field");
+        } catch (IllegalAccessException expected) {}
+
+        try {
+            longField.setLong(null, 1001L);
+            fail("Should fail to override static final field");
+        } catch (IllegalAccessException expected) {}
+
+        Field refField = getClass().getDeclaredField("MY_REF");
+        refField.setAccessible(true);
+
+        try {
+            refField.set(null, new Object());
+            fail("Should fail to override static final field");
+        } catch (IllegalAccessException expected) {}
+    }
+
+    @Test
     public void testEqualConstructorEqualsAndHashCode() throws Exception {
         Field f1 = FieldTestHelper.class.getField("a");
         Field f2 = FieldTestHelper.class.getField("a");
@@ -37,11 +87,13 @@ public final class FieldTest extends TestCase {
         assertEquals(f1.hashCode(), f2.hashCode());
     }
 
+    @Test
     public void testHashCodeSpec() throws Exception {
         Field f1 = FieldTestHelper.class.getField("a");
         assertEquals(FieldTestHelper.class.getName().hashCode() ^ "a".hashCode(), f1.hashCode());
     }
 
+    @Test
     public void testDifferentConstructorEqualsAndHashCode() throws Exception {
         Field f1 = FieldTestHelper.class.getField("a");
         Field f2 = FieldTestHelper.class.getField("b");
@@ -50,6 +102,7 @@ public final class FieldTest extends TestCase {
 
     // Tests that the "synthetic" modifier is handled correctly.
     // It's supposed to be present but not shown in toString.
+    @Test
     public void testSyntheticModifier() throws NoSuchFieldException {
         Field valuesField = Thread.State.class.getDeclaredField("$VALUES");
         // Check that this test makes sense.
@@ -60,6 +113,7 @@ public final class FieldTest extends TestCase {
     }
 
     // Ensure that the "enum constant" bit is not returned in toString.
+    @Test
     public void testEnumValueField() throws NoSuchFieldException {
         Field blockedField = Thread.State.class.getDeclaredField("BLOCKED");
         assertTrue(Thread.State.class.getDeclaredField("BLOCKED").isEnumConstant());
@@ -76,6 +130,7 @@ public final class FieldTest extends TestCase {
     // Tests that the "transient" modifier is handled correctly.
     // The underlying constant value for it is the same as for the "varargs" method modifier.
     // http://b/18488857
+    @Test
     public void testTransientModifier() throws NoSuchFieldException {
         Field transientField = ClassWithATransientField.class.getDeclaredField("transientField");
         // Check that this test makes sense.
@@ -87,6 +142,7 @@ public final class FieldTest extends TestCase {
                 transientField.toString());
     }
 
+    @Test
     public void testToGenericString() throws NoSuchFieldException {
         Field transientField = ClassWithATransientField.class.getDeclaredField("transientField");
         // Check that this test makes sense.
