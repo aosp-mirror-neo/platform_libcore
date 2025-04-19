@@ -4904,10 +4904,8 @@ public final class Class<T> implements java.io.Serializable,
      * @see MethodHandles.Lookup#defineHiddenClass
      * @hide
      */
-    // Android-changed: Android doesn't support hidden classes yet.
-    // public native boolean isHidden();
     @IntrinsicCandidate
-    // Android-changed: Android has not implemented the hidden class feature yet.
+    // Android-changed: Android doesn't support hidden classes yet.
     // public native boolean isHidden();
     public boolean isHidden() {
         return false;
