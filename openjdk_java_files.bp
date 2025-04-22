@@ -1736,7 +1736,6 @@ filegroup {
         "ojluni/src/main/java/sun/nio/fs/AbstractBasicFileAttributeView.java",
         "ojluni/src/main/java/sun/nio/fs/AbstractFileSystemProvider.java",
         "ojluni/src/main/java/sun/nio/fs/AbstractFileTypeDetector.java",
-        "ojluni/src/main/java/sun/nio/fs/AbstractPath.java",
         "ojluni/src/main/java/sun/nio/fs/AbstractPoller.java",
         "ojluni/src/main/java/sun/nio/fs/AbstractUserDefinedFileAttributeView.java",
         "ojluni/src/main/java/sun/nio/fs/AbstractWatchKey.java",
