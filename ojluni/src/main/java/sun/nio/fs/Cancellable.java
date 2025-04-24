@@ -25,7 +25,7 @@
 
 package sun.nio.fs;
 
-import sun.misc.Unsafe;
+import jdk.internal.misc.Unsafe;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -117,7 +117,7 @@ abstract class Cancellable implements Runnable {
      * thread by writing into the memory location that it polls cooperatively.
      */
     static void runInterruptibly(Cancellable task) throws ExecutionException {
-        Thread t = new Thread(task);
+        Thread t = new Thread(null, task, "NIO-Task", 0, false);
         t.start();
         boolean cancelledByInterrupt = false;
         while (t.isAlive()) {
