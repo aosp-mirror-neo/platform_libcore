@@ -117,6 +117,7 @@ filegroup {
         "luni/src/main/java/libcore/api/Hide.java",
         "luni/src/main/java/libcore/api/IntraCoreApi.java",
     ],
+    visibility: ["//external/conscrypt"],
 }
 
 // The set of annotations used for defining the hidden API surface.
