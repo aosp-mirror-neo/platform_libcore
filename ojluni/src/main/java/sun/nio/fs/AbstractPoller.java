@@ -47,7 +47,7 @@ abstract class AbstractPoller implements Runnable {
     private boolean shutdown;
 
     protected AbstractPoller() {
-        this.requestList = new LinkedList<Request>();
+        this.requestList = new LinkedList<>();
         this.shutdown = false;
     }
 
@@ -56,10 +56,14 @@ abstract class AbstractPoller implements Runnable {
      */
     public void start() {
         final Runnable thisRunnable = this;
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
+        AccessController.doPrivileged(new PrivilegedAction<>() {
             @Override
             public Object run() {
-                Thread thr = new Thread(thisRunnable);
+                Thread thr = new Thread(null,
+                                        thisRunnable,
+                                        "FileSystemWatchService",
+                                        0,
+                                        false);
                 thr.setDaemon(true);
                 thr.start();
                 return null;
@@ -216,10 +220,10 @@ abstract class AbstractPoller implements Runnable {
                 throw new ClosedWatchServiceException();
             }
             requestList.add(req);
-        }
 
-        // wakeup thread
-        wakeup();
+            // wakeup thread
+            wakeup();
+        }
 
         // wait for result
         Object result = req.awaitResult();
@@ -244,6 +248,7 @@ abstract class AbstractPoller implements Runnable {
                 // if in process of shutdown then reject request
                 if (shutdown) {
                     req.release(new ClosedWatchServiceException());
+                    continue;
                 }
 
                 switch (req.type()) {

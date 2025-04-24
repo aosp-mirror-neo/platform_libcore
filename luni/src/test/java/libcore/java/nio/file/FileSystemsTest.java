@@ -81,12 +81,12 @@ public class FileSystemsTest {
         } catch (FileSystemAlreadyExistsException expected) {}
 
         try {
-            FileSystems.newFileSystem(null, stubEnv);
+            FileSystems.newFileSystem((URI) null, stubEnv);
             fail();
         } catch (NullPointerException expected) {}
 
         try {
-            FileSystems.newFileSystem(testPath, null);
+            FileSystems.newFileSystem(testPath, (ClassLoader) null);
             fail();
         } catch (ProviderNotFoundException expected) {}
     }
@@ -101,7 +101,7 @@ public class FileSystemsTest {
         } catch (FileSystemAlreadyExistsException expected) {}
 
         try {
-            FileSystems.newFileSystem(null, stubEnv,
+            FileSystems.newFileSystem((URI) null, stubEnv,
                     Thread.currentThread().getContextClassLoader());
             fail();
         } catch (NullPointerException expected) {}
@@ -151,7 +151,7 @@ public class FileSystemsTest {
         } catch (NullPointerException expected) {}
 
         try {
-            FileSystems.newFileSystem(testPath, null);
+            FileSystems.newFileSystem(testPath, (ClassLoader) null);
             fail();
         } catch (ProviderNotFoundException expected) {}
     }

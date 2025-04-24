@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,48 +25,29 @@
 
 package sun.nio.fs;
 
-import java.nio.file.spi.FileSystemProvider;
-import java.security.AccessController;
-import sun.security.action.GetPropertyAction;
+import java.nio.file.FileSystem;
 
 /**
  * Creates this platform's default FileSystemProvider.
  */
 
 public class DefaultFileSystemProvider {
+    private static final LinuxFileSystemProvider INSTANCE
+        = new LinuxFileSystemProvider();
+
     private DefaultFileSystemProvider() { }
 
-    @SuppressWarnings("unchecked")
-    private static FileSystemProvider createProvider(String cn) {
-        Class<FileSystemProvider> c;
-        try {
-            c = (Class<FileSystemProvider>)Class.forName(cn);
-        } catch (ClassNotFoundException x) {
-            throw new AssertionError(x);
-        }
-        try {
-            return c.newInstance();
-        } catch (IllegalAccessException | InstantiationException x) {
-            throw new AssertionError(x);
-        }
+    /**
+     * Returns the platform's default file system provider.
+     */
+    public static LinuxFileSystemProvider instance() {
+        return INSTANCE;
     }
 
     /**
-     * Returns the default FileSystemProvider.
+     * Returns the platform's default file system.
      */
-    public static FileSystemProvider create() {
-        String osname = AccessController
-            .doPrivileged(new GetPropertyAction("os.name"));
-        if (osname.equals("SunOS"))
-            return createProvider("sun.nio.fs.SolarisFileSystemProvider");
-        // Android-changed: Fuchsia: Use LinuxFileSystemProvider.
-        // if (osname.equals("Linux"))
-        if (osname.equals("Linux") || osname.equals("Fuchsia"))
-            return createProvider("sun.nio.fs.LinuxFileSystemProvider");
-        if (osname.contains("OS X"))
-            return createProvider("sun.nio.fs.MacOSXFileSystemProvider");
-        if (osname.equals("AIX"))
-            return createProvider("sun.nio.fs.AixFileSystemProvider");
-        throw new AssertionError("Platform not recognized");
+    public static FileSystem theFileSystem() {
+        return INSTANCE.theFileSystem();
     }
 }

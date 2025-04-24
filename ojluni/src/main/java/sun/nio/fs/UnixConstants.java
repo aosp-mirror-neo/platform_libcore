@@ -120,8 +120,9 @@ class UnixConstants {
 
     static final int EAGAIN = OsConstants.EAGAIN;
 
-    // TODO: Add this OsConstants.
+    // Android-changed: On Linux, EWOULDBLOCK == EAGAIN. Use EAGAIN instead, to reduce confusion.
     // static final int EWOULDBLOCK = OsConstants.EWOULDBLOCK;
+    static final int EWOULDBLOCK = OsConstants.EAGAIN;
 
     static final int ENOSYS = OsConstants.ENOSYS;
 
