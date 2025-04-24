@@ -439,8 +439,6 @@ public final class FileSystems {
      *          permission
      *
      * @since 13
-     *
-     * @hide TODO Expose this API.
      */
     public static FileSystem newFileSystem(Path path, Map<String,?> env)
         throws IOException
@@ -478,7 +476,6 @@ public final class FileSystems {
      *          permission
      *
      * @since 13
-     * @hide TODO Expose this API.
      */
     public static FileSystem newFileSystem(Path path) throws IOException {
         return newFileSystem(path, Map.of(), null);
@@ -524,7 +521,6 @@ public final class FileSystems {
      *          permission
      *
      * @since 13
-     * @hide TODO Expose this API.
      */
     public static FileSystem newFileSystem(Path path, Map<String,?> env,
                                            ClassLoader loader)

@@ -7480,6 +7480,9 @@ package java.nio.file {
     method public static java.nio.file.FileSystem newFileSystem(java.net.URI, java.util.Map<java.lang.String,?>) throws java.io.IOException;
     method public static java.nio.file.FileSystem newFileSystem(java.net.URI, java.util.Map<java.lang.String,?>, ClassLoader) throws java.io.IOException;
     method public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path, ClassLoader) throws java.io.IOException;
+    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path, java.util.Map<java.lang.String,?>) throws java.io.IOException;
+    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path) throws java.io.IOException;
+    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path, java.util.Map<java.lang.String,?>, ClassLoader) throws java.io.IOException;
   }
 
   public enum FileVisitOption {
@@ -7553,6 +7556,8 @@ package java.nio.file {
     method public static java.util.List<java.lang.String> readAllLines(java.nio.file.Path) throws java.io.IOException;
     method public static <A extends java.nio.file.attribute.BasicFileAttributes> A readAttributes(java.nio.file.Path, Class<A>, java.nio.file.LinkOption...) throws java.io.IOException;
     method public static java.util.Map<java.lang.String,java.lang.Object> readAttributes(java.nio.file.Path, String, java.nio.file.LinkOption...) throws java.io.IOException;
+    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static String readString(java.nio.file.Path) throws java.io.IOException;
+    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static String readString(java.nio.file.Path, java.nio.charset.Charset) throws java.io.IOException;
     method public static java.nio.file.Path readSymbolicLink(java.nio.file.Path) throws java.io.IOException;
     method public static java.nio.file.Path setAttribute(java.nio.file.Path, String, Object, java.nio.file.LinkOption...) throws java.io.IOException;
     method public static java.nio.file.Path setLastModifiedTime(java.nio.file.Path, java.nio.file.attribute.FileTime) throws java.io.IOException;
@@ -7566,6 +7571,8 @@ package java.nio.file {
     method public static java.nio.file.Path write(java.nio.file.Path, byte[], java.nio.file.OpenOption...) throws java.io.IOException;
     method public static java.nio.file.Path write(java.nio.file.Path, Iterable<? extends java.lang.CharSequence>, java.nio.charset.Charset, java.nio.file.OpenOption...) throws java.io.IOException;
     method public static java.nio.file.Path write(java.nio.file.Path, Iterable<? extends java.lang.CharSequence>, java.nio.file.OpenOption...) throws java.io.IOException;
+    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static java.nio.file.Path writeString(java.nio.file.Path, CharSequence, java.nio.file.OpenOption...) throws java.io.IOException;
+    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static java.nio.file.Path writeString(java.nio.file.Path, CharSequence, java.nio.charset.Charset, java.nio.file.OpenOption...) throws java.io.IOException;
   }
 
   public class InvalidPathException extends java.lang.IllegalArgumentException {
