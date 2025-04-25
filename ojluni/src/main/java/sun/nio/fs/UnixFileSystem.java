@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -31,7 +31,6 @@ import java.nio.file.spi.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.security.AccessController;
 import sun.security.action.GetPropertyAction;
 
 /**
@@ -57,10 +56,9 @@ abstract class UnixFileSystem
         // if process-wide chdir is allowed or default directory is not the
         // process working directory then paths must be resolved against the
         // default directory.
-        String propValue = AccessController.doPrivileged(
-            new GetPropertyAction("sun.nio.fs.chdirAllowed", "false"));
-        boolean chdirAllowed = (propValue.length() == 0) ?
-            true : Boolean.valueOf(propValue);
+        String propValue = GetPropertyAction
+                .privilegedGetProperty("sun.nio.fs.chdirAllowed", "false");
+        boolean chdirAllowed = propValue.isEmpty() ? true : Boolean.parseBoolean(propValue);
         if (chdirAllowed) {
             this.needToResolveAgainstDefaultDirectory = true;
         } else {
@@ -152,7 +150,7 @@ abstract class UnixFileSystem
     public final Iterable<Path> getRootDirectories() {
         final List<Path> allowedList =
            Collections.unmodifiableList(Arrays.asList((Path)rootDirectory));
-        return new Iterable<Path>() {
+        return new Iterable<>() {
             public Iterator<Path> iterator() {
                 try {
                     SecurityManager sm = System.getSecurityManager();
@@ -254,7 +252,7 @@ abstract class UnixFileSystem
                 return Collections.emptyList();
             }
         }
-        return new Iterable<FileStore>() {
+        return new Iterable<>() {
             public Iterator<FileStore> iterator() {
                 return new FileStoreIterator();
             }
@@ -270,7 +268,7 @@ abstract class UnixFileSystem
             StringBuilder sb = new StringBuilder();
             sb.append(first);
             for (String segment: more) {
-                if (segment.length() > 0) {
+                if (!segment.isEmpty()) {
                     if (sb.length() > 0)
                         sb.append('/');
                     sb.append(segment);
@@ -290,10 +288,10 @@ abstract class UnixFileSystem
         String input = syntaxAndInput.substring(pos+1);
 
         String expr;
-        if (syntax.equals(GLOB_SYNTAX)) {
+        if (syntax.equalsIgnoreCase(GLOB_SYNTAX)) {
             expr = Globs.toUnixRegexPattern(input);
         } else {
-            if (syntax.equals(REGEX_SYNTAX)) {
+            if (syntax.equalsIgnoreCase(REGEX_SYNTAX)) {
                 expr = input;
             } else {
                 throw new UnsupportedOperationException("Syntax '" + syntax +
@@ -339,7 +337,7 @@ abstract class UnixFileSystem
             };
     }
 
-    // Override if the platform has different path match requrement, such as
+    // Override if the platform has different path match requirement, such as
     // case insensitive or Unicode canonical equal on MacOSX
     Pattern compilePathMatchPattern(String expr) {
         return Pattern.compile(expr);

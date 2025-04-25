@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2020, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -49,11 +49,11 @@ class UnixUriUtils {
         String scheme = uri.getScheme();
         if ((scheme == null) || !scheme.equalsIgnoreCase("file"))
             throw new IllegalArgumentException("URI scheme is not \"file\"");
-        if (uri.getAuthority() != null)
+        if (uri.getRawAuthority() != null)
             throw new IllegalArgumentException("URI has an authority component");
-        if (uri.getFragment() != null)
+        if (uri.getRawFragment() != null)
             throw new IllegalArgumentException("URI has a fragment component");
-        if (uri.getQuery() != null)
+        if (uri.getRawQuery() != null)
             throw new IllegalArgumentException("URI has a query component");
 
         // compatibility with java.io.File
@@ -83,8 +83,13 @@ class UnixUriUtils {
                 if (b == 0)
                     throw new IllegalArgumentException("Nul character not allowed");
             } else {
-                assert c < 0x80;
+                if (c == 0 || c >= 0x80)
+                    throw new IllegalArgumentException("Bad escape");
                 b = (byte)c;
+            }
+            if (b == '/' && rlen > 0 && result[rlen-1] == '/') {
+                // skip redundant slashes
+                continue;
             }
             result[rlen++] = b;
         }
@@ -115,11 +120,11 @@ class UnixUriUtils {
         // trailing slash if directory
         if (sb.charAt(sb.length()-1) != '/') {
             try {
-                 if (UnixFileAttributes.get(up, true).isDirectory())
-                     sb.append('/');
-            } catch (UnixException x) {
-                // ignore
-            }
+                up.checkRead();
+                int mode = UnixNativeDispatcher.stat(up);
+                if ((mode & UnixConstants.S_IFMT) == UnixConstants.S_IFDIR)
+                    sb.append('/');
+            } catch (SecurityException ignore) { }
         }
 
         try {
@@ -242,7 +247,7 @@ class UnixUriUtils {
    private static final long L_PATH = L_PCHAR | lowMask(";/");
    private static final long H_PATH = H_PCHAR | highMask(";/");
 
-   private final static char[] hexDigits = {
+   private static final char[] hexDigits = {
         '0', '1', '2', '3', '4', '5', '6', '7',
         '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     };

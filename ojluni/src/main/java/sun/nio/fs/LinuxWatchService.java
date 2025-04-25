@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -31,9 +31,10 @@ import java.security.PrivilegedAction;
 import java.util.*;
 import java.io.IOException;
 
+import jdk.internal.misc.Unsafe;
+
 import dalvik.annotation.optimization.ReachabilitySensitive;
 import dalvik.system.CloseGuard;
-import jdk.internal.misc.Unsafe;
 
 import static sun.nio.fs.UnixNativeDispatcher.*;
 import static sun.nio.fs.UnixConstants.*;
@@ -197,7 +198,7 @@ class LinuxWatchService
             this.watcher = watcher;
             this.ifd = ifd;
             this.socketpair = sp;
-            this.wdToKey = new HashMap<Integer,LinuxWatchKey>();
+            this.wdToKey = new HashMap<>();
             this.address = unsafe.allocateMemory(BUFFER_SIZE);
             // Android-added: CloseGuard support.
             guard.open("close");
@@ -241,9 +242,11 @@ class LinuxWatchService
                 for (WatchEvent.Modifier modifier: modifiers) {
                     if (modifier == null)
                         return new NullPointerException();
-                    if (modifier instanceof com.sun.nio.file.SensitivityWatchEventModifier)
-                        continue; // ignore
-                    return new UnsupportedOperationException("Modifier not supported");
+                    if (!ExtendedOptions.SENSITIVITY_HIGH.matches(modifier) &&
+                            !ExtendedOptions.SENSITIVITY_MEDIUM.matches(modifier) &&
+                            !ExtendedOptions.SENSITIVITY_LOW.matches(modifier)) {
+                        return new UnsupportedOperationException("Modifier not supported");
+                    }
                 }
             }
 
@@ -340,22 +343,9 @@ class LinuxWatchService
                     try {
                         bytesRead = read(ifd, address, BUFFER_SIZE);
                     } catch (UnixException x) {
-                        if (x.errno() != EAGAIN)
+                        if (x.errno() != EAGAIN && x.errno() != EWOULDBLOCK)
                             throw x;
                         bytesRead = 0;
-                    }
-
-                    // process any pending requests
-                    if ((nReady > 1) || (nReady == 1 && bytesRead == 0)) {
-                        try {
-                            read(socketpair[0], address, BUFFER_SIZE);
-                            boolean shutdown = processRequests();
-                            if (shutdown)
-                                break;
-                        } catch (UnixException x) {
-                            if (x.errno() != UnixConstants.EAGAIN)
-                                throw x;
-                        }
                     }
 
                     // iterate over buffer to decode events
@@ -396,6 +386,19 @@ class LinuxWatchService
                         processEvent(wd, mask, name);
 
                         offset += (SIZEOF_INOTIFY_EVENT + len);
+                    }
+
+                    // process any pending requests
+                    if ((nReady > 1) || (nReady == 1 && bytesRead == 0)) {
+                        try {
+                            read(socketpair[0], address, BUFFER_SIZE);
+                            boolean shutdown = processRequests();
+                            if (shutdown)
+                                break;
+                        } catch (UnixException x) {
+                            if (x.errno() != EAGAIN && x.errno() != EWOULDBLOCK)
+                                throw x;
+                        }
                     }
                 }
             } catch (UnixException x) {
@@ -487,7 +490,7 @@ class LinuxWatchService
     // Android-removed: Code to load native libraries, doesn't make sense on Android.
     /*
     static {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
+        AccessController.doPrivileged(new PrivilegedAction<>() {
             public Void run() {
                 System.loadLibrary("nio");
                 return null;
