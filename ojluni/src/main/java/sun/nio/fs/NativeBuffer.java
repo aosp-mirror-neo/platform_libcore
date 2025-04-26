@@ -25,8 +25,9 @@
 
 package sun.nio.fs;
 
+import java.lang.ref.Cleaner.Cleanable;
 import jdk.internal.misc.Unsafe;
-import sun.misc.Cleaner;
+import jdk.internal.ref.CleanerFactory;
 
 /**
  * A light-weight buffer in native memory.
@@ -37,7 +38,7 @@ class NativeBuffer {
 
     private final long address;
     private final int size;
-    private final Cleaner cleaner;
+    private final Cleanable cleanable;
 
     // optional "owner" to avoid copying
     // (only safe for use by thread-local caches)
@@ -56,7 +57,8 @@ class NativeBuffer {
     NativeBuffer(int size) {
         this.address = unsafe.allocateMemory(size);
         this.size = size;
-        this.cleaner = Cleaner.create(this, new Deallocator(address));
+        this.cleanable = CleanerFactory.cleaner()
+                                       .register(this, new Deallocator(address));
     }
 
     // Android-note: releaseNativeBuffer() ensures that its argument is strongly reachable.
@@ -77,8 +79,8 @@ class NativeBuffer {
         return size;
     }
 
-    Cleaner cleaner() {
-        return cleaner;
+    void free() {
+        cleanable.clean();
     }
 
     // not synchronized; only safe for use by thread-local caches

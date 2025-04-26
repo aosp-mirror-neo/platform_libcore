@@ -55,7 +55,7 @@ class LinuxFileSystemTestData {
         List<TestData> inputOutputTestCases = new ArrayList<>();
         inputOutputTestCases.add(new TestData("/d1", "file:///d1"));
         inputOutputTestCases.add(new TestData("/", "file:///"));
-        inputOutputTestCases.add(new TestData("/d1//d2/d3", "file:///d1//d2/d3"));
+        inputOutputTestCases.add(new TestData("/d1/d2/d3", "file:///d1//d2/d3"));
         return inputOutputTestCases;
     }
 

@@ -28,8 +28,7 @@ package sun.nio.fs;
 import java.util.*;
 import java.nio.file.*;
 import java.nio.charset.Charset;
-import java.security.*;
-import sun.security.action.*;
+import sun.security.action.GetPropertyAction;
 
 /**
  * Utility methods
@@ -41,7 +40,7 @@ class Util {
     // Android-changed: Hard-code UTF-8 for jnuEncoding rather than requiring a system property.
     // The system property sun.jnu.encoding is not set on Android; we just hard-code "UTF-8" here.
     // private static final Charset jnuEncoding = Charset.forName(
-    //    AccessController.doPrivileged(new GetPropertyAction("sun.jnu.encoding")));
+    //    GetPropertyAction.privilegedGetProperty("sun.jnu.encoding"));
     private static final Charset jnuEncoding = Charset.forName("UTF-8");
 
     /**

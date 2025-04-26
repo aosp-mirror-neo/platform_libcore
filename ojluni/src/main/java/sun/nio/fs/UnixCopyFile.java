@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,13 +25,18 @@
 
 package sun.nio.fs;
 
-import java.nio.file.*;
 import java.io.IOException;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.CopyOption;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.LinkOption;
+import java.nio.file.LinkPermission;
+import java.nio.file.StandardCopyOption;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import com.sun.nio.file.ExtendedCopyOption;
 
 import static sun.nio.fs.UnixNativeDispatcher.*;
 import static sun.nio.fs.UnixConstants.*;
@@ -82,7 +87,7 @@ class UnixCopyFile {
                     flags.failIfUnableToCopyBasic = true;
                     continue;
                 }
-                if (option == ExtendedCopyOption.INTERRUPTIBLE) {
+                if (ExtendedOptions.INTERRUPTIBLE.matches(option)) {
                     flags.interruptible = true;
                     continue;
                 }
@@ -368,6 +373,22 @@ class UnixCopyFile {
         }
     }
 
+    // throw a DirectoryNotEmpty exception if appropriate
+    static void ensureEmptyDir(UnixPath dir) throws IOException {
+        try {
+            long ptr = opendir(dir);
+            try (UnixDirectoryStream stream =
+                new UnixDirectoryStream(dir, ptr, e -> true)) {
+                if (stream.iterator().hasNext()) {
+                    throw new DirectoryNotEmptyException(
+                        dir.getPathForExceptionMessage());
+                }
+            }
+        } catch (UnixException e) {
+            e.rethrowAsIOException(dir);
+        }
+    }
+
     // move file from source to target
     static void move(UnixPath source, UnixPath target, CopyOption... options)
         throws IOException
@@ -460,6 +481,7 @@ class UnixCopyFile {
 
         // copy source to target
         if (sourceAttrs.isDirectory()) {
+            ensureEmptyDir(source);
             copyDirectory(source, sourceAttrs, target, flags);
         } else {
             if (sourceAttrs.isSymbolicLink()) {
@@ -608,7 +630,7 @@ class UnixCopyFile {
     // Android-removed: Code to load native libraries, doesn't make sense on Android.
     /*
     static {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
+        AccessController.doPrivileged(new PrivilegedAction<>() {
             @Override
             public Void run() {
                 System.loadLibrary("nio");

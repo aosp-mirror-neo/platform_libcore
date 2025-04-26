@@ -34,8 +34,17 @@ import java.lang.annotation.Native;
 import java.lang.invoke.MethodHandles;
 import java.lang.constant.Constable;
 import java.lang.constant.ConstantDesc;
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.ByteBuffer;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CoderResult;
+import java.nio.charset.CodingErrorAction;
+import java.nio.charset.MalformedInputException;
+import java.nio.charset.UnmappableCharacterException;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Formatter;
 import java.util.List;
@@ -938,6 +947,255 @@ public final class String
         throw new UnsupportedOperationException("Use StringFactory instead.");
     }
     // END Android-added: Constructor for internal use.
+
+    // BEGIN Android-changed: Cherry-pick NoRepl encoder and decoder for Files.read/writeString API.
+    static String newStringNoRepl(byte[] src, Charset cs) throws CharacterCodingException {
+        try {
+            return newStringNoRepl1(src, cs);
+        } catch (IllegalArgumentException e) {
+            //newStringNoRepl1 throws IAE with MalformedInputException or CCE as the cause
+            Throwable cause = e.getCause();
+            if (cause instanceof MalformedInputException mie) {
+                throw mie;
+            }
+            throw (CharacterCodingException)cause;
+        }
+    }
+
+    @SuppressWarnings("removal")
+    private static String newStringNoRepl1(byte[] src, Charset cs) {
+        int len = src.length;
+        if (len == 0) {
+            return "";
+        }
+        // TODO: Implement a fast decoder that throws for malformed byte sequences.
+        // Android-changed: Need a fast decoder.
+        /*
+        if (cs == UTF_8.INSTANCE) {
+            return newStringUTF8NoRepl(src, 0, src.length, false);
+        }
+        if (cs == ISO_8859_1.INSTANCE) {
+            if (COMPACT_STRINGS)
+                return new String(src, LATIN1);
+            return new String(StringLatin1.inflate(src, 0, src.length), UTF16);
+        }
+        if (cs == US_ASCII.INSTANCE) {
+            if (!StringCoding.hasNegatives(src, 0, src.length)) {
+                if (COMPACT_STRINGS)
+                    return new String(src, LATIN1);
+                return new String(StringLatin1.inflate(src, 0, src.length), UTF16);
+            } else {
+                throwMalformed(src);
+            }
+        }
+        */
+
+        CharsetDecoder cd = cs.newDecoder();
+        // Android-changed: Android has no ArrayDecoder.
+        /*
+        // ascii fastpath
+        if (cd instanceof ArrayDecoder ad &&
+                ad.isASCIICompatible() &&
+                !StringCoding.hasNegatives(src, 0, src.length)) {
+            if (COMPACT_STRINGS)
+                return new String(src, LATIN1);
+            return new String(src, 0, src.length, ISO_8859_1.INSTANCE);
+        }
+        */
+        int en = scale(len, cd.maxCharsPerByte());
+        char[] ca = new char[en];
+        // Android-removed: Android has no security manager.
+        /*
+        if (cs.getClass().getClassLoader0() != null &&
+                System.getSecurityManager() != null) {
+            src = Arrays.copyOf(src, len);
+        }
+        */
+        int caLen;
+        try {
+            caLen = decodeWithDecoder(cd, ca, src, 0, src.length);
+        } catch (CharacterCodingException x) {
+            // throw via IAE
+            throw new IllegalArgumentException(x);
+        }
+        // Android-removed: On ART, `new String` will compress the underlying structure if possible.
+        /*
+        if (COMPACT_STRINGS) {
+            byte[] bs = StringUTF16.compress(ca, 0, caLen);
+            if (bs != null) {
+                return new String(bs, LATIN1);
+            }
+        }
+        return new String(StringUTF16.toBytes(ca, 0, caLen), UTF16);
+        */
+        return new String(ca, 0, caLen);
+    }
+
+    private static int decodeWithDecoder(CharsetDecoder cd, char[] dst, byte[] src, int offset, int length)
+            throws CharacterCodingException {
+        ByteBuffer bb = ByteBuffer.wrap(src, offset, length);
+        CharBuffer cb = CharBuffer.wrap(dst, 0, dst.length);
+        CoderResult cr = cd.decode(bb, cb, true);
+        if (!cr.isUnderflow())
+            cr.throwException();
+        cr = cd.flush(cb);
+        if (!cr.isUnderflow())
+            cr.throwException();
+        return cb.position();
+    }
+
+    /*
+     * Throws CCE, instead of replacing, if unmappable.
+     */
+    static byte[] getBytesNoRepl(String s, Charset cs) throws CharacterCodingException {
+        try {
+            return getBytesNoRepl1(s, cs);
+        } catch (IllegalArgumentException e) {
+            //getBytesNoRepl1 throws IAE with UnmappableCharacterException or CCE as the cause
+            Throwable cause = e.getCause();
+            if (cause instanceof UnmappableCharacterException) {
+                throw (UnmappableCharacterException)cause;
+            }
+            throw (CharacterCodingException)cause;
+        }
+    }
+
+    private static byte[] getBytesNoRepl1(String s, Charset cs) {
+        // TODO: Implement a fast encoder that throws for malformed byte sequences.
+        // Android-changed: Need a fast encoder.
+        /*
+        byte[] val = s.value();
+        byte coder = s.coder();
+        if (cs == UTF_8.INSTANCE) {
+            if (coder == LATIN1 && isASCII(val)) {
+                return val;
+            }
+            return encodeUTF8(coder, val, false);
+        }
+        if (cs == ISO_8859_1.INSTANCE) {
+            if (coder == LATIN1) {
+                return val;
+            }
+            return encode8859_1(coder, val, false);
+        }
+        if (cs == US_ASCII.INSTANCE) {
+            if (coder == LATIN1) {
+                if (isASCII(val)) {
+                    return val;x
+                } else {
+                    throwUnmappable(val);
+                }
+            }
+        }
+        return encodeWithEncoder(cs, coder, val, false);
+        */
+        return encodeWithEncoder(cs, s, false);
+    }
+
+    private static int scale(int len, float expansionFactor) {
+        // We need to perform double, not float, arithmetic; otherwise
+        // we lose low order bits when len is larger than 2**24.
+        return (int)(len * (double)expansionFactor);
+    }
+
+    /*
+    private static byte[] encodeWithEncoder(Charset cs, byte coder, byte[] val, boolean doReplace) {
+        CharsetEncoder ce = cs.newEncoder();
+        int len = val.length >> coder;  // assume LATIN1=0/UTF16=1;
+        int en = scale(len, ce.maxBytesPerChar());
+        // fastpath with ArrayEncoder implies `doReplace`.
+        if (doReplace && ce instanceof ArrayEncoder ae) {
+            // fastpath for ascii compatible
+            if (coder == LATIN1 &&
+                    ae.isASCIICompatible() &&
+                    !StringCoding.hasNegatives(val, 0, val.length)) {
+                return val.clone();
+            }
+            byte[] ba = new byte[en];
+            if (len == 0) {
+                return ba;
+            }
+
+            int blen = (coder == LATIN1) ? ae.encodeFromLatin1(val, 0, len, ba)
+                    : ae.encodeFromUTF16(val, 0, len, ba);
+            if (blen != -1) {
+                return safeTrim(ba, blen, true);
+            }
+        }
+
+        byte[] ba = new byte[en];
+        if (len == 0) {
+            return ba;
+        }
+        if (doReplace) {
+            ce.onMalformedInput(CodingErrorAction.REPLACE)
+                    .onUnmappableCharacter(CodingErrorAction.REPLACE);
+        }
+        char[] ca = (coder == LATIN1 ) ? StringLatin1.toChars(val)
+                : StringUTF16.toChars(val);
+        ByteBuffer bb = ByteBuffer.wrap(ba);
+        CharBuffer cb = CharBuffer.wrap(ca, 0, len);
+        try {
+            CoderResult cr = ce.encode(cb, bb, true);
+            if (!cr.isUnderflow())
+                cr.throwException();
+            cr = ce.flush(bb);
+            if (!cr.isUnderflow())
+                cr.throwException();
+        } catch (CharacterCodingException x) {
+            if (!doReplace) {
+                throw new IllegalArgumentException(x);
+            } else {
+                throw new Error(x);
+            }
+        }
+        return safeTrim(ba, bb.position(), cs.getClass().getClassLoader0() == null);
+    }
+    */
+
+    private static byte[] encodeWithEncoder(Charset cs, String str, boolean doReplace) {
+        CharsetEncoder ce = cs.newEncoder();
+        int len = str.length();
+        int en = scale(len, ce.maxBytesPerChar());
+
+        byte[] ba = new byte[en];
+        if (len == 0) {
+            return ba;
+        }
+        if (doReplace) {
+            ce.onMalformedInput(CodingErrorAction.REPLACE)
+                    .onUnmappableCharacter(CodingErrorAction.REPLACE);
+        }
+        char[] ca = str.toCharArray();
+        ByteBuffer bb = ByteBuffer.wrap(ba);
+        CharBuffer cb = CharBuffer.wrap(ca, 0, len);
+        try {
+            CoderResult cr = ce.encode(cb, bb, true);
+            if (!cr.isUnderflow())
+                cr.throwException();
+            cr = ce.flush(bb);
+            if (!cr.isUnderflow())
+                cr.throwException();
+        } catch (CharacterCodingException x) {
+            if (!doReplace) {
+                throw new IllegalArgumentException(x);
+            } else {
+                throw new Error(x);
+            }
+        }
+        return safeTrim(ba, bb.position(), cs.getClass().getClassLoader() == null);
+    }
+
+    // Trim the given byte array to the given length
+    @SuppressWarnings("removal")
+    private static byte[] safeTrim(byte[] ba, int len, boolean isTrusted) {
+        if (len == ba.length && (isTrusted || System.getSecurityManager() == null)) {
+            return ba;
+        } else {
+            return Arrays.copyOf(ba, len);
+        }
+    }
+    // END Android-changed: Cherry-pick NoRepl encoder and decoder for Files.read/writeString API.
 
     /**
      * Returns the length of this string.

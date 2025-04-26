@@ -25,6 +25,9 @@
 
 package java.lang;
 
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+
 // Android-changed: Make JavaLangAccess a final class. http://b/399374716
 // public interface JavaLangAccess {
 public final class JavaLangAccess {
@@ -286,26 +289,25 @@ public final class JavaLangAccess {
      * Count the number of leading positive bytes in the range.
      * /
     int countPositives(byte[] ba, int off, int len);
+    */
 
     /**
      * Constructs a new {@code String} by decoding the specified subarray of
      * bytes using the specified {@linkplain java.nio.charset.Charset charset}.
      *
-     * The caller of this method shall relinquish and transfer the ownership of
-     * the byte array to the callee since the later will not make a copy.
-     *
      * @param bytes the byte array source
      * @param cs the Charset
      * @return the newly created string
      * @throws CharacterCodingException for malformed or unmappable bytes
-     * /
-    String newStringNoRepl(byte[] bytes, Charset cs) throws CharacterCodingException;
+     */
+    public String newStringNoRepl(byte[] bytes, Charset cs) throws CharacterCodingException {
+        return String.newStringNoRepl(bytes, cs);
+    }
 
     /**
      * Encode the given string into a sequence of bytes using the specified Charset.
      *
-     * This method avoids copying the String's internal representation if the input
-     * is ASCII.
+     * Android note: It returns a copy of bytes, not the internal representation.
      *
      * This method throws CharacterCodingException instead of replacing when
      * malformed input or unmappable characters are encountered.
@@ -314,9 +316,12 @@ public final class JavaLangAccess {
      * @param cs the charset
      * @return the encoded bytes
      * @throws CharacterCodingException for malformed input or unmappable characters
-     * /
-    byte[] getBytesNoRepl(String s, Charset cs) throws CharacterCodingException;
+     */
+    public byte[] getBytesNoRepl(String s, Charset cs) throws CharacterCodingException {
+        return String.getBytesNoRepl(s, cs);
+    }
 
+    /*
     /**
      * Returns a new string by decoding from the given utf8 bytes array.
      *
