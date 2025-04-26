@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -71,14 +71,30 @@ class UnixFileAttributeViews {
             // permission check
             file.checkWrite();
 
-            int fd = file.openForAttributeAccess(followLinks);
+            boolean haveFd = false;
+            boolean useFutimes = false;
+            int fd = -1;
+            try {
+                fd = file.openForAttributeAccess(followLinks);
+                if (fd != -1) {
+                    haveFd = true;
+                    useFutimes = futimesSupported();
+                }
+            } catch (UnixException x) {
+                if (x.errno() != UnixConstants.ENXIO) {
+                    x.rethrowAsIOException(file);
+                }
+            }
+
             try {
                 // assert followLinks || !UnixFileAttributes.get(fd).isSymbolicLink();
 
                 // if not changing both attributes then need existing attributes
                 if (lastModifiedTime == null || lastAccessTime == null) {
                     try {
-                        UnixFileAttributes attrs = UnixFileAttributes.get(fd);
+                        UnixFileAttributes attrs = haveFd ?
+                            UnixFileAttributes.get(fd) :
+                            UnixFileAttributes.get(file, followLinks);
                         if (lastModifiedTime == null)
                             lastModifiedTime = attrs.lastModifiedTime();
                         if (lastAccessTime == null)
@@ -94,7 +110,7 @@ class UnixFileAttributeViews {
 
                 boolean retry = false;
                 try {
-                    if (futimesSupported()) {
+                    if (useFutimes) {
                         futimes(fd, accessValue, modValue);
                     } else {
                         utimes(file, accessValue, modValue);
@@ -113,7 +129,7 @@ class UnixFileAttributeViews {
                     if (modValue < 0L) modValue = 0L;
                     if (accessValue < 0L) accessValue= 0L;
                     try {
-                        if (futimesSupported()) {
+                        if (useFutimes) {
                             futimes(fd, accessValue, modValue);
                         } else {
                             utimes(file, accessValue, modValue);
@@ -133,7 +149,7 @@ class UnixFileAttributeViews {
         private static final String OWNER_NAME = "owner";
         private static final String GROUP_NAME = "group";
 
-        // the names of the posix attributes (incudes basic)
+        // the names of the posix attributes (includes basic)
         static final Set<String> posixAttributeNames =
             Util.newSet(basicAttributeNames, PERMISSIONS_NAME, OWNER_NAME, GROUP_NAME);
 

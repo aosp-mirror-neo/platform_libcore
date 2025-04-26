@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -55,7 +55,7 @@ class MimeTypesFileTypeDetector extends AbstractFileTypeDetector {
     private Map<String,String> mimeTypeMap;
 
     // set to true when file loaded
-    private volatile boolean loaded = false;
+    private volatile boolean loaded;
 
     public MimeTypesFileTypeDetector(Path filePath) {
         mimeTypesFile = filePath;
@@ -93,18 +93,6 @@ class MimeTypesFileTypeDetector extends AbstractFileTypeDetector {
         return mimeType;
     }
 
-    // Get the extension of a file name.
-    private static String getExtension(String name) {
-        String ext = "";
-        if (name != null && !name.isEmpty()) {
-            int dot = name.indexOf('.');
-            if ((dot >= 0) && (dot < name.length() - 1)) {
-                ext = name.substring(dot + 1);
-            }
-        }
-        return ext;
-    }
-
     // BEGIN Android-removed: Delegate to libcore.content.type.MimeMap.
     /*
     /**
@@ -118,7 +106,7 @@ class MimeTypesFileTypeDetector extends AbstractFileTypeDetector {
             synchronized (this) {
                 if (!loaded) {
                     List<String> lines = AccessController.doPrivileged(
-                        new PrivilegedAction<List<String>>() {
+                        new PrivilegedAction<>() {
                             @Override
                             public List<String> run() {
                                 try {

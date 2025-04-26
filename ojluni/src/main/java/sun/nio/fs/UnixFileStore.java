@@ -25,6 +25,8 @@
 
 package sun.nio.fs;
 
+import jdk.internal.util.StaticProperty;
+
 import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.util.*;

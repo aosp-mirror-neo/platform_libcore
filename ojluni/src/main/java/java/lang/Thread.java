@@ -26,6 +26,7 @@
 
 package java.lang;
 
+import dalvik.annotation.optimization.CriticalNative;
 import dalvik.annotation.optimization.FastNative;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -174,7 +175,15 @@ class Thread implements Runnable {
     // END Android-added: Android specific fields lock, nativePeer.
 
     private volatile String name;
-    private int priority;
+
+    // Android-changed: Cache Posix niceness instead of managed thread priority.
+    private int niceness;
+
+    private int priority;  // Only for reading via reflection and for unstarted threads. Avoid.
+
+    // cachedPriorityForNiceness[n + PFN_INDEX_OFFSET] = 0 or Java priority for niceness n.
+    private static final byte[] cachedPriorityForNiceness = new byte[40];
+    static final int PFN_INDEX_OFFSET = 20;
 
     /* Whether or not to single_step this thread. */
     private boolean     single_step;
@@ -648,7 +657,8 @@ class Thread implements Runnable {
 
         this.group = g;
         this.daemon = parent.isDaemon();
-        this.priority = parent.getPriority();
+        this.niceness = parent.getPosixNicenessInternal();
+        this.priority = parent.priority;
         // Android-changed: Moved into init2(Thread, boolean) helper method.
         /*
         if (security == null || isCCLOverridden(parent.getClass()))
@@ -877,7 +887,7 @@ class Thread implements Runnable {
 
     // BEGIN Android-added: Private constructor - used by the runtime.
     /** @hide */
-    Thread(ThreadGroup group, String name, int priority, boolean daemon) {
+    Thread(ThreadGroup group, String name, int niceness, boolean daemon) {
         this.group = group;
         this.group.addUnstarted();
         // Must be tolerant of threads without a name.
@@ -890,7 +900,8 @@ class Thread implements Runnable {
         // undesirable to clobber their natively set name.
         this.name = name;
 
-        this.priority = priority;
+        this.niceness = niceness;
+        this.priority = cachingPriorityForNiceness(niceness);
         this.daemon = daemon;
         init2(currentThread(), true);
         this.stackSize = 0;
@@ -1539,12 +1550,51 @@ class Thread implements Runnable {
             // Android-changed: Avoid native call if Thread is not yet started.
             // setPriority0(priority = newPriority);
             synchronized(this) {
-                this.priority = newPriority;
+                this.priority = newPriority;  // Ignored by us if already started.
                 if (isAlive()) {
-                    setPriority0(newPriority);
+                    this.niceness = setPriority0(newPriority);
+                } else {
+                    this.niceness = nicenessForPriority(newPriority);
                 }
             }
         }
+    }
+
+    /**
+     * Android-added: An internal version of setPriority that takes niceness rather than priority.
+     * We do not bounds check. This does affect getPriority() calls. The results of such
+     * getPriority() will be limited to [MIN_PRIORITY, MAX_PRIORITY] even if the actual niceness
+     * value is outside that range. Such a value may be outside the ThreadGroup limit.
+     *
+     * @return  Linux errno, 0 on success or if thread has not yet been started.
+     *
+     * @hide
+     */
+    public final int setPosixNicenessInternal(int newNiceness) {
+        synchronized(this) {
+            this.niceness = newNiceness;
+            // Don't bother setting priority field here; it's only for backward compatibility, and
+            // historically we didn't set priority in this case.
+            if (isAlive()) {
+                return setNiceness0(newNiceness);
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Android-added: Fast niceness to priority conversion.
+     * Return Java priority for Posix niceness `n`, caching previously computed results.
+     */
+    private int cachingPriorityForNiceness(int n) {
+        byte[] pfn = cachedPriorityForNiceness;
+        int p = cachedPriorityForNiceness[n + PFN_INDEX_OFFSET];
+        if (p == 0) {
+            p = priorityForNiceness(n);
+            // Data race here is OK by Java rules.
+            cachedPriorityForNiceness[n + PFN_INDEX_OFFSET] = (byte) p;
+        }
+        return p;
     }
 
     /**
@@ -1554,7 +1604,18 @@ class Thread implements Runnable {
      * @see     #setPriority
      */
     public final int getPriority() {
-        return priority;
+        // Android-changed: Convert from stored niceness.
+        return cachingPriorityForNiceness(niceness);
+    }
+
+    /**
+     * Android-added: Access to cached niceness value.
+     * Returns this thread's cached niceness value.
+     *
+     * @hide
+     */
+    public final int getPosixNicenessInternal() {
+      return niceness;
     }
 
     /**
@@ -2652,9 +2713,45 @@ class Thread implements Runnable {
 
     /* Some private helper methods */
     /**
-     * Android-changed: Make accessible to Daemons.java for internal use.
+     * Android-changed: Make accessible to Daemons.java for internal use. Return signed niceness
+     * value corresponding to newPriority. The argument is still a Java priority.
+     *
+     * Equivalent to
+     *
+     *   int n = nicenessForPriority(newPriority);
+     *   setNiceness0(nicenessForPriority(n));
+     *   return n;
+     *
+     * But it allows us to implement Thread.setPriority() with a single native call.
+     * (On Android S, this equivalence is approximate. See implementation.)
      */
-    native void setPriority0(int newPriority);
+    native int setPriority0(int newPriority);
+
+    /**
+     * Android-added: Helper methods allowing us to understand the priority to niceness mapping,
+     * so that we can process franeworks requests trafficking in niceness as well.
+     */
+
+    /**
+     * setPriority0, but with nicenes argument and returns an errno value.
+     */
+    private native int setNiceness0(int niceness);
+
+    /**
+     * A somewhat inefficient way to map Linux niceness to Java priority. We cache the results here.
+     * @hide
+     */
+    // VisibleForTesting
+    @CriticalNative
+    public static native int priorityForNiceness(int niceness);
+
+    /**
+     * A more efficient way to map Java priority to Posix niceness.
+     * @hide
+     */
+    // VisibleForTesting
+    @CriticalNative
+    public static native int nicenessForPriority(int priority);
 
     // BEGIN Android-removed: Native methods that are unused on Android.
     /*

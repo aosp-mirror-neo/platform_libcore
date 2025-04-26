@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,6 +25,8 @@
 
 package sun.nio.fs;
 
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.nio.file.Path;
 import java.nio.file.spi.FileTypeDetector;
 import java.util.Locale;
@@ -42,6 +44,27 @@ public abstract class AbstractFileTypeDetector
     }
 
     /**
+     * Returns the extension of a file name, specifically the portion of the
+     * parameter string after the first dot. If the parameter is {@code null},
+     * empty, does not contain a dot, or the dot is the last character, then an
+     * empty string is returned, otherwise the characters after the dot are
+     * returned.
+     *
+     * @param name A file name
+     * @return The characters after the first dot or an empty string.
+     */
+    protected final String getExtension(String name) {
+        String ext = "";
+        if (name != null && !name.isEmpty()) {
+            int dot = name.indexOf('.');
+            if ((dot >= 0) && (dot < name.length() - 1)) {
+                ext = name.substring(dot + 1);
+            }
+        }
+        return ext;
+    }
+
+    /**
      * Invokes the appropriate probe method to guess a file's content type,
      * and checks that the content type's syntax is valid.
      */
@@ -50,6 +73,16 @@ public abstract class AbstractFileTypeDetector
         if (file == null)
             throw new NullPointerException("'file' is null");
         String result = implProbeContentType(file);
+
+        // Fall back to content types property.
+        if (result == null) {
+            Path fileName = file.getFileName();
+            if (fileName != null) {
+                FileNameMap fileNameMap = URLConnection.getFileNameMap();
+                result = fileNameMap.getContentTypeFor(fileName.toString());
+            }
+        }
+
         return (result == null) ? null : parse(result);
     }
 

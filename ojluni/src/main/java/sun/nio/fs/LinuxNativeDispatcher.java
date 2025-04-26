@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2019, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -54,7 +54,17 @@ class LinuxNativeDispatcher extends UnixNativeDispatcher {
     /**
      * int getmntent(FILE *fp, struct mnttab *mp, int len);
      */
-    static native int getmntent(long fp, UnixMountEntry entry)
+
+    static int getmntent(long fp, UnixMountEntry entry, int buflen) throws UnixException {
+        NativeBuffer buffer = NativeBuffers.getNativeBuffer(buflen);
+        try {
+            return getmntent0(fp, entry, buffer.address(), buflen);
+        } finally {
+            buffer.release();
+        }
+    }
+
+    static native int getmntent0(long fp, UnixMountEntry entry, long buffer, int bufLen)
         throws UnixException;
 
     /**
@@ -77,7 +87,7 @@ class LinuxNativeDispatcher extends UnixNativeDispatcher {
     }
 
     private static native int fgetxattr0(int filedes, long nameAddress,
-        long valueAdddress, int valueLen) throws UnixException;
+        long valueAddress, int valueLen) throws UnixException;
 
     /**
      *  fsetxattr(int filedes, const char *name, const void *value, size_t size, int flags);
@@ -94,7 +104,7 @@ class LinuxNativeDispatcher extends UnixNativeDispatcher {
     }
 
     private static native void fsetxattr0(int filedes, long nameAddress,
-        long valueAdddress, int valueLen) throws UnixException;
+        long valueAddress, int valueLen) throws UnixException;
 
     /**
      * fremovexattr(int filedes, const char *name);
@@ -123,7 +133,7 @@ class LinuxNativeDispatcher extends UnixNativeDispatcher {
     static {
         // Android-removed: Code to load native libraries, doesn't make sense on Android.
         /*
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
+        AccessController.doPrivileged(new PrivilegedAction<>() {
             public Void run() {
                 System.loadLibrary("nio");
                 return null;

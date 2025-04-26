@@ -130,6 +130,12 @@ public class FileChannelImpl
             throw new ClosedChannelException();
     }
 
+    // Android-added: Cherry-pick this unimplemented method from OpenJDK 11.
+    public void setUninterruptible() {
+        // TODO: Implement this method when FileChannelImpl is updated to 11.
+        //uninterruptible = true;
+    }
+
 
     // -- Standard channel operations --
 
