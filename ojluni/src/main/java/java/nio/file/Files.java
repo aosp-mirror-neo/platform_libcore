@@ -3246,7 +3246,6 @@ public final class Files {
      *          method is invoked to check read access to the file.
      *
      * @since 11
-     * @hide    TODO to be exposed as APIs soon.
      */
     public static String readString(Path path) throws IOException {
         // Android-changed: use StandardCharsets.
@@ -3286,7 +3285,6 @@ public final class Files {
      *          installed, the {@link SecurityManager#checkRead(String) checkRead}
      *          method is invoked to check read access to the file.
      *
-     * @hide    TODO to be exposed as APIs soon.
      * @since 11
      */
     public static String readString(Path path, Charset cs) throws IOException {
@@ -3591,8 +3589,6 @@ public final class Files {
      *          {@code DELETE_ON_CLOSE} option.
      *
      * @since 11
-     *
-     * @hide    TODO to be exposed as APIs soon.
      */
     public static Path writeString(Path path, CharSequence csq, OpenOption... options)
             throws IOException
@@ -3647,8 +3643,6 @@ public final class Files {
      *          {@code DELETE_ON_CLOSE} option.
      *
      * @since 11
-     *
-     * @hide    TODO to be exposed as APIs soon.
      */
     public static Path writeString(Path path, CharSequence csq, Charset cs, OpenOption... options)
             throws IOException
