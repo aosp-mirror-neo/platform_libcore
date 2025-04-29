@@ -316,12 +316,6 @@ public final class Class<T> implements java.io.Serializable,
     /** State of class initialization */
     private transient int status;
 
-    /** Offset of the first virtual method copied from an interface in the methods array. */
-    private transient short copiedMethodsOffset;
-
-    /** Offset of the first virtual method defined in this class in the methods array. */
-    private transient short virtualMethodsOffset;
-
     /*
      * Private constructor. Only the Java Virtual Machine creates Class objects.
      * This constructor is not used and prevents the default constructor being
