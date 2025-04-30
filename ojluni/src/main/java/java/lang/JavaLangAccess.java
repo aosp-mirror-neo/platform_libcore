@@ -28,6 +28,9 @@ package java.lang;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 
+import jdk.internal.vm.StackableScope;
+import jdk.internal.vm.ThreadContainer;
+
 // Android-changed: Make JavaLangAccess a final class. http://b/399374716
 // public interface JavaLangAccess {
 public final class JavaLangAccess {
@@ -450,38 +453,52 @@ public final class JavaLangAccess {
      * @param statusCode the status code
      * /
     void exit(int statusCode);
+    */
 
     /**
      * Returns an array of all platform threads.
-     * /
-    Thread[] getAllThreads();
+     */
+    public Thread[] getAllThreads() {
+        return Thread.getAllThreads();
+    }
 
     /**
      * Returns the ThreadContainer for a thread, may be null.
-     * /
-    ThreadContainer threadContainer(Thread thread);
+     */
+    public ThreadContainer threadContainer(Thread thread) {
+        return thread.threadContainer();
+    }
 
+    /*
     /**
      * Starts a thread in the given ThreadContainer.
      * /
     void start(Thread thread, ThreadContainer container);
+    */
 
     /**
      * Returns the top of the given thread's stackable scope stack.
-     * /
-    StackableScope headStackableScope(Thread thread);
+     */
+    public StackableScope headStackableScope(Thread thread) {
+        return thread.headStackableScopes();
+    }
 
     /**
      * Sets the top of the current thread's stackable scope stack.
-     * /
-    void setHeadStackableScope(StackableScope scope);
+     */
+    public void setHeadStackableScope(StackableScope scope) {
+        Thread.setHeadStackableScope(scope);
+    }
 
     /**
      * Returns the Thread object for the current platform thread. If the
      * current thread is a virtual thread then this method returns the carrier.
-     * /
-    Thread currentCarrierThread();
+     */
+    public Thread currentCarrierThread() {
+        return Thread.currentCarrierThread();
+    }
 
+    /*
     /**
      * Executes the given value returning task on the current carrier thread.
      * /

@@ -46,6 +46,9 @@ import dalvik.system.VirtualThreadContext;
 import dalvik.system.VirtualThreadParkingError;
 import dalvik.system.VirtualThreadParkedStates;
 import jdk.internal.misc.Unsafe;
+import jdk.internal.vm.StackableScope;
+import jdk.internal.vm.ThreadContainer;
+import jdk.internal.vm.annotation.Stable;
 import sun.nio.ch.Interruptible;
 import sun.reflect.CallerSensitive;
 import dalvik.system.VMStack;
@@ -405,6 +408,19 @@ class Thread implements Runnable {
      * The maximum priority that a thread can have.
      */
     public static final int MAX_PRIORITY = 10;
+
+    /**
+     * Returns the Thread object for the current platform thread. If the
+     * current thread is a virtual thread then this method returns the carrier.
+     * @hide
+     */
+    @IntrinsicCandidate
+    // Android-changed: Android has a different implementation.
+    // static native Thread currentCarrierThread();
+    public static Thread currentCarrierThread() {
+        // TODO: Simple use currentThread() until java.lang.VirtualThread is supported.
+        return currentThread();
+    }
 
     /**
      * Returns a reference to the currently executing thread object.
@@ -2167,11 +2183,9 @@ class Thread implements Runnable {
             // else terminated so we don't put it in the map
         }
         */
-        int count = ThreadGroup.systemThreadGroup.activeCount();
-        Thread[] threads = new Thread[count + count / 2];
-
-        // Enumerate the threads.
-        count = ThreadGroup.systemThreadGroup.enumerate(threads);
+        AllThreadsRecord r = getAllThreadsInternal();
+        int count = r.count;
+        Thread[] threads = r.threads;
 
         // Collect the stacktraces
         Map<Thread, StackTraceElement[]> m = new HashMap<Thread, StackTraceElement[]>();
@@ -2252,6 +2266,38 @@ class Thread implements Runnable {
         );
         return result.booleanValue();
     }
+
+    /**
+     * Return an array of all live threads.
+     */
+    static Thread[] getAllThreads() {
+        // Android-changed: Use ThreadGroup and getStackTrace() instead of native methods.
+        // return getThreads();
+        AllThreadsRecord r = getAllThreadsInternal();
+        int count = r.count;
+        Thread[] threads = new Thread[count];
+        System.arraycopy(r.threads, 0, threads, 0, count);
+        return threads;
+    }
+
+    // BEGIN Android-added: Use ThreadGroup and getStackTrace() instead of native methods.
+    /**
+     * @return an AllThreadsRecord object that has some unused space at the tail of the array, and
+     *         an actual count of threads.
+     */
+    private static AllThreadsRecord getAllThreadsInternal() {
+        // Allocate a bit more space than needed, in case new ones are just being created.
+        int count = ThreadGroup.systemThreadGroup.activeCount();
+        Thread[] threads = new Thread[count + count / 2];
+
+        // Enumerate the threads.
+        count = ThreadGroup.systemThreadGroup.enumerate(threads);
+        return new AllThreadsRecord(threads, count);
+    }
+
+    @SuppressWarnings("ArrayRecordComponent")
+    private record AllThreadsRecord(Thread[] threads, int count) {}
+    // END Android-added: Use ThreadGroup and getStackTrace() instead of native methods.
 
     // Android-removed: Native methods that are unused on Android.
     // private static native StackTraceElement[][] dumpThreads(Thread[] threads);
@@ -2760,6 +2806,26 @@ class Thread implements Runnable {
     private native void resume0();
     */
     // END Android-removed: Native methods that are unused on Android.
+
+
+    /** The thread container that this thread is in */
+    private @Stable ThreadContainer container;
+    ThreadContainer threadContainer() {
+        return container;
+    }
+    void setThreadContainer(ThreadContainer container) {
+        // assert this.container == null;
+        this.container = container;
+    }
+
+    /** The top of this stack of stackable scopes owned by this thread */
+    private volatile StackableScope headStackableScopes;
+    StackableScope headStackableScopes() {
+        return headStackableScopes;
+    }
+    static void setHeadStackableScope(StackableScope scope) {
+        currentThread().headStackableScopes = scope;
+    }
 
     @FastNative
     private native void interrupt0();
