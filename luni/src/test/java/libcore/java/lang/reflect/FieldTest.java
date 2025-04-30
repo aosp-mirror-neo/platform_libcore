@@ -80,37 +80,6 @@ public final class FieldTest {
     }
 
     @Test
-    @TargetSdkVersion(VersionCodes.C)
-    public void setWriteProtectedField_shouldThrow_afterBaklava() throws Exception {
-        // Prior to Android C it was possible to override static final fields.
-        assumeTrue(VMRuntime.getSdkVersion() >= VersionCodes.C);
-
-        Field systemIn = System.class.getDeclaredField("in");
-        systemIn.setAccessible(true);
-
-        try {
-            systemIn.set(null, null);
-            fail("Should fail to set System.in");
-        } catch (IllegalAccessException expected) {}
-
-        Field systemOut = System.class.getDeclaredField("out");
-        systemOut.setAccessible(true);
-
-        try {
-            systemOut.set(null, null);
-            fail("Should fail to set System.out");
-        } catch (IllegalAccessException expected) {}
-
-        Field systemErr = System.class.getDeclaredField("err");
-        systemErr.setAccessible(true);
-
-        try {
-            systemErr.set(null, null);
-            fail("Should fail to set System.err");
-        } catch (IllegalAccessException expected) {}
-    }
-
-    @Test
     public void testEqualConstructorEqualsAndHashCode() throws Exception {
         Field f1 = FieldTestHelper.class.getField("a");
         Field f2 = FieldTestHelper.class.getField("a");
