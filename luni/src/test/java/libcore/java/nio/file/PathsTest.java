@@ -29,6 +29,9 @@ import static libcore.java.nio.file.LinuxFileSystemTestData.getPathInputOutputTe
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import libcore.test.annotation.NonCts;
+import libcore.test.reasons.NonCtsReasons;
+
 
 public class PathsTest {
 
@@ -51,6 +54,7 @@ public class PathsTest {
         }
     }
 
+    @NonCts(bug = 270694545, reason = NonCtsReasons.NON_BREAKING_BEHAVIOR_FIX)
     @Test
     public void test_get_URI() throws URISyntaxException {
         List<TestData> inputOutputTestCases = getPath_URI_InputOutputTestData();

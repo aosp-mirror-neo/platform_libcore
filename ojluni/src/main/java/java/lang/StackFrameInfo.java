@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, 2019, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015, 2022, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -24,6 +24,8 @@
  */
 package java.lang;
 
+import jdk.internal.access.SharedSecrets;
+import jdk.internal.vm.ContinuationScope;
 
 import java.lang.StackWalker.StackFrame;
 import java.lang.invoke.MethodType;
@@ -36,8 +38,9 @@ class StackFrameInfo implements StackFrame {
 
     private final boolean retainClassRef;
     // Android-removed: Unused internal fields.
-    // private final Object memberName;    // MemberName initialized by VM
-    private int bci;                    // initialized by VM to >= 0
+    // private Object memberName;    // MemberName initialized by VM
+    private int bci;              // initialized by VM to >= 0
+    // private ContinuationScope contScope;
     private volatile StackTraceElement ste;
 
     // Android-added: Add Android-specific internal fields.
@@ -144,6 +147,11 @@ class StackFrameInfo implements StackFrame {
         // StackTraceElement.isNativeMethod() uses -2 in line number to indicate native method.
         return lineNumber == -2;
     }
+
+    // Android-removed: Dead code or only used by upstream JVM.
+    // private String getContinuationScopeName() {
+    //     return contScope != null ? contScope.getName() : null;
+    // }
 
     @Override
     public String toString() {
