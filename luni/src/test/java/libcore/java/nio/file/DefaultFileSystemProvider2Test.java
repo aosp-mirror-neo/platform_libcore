@@ -76,6 +76,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
+import libcore.test.annotation.NonCts;
+import libcore.test.reasons.NonCtsReasons;
+
 @RunWith(JUnitParamsRunner.class)
 public class DefaultFileSystemProvider2Test {
 
@@ -606,6 +609,7 @@ public class DefaultFileSystemProvider2Test {
         } catch (NullPointerException expected) {}
     }
 
+    @NonCts(bug = 270694545, reason = NonCtsReasons.NON_BREAKING_BEHAVIOR_FIX)
     @Test
     public void test_getPath() throws Exception {
         List<LinuxFileSystemTestData.TestData> inputOutputTestCases = getPath_URI_InputOutputTestData();
