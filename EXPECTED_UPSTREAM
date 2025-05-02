@@ -1462,6 +1462,7 @@ ojluni/src/main/java/jdk/internal/util/random/RandomSupport.java,jdk17u/jdk-17.0
 ojluni/src/main/java/jdk/internal/vm/Continuation.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/vm/Continuation.java
 ojluni/src/main/java/jdk/internal/vm/ContinuationScope.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/vm/ContinuationScope.java
 ojluni/src/main/java/jdk/internal/vm/ContinuationSupport.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/vm/ContinuationSupport.java
+ojluni/src/main/java/jdk/internal/vm/SharedThreadContainer.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/vm/SharedThreadContainer.java
 ojluni/src/main/java/jdk/internal/vm/StackChunk.java,jdk21u/jdk-21.0.4-ga,src/java.base/share/classes/jdk/internal/vm/StackChunk.java
 ojluni/src/main/java/jdk/internal/vm/StackableScope.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/vm/StackableScope.java
 ojluni/src/main/java/jdk/internal/vm/ThreadContainer.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/vm/ThreadContainer.java
