@@ -31,6 +31,10 @@ package test.java.util.Timer;
 
 import java.util.*;
 import java.util.concurrent.*;
+
+import libcore.test.annotation.NonCts;
+import libcore.test.reasons.NonCtsReasons;
+
 import static java.util.concurrent.TimeUnit.*;
 
 public class Args {
@@ -183,6 +187,8 @@ elapsed));
     void equal(Object x, Object y) {
         if (x == null ? y == null : x.equals(y)) pass();
         else fail(x + " not equal to " + y);}
+    // Android-added: Timer's behaviour depends on ART Module version (see aosp/3316792).
+    @NonCts(bug = 415048615, reason = NonCtsReasons.NON_BREAKING_BEHAVIOR_FIX)
     public static void main(String[] args) throws Throwable {
         new Args().instanceMain(args);}
     void instanceMain(String[] args) throws Throwable {
