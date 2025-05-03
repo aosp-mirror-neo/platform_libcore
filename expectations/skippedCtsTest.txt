@@ -37,6 +37,15 @@
     ]
   },
   {
+    "bug": 270694545,
+    "description": "The test asserts buggy or non-breaking behaviors, but the behavior has been fixed in a new mainline module version.",
+    "names": [
+      "libcore.java.nio.file.DefaultFileSystemProvider2Test#test_getPath",
+      "libcore.java.nio.file.LinuxPathTest#test_get_URI",
+      "libcore.java.nio.file.PathsTest#test_get_URI"
+    ]
+  },
+  {
     "bug": 286802267,
     "description": "Test for internal APIs.",
     "names": [
@@ -168,6 +177,13 @@
       "libcore.java.lang.invoke.MethodHandlesTest#test_findConstructor",
       "libcore.java.util.TimeZoneTest#testCustomZoneIds",
       "libcore.libcore.io.BlockGuardOsTest#test_checkNewMethodsInPosix"
+    ]
+  },
+  {
+    "bug": 415048615,
+    "description": "The test asserts buggy or non-breaking behaviors, but the behavior has been fixed in a new mainline module version.",
+    "names": [
+      "test.java.util.Timer.Args#main"
     ]
   }
 ]

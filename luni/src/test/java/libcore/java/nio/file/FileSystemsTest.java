@@ -157,13 +157,29 @@ public class FileSystemsTest {
     }
 
     @Test
-    public void test_newFileSystem$Path$ClassLoader_customClassLoader() throws Exception  {
-        // Verify that the Thread's classloader cannot load mypackage.MockFileSystem.
+    public void test_newFileSystem$Path() throws Exception {
+        assertMockFileSystemNotLoaded();
+        Path testPath = Paths.get("/");
         try {
-            Thread.currentThread().getContextClassLoader().loadClass(
-                    "mypackage.MockFileSystem");
+            FileSystems.newFileSystem(testPath);
             fail();
-        } catch (ClassNotFoundException expected) {}
+        } catch (ProviderNotFoundException expected) {}
+    }
+
+    @Test
+    public void test_newFileSystem$Path$Map() throws Exception {
+        assertMockFileSystemNotLoaded();
+        Path testPath = Paths.get("/");
+        Map<String, String> env = Map.of("myEnv1", "myValue1");
+        try {
+            FileSystems.newFileSystem(testPath, env);
+            fail();
+        } catch (ProviderNotFoundException expected) {}
+    }
+
+    @Test
+    public void test_newFileSystem$Path$ClassLoader_customClassLoader() throws Exception  {
+        assertMockFileSystemNotLoaded();
 
         ClassLoader fileSystemsClassLoader = createClassLoaderForTestFileSystems();
         FileSystem fs = FileSystems.newFileSystem(filesSetup.getDataFilePath(),
@@ -173,6 +189,34 @@ public class FileSystemsTest {
 
         Path pathValue = (Path)fs.getClass().getDeclaredMethod("getPath").invoke(fs);
         assertEquals(filesSetup.getDataFilePath(), pathValue);
+    }
+
+    @Test
+    public void test_newFileSystem$Path$Map$ClassLoader_customClassLoader() throws Exception  {
+        assertMockFileSystemNotLoaded();
+
+        ClassLoader fileSystemsClassLoader = createClassLoaderForTestFileSystems();
+        Map<String, String> env = Map.of("myEnv1", "myValue1");
+        FileSystem fs = FileSystems.newFileSystem(filesSetup.getDataFilePath(), env,
+                fileSystemsClassLoader);
+
+        assertEquals("mypackage.MockFileSystem", fs.getClass().getName());
+
+        Path pathValue = (Path)fs.getClass().getDeclaredMethod("getPath").invoke(fs);
+        assertEquals(filesSetup.getDataFilePath(), pathValue);
+
+        Map<String, String> mapValue = (Map<String, String>) fs.getClass()
+                .getDeclaredMethod("getEnv").invoke(fs);
+        assertSame(env, mapValue);
+    }
+
+    private static void assertMockFileSystemNotLoaded() {
+        // Verify that the Thread's classloader cannot load mypackage.MockFileSystem.
+        try {
+            Thread.currentThread().getContextClassLoader().loadClass(
+                    "mypackage.MockFileSystem");
+            fail();
+        } catch (ClassNotFoundException expected) {}
     }
 
     /**

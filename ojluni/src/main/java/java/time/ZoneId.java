@@ -83,6 +83,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
 
+import libcore.util.ZoneInfo;
+
 import static java.util.Map.entry;
 
 // Android-changed: removed ValueBased paragraph.
@@ -265,7 +267,15 @@ public abstract class ZoneId implements Serializable {
      * @throws ZoneRulesException if the converted zone region ID cannot be found
      */
     public static ZoneId systemDefault() {
-        return TimeZone.getDefault().toZoneId();
+        // BEGIN Android-changed: don't call TimeZone.clone() if possible.
+        // return TimeZone.getDefault().toZoneId();
+        TimeZone defaultTimeZone = TimeZone.getDefaultRef();
+        if (defaultTimeZone instanceof ZoneInfo) {
+            return defaultTimeZone.toZoneId();
+        } else {
+            return ((TimeZone) defaultTimeZone.clone()).toZoneId();
+        }
+        // END Android-changed: don't call TimeZone.clone() if possible.
     }
 
     /**

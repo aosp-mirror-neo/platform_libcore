@@ -777,11 +777,14 @@ public abstract class TimeZone implements Serializable, Cloneable {
         return (TimeZone) getDefaultRef().clone();
     }
 
+    // Made public and hidden to be accessible from java.time package.
     /**
      * Returns the reference to the default TimeZone object. This
      * method doesn't create a clone.
+     *
+     * @hide
      */
-    static synchronized TimeZone getDefaultRef() {
+    public static synchronized TimeZone getDefaultRef() {
         if (defaultTimeZone == null) {
             Supplier<String> tzGetter = RuntimeHooks.getTimeZoneIdSupplier();
             String zoneName = (tzGetter != null) ? tzGetter.get() : null;

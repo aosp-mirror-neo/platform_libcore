@@ -58,6 +58,7 @@ package test.java.time.chrono;
 
 import static org.testng.Assert.assertEquals;
 
+import android.platform.test.annotations.FlakyTest;
 import android.platform.test.annotations.LargeTest;
 
 import java.time.LocalDate;
@@ -127,6 +128,9 @@ public class TestJapaneseChronoImpl {
     // Verify  Japanese Calendar matches java.util.Calendar for number of days
     // in years 1 and 2.
     //-----------------------------------------------------------------------
+    @FlakyTest(bugId = 407732066, detail = "jd.get(ChronoField.DAY_OF_YEAR) return 2 when the test "
+            + "is flaky. However, this test isn't valid on Android, because "
+            + "Android's Calendar.getInstance doesn't support Japanese calendar.")
     @Test
     public void test_dayOfYearVsCalendar() {
         Locale locale = Locale.forLanguageTag("ja-JP-u-ca-japanese");

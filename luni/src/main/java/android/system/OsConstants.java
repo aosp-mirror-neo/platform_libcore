@@ -1306,12 +1306,4 @@ public final class OsConstants {
         }
         return null;
     }
-
-    // TODO(b/383285151): remove these methods.
-    @UnsupportedAppUsage
-    private static void initConstants() {}
-
-    // A hack to avoid these constants being inlined by javac...
-    @UnsupportedAppUsage
-    private static int placeholder() { return 0; }
 }
