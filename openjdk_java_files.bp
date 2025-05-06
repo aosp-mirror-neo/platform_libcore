@@ -1584,6 +1584,7 @@ filegroup {
         "ojluni/src/main/java/jdk/internal/vm/Continuation.java",
         "ojluni/src/main/java/jdk/internal/vm/ContinuationScope.java",
         "ojluni/src/main/java/jdk/internal/vm/ContinuationSupport.java",
+        "ojluni/src/main/java/jdk/internal/vm/SharedThreadContainer.java",
         "ojluni/src/main/java/jdk/internal/vm/StackableScope.java",
         "ojluni/src/main/java/jdk/internal/vm/StackChunk.java",
         "ojluni/src/main/java/jdk/internal/vm/ThreadContainer.java",
