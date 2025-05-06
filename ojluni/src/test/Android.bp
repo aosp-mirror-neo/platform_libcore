@@ -57,9 +57,9 @@ java_test {
     ],
 
     static_libs: [
+        "core-compat-test-rules",
         "core-test-rules",
         "junit",
-        "core-compat-test-rules",
         "mockwebserver",
         "testng",
     ],
