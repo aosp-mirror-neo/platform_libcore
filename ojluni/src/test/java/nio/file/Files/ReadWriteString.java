@@ -43,8 +43,11 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
+
+import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -88,6 +91,25 @@ public class ReadWriteString {
 
     // file used by testReadWrite, testReadString and testWriteString
     private Path[] testFiles = new Path[3];
+
+    // Android-changed: Ignore the test when the API flag is off.
+    @BeforeMethod
+    public void beforeMethod() {
+        try {
+            if (!com.android.libcore.Flags.openjdk21V2Apis()) {
+                throw new SkipException("Skipping test: "
+                        + com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS + " flag is off.");
+            }
+        } catch (NoSuchMethodError e) {
+            System.logE("flag isn't found.", e);
+            // Continue running tests as if the flag value was true, because in this case
+            // it's likely that the APIs have been fully published and the flag has been removed.
+            // Ideally, we should use the exported / test version of java_aconfig_library to read
+            // the flag from the aconfig flag storage via frameworks, but ART test infra can't have
+            // direct dependency on frameworks. We will need to add an abstraction or indirect
+            // dependency to support both CTS infra and ART test infra.
+        }
+    }
 
     /*
      * DataProvider for malformed write test. Provides the following fields:
