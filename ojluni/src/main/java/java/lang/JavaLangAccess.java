@@ -469,12 +469,12 @@ public final class JavaLangAccess {
         return thread.threadContainer();
     }
 
-    /*
     /**
      * Starts a thread in the given ThreadContainer.
-     * /
-    void start(Thread thread, ThreadContainer container);
-    */
+     */
+    public void start(Thread thread, ThreadContainer container) {
+        thread.start(container);
+    }
 
     /**
      * Returns the top of the given thread's stackable scope stack.

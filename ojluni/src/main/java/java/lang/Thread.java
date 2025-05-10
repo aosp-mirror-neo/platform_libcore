@@ -1211,6 +1211,63 @@ class Thread implements Runnable {
         }
     }
 
+    /**
+     * Schedules this thread to begin execution in the given thread container.
+     * @throws IllegalStateException if the container is shutdown or closed
+     * @throws IllegalThreadStateException if the thread has already been started
+     */
+    void start(ThreadContainer container) {
+        // TODO: Minimize code duplication in start().
+        synchronized (this) {
+            // zero status corresponds to state "NEW".
+            // Android-changed: Replace unused threadStatus field with started field.
+            // if (holder.threadStatus != 0)
+            //     throw new IllegalThreadStateException();
+            if (started)
+                throw new IllegalThreadStateException();
+
+            // bind thread to container
+            if (this.container != null)
+                throw new IllegalThreadStateException();
+
+            // Android-added: Add this to the thread group until ART does so in the native side.
+            /* Notify the group that this thread is about to be started
+             * so that it can be added to the group's list of threads
+             * and the group's unstarted count can be decremented. */
+            group.add(this);
+
+            setThreadContainer(container);
+
+            // start thread
+            // Android-changed: Use field instead of local variable.
+            started = false;
+            container.onStart(this);  // may throw
+            try {
+                // scoped values may be inherited
+                // Android-removed: ScopedValue isn't supported yet.
+                // inheritScopedValueBindings(container);
+
+                // Android-changed: Use Android specific nativeCreate() method to start thread.
+                // start0();
+                nativeCreate(this, stackSize, daemon);
+                started = true;
+            } finally {
+                if (!started) {
+                    container.onExit(this);
+                }
+                // Android-added: Report start failure until ART does so in the native side.
+                try {
+                    if (!started) {
+                        group.threadStartFailed(this);
+                    }
+                } catch (Throwable ignore) {
+                    /* do nothing. If start0 threw a Throwable then
+                      it will be passed up the call stack */
+                }
+            }
+        }
+    }
+
     // Android-changed: Use Android specific nativeCreate() method to create/start thread.
     // The upstream native method start0() only takes a reference to this object and so must obtain
     // the stack size and daemon status directly from the field whereas Android supplies the values
