@@ -28,6 +28,7 @@ package java.lang;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 
+import jdk.internal.misc.CarrierThreadLocal;
 import jdk.internal.vm.StackableScope;
 import jdk.internal.vm.ThreadContainer;
 
@@ -503,27 +504,36 @@ public final class JavaLangAccess {
      * Executes the given value returning task on the current carrier thread.
      * /
     <V> V executeOnCarrierThread(Callable<V> task) throws Exception;
+    */
 
     /**
      * Returns the value of the current carrier thread's copy of a thread-local.
-     * /
-    <T> T getCarrierThreadLocal(CarrierThreadLocal<T> local);
+     */
+    public <T> T getCarrierThreadLocal(CarrierThreadLocal<T> local) {
+        return ((ThreadLocal<T>)local).getCarrierThreadLocal();
+    }
 
     /**
      * Sets the value of the current carrier thread's copy of a thread-local.
-     * /
-    <T> void setCarrierThreadLocal(CarrierThreadLocal<T> local, T value);
+     */
+    public <T> void setCarrierThreadLocal(CarrierThreadLocal<T> local, T value) {
+        ((ThreadLocal<T>)local).setCarrierThreadLocal(value);
+    }
 
     /**
      * Removes the value of the current carrier thread's copy of a thread-local.
-     * /
-    void removeCarrierThreadLocal(CarrierThreadLocal<?> local);
+     */
+    public void removeCarrierThreadLocal(CarrierThreadLocal<?> local) {
+        ((ThreadLocal<?>)local).removeCarrierThreadLocal();
+    }
 
     /**
      * Returns {@code true} if there is a value in the current carrier thread's copy of
      * thread-local, even if that values is {@code null}.
-     * /
-    boolean isCarrierThreadLocalPresent(CarrierThreadLocal<?> local);
+     */
+    public boolean isCarrierThreadLocalPresent(CarrierThreadLocal<?> local) {
+        return ((ThreadLocal<?>)local).isCarrierThreadLocalPresent();
+    }
 
     /**
      * Returns the current thread's scoped values cache
