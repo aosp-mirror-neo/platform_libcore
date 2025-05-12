@@ -1542,6 +1542,7 @@ filegroup {
         "ojluni/src/main/java/java/util/ReverseOrderListView.java",
         "ojluni/src/main/java/java/util/ReverseOrderSortedMapView.java",
         "ojluni/src/main/java/java/util/ReverseOrderSortedSetView.java",
+        "ojluni/src/main/java/java/util/concurrent/StructureViolationException.java",
         "ojluni/src/main/java/jdk/net/ExtendedSocketOptions.java",
         "ojluni/src/main/java/jdk/net/NetworkPermission.java",
         "ojluni/src/main/java/jdk/net/SocketFlow.java",
