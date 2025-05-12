@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1995, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2021, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -27,7 +27,6 @@ package java.lang;
 
 import java.io.PrintStream;
 import java.util.Arrays;
-import jdk.internal.misc.VM;
 
 /**
  * A thread group represents a set of threads. In addition, a thread
@@ -39,7 +38,6 @@ import jdk.internal.misc.VM;
  * group, but not to access information about its thread group's
  * parent thread group or any other thread groups.
  *
- * @author  unascribed
  * @since   1.0
  */
 /* The locking strategy for this code is to try to lock only one level of the
@@ -53,8 +51,7 @@ import jdk.internal.misc.VM;
  * and working off of that snapshot, rather than holding the thread group locked
  * while we work on the children.
  */
-public
-class ThreadGroup implements Thread.UncaughtExceptionHandler {
+public class ThreadGroup implements Thread.UncaughtExceptionHandler {
     private final ThreadGroup parent;
     String name;
     int maxPriority;
@@ -188,7 +185,13 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      * @return  {@code true} if this thread group is a daemon thread group;
      *          {@code false} otherwise.
      * @since   1.0
+     *
+     * @deprecated The API and mechanism for destroying a ThreadGroup is inherently
+     *             flawed. The ability to explicitly or automatically destroy a
+     *             thread group, and the concept of daemon thread group, will be
+     *             removed in a future release.
      */
+    @Deprecated(since="16", forRemoval=true)
     public final boolean isDaemon() {
         return daemon;
     }
@@ -198,7 +201,12 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *
      * @return  true if this object is destroyed
      * @since   1.1
+     *
+     * @deprecated The API and mechanism for destroying a ThreadGroup is inherently
+     *             flawed. The ability to explicitly or automatically destroy a
+     *             thread group will be removed in a future release.
      */
+    @Deprecated(since="16", forRemoval=true)
     public synchronized boolean isDestroyed() {
         return destroyed;
     }
@@ -220,7 +228,13 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      * @see        java.lang.SecurityException
      * @see        java.lang.ThreadGroup#checkAccess()
      * @since      1.0
+     *
+     * @deprecated The API and mechanism for destroying a ThreadGroup is inherently
+     *             flawed. The ability to explicitly or automatically destroy a
+     *             thread group, and the concept of daemon thread group, will be
+     *             removed in a future release.
      */
+    @Deprecated(since="16", forRemoval=true)
     public final void setDaemon(boolean daemon) {
         checkAccess();
         this.daemon = daemon;
@@ -306,8 +320,16 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *               access this thread group.
      * @see        java.lang.SecurityManager#checkAccess(java.lang.ThreadGroup)
      * @since      1.0
+     * @deprecated This method is only useful in conjunction with
+     *       {@linkplain SecurityManager the Security Manager}, which is
+     *       deprecated and subject to removal in a future release.
+     *       Consequently, this method is also deprecated and subject to
+     *       removal. There is no replacement for the Security Manager or this
+     *       method.
      */
+    @Deprecated(since="17", forRemoval=true)
     public final void checkAccess() {
+        @SuppressWarnings("removal")
         SecurityManager security = System.getSecurityManager();
         if (security != null) {
             security.checkAccess(this);
@@ -425,7 +447,7 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
         ThreadGroup[] groupsSnapshot = null;
         synchronized (this) {
             if (destroyed) {
-                return 0;
+                return n;
             }
             int nt = nthreads;
             if (nt > list.length - n) {
@@ -559,7 +581,7 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
         ThreadGroup[] groupsSnapshot = null;
         synchronized (this) {
             if (destroyed) {
-                return 0;
+                return n;
             }
             int ng = ngroups;
             if (ng > list.length - n) {
@@ -605,7 +627,7 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      * @deprecated    This method is inherently unsafe.  See
      *     {@link Thread#stop} for details.
      */
-    @Deprecated(since="1.2")
+    @Deprecated(since="1.2", forRemoval=true)
     public final void stop() {
         if (stopOrSuspend(false))
             Thread.currentThread().stop();
@@ -667,8 +689,8 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      * @deprecated    This method is inherently deadlock-prone.  See
      *     {@link Thread#suspend} for details.
      */
-    @Deprecated(since="1.2")
-    @SuppressWarnings("deprecation")
+    @Deprecated(since="1.2", forRemoval=true)
+    @SuppressWarnings("removal")
     public final void suspend() {
         if (stopOrSuspend(true))
             Thread.currentThread().suspend();
@@ -681,7 +703,7 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      * if (and only if) the current thread is found to be in this thread
      * group or one of its subgroups.
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({"deprecation", "removal"})
     private boolean stopOrSuspend(boolean suspend) {
         boolean suicide = false;
         Thread us = Thread.currentThread();
@@ -730,8 +752,8 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *       both of which have been deprecated, as they are inherently
      *       deadlock-prone.  See {@link Thread#suspend} for details.
      */
-    @Deprecated(since="1.2")
-    @SuppressWarnings("deprecation")
+    @Deprecated(since="1.2", forRemoval=true)
+    @SuppressWarnings("removal")
     public final void resume() {
         int ngroupsSnapshot;
         ThreadGroup[] groupsSnapshot;
@@ -766,7 +788,12 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *               thread group.
      * @see        java.lang.ThreadGroup#checkAccess()
      * @since      1.0
+     *
+     * @deprecated The API and mechanism for destroying a ThreadGroup is inherently
+     *             flawed. The ability to explicitly or automatically destroy a
+     *             thread group will be removed in a future release.
      */
+    @Deprecated(since="16", forRemoval=true)
     public final void destroy() {
         int ngroupsSnapshot;
         ThreadGroup[] groupsSnapshot;
@@ -1071,7 +1098,7 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *             which is deprecated.  Further, the behavior of this call
      *             was never specified.
      */
-    @Deprecated(since="1.2")
+    @Deprecated(since="1.2", forRemoval=true)
     public boolean allowThreadSuspension(boolean b) {
         return true;
     }
