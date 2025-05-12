@@ -160,7 +160,7 @@ ojluni/src/main/java/java/lang/IllegalStateException.java,jdk21u/jdk-21.0.6-ga,s
 ojluni/src/main/java/java/lang/IllegalThreadStateException.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/IllegalThreadStateException.java
 ojluni/src/main/java/java/lang/IncompatibleClassChangeError.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/IncompatibleClassChangeError.java
 ojluni/src/main/java/java/lang/IndexOutOfBoundsException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/IndexOutOfBoundsException.java
-ojluni/src/main/java/java/lang/InheritableThreadLocal.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/lang/InheritableThreadLocal.java
+ojluni/src/main/java/java/lang/InheritableThreadLocal.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/InheritableThreadLocal.java
 ojluni/src/main/java/java/lang/InstantiationError.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/InstantiationError.java
 ojluni/src/main/java/java/lang/InstantiationException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/InstantiationException.java
 ojluni/src/main/java/java/lang/Integer.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/Integer.java
@@ -218,7 +218,7 @@ ojluni/src/main/java/java/lang/System.java,jdk8u/jdk8u121-b13,jdk/src/share/clas
 ojluni/src/main/java/java/lang/Thread.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/lang/Thread.java
 ojluni/src/main/java/java/lang/ThreadDeath.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/lang/ThreadDeath.java
 ojluni/src/main/java/java/lang/ThreadGroup.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/lang/ThreadGroup.java
-ojluni/src/main/java/java/lang/ThreadLocal.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/lang/ThreadLocal.java
+ojluni/src/main/java/java/lang/ThreadLocal.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/ThreadLocal.java
 ojluni/src/main/java/java/lang/Throwable.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/Throwable.java
 ojluni/src/main/java/java/lang/TypeNotPresentException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/TypeNotPresentException.java
 ojluni/src/main/java/java/lang/UNIXProcess.java,jdk8u/jdk8u121-b13,jdk/src/solaris/classes/java/lang/UNIXProcess.java
@@ -1434,8 +1434,9 @@ ojluni/src/main/java/jdk/internal/math/FormattedFPDecimal.java,jdk21u/jdk-21.0.6
 ojluni/src/main/java/jdk/internal/math/FormattedFloatingDecimal.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/jdk/internal/math/FormattedFloatingDecimal.java
 ojluni/src/main/java/jdk/internal/math/MathUtils.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/math/MathUtils.java
 ojluni/src/main/java/jdk/internal/misc/CarrierThread.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/misc/CarrierThread.java
+ojluni/src/main/java/jdk/internal/misc/CarrierThreadLocal.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/misc/CarrierThreadLocal.java
 ojluni/src/main/java/jdk/internal/misc/InnocuousThread.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/misc/InnocuousThread.java
-ojluni/src/main/java/jdk/internal/misc/TerminatingThreadLocal.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/jdk/internal/misc/TerminatingThreadLocal.java
+ojluni/src/main/java/jdk/internal/misc/TerminatingThreadLocal.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/misc/TerminatingThreadLocal.java
 ojluni/src/main/java/jdk/internal/misc/ThreadTracker.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/misc/ThreadTracker.java
 ojluni/src/main/java/jdk/internal/misc/Unsafe.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/jdk/internal/misc/Unsafe.java
 ojluni/src/main/java/jdk/internal/misc/UnsafeConstants.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/misc/UnsafeConstants.java
