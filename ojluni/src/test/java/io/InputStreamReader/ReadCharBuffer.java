@@ -30,6 +30,7 @@
 
 package test.java.io.InputStreamReader;
 
+import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -89,8 +90,26 @@ public class ReadCharBuffer {
         assertEquals(buffer.toString(), "xABCDEFxGHIJKLMNxxxxxxxx");
     }
 
+    private static void assumeOpenjdk21V2ApisFlagTrue() {
+        try {
+            if (!com.android.libcore.Flags.openjdk21V2Apis()) {
+                throw new SkipException("Skipping test: "
+                        + com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS + " flag is off.");
+            }
+        } catch (NoSuchMethodError e) {
+            System.logE("flag isn't found.", e);
+            // Continue running tests as if the flag value was true, because in this case
+            // it's likely that the APIs have been fully published and the flag has been removed.
+            // Ideally, we should use the exported / test version of java_aconfig_library to read
+            // the flag from the aconfig flag storage via frameworks, but ART test infra can't have
+            // direct dependency on frameworks. We will need to add an abstraction or indirect
+            // dependency to support both CTS infra and ART test infra.
+        }
+    }
+
     @Test
     public void readLeftover() throws IOException {
+        assumeOpenjdk21V2ApisFlagTrue();
         byte[] b = new byte[] {'a', 'b', (byte) 0xC2};
         ByteArrayInputStream bais = new ByteArrayInputStream(b);
         InputStreamReader r = new InputStreamReader(bais,

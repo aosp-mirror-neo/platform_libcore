@@ -26,6 +26,7 @@ import dalvik.system.PathClassLoader;
 
 import libcore.io.Streams;
 
+import org.junit.Assume;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -156,8 +157,23 @@ public class FileSystemsTest {
         } catch (ProviderNotFoundException expected) {}
     }
 
+    private static void assumeOpenjdk21V2ApisFlagTrue() {
+        try {
+            Assume.assumeTrue(com.android.libcore.Flags.openjdk21V2Apis());
+        } catch (NoSuchMethodError e) {
+            System.logE("flag isn't found.", e);
+            // Continue running tests as if the flag value was true, because in this case
+            // it's likely that the APIs have been fully published and the flag has been removed.
+            // Ideally, we should use the exported / test version of java_aconfig_library to read
+            // the flag from the aconfig flag storage via frameworks, but ART test infra can't have
+            // direct dependency on frameworks. We will need to add an abstraction or indirect
+            // dependency to support both CTS infra and ART test infra.
+        }
+    }
+
     @Test
     public void test_newFileSystem$Path() throws Exception {
+        assumeOpenjdk21V2ApisFlagTrue();
         assertMockFileSystemNotLoaded();
         Path testPath = Paths.get("/");
         try {
@@ -168,6 +184,7 @@ public class FileSystemsTest {
 
     @Test
     public void test_newFileSystem$Path$Map() throws Exception {
+        assumeOpenjdk21V2ApisFlagTrue();
         assertMockFileSystemNotLoaded();
         Path testPath = Paths.get("/");
         Map<String, String> env = Map.of("myEnv1", "myValue1");
@@ -193,6 +210,7 @@ public class FileSystemsTest {
 
     @Test
     public void test_newFileSystem$Path$Map$ClassLoader_customClassLoader() throws Exception  {
+        assumeOpenjdk21V2ApisFlagTrue();
         assertMockFileSystemNotLoaded();
 
         ClassLoader fileSystemsClassLoader = createClassLoaderForTestFileSystems();
