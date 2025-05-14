@@ -49,44 +49,53 @@ import jdk.internal.vm.annotation.Stable;
  */
 @SuppressWarnings("serial")
 class ImmutableCollections {
-    /**
-     * A "salt" value used for randomizing iteration order. This is initialized once
-     * and stays constant for the lifetime of the JVM. It need not be truly random, but
-     * it needs to vary sufficiently from one run to the next so that iteration order
-     * will vary between JVM runs.
-     */
-    private static final long SALT32L;
 
+    // BEGIN Android-changed: allow ImmutableCollections initialization in Zygote.
     /**
-     * For set and map iteration, we will iterate in "reverse" stochastically,
-     * decided at bootstrap time.
+     * A holder class for static fields that should be randomized after device reboot,
+     * and thus shouldn't be initialized in the ART boot image (dex2oat).
      */
-    private static final boolean REVERSE;
-    static {
-        // to generate a reasonably random and well-mixed SALT, use an arbitrary
-        // value (a slice of pi), multiply with a random seed, then pick
-        // the mid 32-bits from the product. By picking a SALT value in the
-        // [0 ... 0xFFFF_FFFFL == 2^32-1] range, we ensure that for any positive
-        // int N, (SALT32L * N) >> 32 is a number in the [0 ... N-1] range. This
-        // property will be used to avoid more expensive modulo-based
-        // calculations.
-        long color = 0x243F_6A88_85A3_08D3L; // slice of pi
+    private static class NoPreloadHolder {
+        /**
+         * A "salt" value used for randomizing iteration order. This is initialized once
+         * and stays constant for the lifetime of the JVM. It need not be truly random, but
+         * it needs to vary sufficiently from one run to the next so that iteration order
+         * will vary between JVM runs.
+         */
+        private static final long SALT32L;
 
-        // BEGIN Android-changed: set seed directly, as CDS is not available.
-        // When running with -Xshare:dump, the VM will supply a "random" seed that's
-        // derived from the JVM build/version, so can we generate the exact same
-        // CDS archive for the same JDK build. This makes it possible to verify the
-        // consistency of the JDK build.
-        // long seed = CDS.getRandomSeedForDumping();
-        // if (seed == 0) {
-        //   seed = System.nanoTime();
-        // }
-        long seed = System.nanoTime();
-        // END Android-changed: set seed directly, as CDS is not available.
-        SALT32L = (int)((color * seed) >> 16) & 0xFFFF_FFFFL;
-        // use the lowest bit to determine if we should reverse iteration
-        REVERSE = (SALT32L & 1) == 0;
+        /**
+         * For set and map iteration, we will iterate in "reverse" stochastically,
+         * decided at bootstrap time.
+         */
+        private static final boolean REVERSE;
+        static {
+            // to generate a reasonably random and well-mixed SALT, use an arbitrary
+            // value (a slice of pi), multiply with a random seed, then pick
+            // the mid 32-bits from the product. By picking a SALT value in the
+            // [0 ... 0xFFFF_FFFFL == 2^32-1] range, we ensure that for any positive
+            // int N, (SALT32L * N) >> 32 is a number in the [0 ... N-1] range. This
+            // property will be used to avoid more expensive modulo-based
+            // calculations.
+            long color = 0x243F_6A88_85A3_08D3L; // slice of pi
+
+            // BEGIN Android-changed: set seed directly, as CDS is not available.
+            // When running with -Xshare:dump, the VM will supply a "random" seed that's
+            // derived from the JVM build/version, so can we generate the exact same
+            // CDS archive for the same JDK build. This makes it possible to verify the
+            // consistency of the JDK build.
+            // long seed = CDS.getRandomSeedForDumping();
+            // if (seed == 0) {
+            //   seed = System.nanoTime();
+            // }
+            long seed = System.nanoTime();
+            // END Android-changed: set seed directly, as CDS is not available.
+            SALT32L = (int)((color * seed) >> 16) & 0xFFFF_FFFFL;
+            // use the lowest bit to determine if we should reverse iteration
+            REVERSE = (SALT32L & 1) == 0;
+        }
     }
+    // END Android-changed: allow ImmutableCollections initialization in Zygote.
 
     // BEGIN Android-changed: always initialize empty collections.
     /*
@@ -844,10 +853,10 @@ class ImmutableCollections {
                 public E next() {
                     if (idx == 1) {
                         idx = 0;
-                        return (REVERSE || e1 == EMPTY) ? e0 : (E)e1;
+                        return (NoPreloadHolder.REVERSE || e1 == EMPTY) ? e0 : (E)e1;
                     } else if (idx == 2) {
                         idx = 1;
-                        return REVERSE ? (E)e1 : e0;
+                        return NoPreloadHolder.REVERSE ? (E)e1 : e0;
                     } else {
                         throw new NoSuchElementException();
                     }
@@ -873,7 +882,7 @@ class ImmutableCollections {
         public Object[] toArray() {
             if (e1 == EMPTY) {
                 return new Object[] { e0 };
-            } else if (REVERSE) {
+            } else if (NoPreloadHolder.REVERSE) {
                 return new Object[] { e1, e0 };
             } else {
                 return new Object[] { e0, e1 };
@@ -888,7 +897,7 @@ class ImmutableCollections {
                     (T[])Array.newInstance(a.getClass().getComponentType(), size);
             if (size == 1) {
                 array[0] = (T)e0;
-            } else if (REVERSE) {
+            } else if (NoPreloadHolder.REVERSE) {
                 array[0] = (T)e1;
                 array[1] = (T)e0;
             } else {
@@ -962,7 +971,7 @@ class ImmutableCollections {
                 remaining = size;
                 // pick a starting index in the [0 .. element.length-1] range
                 // randomly based on SALT32L
-                idx = (int) ((SALT32L * elements.length) >>> 32);
+                idx = (int) ((NoPreloadHolder.SALT32L * elements.length) >>> 32);
             }
 
             @Override
@@ -978,7 +987,7 @@ class ImmutableCollections {
                     int len = elements.length;
                     // step to the next element; skip null elements
                     do {
-                        if (REVERSE) {
+                        if (NoPreloadHolder.REVERSE) {
                             if (++idx >= len) {
                                 idx = 0;
                             }
@@ -1274,7 +1283,7 @@ class ImmutableCollections {
                 remaining = size;
                 // pick an even starting index in the [0 .. table.length-1]
                 // range randomly based on SALT32L
-                idx = (int) ((SALT32L * (table.length >> 1)) >>> 32) << 1;
+                idx = (int) ((NoPreloadHolder.SALT32L * (table.length >> 1)) >>> 32) << 1;
             }
 
             @Override
@@ -1284,7 +1293,7 @@ class ImmutableCollections {
 
             private int nextIndex() {
                 int idx = this.idx;
-                if (REVERSE) {
+                if (NoPreloadHolder.REVERSE) {
                     if ((idx += 2) >= table.length) {
                         idx = 0;
                     }
