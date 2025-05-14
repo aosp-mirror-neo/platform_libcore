@@ -62,13 +62,6 @@ static void initConstant(JNIEnv* env, jclass c, const char* fieldName, int value
 }
 
 static void OsConstantsHolder_initConstants(JNIEnv* env, jclass c) {
-    initConstant(env, c, "AF_INET", AF_INET);
-    initConstant(env, c, "AF_INET6", AF_INET6);
-    initConstant(env, c, "AF_PACKET", AF_PACKET);
-    initConstant(env, c, "AF_NETLINK", AF_NETLINK);
-    initConstant(env, c, "AF_UNIX", AF_UNIX);
-    initConstant(env, c, "AF_VSOCK", AF_VSOCK);
-    initConstant(env, c, "AF_UNSPEC", AF_UNSPEC);
     initConstant(env, c, "AI_ADDRCONFIG", AI_ADDRCONFIG);
     initConstant(env, c, "AI_ALL", AI_ALL);
     initConstant(env, c, "AI_CANONNAME", AI_CANONNAME);

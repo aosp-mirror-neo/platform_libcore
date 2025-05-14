@@ -23,14 +23,7 @@ package android.system;
  * @hide
  */
 final class OsConstantsHolder {
-    static int AF_INET;
-    static int AF_INET6;
-    static int AF_NETLINK;
-    static int AF_PACKET;
-    static int AF_UNIX;
 
-    static int AF_VSOCK;
-    static int AF_UNSPEC;
     static int AI_ADDRCONFIG;
     static int AI_ALL;
     static int AI_CANONNAME;

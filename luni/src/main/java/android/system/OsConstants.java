@@ -140,11 +140,11 @@ public final class OsConstants {
      *
      * [1] https://openjdk.org/jeps/8349536#Mutating-final-fields-from-native-code
      */
-    public static final int AF_INET = OsConstantsHolder.AF_INET;
-    public static final int AF_INET6 = OsConstantsHolder.AF_INET6;
-    public static final int AF_NETLINK = OsConstantsHolder.AF_NETLINK;
-    public static final int AF_PACKET = OsConstantsHolder.AF_PACKET;
-    public static final int AF_UNIX = OsConstantsHolder.AF_UNIX;
+    public static final int AF_INET;
+    public static final int AF_INET6;
+    public static final int AF_NETLINK;
+    public static final int AF_PACKET;
+    public static final int AF_UNIX;
 
     /**
      * The virt-vsock address family, linux specific.
@@ -153,8 +153,8 @@ public final class OsConstants {
      * @see <a href="https://man7.org/linux/man-pages/man7/vsock.7.html">vsock(7)</a>
      * @see VmSocketAddress
      */
-    public static final int AF_VSOCK = OsConstantsHolder.AF_VSOCK;
-    public static final int AF_UNSPEC = OsConstantsHolder.AF_UNSPEC;
+    public static final int AF_VSOCK;
+    public static final int AF_UNSPEC;
     public static final int AI_ADDRCONFIG = OsConstantsHolder.AI_ADDRCONFIG;
     public static final int AI_ALL = OsConstantsHolder.AI_ALL;
     public static final int AI_CANONNAME = OsConstantsHolder.AI_CANONNAME;
@@ -1305,5 +1305,21 @@ public final class OsConstants {
             return "EXDEV";
         }
         return null;
+    }
+
+    static {
+        // Setting values of these fields at their definition site will make metalava expose them
+        // in the APIs. A sensible Linux port is unlikely to change values of these constants.
+        // However, on macOS AF_INET6 is 30. macOS support was dropped, but I am using that as an
+        // excuse to not promise more than we currently do.
+
+        // These values are taken from include/linux/socket.h
+        AF_INET = 2;
+        AF_INET6 = 10;
+        AF_NETLINK = 16;
+        AF_PACKET = 17;
+        AF_UNIX = 1;
+        AF_VSOCK = 40;
+        AF_UNSPEC = 0;
     }
 }
