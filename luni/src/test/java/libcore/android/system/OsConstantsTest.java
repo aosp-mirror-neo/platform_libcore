@@ -443,4 +443,15 @@ public class OsConstantsTest {
     public void errno_returnsNull_onUnknown() {
         assertNull(OsConstants.errnoName(99999999));
     }
+
+    @Test
+    public void check_consistency() {
+        checkConsistency();
+    }
+
+    static {
+        System.loadLibrary("javacoretests");
+    }
+
+    private static native void checkConsistency();
 }
