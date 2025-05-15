@@ -4570,8 +4570,8 @@ package java.lang {
     method public int activeCount();
     method public int activeGroupCount();
     method @Deprecated public boolean allowThreadSuspension(boolean);
-    method public final void checkAccess();
-    method public final void destroy();
+    method @Deprecated @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public final void checkAccess();
+    method @Deprecated @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public final void destroy();
     method public int enumerate(Thread[]);
     method public int enumerate(Thread[], boolean);
     method public int enumerate(ThreadGroup[]);
@@ -4580,12 +4580,12 @@ package java.lang {
     method public final String getName();
     method public final ThreadGroup getParent();
     method public final void interrupt();
-    method public final boolean isDaemon();
-    method public boolean isDestroyed();
+    method @Deprecated @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public final boolean isDaemon();
+    method @Deprecated @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public boolean isDestroyed();
     method public void list();
     method public final boolean parentOf(ThreadGroup);
     method @Deprecated public final void resume();
-    method public final void setDaemon(boolean);
+    method @Deprecated @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public final void setDaemon(boolean);
     method public final void setMaxPriority(int);
     method @Deprecated public final void stop();
     method @Deprecated public final void suspend();

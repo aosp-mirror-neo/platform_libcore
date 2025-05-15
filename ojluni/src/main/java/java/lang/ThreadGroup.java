@@ -191,7 +191,13 @@ public class ThreadGroup implements Thread.UncaughtExceptionHandler {
      * @return  {@code true} if this thread group is a daemon thread group;
      *          {@code false} otherwise.
      * @since   1.0
+     *
+     * @deprecated The API and mechanism for destroying a ThreadGroup is inherently
+     *             flawed. The ability to explicitly or automatically destroy a
+     *             thread group, and the concept of daemon thread group, will be
+     *             removed in a future release.
      */
+    @Deprecated(since="16", forRemoval=true)
     public final boolean isDaemon() {
         return daemon;
     }
@@ -201,7 +207,12 @@ public class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *
      * @return  true if this object is destroyed
      * @since   1.1
+     *
+     * @deprecated The API and mechanism for destroying a ThreadGroup is inherently
+     *             flawed. The ability to explicitly or automatically destroy a
+     *             thread group will be removed in a future release.
      */
+    @Deprecated(since="16", forRemoval=true)
     public synchronized boolean isDestroyed() {
         return destroyed;
     }
@@ -223,7 +234,13 @@ public class ThreadGroup implements Thread.UncaughtExceptionHandler {
      * @see        java.lang.SecurityException
      * @see        java.lang.ThreadGroup#checkAccess()
      * @since      1.0
+     *
+     * @deprecated The API and mechanism for destroying a ThreadGroup is inherently
+     *             flawed. The ability to explicitly or automatically destroy a
+     *             thread group, and the concept of daemon thread group, will be
+     *             removed in a future release.
      */
+    @Deprecated(since="16", forRemoval=true)
     public final void setDaemon(boolean daemon) {
         checkAccess();
         this.daemon = daemon;
@@ -318,6 +335,12 @@ public class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *               access this thread group.
      * @see        java.lang.SecurityManager#checkAccess(java.lang.ThreadGroup)
      * @since      1.0
+     * @deprecated This method is only useful in conjunction with
+     *       {@linkplain SecurityManager the Security Manager}, which is
+     *       deprecated and subject to removal in a future release.
+     *       Consequently, this method is also deprecated and subject to
+     *       removal. There is no replacement for the Security Manager or this
+     *       method.
      */
     public final void checkAccess() {
         // Android-removed: SecurityManager stubbed out on Android.
@@ -780,7 +803,12 @@ public class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *               thread group.
      * @see        java.lang.ThreadGroup#checkAccess()
      * @since      1.0
+     *
+     * @deprecated The API and mechanism for destroying a ThreadGroup is inherently
+     *             flawed. The ability to explicitly or automatically destroy a
+     *             thread group will be removed in a future release.
      */
+    @Deprecated(since="16", forRemoval=true)
     public final void destroy() {
         int ngroupsSnapshot;
         ThreadGroup[] groupsSnapshot;
