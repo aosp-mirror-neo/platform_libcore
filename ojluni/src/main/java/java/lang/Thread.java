@@ -61,6 +61,8 @@ import dalvik.system.VMStack;
 
 import libcore.util.EmptyArray;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
 /**
  * A <i>thread</i> is a thread of execution in a program. The Java
  * Virtual Machine allows an application to have multiple threads of
@@ -1868,37 +1870,35 @@ public class Thread implements Runnable {
      *          <i>interrupted status</i> of the current thread is
      *          cleared when this exception is thrown.
      */
-    // BEGIN Android-changed: Synchronize on separate lock object not this Thread.
-    // nativePeer and hence isAlive() can change asynchronously, but Thread::Destroy
-    // will always acquire and notify lock after isAlive() changes to false.
-    // public final synchronized void join(long millis)
-    public final void join(long millis)
-    throws InterruptedException {
-        synchronized(lock) {
-        long base = System.currentTimeMillis();
-        long now = 0;
-
+    public final void join(long millis) throws InterruptedException {
         if (millis < 0) {
             throw new IllegalArgumentException("timeout value is negative");
         }
 
-        if (millis == 0) {
-            while (isAlive()) {
-                lock.wait(0);
-            }
-        } else {
-            while (isAlive()) {
-                long delay = millis - now;
-                if (delay <= 0) {
-                    break;
+        // BEGIN Android-changed: Synchronize on separate lock object not this Thread.
+        // nativePeer and hence isAlive() can change asynchronously, but Thread::Destroy
+        // will always acquire and notify lock after isAlive() changes to false.
+        // synchronized (this) {
+        synchronized(lock) {
+            if (millis > 0) {
+                if (isAlive()) {
+                    final long startTime = System.nanoTime();
+                    long delay = millis;
+                    do {
+                        // wait(delay);
+                        lock.wait(delay);
+                    } while (isAlive() && (delay = millis -
+                            NANOSECONDS.toMillis(System.nanoTime() - startTime)) > 0);
                 }
-                lock.wait(delay);
-                now = System.currentTimeMillis() - base;
+            } else {
+                while (isAlive()) {
+                    // wait(0);
+                    lock.wait(0);
+                }
             }
         }
-        }
+        // END Android-changed: Synchronize on separate lock object not this Thread.
     }
-    // END Android-changed: Synchronize on separate lock object not this Thread.
 
     /**
      * Waits at most {@code millis} milliseconds plus
@@ -1941,7 +1941,7 @@ public class Thread implements Runnable {
                                 "nanosecond timeout value out of range");
         }
 
-        if (nanos >= 500000 || (nanos != 0 && millis == 0)) {
+        if (nanos > 0 && millis < Long.MAX_VALUE) {
             millis++;
         }
 
