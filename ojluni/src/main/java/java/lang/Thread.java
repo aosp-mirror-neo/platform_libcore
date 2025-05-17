@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 The Android Open Source Project
- * Copyright (c) 1994, 2019, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -39,23 +39,29 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
+
+import jdk.internal.misc.TerminatingThreadLocal;
+import jdk.internal.misc.Unsafe;
+import jdk.internal.reflect.CallerSensitive;
+import jdk.internal.reflect.Reflection;
+import jdk.internal.vm.annotation.IntrinsicCandidate;
+import jdk.internal.vm.StackableScope;
+import jdk.internal.vm.ThreadContainer;
+import jdk.internal.vm.annotation.Stable;
+import sun.nio.ch.Interruptible;
+import sun.security.util.SecurityConstants;
 
 import dalvik.annotation.optimization.NeverInline;
 import dalvik.system.VirtualThreadContext;
 import dalvik.system.VirtualThreadParkingError;
 import dalvik.system.VirtualThreadParkedStates;
-import jdk.internal.misc.Unsafe;
-import jdk.internal.vm.StackableScope;
-import jdk.internal.vm.ThreadContainer;
-import jdk.internal.vm.annotation.Stable;
-import sun.nio.ch.Interruptible;
-import sun.reflect.CallerSensitive;
 import dalvik.system.VMStack;
 
 import libcore.util.EmptyArray;
-import jdk.internal.vm.annotation.IntrinsicCandidate;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 /**
  * A <i>thread</i> is a thread of execution in a program. The Java
@@ -145,15 +151,13 @@ import jdk.internal.vm.annotation.IntrinsicCandidate;
  * or method in this class will cause a {@link NullPointerException} to be
  * thrown.
  *
- * @author  unascribed
  * @see     Runnable
  * @see     Runtime#exit(int)
  * @see     #run()
  * @see     #stop()
  * @since   1.0
  */
-public
-class Thread implements Runnable {
+public class Thread implements Runnable {
     // Android-removed: registerNatives() not used on Android.
     /*
     /* Make sure registerNatives is the first thing <clinit> does. *
@@ -194,9 +198,20 @@ class Thread implements Runnable {
     /* Whether or not the thread is a daemon thread. */
     private boolean daemon = false;
 
+    /* Interrupt state of the thread - read/written directly by JVM */
+    // Android-removed: Remove unused field.
+    // private volatile boolean interrupted;
+
     /* Fields reserved for exclusive use by the JVM */
     private boolean stillborn = false;
-    private long eetop;
+
+    /*
+     * Reserved for exclusive use by the JVM. The historically named
+     * `eetop` holds the address of the underlying VM JavaThread, and is set to
+     * non-zero when the thread is started, and reset to zero when the thread terminates.
+     * A non-zero value indicates this thread isAlive().
+     */
+    private volatile long eetop;
 
     /* What will be run. */
     private Runnable target;
@@ -208,6 +223,7 @@ class Thread implements Runnable {
     private ClassLoader contextClassLoader;
 
     /* The inherited AccessControlContext of this thread */
+    @SuppressWarnings("removal")
     private AccessControlContext inheritedAccessControlContext;
 
     /* For autonumbering anonymous threads. */
@@ -385,7 +401,8 @@ class Thread implements Runnable {
 
     // Android-changed: Make blockedOn() @hide public, for internal use.
     // Changed comment to reflect usage on Android
-    /* Set the blocker field; used by java.nio.channels.spi.AbstractInterruptibleChannel
+    /* Set the blocker field; invoked via jdk.internal.access.SharedSecrets
+     * from java.nio code
      */
     /** @hide */
     public void blockedOn(Interruptible b) {
@@ -524,9 +541,9 @@ class Thread implements Runnable {
 
         // BEGIN Android-changed: Implement sleep() methods using a shared native implementation.
         // Attempt nanosecond rather than millisecond accuracy for sleep();
-        // RI code rounds to the nearest millisecond.
+        // RI code rounds up by 1 millisecond.
         /*
-        if (nanos >= 500000 || (nanos != 0 && millis == 0)) {
+        if (nanos > 0 && millis < Long.MAX_VALUE) {
             millis++;
         }
 
@@ -621,6 +638,7 @@ class Thread implements Runnable {
      * @param inheritThreadLocals if {@code true}, inherit initial values for
      *            inheritable thread-locals from the constructing thread
      */
+    @SuppressWarnings("removal")
     private Thread(ThreadGroup g, Runnable target, String name,
                    long stackSize, AccessControlContext acc,
                    boolean inheritThreadLocals) {
@@ -834,7 +852,7 @@ class Thread implements Runnable {
      * but thread-local variables are not inherited.
      * This is not a public constructor.
      */
-    Thread(Runnable target, AccessControlContext acc) {
+    Thread(Runnable target, @SuppressWarnings("removal") AccessControlContext acc) {
         this(null, target, "Thread-" + nextThreadNum(), 0, acc, false);
     }
 
@@ -1341,6 +1359,7 @@ class Thread implements Runnable {
     @Deprecated(since="1.2")
     public final void stop() {
         /*
+        @SuppressWarnings("removal")
         SecurityManager security = System.getSecurityManager();
         if (security != null) {
             checkAccess();
@@ -1392,7 +1411,7 @@ class Thread implements Runnable {
      * Object#wait() wait()}, {@link Object#wait(long) wait(long)}, or {@link
      * Object#wait(long, int) wait(long, int)} methods of the {@link Object}
      * class, or of the {@link #join()}, {@link #join(long)}, {@link
-     * #join(long, int)}, {@link #sleep(long)}, or {@link #sleep(long, int)},
+     * #join(long, int)}, {@link #sleep(long)}, or {@link #sleep(long, int)}
      * methods of this class, then its interrupt status will be cleared and it
      * will receive an {@link InterruptedException}.
      *
@@ -1413,11 +1432,14 @@ class Thread implements Runnable {
      *
      * <p> Interrupting a thread that is not alive need not have any effect.
      *
+     * @implNote In the JDK Reference Implementation, interruption of a thread
+     * that is not alive still records that the interrupt request was made and
+     * will report it via {@link #interrupted} and {@link #isInterrupted()}.
+     *
      * @throws  SecurityException
      *          if the current thread cannot modify this thread
      *
-     * @revised 6.0
-     * @spec JSR-51
+     * @revised 6.0, 14
      */
     public void interrupt() {
         if (this != Thread.currentThread()) {
@@ -1427,14 +1449,17 @@ class Thread implements Runnable {
             synchronized (blockerLock) {
                 Interruptible b = blocker;
                 if (b != null) {
-                    interrupt0();  // set interrupt status
+                    // Android-removed: Remove unused the interrupted field.
+                    // interrupted = true;
+                    interrupt0();  // inform VM of interrupt
                     b.interrupt(this);
                     return;
                 }
             }
         }
-
-        // set interrupt status
+        // Android-removed: Remove unused the interrupted field.
+        // interrupted = true;
+        // inform VM of interrupt
         interrupt0();
     }
 
@@ -1446,14 +1471,10 @@ class Thread implements Runnable {
      * interrupted again, after the first call had cleared its interrupted
      * status and before the second call had examined it).
      *
-     * <p>A thread interruption ignored because a thread was not alive
-     * at the time of the interrupt will be reflected by this method
-     * returning false.
-     *
      * @return  {@code true} if the current thread has been interrupted;
      *          {@code false} otherwise.
      * @see #isInterrupted()
-     * @revised 6.0
+     * @revised 6.0, 14
      */
     // Android-changed: Use native interrupted()/isInterrupted() methods.
     // Upstream has one native method for both these methods that takes a boolean parameter that
@@ -1465,9 +1486,20 @@ class Thread implements Runnable {
     // * Updating the interrupted flag is more complex than simply reading it. Knowing that only
     //   the current thread can clear the interrupted status makes the code simpler as it does not
     //   need to be concerned about multiple threads trying to clear the status simultaneously.
-    // public static boolean interrupted() {
-    //     return currentThread().isInterrupted(true);
-    // }
+    /*
+    public static boolean interrupted() {
+        Thread t = currentThread();
+        boolean interrupted = t.interrupted;
+        // We may have been interrupted the moment after we read the field,
+        // so only clear the field if we saw that it was set and will return
+        // true; otherwise we could lose an interrupt.
+        if (interrupted) {
+            t.interrupted = false;
+            clearInterruptEvent();
+        }
+        return interrupted;
+    }
+    */
     @FastNative
     public static native boolean interrupted();
 
@@ -1475,18 +1507,14 @@ class Thread implements Runnable {
      * Tests whether this thread has been interrupted.  The <i>interrupted
      * status</i> of the thread is unaffected by this method.
      *
-     * <p>A thread interruption ignored because a thread was not alive
-     * at the time of the interrupt will be reflected by this method
-     * returning false.
-     *
      * @return  {@code true} if this thread has been interrupted;
      *          {@code false} otherwise.
      * @see     #interrupted()
-     * @revised 6.0
+     * @revised 6.0, 14
      */
     // Android-changed: Use native interrupted()/isInterrupted() methods.
     // public boolean isInterrupted() {
-    //     return isInterrupted(false);
+    //     return interrupted;
     // }
     @FastNative
     public native boolean isInterrupted();
@@ -1521,7 +1549,7 @@ class Thread implements Runnable {
      * @removed
      * @throws UnsupportedOperationException always
      */
-    @Deprecated
+    @Deprecated(since="16", forRemoval=true)
     public void destroy() {
         throw new UnsupportedOperationException();
     }
@@ -1535,7 +1563,9 @@ class Thread implements Runnable {
      *          {@code false} otherwise.
      */
     // Android-changed: Provide pure Java implementation of isAlive().
-    // public final native boolean isAlive();
+    // public final boolean isAlive() {
+    //     return eetop != 0;
+    // }
     public final boolean isAlive() {
         return nativePeer != 0;
     }
@@ -1557,7 +1587,7 @@ class Thread implements Runnable {
      * @removed
      * @throws UnsupportedOperationException always
      */
-    @Deprecated(since="1.2")
+    @Deprecated(since="1.2", forRemoval=true)
     public final void suspend() {
         // Android-changed: Unsupported on Android.
         // checkAccess();
@@ -1578,7 +1608,7 @@ class Thread implements Runnable {
      * @removed
      * @throws UnsupportedOperationException always
      */
-    @Deprecated(since="1.2")
+    @Deprecated(since="1.2", forRemoval=true)
     public final void resume() {
         // Android-changed: Unsupported on Android.
         // checkAccess();
@@ -1800,21 +1830,21 @@ class Thread implements Runnable {
     }
 
     /**
-     * Counts the number of stack frames in this thread. The thread must
-     * be suspended.
+     * Throws {@code UnsupportedOperationException}.
      *
-     * @return     the number of stack frames in this thread.
-     * @throws     IllegalThreadStateException  if this thread is not
-     *             suspended.
-     * @deprecated The definition of this call depends on {@link #suspend},
-     *             which is deprecated.  Further, the results of this call
-     *             were never well-defined.
+     * @return     nothing
+     *
+     * @deprecated This method was originally designed to count the number of
+     *             stack frames but the results were never well-defined and it
+     *             depended on thread-suspension.
      *             This method is subject to removal in a future version of Java SE.
      * @removed
      */
     @Deprecated(since="1.2", forRemoval=true)
     // Android-changed: Provide non-native implementation of countStackFrames().
-    // public native int countStackFrames();
+    // public int countStackFrames() {
+    //     throw new UnsupportedOperationException();
+    // }
     public int countStackFrames() {
         return getStackTrace().length;
     }
@@ -1840,37 +1870,35 @@ class Thread implements Runnable {
      *          <i>interrupted status</i> of the current thread is
      *          cleared when this exception is thrown.
      */
-    // BEGIN Android-changed: Synchronize on separate lock object not this Thread.
-    // nativePeer and hence isAlive() can change asynchronously, but Thread::Destroy
-    // will always acquire and notify lock after isAlive() changes to false.
-    // public final synchronized void join(long millis)
-    public final void join(long millis)
-    throws InterruptedException {
-        synchronized(lock) {
-        long base = System.currentTimeMillis();
-        long now = 0;
-
+    public final void join(long millis) throws InterruptedException {
         if (millis < 0) {
             throw new IllegalArgumentException("timeout value is negative");
         }
 
-        if (millis == 0) {
-            while (isAlive()) {
-                lock.wait(0);
-            }
-        } else {
-            while (isAlive()) {
-                long delay = millis - now;
-                if (delay <= 0) {
-                    break;
+        // BEGIN Android-changed: Synchronize on separate lock object not this Thread.
+        // nativePeer and hence isAlive() can change asynchronously, but Thread::Destroy
+        // will always acquire and notify lock after isAlive() changes to false.
+        // synchronized (this) {
+        synchronized(lock) {
+            if (millis > 0) {
+                if (isAlive()) {
+                    final long startTime = System.nanoTime();
+                    long delay = millis;
+                    do {
+                        // wait(delay);
+                        lock.wait(delay);
+                    } while (isAlive() && (delay = millis -
+                            NANOSECONDS.toMillis(System.nanoTime() - startTime)) > 0);
                 }
-                lock.wait(delay);
-                now = System.currentTimeMillis() - base;
+            } else {
+                while (isAlive()) {
+                    // wait(0);
+                    lock.wait(0);
+                }
             }
         }
-        }
+        // END Android-changed: Synchronize on separate lock object not this Thread.
     }
-    // END Android-changed: Synchronize on separate lock object not this Thread.
 
     /**
      * Waits at most {@code millis} milliseconds plus
@@ -1913,7 +1941,7 @@ class Thread implements Runnable {
                                 "nanosecond timeout value out of range");
         }
 
-        if (nanos >= 500000 || (nanos != 0 && millis == 0)) {
+        if (nanos > 0 && millis < Long.MAX_VALUE) {
             millis++;
         }
 
@@ -2008,6 +2036,7 @@ class Thread implements Runnable {
     @Deprecated(since="17", forRemoval=true)
     public final void checkAccess() {
         // Android-removed: SecurityManager stubbed out on Android.
+        // @SuppressWarnings("removal")
         // SecurityManager security = System.getSecurityManager();
         // if (security != null) {
         //     security.checkAccess(this);
@@ -2057,6 +2086,7 @@ class Thread implements Runnable {
         /*
         if (contextClassLoader == null)
             return null;
+        @SuppressWarnings("removal")
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
             ClassLoader.checkClassLoaderPermission(contextClassLoader,
@@ -2090,6 +2120,7 @@ class Thread implements Runnable {
      */
     public void setContextClassLoader(ClassLoader cl) {
         // Android-removed: SecurityManager stubbed out on Android.
+        // @SuppressWarnings("removal")
         // SecurityManager sm = System.getSecurityManager();
         // if (sm != null) {
         //     sm.checkPermission(new RuntimePermission("setContextClassLoader"));
@@ -2159,6 +2190,7 @@ class Thread implements Runnable {
         /*
         if (this != Thread.currentThread()) {
             // check for getStackTrace permission
+            @SuppressWarnings("removal")
             SecurityManager security = System.getSecurityManager();
             if (security != null) {
                 security.checkPermission(
@@ -2216,6 +2248,7 @@ class Thread implements Runnable {
         // Android-removed: SecurityManager stubbed out on Android.
         /*
         // check for getStackTrace permission
+        @SuppressWarnings("removal")
         SecurityManager security = System.getSecurityManager();
         if (security != null) {
             security.checkPermission(
@@ -2298,6 +2331,7 @@ class Thread implements Runnable {
      * subclass overrides any of the methods, false otherwise.
      */
     private static boolean auditSubclass(final Class<?> subcl) {
+        @SuppressWarnings("removal")
         Boolean result = AccessController.doPrivileged(
             new PrivilegedAction<>() {
                 public Boolean run() {
@@ -2583,6 +2617,7 @@ class Thread implements Runnable {
     public static void setDefaultUncaughtExceptionHandler(UncaughtExceptionHandler eh) {
         // Android-removed: SecurityManager stubbed out on Android.
         /*
+        @SuppressWarnings("removal")
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
             sm.checkPermission(
@@ -2786,9 +2821,9 @@ class Thread implements Runnable {
                 return true;
 
             if (obj instanceof WeakClassKey) {
-                Object referent = get();
+                Class<?> referent = get();
                 return (referent != null) &&
-                       (referent == ((WeakClassKey) obj).get());
+                        (((WeakClassKey) obj).refersTo(referent));
             } else {
                 return false;
             }
@@ -2886,6 +2921,8 @@ class Thread implements Runnable {
 
     @FastNative
     private native void interrupt0();
+    // Android-removed: This native method is replaced by the native interrupted() method.
+    // private static native void clearInterruptEvent();
     private native void setNativeName(String name);
 
     // Android-added: Android specific nativeGetStatus() method.

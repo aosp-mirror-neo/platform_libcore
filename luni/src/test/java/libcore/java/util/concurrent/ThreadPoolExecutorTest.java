@@ -16,15 +16,30 @@
 
 package libcore.java.util.concurrent;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNotNull;
 
+import libcore.test.annotation.NonCts;
+import libcore.test.reasons.NonCtsReasons;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
-public class ThreadPoolExecutorTest extends TestCase {
+import jdk.internal.vm.ThreadContainer;
+import jdk.internal.vm.ThreadContainers;
+
+@RunWith(JUnit4.class)
+public class ThreadPoolExecutorTest {
 
     // http://b/27702221
+    @Test
     public void testCorePoolSizeGreaterThanMax() {
         ThreadPoolExecutor tp = new ThreadPoolExecutor(
                 1 /* core pool size */, 1 /* max pool size */,
@@ -36,5 +51,29 @@ public class ThreadPoolExecutorTest extends TestCase {
         // consistent state at the end of both method calls.
         tp.setCorePoolSize(5);
         tp.setMaximumPoolSize(5);
+    }
+
+    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
+    @Test
+    public void testThreadContainerTracking() throws InterruptedException {
+        try (ThreadPoolExecutor tp = new ThreadPoolExecutor(
+                1 /* core pool size */, 1 /* max pool size */,
+                1000, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(10))) {
+
+            CountDownLatch latch = new CountDownLatch(1);
+            final AtomicReference<Thread> result = new AtomicReference<>(null);
+            tp.execute(() -> {
+                Thread cur = Thread.currentThread();
+                Optional<Thread> th = ThreadContainers.root().children()
+                        .flatMap(ThreadContainer::threads)
+                        .filter(cur::equals)
+                        .findFirst();
+                result.set(th.orElse(null));
+                latch.countDown();
+            });
+            latch.await();
+            Thread th = result.get();
+            assertNotNull("The pooled thread isn't found in the thread container", th);
+        }
     }
 }
