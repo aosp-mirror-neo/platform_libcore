@@ -47,8 +47,6 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-import jdk.internal.vm.SharedThreadContainer;
-
 // BEGIN android-note
 // removed security manager docs
 // END android-note
@@ -492,7 +490,8 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
     /**
      * The thread container for the worker threads.
      */
-    private final SharedThreadContainer container;
+    // Android-removed: SharedThreadContainer not available.
+    // private final SharedThreadContainer container;
 
     /**
      * Tracks largest attained pool size. Accessed only under
@@ -743,7 +742,8 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
                     } finally {
                         ctl.set(ctlOf(TERMINATED, 0));
                         termination.signalAll();
-                        container.close();
+                        // Android-removed: SharedThreadContainer not available.
+                        // container.close();
                     }
                     return;
                 }
@@ -960,7 +960,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
                     mainLock.unlock();
                 }
                 if (workerAdded) {
-                    container.start(t);
+                    // Android-changed: SharedThreadContainer not available.
+                    // container.start(t);
+                    t.start();
                     workerStarted = true;
                 }
             }
@@ -1328,8 +1330,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         this.threadFactory = threadFactory;
         this.handler = handler;
 
-        String name = Objects.toIdentityString(this);
-        this.container = SharedThreadContainer.create(name);
+        // Android-removed: SharedThreadContainer not available.
+        // String name = Objects.toIdentityString(this);
+        // this.container = SharedThreadContainer.create(name);
     }
 
     /**
