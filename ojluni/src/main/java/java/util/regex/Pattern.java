@@ -53,6 +53,7 @@ import libcore.util.EmptyArray;
 // Android-changed: Remove "Compatibility Properties of Unicode Regular Expression" table.
 // Android-changed: Remove supported \b{g} Unicode extended grapheme cluster boundary.
 // Android-changed: Prefix "Is" is supported since Android 10. http://b/110364810
+// Android-changed: \u000b and \u000c are recognized as line terminators. http://b/418109879
 /**
  * A compiled representation of a regular expression.
  *
@@ -459,23 +460,16 @@ import libcore.util.EmptyArray;
  * <h2><a id="lt">Line terminators</a></h2>
  *
  * <p> A <i>line terminator</i> is a one- or two-character sequence that marks
- * the end of a line of the input character sequence.  The following are
- * recognized as line terminators:
+ * the end of a line of the input character sequence.
+ * Any Unicode linebreak sequence <a href="#any_unicode_linebreak">{@code '\R'}</a> is recognized
+ * as <i>line terminator</i>. In particular, on Android, the following are also recognized
+ * as line terminators:
  *
  * <ul>
  *
- *   <li> A newline (line feed) character ({@code '\n'}),
+ *   <li> A vertical tabulation character (<code>'&#92;u000B'</code>), or
  *
- *   <li> A carriage-return character followed immediately by a newline
- *   character ({@code "\r\n"}),
- *
- *   <li> A standalone carriage-return character ({@code '\r'}),
- *
- *   <li> A next-line character (<code>'&#92;u0085'</code>),
- *
- *   <li> A line-separator character (<code>'&#92;u2028'</code>), or
- *
- *   <li> A paragraph-separator character (<code>'&#92;u2029'</code>).
+ *   <li> A form-feed character (<code>'&#92;u000C'</code>).
  *
  * </ul>
  * <p>If {@link #UNIX_LINES} mode is activated, then the only line terminators

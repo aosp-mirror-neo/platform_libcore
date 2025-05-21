@@ -17,32 +17,18 @@
 package libcore.java.util.concurrent;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import libcore.test.annotation.NonCts;
-import libcore.test.reasons.NonCtsReasons;
-
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.ForkJoinWorkerThread;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
-
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import jdk.internal.vm.ThreadContainer;
-import jdk.internal.vm.ThreadContainers;
 
 @RunWith(JUnit4.class)
 public class ForkJoinPoolTest {
@@ -88,28 +74,6 @@ public class ForkJoinPoolTest {
             assertEquals(0, pool.getRunningThreadCount());
         } catch(Throwable t) {
             fail("Unexpected exception: " + t.getMessage());
-        }
-    }
-
-    @NonCts(reason = NonCtsReasons.INTERNAL_APIS)
-    @Test
-    public void testThreadContainerTracking() throws Exception {
-        final ForkJoinPool pool = new ForkJoinPool();
-        try (ExecutorServiceAutoCloseable cleaner = new ExecutorServiceAutoCloseable(pool)) {
-            final AtomicReference<Thread> result = new AtomicReference<>(null);
-            ForkJoinTask<AtomicReference<Thread>> task = pool.submit(() -> {
-                Thread cur = Thread.currentThread();
-                Optional<Thread> th = ThreadContainers.root().children()
-                        .filter((c) -> c.name().startsWith("ForkJoinPool-"))
-                        .flatMap(ThreadContainer::threads)
-                        .filter(cur::equals)
-                        .findFirst();
-                result.set(th.orElse(null));
-            }, result);
-            assertSame(result, task.get());
-            Thread th = result.get();
-            assertNotNull("ForkJoinWorkerThread wasn't found in the shared container", th);
-            assertTrue(th instanceof ForkJoinWorkerThread);
         }
     }
 

@@ -342,6 +342,7 @@ public class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *       removal. There is no replacement for the Security Manager or this
      *       method.
      */
+    @Deprecated(since="17", forRemoval=true)
     public final void checkAccess() {
         // Android-removed: SecurityManager stubbed out on Android.
         // @SuppressWarnings("removal")

@@ -811,7 +811,7 @@ public final class VMRuntime {
      *
      * @hide
      */
-    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NICENESS_API)
+    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NICENESS_APIS)
     @SystemApi(client = MODULE_LIBRARIES)
     public int getThreadNiceness(Thread t) {
       return t.getPosixNicenessInternal();
@@ -828,7 +828,7 @@ public final class VMRuntime {
      *
      * @hide
      */
-    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NICENESS_API)
+    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NICENESS_APIS)
     @SystemApi(client = MODULE_LIBRARIES)
     public boolean setThreadNiceness(Thread t, int newNiceness) {
       if (newNiceness < -20 || newNiceness > 19) {
