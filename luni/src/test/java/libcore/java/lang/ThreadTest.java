@@ -23,24 +23,37 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeTrue;
 
+import dalvik.annotation.compat.VersionCodes;
 import dalvik.system.InMemoryDexClassLoader;
+import dalvik.system.VMRuntime;
 
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.nio.ByteBuffer;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Function;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.junit.Assume;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.InOrder;
@@ -48,12 +61,18 @@ import org.mockito.Mockito;
 
 import libcore.io.Streams;
 import libcore.java.lang.ref.FinalizationTester;
+import libcore.junit.util.compat.CoreCompatChangeRule;
+import libcore.test.annotation.NonCts;
+import libcore.test.reasons.NonCtsReasons;
 
 @RunWith(JUnit4.class)
 public final class ThreadTest {
     static {
         System.loadLibrary("javacoretests");
     }
+
+    @Rule
+    public final TestRule compatChangeRule = new CoreCompatChangeRule();
 
     /**
      * getContextClassLoader returned a non-application class loader.
@@ -653,4 +672,58 @@ public final class ThreadTest {
             done = true;
         }
     }
+
+    @Test
+    @CoreCompatChangeRule.EnableCompatChanges({Thread.OVERRIDDEN_THREAD_START_METHOD})
+    public void testOverriddenThreadStartMethod_changeEnabled() {
+        assumeTrue(VMRuntime.getSdkVersion() >= VersionCodes.C);
+
+        assertOverriddenStartMethodCalled(Executors::newSingleThreadExecutor, false);
+        assertOverriddenStartMethodCalled(Executors::newCachedThreadPool, false);
+    }
+
+    /** Regression test for b/419271726 */
+    @Test
+    @CoreCompatChangeRule.DisableCompatChanges({Thread.OVERRIDDEN_THREAD_START_METHOD})
+    public void testOverriddenThreadStartMethod_changeDisabled() {
+        assertOverriddenStartMethodCalled(Executors::newSingleThreadExecutor, true);
+        assertOverriddenStartMethodCalled(Executors::newCachedThreadPool, true);
+    }
+
+    private void assertOverriddenStartMethodCalled(
+            Function<ThreadFactory, ExecutorService> executorFuc, boolean expectedIsCalled) {
+        AtomicReference<ThreadWithOverriddenStartMethod> ref = new AtomicReference<>();
+        ThreadFactory factory = (r) -> {
+            ThreadWithOverriddenStartMethod t = new ThreadWithOverriddenStartMethod(r);
+            ref.set(t);
+            return t;
+        };
+
+        try (var executor = executorFuc.apply(factory)) {
+            executor.submit(() -> assertEquals(Thread.currentThread(), ref.get()));
+        }
+
+        ThreadWithOverriddenStartMethod t = ref.get();
+        assertNotNull(t);
+        assertEquals(expectedIsCalled, t.isCalled());
+    }
+
+    private static class ThreadWithOverriddenStartMethod extends Thread {
+        private final AtomicBoolean mIsCalled = new AtomicBoolean(false);
+
+        public ThreadWithOverriddenStartMethod(Runnable runnable) {
+            super(runnable);
+        }
+
+        @Override
+        public synchronized void start() {
+            super.start();
+            mIsCalled.set(true);
+        }
+
+        public boolean isCalled() {
+            return mIsCalled.get();
+        }
+    }
+
 }

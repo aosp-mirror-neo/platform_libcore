@@ -55,6 +55,7 @@ import java.util.concurrent.locks.Condition;
 
 import jdk.internal.access.SharedSecrets;
 import jdk.internal.misc.Unsafe;
+import jdk.internal.vm.SharedThreadContainer;
 
 // Android-changed: Substituted @systemProperty tag with @code.
 /**
@@ -1527,9 +1528,7 @@ public class ForkJoinPool extends AbstractExecutorService {
     final ForkJoinWorkerThreadFactory factory;
     final UncaughtExceptionHandler ueh;  // per-worker UEH
     final Predicate<? super ForkJoinPool> saturate;
-    // Android-removed: SharedThreadContainer not available.
-    // TODO(b/346542404): Use SharedThreadContainer once VirtualThread is available
-    // final SharedThreadContainer container;
+    final SharedThreadContainer container;
 
     @jdk.internal.vm.annotation.Contended("fjpctl") // segregate
     volatile long ctl;                   // main pool control
@@ -1586,10 +1585,7 @@ public class ForkJoinPool extends AbstractExecutorService {
         try {
             if (runState >= 0 &&  // avoid construction if terminating
                 fac != null && (wt = fac.newThread(this)) != null) {
-                // Android-changed: SharedThreadContainer not available.
-                // TODO(b/346542404): Use SharedThreadContainer once VirtualThread is available
-                // container.start(wt);
-                wt.start();
+                container.start(wt);
                 return true;
             }
         } catch (Throwable rex) {
@@ -2549,9 +2545,7 @@ public class ForkJoinPool extends AbstractExecutorService {
             if ((cond = termination) != null)
                 cond.signalAll();
             lock.unlock();
-            // Android-removed: SharedThreadContainer not available.
-            // TODO(b/346542404): Use SharedThreadContainer once VirtualThread is available
-            // container.close();
+            container.close();
         }
         return true;
     }
@@ -2744,9 +2738,7 @@ public class ForkJoinPool extends AbstractExecutorService {
         String pid = Integer.toString(getAndAddPoolIds(1) + 1);
         String name = "ForkJoinPool-" + pid;
         this.workerNamePrefix = name + "-worker-";
-        // Android-removed: SharedThreadContainer not available.
-        // TODO(b/346542404): Use SharedThreadContainer once VirtualThread is available
-        // this.container = SharedThreadContainer.create(name);
+        this.container = SharedThreadContainer.create(name);
     }
 
     /**
@@ -2798,9 +2790,7 @@ public class ForkJoinPool extends AbstractExecutorService {
         this.workerNamePrefix = null;
         this.registrationLock = new ReentrantLock();
         this.queues = new WorkQueue[size];
-        // Android-removed: SharedThreadContainer not available.
-        // TODO(b/346542404): Use SharedThreadContainer once VirtualThread is available
-        // this.container = SharedThreadContainer.create("ForkJoinPool.commonPool");
+        this.container = SharedThreadContainer.create("ForkJoinPool.commonPool");
     }
 
     /**
