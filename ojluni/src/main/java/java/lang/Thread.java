@@ -28,6 +28,7 @@ package java.lang;
 
 import dalvik.annotation.optimization.CriticalNative;
 import dalvik.annotation.optimization.FastNative;
+import dalvik.annotation.compat.VersionCodes;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
@@ -54,6 +55,7 @@ import sun.nio.ch.Interruptible;
 import sun.security.util.SecurityConstants;
 
 import dalvik.annotation.optimization.NeverInline;
+import dalvik.system.VMRuntime;
 import dalvik.system.VirtualThreadContext;
 import dalvik.system.VirtualThreadParkingError;
 import dalvik.system.VirtualThreadParkedStates;
@@ -62,6 +64,10 @@ import dalvik.system.VMStack;
 import libcore.util.EmptyArray;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
+import android.compat.Compatibility;
+import android.compat.annotation.ChangeId;
+import android.compat.annotation.EnabledSince;
 
 /**
  * A <i>thread</i> is a thread of execution in a program. The Java
@@ -1183,6 +1189,9 @@ public class Thread implements Runnable {
      * In particular, a thread may not be restarted once it has completed
      * execution.
      *
+     * <p><strong>WARNING:</strong> Do not override this method, because the runtime may
+     * treat this method {@code final} in the future, because it works closely with the runtime.</p>
+     *
      * @throws     IllegalThreadStateException  if the thread was already started.
      * @see        #run()
      * @see        #stop()
@@ -1229,12 +1238,57 @@ public class Thread implements Runnable {
         }
     }
 
+    // Android-added: Thread.start() is overridden in ThreadPoolExecutor. http://b/418924588
+    /**
+     * {@link Thread#start()} is no longer invoked for threads used by
+     * {@link java.util.concurrent.ThreadPoolExecutor} and
+     * {@link java.util.concurrent.ForkJoinPool}.
+     *
+     * Don't override {@link Thread#start()} in this case when the app targets SDK level
+     * corresponding to 26Q2, or the overridden method won't be invoked by the
+     * runtime.
+     *
+     * @hide
+     */
+    @ChangeId
+    @EnabledSince(targetSdkVersion = VersionCodes.C)
+    public static final long OVERRIDDEN_THREAD_START_METHOD = 418924588L;
+
     /**
      * Schedules this thread to begin execution in the given thread container.
      * @throws IllegalStateException if the container is shutdown or closed
      * @throws IllegalThreadStateException if the thread has already been started
      */
     void start(ThreadContainer container) {
+        // Android-changed: App compat with overridden Thread.start() method. http://b/418924588
+        if (!isVirtual() && !(VMRuntime.getSdkVersion() >= VersionCodes.C
+                && Compatibility.isChangeEnabled(Thread.OVERRIDDEN_THREAD_START_METHOD))) {
+            synchronized (this) {
+                if (started) {
+                    throw new IllegalThreadStateException();
+                }
+
+                // bind thread to container
+                if (this.container != null)
+                    throw new IllegalThreadStateException();
+
+                setThreadContainer(container);
+                container.onStart(this);
+                // Release the monitor for better app compatibility, because an app may not assume
+                // the monitor being held.
+            }
+            try {
+                this.start();
+            } finally {
+                synchronized (this) {
+                    if (!started) {
+                        container.onExit(this);
+                    }
+                }
+            }
+            return;
+        }
+
         // TODO: Minimize code duplication in start().
         synchronized (this) {
             // zero status corresponds to state "NEW".
