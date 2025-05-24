@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
@@ -64,11 +65,20 @@ public class ThreadPoolExecutorTest {
             final AtomicReference<Thread> result = new AtomicReference<>(null);
             tp.execute(() -> {
                 Thread cur = Thread.currentThread();
-                Optional<Thread> th = ThreadContainers.root().children()
-                        .flatMap(ThreadContainer::threads)
-                        .filter(cur::equals)
-                        .findFirst();
-                result.set(th.orElse(null));
+                // Avoid using lambda. http://b/417565895
+                List<ThreadContainer> list = ThreadContainers.root().children().toList();
+                for (ThreadContainer c : list) {
+                    List<Thread> threads = c.threads().toList();
+                    for (Thread th : threads) {
+                        if (cur.equals(th)) {
+                            result.set(cur);
+                            break;
+                        }
+                    }
+                    if (result.get() != null) {
+                        break;
+                    }
+                }
                 latch.countDown();
             });
             latch.await();

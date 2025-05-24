@@ -25,6 +25,7 @@ import static org.junit.Assert.fail;
 import libcore.test.annotation.NonCts;
 import libcore.test.reasons.NonCtsReasons;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
@@ -99,12 +100,23 @@ public class ForkJoinPoolTest {
             final AtomicReference<Thread> result = new AtomicReference<>(null);
             ForkJoinTask<AtomicReference<Thread>> task = pool.submit(() -> {
                 Thread cur = Thread.currentThread();
-                Optional<Thread> th = ThreadContainers.root().children()
-                        .filter((c) -> c.name().startsWith("ForkJoinPool-"))
-                        .flatMap(ThreadContainer::threads)
-                        .filter(cur::equals)
-                        .findFirst();
-                result.set(th.orElse(null));
+                // Avoid using lambda. http://b/417565895
+                List<ThreadContainer> list = ThreadContainers.root().children().toList();
+                for (ThreadContainer c : list) {
+                    if (!c.name().startsWith("ForkJoinPool-")) {
+                        continue;
+                    }
+                    List<Thread> threads = c.threads().toList();
+                    for (Thread th : threads) {
+                        if (cur.equals(th)) {
+                            result.set(cur);
+                            break;
+                        }
+                    }
+                    if (result.get() != null) {
+                        break;
+                    }
+                }
             }, result);
             assertSame(result, task.get());
             Thread th = result.get();
