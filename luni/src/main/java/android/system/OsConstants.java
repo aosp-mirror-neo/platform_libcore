@@ -162,7 +162,7 @@ public final class OsConstants {
     public static final int AI_NUMERICSERV = OsConstantsHolder.AI_NUMERICSERV;
     public static final int AI_PASSIVE = OsConstantsHolder.AI_PASSIVE;
     public static final int AI_V4MAPPED = OsConstantsHolder.AI_V4MAPPED;
-    public static final int ARPHRD_ETHER = OsConstantsHolder.ARPHRD_ETHER;
+    public static final int ARPHRD_ETHER;
 
     /**
       * The virtio-vsock {@code svmPort} value to bind for any available port.
@@ -170,7 +170,7 @@ public final class OsConstants {
       * @see <a href="https://man7.org/linux/man-pages/man7/vsock.7.html">vsock(7)</a>
       * @see VmSocketAddress
       */
-    public static final int VMADDR_PORT_ANY = OsConstantsHolder.VMADDR_PORT_ANY;
+    public static final int VMADDR_PORT_ANY;
 
     /**
       * The virtio-vsock {@code svmCid} value to listens for all CIDs.
@@ -178,7 +178,7 @@ public final class OsConstants {
       * @see <a href="https://man7.org/linux/man-pages/man7/vsock.7.html">vsock(7)</a>
       * @see VmSocketAddress
       */
-    public static final int VMADDR_CID_ANY = OsConstantsHolder.VMADDR_CID_ANY;
+    public static final int VMADDR_CID_ANY;
 
     /**
       * The virtio-vsock {@code svmCid} value for host communication.
@@ -186,7 +186,7 @@ public final class OsConstants {
       * @see <a href="https://man7.org/linux/man-pages/man7/vsock.7.html">vsock(7)</a>
       * @see VmSocketAddress
       */
-    public static final int VMADDR_CID_LOCAL = OsConstantsHolder.VMADDR_CID_LOCAL;
+    public static final int VMADDR_CID_LOCAL;
 
     /**
       * The virtio-vsock {@code svmCid} value for loopback communication.
@@ -194,7 +194,7 @@ public final class OsConstants {
       * @see <a href="https://man7.org/linux/man-pages/man7/vsock.7.html">vsock(7)</a>
       * @see VmSocketAddress
       */
-    public static final int VMADDR_CID_HOST = OsConstantsHolder.VMADDR_CID_HOST;
+    public static final int VMADDR_CID_HOST;
 
     /**
      * ARP protocol loopback device identifier.
@@ -203,51 +203,45 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int ARPHRD_LOOPBACK = OsConstantsHolder.ARPHRD_LOOPBACK;
-    public static final int CAP_AUDIT_CONTROL = OsConstantsHolder.CAP_AUDIT_CONTROL;
-    public static final int CAP_AUDIT_WRITE = OsConstantsHolder.CAP_AUDIT_WRITE;
-    public static final int CAP_BLOCK_SUSPEND = OsConstantsHolder.CAP_BLOCK_SUSPEND;
-    public static final int CAP_CHOWN = OsConstantsHolder.CAP_CHOWN;
-    public static final int CAP_DAC_OVERRIDE = OsConstantsHolder.CAP_DAC_OVERRIDE;
-    public static final int CAP_DAC_READ_SEARCH = OsConstantsHolder.CAP_DAC_READ_SEARCH;
-    public static final int CAP_FOWNER = OsConstantsHolder.CAP_FOWNER;
-    public static final int CAP_FSETID = OsConstantsHolder.CAP_FSETID;
-    public static final int CAP_IPC_LOCK = OsConstantsHolder.CAP_IPC_LOCK;
-    public static final int CAP_IPC_OWNER = OsConstantsHolder.CAP_IPC_OWNER;
-    public static final int CAP_KILL = OsConstantsHolder.CAP_KILL;
-    public static final int CAP_LAST_CAP = OsConstantsHolder.CAP_LAST_CAP;
-    public static final int CAP_LEASE = OsConstantsHolder.CAP_LEASE;
-    public static final int CAP_LINUX_IMMUTABLE = OsConstantsHolder.CAP_LINUX_IMMUTABLE;
-    public static final int CAP_MAC_ADMIN = OsConstantsHolder.CAP_MAC_ADMIN;
-    public static final int CAP_MAC_OVERRIDE = OsConstantsHolder.CAP_MAC_OVERRIDE;
-    public static final int CAP_MKNOD = OsConstantsHolder.CAP_MKNOD;
-    public static final int CAP_NET_ADMIN = OsConstantsHolder.CAP_NET_ADMIN;
-    public static final int CAP_NET_BIND_SERVICE = OsConstantsHolder.CAP_NET_BIND_SERVICE;
-    public static final int CAP_NET_BROADCAST = OsConstantsHolder.CAP_NET_BROADCAST;
-    public static final int CAP_NET_RAW = OsConstantsHolder.CAP_NET_RAW;
-    public static final int CAP_SETFCAP = OsConstantsHolder.CAP_SETFCAP;
-    public static final int CAP_SETGID = OsConstantsHolder.CAP_SETGID;
-    public static final int CAP_SETPCAP = OsConstantsHolder.CAP_SETPCAP;
-    public static final int CAP_SETUID = OsConstantsHolder.CAP_SETUID;
-    public static final int CAP_SYS_ADMIN = OsConstantsHolder.CAP_SYS_ADMIN;
-    public static final int CAP_SYS_BOOT = OsConstantsHolder.CAP_SYS_BOOT;
-    public static final int CAP_SYS_CHROOT = OsConstantsHolder.CAP_SYS_CHROOT;
-    public static final int CAP_SYSLOG = OsConstantsHolder.CAP_SYSLOG;
-    public static final int CAP_SYS_MODULE = OsConstantsHolder.CAP_SYS_MODULE;
-    public static final int CAP_SYS_NICE = OsConstantsHolder.CAP_SYS_NICE;
-    public static final int CAP_SYS_PACCT = OsConstantsHolder.CAP_SYS_PACCT;
-    public static final int CAP_SYS_PTRACE = OsConstantsHolder.CAP_SYS_PTRACE;
-    public static final int CAP_SYS_RAWIO = OsConstantsHolder.CAP_SYS_RAWIO;
-    public static final int CAP_SYS_RESOURCE = OsConstantsHolder.CAP_SYS_RESOURCE;
-    public static final int CAP_SYS_TIME = OsConstantsHolder.CAP_SYS_TIME;
-    public static final int CAP_SYS_TTY_CONFIG = OsConstantsHolder.CAP_SYS_TTY_CONFIG;
-    public static final int CAP_WAKE_ALARM = OsConstantsHolder.CAP_WAKE_ALARM;
-    public static final int E2BIG = OsConstantsHolder.E2BIG;
-    public static final int EACCES = OsConstantsHolder.EACCES;
-    public static final int EADDRINUSE = OsConstantsHolder.EADDRINUSE;
-    public static final int EADDRNOTAVAIL = OsConstantsHolder.EADDRNOTAVAIL;
-    public static final int EAFNOSUPPORT = OsConstantsHolder.EAFNOSUPPORT;
-    public static final int EAGAIN = OsConstantsHolder.EAGAIN;
+    public static final int ARPHRD_LOOPBACK;
+    public static final int CAP_AUDIT_CONTROL;
+    public static final int CAP_AUDIT_WRITE;
+    public static final int CAP_BLOCK_SUSPEND;
+    public static final int CAP_CHOWN;
+    public static final int CAP_DAC_OVERRIDE;
+    public static final int CAP_DAC_READ_SEARCH;
+    public static final int CAP_FOWNER;
+    public static final int CAP_FSETID;
+    public static final int CAP_IPC_LOCK;
+    public static final int CAP_IPC_OWNER;
+    public static final int CAP_KILL;
+    public static final int CAP_LAST_CAP;
+    public static final int CAP_LEASE;
+    public static final int CAP_LINUX_IMMUTABLE;
+    public static final int CAP_MAC_ADMIN;
+    public static final int CAP_MAC_OVERRIDE;
+    public static final int CAP_MKNOD;
+    public static final int CAP_NET_ADMIN;
+    public static final int CAP_NET_BIND_SERVICE;
+    public static final int CAP_NET_BROADCAST;
+    public static final int CAP_NET_RAW;
+    public static final int CAP_SETFCAP;
+    public static final int CAP_SETGID;
+    public static final int CAP_SETPCAP;
+    public static final int CAP_SETUID;
+    public static final int CAP_SYS_ADMIN;
+    public static final int CAP_SYS_BOOT;
+    public static final int CAP_SYS_CHROOT;
+    public static final int CAP_SYSLOG;
+    public static final int CAP_SYS_MODULE;
+    public static final int CAP_SYS_NICE;
+    public static final int CAP_SYS_PACCT;
+    public static final int CAP_SYS_PTRACE;
+    public static final int CAP_SYS_RAWIO;
+    public static final int CAP_SYS_RESOURCE;
+    public static final int CAP_SYS_TIME;
+    public static final int CAP_SYS_TTY_CONFIG;
+    public static final int CAP_WAKE_ALARM;
     public static final int EAI_AGAIN = OsConstantsHolder.EAI_AGAIN;
     public static final int EAI_BADFLAGS = OsConstantsHolder.EAI_BADFLAGS;
     public static final int EAI_FAIL = OsConstantsHolder.EAI_FAIL;
@@ -259,82 +253,88 @@ public final class OsConstants {
     public static final int EAI_SERVICE = OsConstantsHolder.EAI_SERVICE;
     public static final int EAI_SOCKTYPE = OsConstantsHolder.EAI_SOCKTYPE;
     public static final int EAI_SYSTEM = OsConstantsHolder.EAI_SYSTEM;
-    public static final int EALREADY = OsConstantsHolder.EALREADY;
-    public static final int EBADF = OsConstantsHolder.EBADF;
-    public static final int EBADMSG = OsConstantsHolder.EBADMSG;
-    public static final int EBUSY = OsConstantsHolder.EBUSY;
-    public static final int ECANCELED = OsConstantsHolder.ECANCELED;
-    public static final int ECHILD = OsConstantsHolder.ECHILD;
-    public static final int ECONNABORTED = OsConstantsHolder.ECONNABORTED;
-    public static final int ECONNREFUSED = OsConstantsHolder.ECONNREFUSED;
-    public static final int ECONNRESET = OsConstantsHolder.ECONNRESET;
-    public static final int EDEADLK = OsConstantsHolder.EDEADLK;
-    public static final int EDESTADDRREQ = OsConstantsHolder.EDESTADDRREQ;
-    public static final int EDOM = OsConstantsHolder.EDOM;
-    public static final int EDQUOT = OsConstantsHolder.EDQUOT;
-    public static final int EEXIST = OsConstantsHolder.EEXIST;
-    public static final int EFAULT = OsConstantsHolder.EFAULT;
-    public static final int EFBIG = OsConstantsHolder.EFBIG;
-    public static final int EHOSTUNREACH = OsConstantsHolder.EHOSTUNREACH;
-    public static final int EIDRM = OsConstantsHolder.EIDRM;
-    public static final int EILSEQ = OsConstantsHolder.EILSEQ;
-    public static final int EINPROGRESS = OsConstantsHolder.EINPROGRESS;
-    public static final int EINTR = OsConstantsHolder.EINTR;
-    public static final int EINVAL = OsConstantsHolder.EINVAL;
-    public static final int EIO = OsConstantsHolder.EIO;
-    public static final int EISCONN = OsConstantsHolder.EISCONN;
-    public static final int EISDIR = OsConstantsHolder.EISDIR;
-    public static final int ELOOP = OsConstantsHolder.ELOOP;
-    public static final int EMFILE = OsConstantsHolder.EMFILE;
-    public static final int EMLINK = OsConstantsHolder.EMLINK;
-    public static final int EMSGSIZE = OsConstantsHolder.EMSGSIZE;
-    public static final int EMULTIHOP = OsConstantsHolder.EMULTIHOP;
-    public static final int ENAMETOOLONG = OsConstantsHolder.ENAMETOOLONG;
-    public static final int ENETDOWN = OsConstantsHolder.ENETDOWN;
-    public static final int ENETRESET = OsConstantsHolder.ENETRESET;
-    public static final int ENETUNREACH = OsConstantsHolder.ENETUNREACH;
-    public static final int ENFILE = OsConstantsHolder.ENFILE;
-    public static final int ENOBUFS = OsConstantsHolder.ENOBUFS;
-    public static final int ENODATA = OsConstantsHolder.ENODATA;
-    public static final int ENODEV = OsConstantsHolder.ENODEV;
-    public static final int ENOENT = OsConstantsHolder.ENOENT;
-    public static final int ENOEXEC = OsConstantsHolder.ENOEXEC;
-    public static final int ENOLCK = OsConstantsHolder.ENOLCK;
-    public static final int ENOLINK = OsConstantsHolder.ENOLINK;
-    public static final int ENOMEM = OsConstantsHolder.ENOMEM;
-    public static final int ENOMSG = OsConstantsHolder.ENOMSG;
-    public static final int ENONET = OsConstantsHolder.ENONET;
-    public static final int ENOPROTOOPT = OsConstantsHolder.ENOPROTOOPT;
-    public static final int ENOSPC = OsConstantsHolder.ENOSPC;
-    public static final int ENOSR = OsConstantsHolder.ENOSR;
-    public static final int ENOSTR = OsConstantsHolder.ENOSTR;
-    public static final int ENOSYS = OsConstantsHolder.ENOSYS;
-    public static final int ENOTCONN = OsConstantsHolder.ENOTCONN;
-    public static final int ENOTDIR = OsConstantsHolder.ENOTDIR;
-    public static final int ENOTEMPTY = OsConstantsHolder.ENOTEMPTY;
-    public static final int ENOTSOCK = OsConstantsHolder.ENOTSOCK;
-    public static final int ENOTSUP = OsConstantsHolder.ENOTSUP;
-    public static final int ENOTTY = OsConstantsHolder.ENOTTY;
-    public static final int ENXIO = OsConstantsHolder.ENXIO;
-    public static final int EOPNOTSUPP = OsConstantsHolder.EOPNOTSUPP;
-    public static final int EOVERFLOW = OsConstantsHolder.EOVERFLOW;
-    public static final int EPERM = OsConstantsHolder.EPERM;
-    public static final int EPIPE = OsConstantsHolder.EPIPE;
-    public static final int EPROTO = OsConstantsHolder.EPROTO;
-    public static final int EPROTONOSUPPORT = OsConstantsHolder.EPROTONOSUPPORT;
-    public static final int EPROTOTYPE = OsConstantsHolder.EPROTOTYPE;
-    public static final int ERANGE = OsConstantsHolder.ERANGE;
-    public static final int EROFS = OsConstantsHolder.EROFS;
-    public static final int ESPIPE = OsConstantsHolder.ESPIPE;
-    public static final int ESRCH = OsConstantsHolder.ESRCH;
-    public static final int ESTALE = OsConstantsHolder.ESTALE;
-    public static final int ETH_P_ALL = OsConstantsHolder.ETH_P_ALL;
-    public static final int ETH_P_ARP = OsConstantsHolder.ETH_P_ARP;
-    public static final int ETH_P_IP = OsConstantsHolder.ETH_P_IP;
-    public static final int ETH_P_IPV6 = OsConstantsHolder.ETH_P_IPV6;
-    public static final int ETIME = OsConstantsHolder.ETIME;
-    public static final int ETIMEDOUT = OsConstantsHolder.ETIMEDOUT;
-    public static final int ETXTBSY = OsConstantsHolder.ETXTBSY;
+    public static final int E2BIG;
+    public static final int EACCES;
+    public static final int EADDRINUSE;
+    public static final int EADDRNOTAVAIL;
+    public static final int EAFNOSUPPORT;
+    public static final int EAGAIN;
+    public static final int EALREADY;
+    public static final int EBADF;
+    public static final int EBADMSG;
+    public static final int EBUSY;
+    public static final int ECANCELED;
+    public static final int ECHILD;
+    public static final int ECONNABORTED;
+    public static final int ECONNREFUSED;
+    public static final int ECONNRESET;
+    public static final int EDEADLK;
+    public static final int EDESTADDRREQ;
+    public static final int EDOM;
+    public static final int EDQUOT;
+    public static final int EEXIST;
+    public static final int EFAULT;
+    public static final int EFBIG;
+    public static final int EHOSTUNREACH;
+    public static final int EIDRM;
+    public static final int EILSEQ;
+    public static final int EINPROGRESS;
+    public static final int EINTR;
+    public static final int EINVAL;
+    public static final int EIO;
+    public static final int EISCONN;
+    public static final int EISDIR;
+    public static final int ELOOP;
+    public static final int EMFILE;
+    public static final int EMLINK;
+    public static final int EMSGSIZE;
+    public static final int EMULTIHOP;
+    public static final int ENAMETOOLONG;
+    public static final int ENETDOWN;
+    public static final int ENETRESET;
+    public static final int ENETUNREACH;
+    public static final int ENFILE;
+    public static final int ENOBUFS;
+    public static final int ENODATA;
+    public static final int ENODEV;
+    public static final int ENOENT;
+    public static final int ENOEXEC;
+    public static final int ENOLCK;
+    public static final int ENOLINK;
+    public static final int ENOMEM;
+    public static final int ENOMSG;
+    public static final int ENONET;
+    public static final int ENOPROTOOPT;
+    public static final int ENOSPC;
+    public static final int ENOSR;
+    public static final int ENOSTR;
+    public static final int ENOSYS;
+    public static final int ENOTCONN;
+    public static final int ENOTDIR;
+    public static final int ENOTEMPTY;
+    public static final int ENOTSOCK;
+    public static final int ENOTSUP;
+    public static final int ENOTTY;
+    public static final int ENXIO;
+    public static final int EOPNOTSUPP;
+    public static final int EOVERFLOW;
+    public static final int EPERM;
+    public static final int EPIPE;
+    public static final int EPROTO;
+    public static final int EPROTONOSUPPORT;
+    public static final int EPROTOTYPE;
+    public static final int ERANGE;
+    public static final int EROFS;
+    public static final int ESPIPE;
+    public static final int ESRCH;
+    public static final int ESTALE;
+    public static final int ETIME;
+    public static final int ETIMEDOUT;
+    public static final int ETXTBSY;
+    public static final int ETH_P_ALL;
+    public static final int ETH_P_ARP;
+    public static final int ETH_P_IP;
+    public static final int ETH_P_IPV6;
     /**
      * "Too many users" error.
      * See <a href="https://man7.org/linux/man-pages/man3/errno.3.html">errno(3)</a>.
@@ -343,152 +343,151 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int EUSERS = OsConstantsHolder.EUSERS;
+    public static final int EUSERS;
     // On Linux, EWOULDBLOCK == EAGAIN. Use EAGAIN instead, to reduce confusion.
-    public static final int EXDEV = OsConstantsHolder.EXDEV;
-    public static final int EXIT_FAILURE = OsConstantsHolder.EXIT_FAILURE;
-    public static final int EXIT_SUCCESS = OsConstantsHolder.EXIT_SUCCESS;
-    public static final int FD_CLOEXEC = OsConstantsHolder.FD_CLOEXEC;
-    public static final int FIONREAD = OsConstantsHolder.FIONREAD;
-    public static final int F_DUPFD = OsConstantsHolder.F_DUPFD;
-    public static final int F_DUPFD_CLOEXEC = OsConstantsHolder.F_DUPFD_CLOEXEC;
-    public static final int F_GETFD = OsConstantsHolder.F_GETFD;
-    public static final int F_GETFL = OsConstantsHolder.F_GETFL;
+    public static final int EXDEV;
+    public static final int EXIT_FAILURE;
+    public static final int EXIT_SUCCESS;
+    public static final int FD_CLOEXEC;
+    public static final int FIONREAD;
+    public static final int F_DUPFD;
+    public static final int F_DUPFD_CLOEXEC;
+    public static final int F_GETFD;
+    public static final int F_GETFL;
     public static final int F_GETLK = OsConstantsHolder.F_GETLK;
     public static final int F_GETLK64 = OsConstantsHolder.F_GETLK64;
-    public static final int F_GETOWN = OsConstantsHolder.F_GETOWN;
-    public static final int F_OK = OsConstantsHolder.F_OK;
-    public static final int F_RDLCK = OsConstantsHolder.F_RDLCK;
-    public static final int F_SETFD = OsConstantsHolder.F_SETFD;
-    public static final int F_SETFL = OsConstantsHolder.F_SETFL;
+    public static final int F_GETOWN;
+    public static final int F_OK;
+    public static final int F_RDLCK;
+    public static final int F_SETFD;
+    public static final int F_SETFL;
     public static final int F_SETLK = OsConstantsHolder.F_SETLK;
     public static final int F_SETLK64 = OsConstantsHolder.F_SETLK64;
     public static final int F_SETLKW = OsConstantsHolder.F_SETLKW;
     public static final int F_SETLKW64 = OsConstantsHolder.F_SETLKW64;
-    public static final int F_SETOWN = OsConstantsHolder.F_SETOWN;
-    public static final int F_UNLCK = OsConstantsHolder.F_UNLCK;
-    public static final int F_WRLCK = OsConstantsHolder.F_WRLCK;
-    public static final int ICMP_ECHO = OsConstantsHolder.ICMP_ECHO;
-    public static final int ICMP_ECHOREPLY = OsConstantsHolder.ICMP_ECHOREPLY;
-    public static final int ICMP6_ECHO_REQUEST = OsConstantsHolder.ICMP6_ECHO_REQUEST;
-    public static final int ICMP6_ECHO_REPLY = OsConstantsHolder.ICMP6_ECHO_REPLY;
-    public static final int IFA_F_DADFAILED = OsConstantsHolder.IFA_F_DADFAILED;
-    public static final int IFA_F_DEPRECATED = OsConstantsHolder.IFA_F_DEPRECATED;
-    public static final int IFA_F_HOMEADDRESS = OsConstantsHolder.IFA_F_HOMEADDRESS;
-    public static final int IFA_F_MANAGETEMPADDR = OsConstantsHolder.IFA_F_MANAGETEMPADDR;
-    public static final int IFA_F_NODAD = OsConstantsHolder.IFA_F_NODAD;
-    public static final int IFA_F_NOPREFIXROUTE = OsConstantsHolder.IFA_F_NOPREFIXROUTE;
-    public static final int IFA_F_OPTIMISTIC = OsConstantsHolder.IFA_F_OPTIMISTIC;
-    public static final int IFA_F_PERMANENT = OsConstantsHolder.IFA_F_PERMANENT;
-    public static final int IFA_F_SECONDARY = OsConstantsHolder.IFA_F_SECONDARY;
-    public static final int IFA_F_TEMPORARY = OsConstantsHolder.IFA_F_TEMPORARY;
-    public static final int IFA_F_TENTATIVE = OsConstantsHolder.IFA_F_TENTATIVE;
-    public static final int IFF_ALLMULTI = OsConstantsHolder.IFF_ALLMULTI;
-    public static final int IFF_AUTOMEDIA = OsConstantsHolder.IFF_AUTOMEDIA;
-    public static final int IFF_BROADCAST = OsConstantsHolder.IFF_BROADCAST;
-    public static final int IFF_DEBUG = OsConstantsHolder.IFF_DEBUG;
-    public static final int IFF_DYNAMIC = OsConstantsHolder.IFF_DYNAMIC;
-    public static final int IFF_LOOPBACK = OsConstantsHolder.IFF_LOOPBACK;
-    public static final int IFF_MASTER = OsConstantsHolder.IFF_MASTER;
-    public static final int IFF_MULTICAST = OsConstantsHolder.IFF_MULTICAST;
-    public static final int IFF_NOARP = OsConstantsHolder.IFF_NOARP;
-    public static final int IFF_NOTRAILERS = OsConstantsHolder.IFF_NOTRAILERS;
-    public static final int IFF_POINTOPOINT = OsConstantsHolder.IFF_POINTOPOINT;
-    public static final int IFF_PORTSEL = OsConstantsHolder.IFF_PORTSEL;
-    public static final int IFF_PROMISC = OsConstantsHolder.IFF_PROMISC;
-    public static final int IFF_RUNNING = OsConstantsHolder.IFF_RUNNING;
-    public static final int IFF_SLAVE = OsConstantsHolder.IFF_SLAVE;
-    public static final int IFF_UP = OsConstantsHolder.IFF_UP;
-    public static final int IPPROTO_ICMP = OsConstantsHolder.IPPROTO_ICMP;
-    public static final int IPPROTO_ICMPV6 = OsConstantsHolder.IPPROTO_ICMPV6;
-    public static final int IPPROTO_IP = OsConstantsHolder.IPPROTO_IP;
-    public static final int IPPROTO_IPV6 = OsConstantsHolder.IPPROTO_IPV6;
-    public static final int IPPROTO_RAW = OsConstantsHolder.IPPROTO_RAW;
-    public static final int IPPROTO_TCP = OsConstantsHolder.IPPROTO_TCP;
-    public static final int IPPROTO_UDP = OsConstantsHolder.IPPROTO_UDP;
+    public static final int F_SETOWN;
+    public static final int F_UNLCK;
+    public static final int F_WRLCK;
+    public static final int ICMP_ECHO;
+    public static final int ICMP_ECHOREPLY;
+    public static final int ICMP6_ECHO_REQUEST;
+    public static final int ICMP6_ECHO_REPLY;
+    public static final int IFA_F_DADFAILED;
+    public static final int IFA_F_DEPRECATED;
+    public static final int IFA_F_HOMEADDRESS;
+    public static final int IFA_F_MANAGETEMPADDR;
+    public static final int IFA_F_NODAD;
+    public static final int IFA_F_NOPREFIXROUTE;
+    public static final int IFA_F_OPTIMISTIC;
+    public static final int IFA_F_PERMANENT;
+    public static final int IFA_F_SECONDARY;
+    public static final int IFA_F_TEMPORARY;
+    public static final int IFA_F_TENTATIVE;
+    public static final int IFF_ALLMULTI;
+    public static final int IFF_AUTOMEDIA;
+    public static final int IFF_BROADCAST;
+    public static final int IFF_DEBUG;
+    public static final int IFF_DYNAMIC;
+    public static final int IFF_LOOPBACK;
+    public static final int IFF_MASTER;
+    public static final int IFF_MULTICAST;
+    public static final int IFF_NOARP;
+    public static final int IFF_NOTRAILERS;
+    public static final int IFF_POINTOPOINT;
+    public static final int IFF_PORTSEL;
+    public static final int IFF_PROMISC;
+    public static final int IFF_RUNNING;
+    public static final int IFF_SLAVE;
+    public static final int IFF_UP;
+    public static final int IPPROTO_ICMP;
+    public static final int IPPROTO_ICMPV6;
+    public static final int IPPROTO_IP;
+    public static final int IPPROTO_IPV6;
+    public static final int IPPROTO_RAW;
+    public static final int IPPROTO_TCP;
+    public static final int IPPROTO_UDP;
 
     /**
      * Encapsulation Security Payload protocol
      *
      * <p>Defined in /uapi/linux/in.h
      */
-    public static final int IPPROTO_ESP = OsConstantsHolder.IPPROTO_ESP;
+    public static final int IPPROTO_ESP;
 
-    public static final int IPV6_CHECKSUM = OsConstantsHolder.IPV6_CHECKSUM;
-    public static final int IPV6_MULTICAST_HOPS = OsConstantsHolder.IPV6_MULTICAST_HOPS;
-    public static final int IPV6_MULTICAST_IF = OsConstantsHolder.IPV6_MULTICAST_IF;
-    public static final int IPV6_MULTICAST_LOOP = OsConstantsHolder.IPV6_MULTICAST_LOOP;
-    public static final int IPV6_PKTINFO = OsConstantsHolder.IPV6_PKTINFO;
-    public static final int IPV6_RECVDSTOPTS = OsConstantsHolder.IPV6_RECVDSTOPTS;
-    public static final int IPV6_RECVHOPLIMIT = OsConstantsHolder.IPV6_RECVHOPLIMIT;
-    public static final int IPV6_RECVHOPOPTS = OsConstantsHolder.IPV6_RECVHOPOPTS;
-    public static final int IPV6_RECVPKTINFO = OsConstantsHolder.IPV6_RECVPKTINFO;
-    public static final int IPV6_RECVRTHDR = OsConstantsHolder.IPV6_RECVRTHDR;
-    public static final int IPV6_RECVTCLASS = OsConstantsHolder.IPV6_RECVTCLASS;
-    public static final int IPV6_TCLASS = OsConstantsHolder.IPV6_TCLASS;
-    public static final int IPV6_UNICAST_HOPS = OsConstantsHolder.IPV6_UNICAST_HOPS;
-    public static final int IPV6_V6ONLY = OsConstantsHolder.IPV6_V6ONLY;
+    public static final int IPV6_CHECKSUM;
+    public static final int IPV6_MULTICAST_HOPS;
+    public static final int IPV6_MULTICAST_IF;
+    public static final int IPV6_MULTICAST_LOOP;
+    public static final int IPV6_PKTINFO;
+    public static final int IPV6_RECVDSTOPTS;
+    public static final int IPV6_RECVHOPLIMIT;
+    public static final int IPV6_RECVHOPOPTS;
+    public static final int IPV6_RECVPKTINFO;
+    public static final int IPV6_RECVRTHDR;
+    public static final int IPV6_RECVTCLASS;
+    public static final int IPV6_TCLASS;
+    public static final int IPV6_UNICAST_HOPS;
+    public static final int IPV6_V6ONLY;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int IP_MULTICAST_ALL = OsConstantsHolder.IP_MULTICAST_ALL;
-    public static final int IP_MULTICAST_IF = OsConstantsHolder.IP_MULTICAST_IF;
-    public static final int IP_MULTICAST_LOOP = OsConstantsHolder.IP_MULTICAST_LOOP;
-    public static final int IP_MULTICAST_TTL = OsConstantsHolder.IP_MULTICAST_TTL;
+    public static final int IP_MULTICAST_ALL;
+    public static final int IP_MULTICAST_IF;
+    public static final int IP_MULTICAST_LOOP;
+    public static final int IP_MULTICAST_TTL;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int IP_RECVTOS = OsConstantsHolder.IP_RECVTOS;
-    public static final int IP_TOS = OsConstantsHolder.IP_TOS;
-    public static final int IP_TTL = OsConstantsHolder.IP_TTL;
+    public static final int IP_RECVTOS;
+    public static final int IP_TOS;
+    public static final int IP_TTL;
 
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_NORMAL = OsConstantsHolder.MADV_NORMAL;
+    public static final int MADV_NORMAL;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_RANDOM = OsConstantsHolder.MADV_RANDOM;
+    public static final int MADV_RANDOM;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_SEQUENTIAL = OsConstantsHolder.MADV_SEQUENTIAL;
+    public static final int MADV_SEQUENTIAL;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_WILLNEED = OsConstantsHolder.MADV_WILLNEED;
+    public static final int MADV_WILLNEED;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_DONTNEED = OsConstantsHolder.MADV_DONTNEED;
+    public static final int MADV_DONTNEED;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_REMOVE = OsConstantsHolder.MADV_REMOVE;
+    public static final int MADV_REMOVE;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_DONTFORK = OsConstantsHolder.MADV_DONTFORK;
+    public static final int MADV_DONTFORK;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_DOFORK = OsConstantsHolder.MADV_DOFORK;
+    public static final int MADV_DOFORK;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_HWPOISON = OsConstantsHolder.MADV_HWPOISON;
+    public static final int MADV_HWPOISON;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_MERGEABLE = OsConstantsHolder.MADV_MERGEABLE;
+    public static final int MADV_MERGEABLE;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_UNMERGEABLE = OsConstantsHolder.MADV_UNMERGEABLE;
+    public static final int MADV_UNMERGEABLE;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_SOFT_OFFLINE = OsConstantsHolder.MADV_SOFT_OFFLINE;
+    public static final int MADV_SOFT_OFFLINE;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_HUGEPAGE = OsConstantsHolder.MADV_HUGEPAGE;
+    public static final int MADV_HUGEPAGE;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_NOHUGEPAGE = OsConstantsHolder.MADV_NOHUGEPAGE;
+    public static final int MADV_NOHUGEPAGE;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_COLLAPSE = OsConstantsHolder.MADV_COLLAPSE;
+    public static final int MADV_COLLAPSE;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_DONTDUMP = OsConstantsHolder.MADV_DONTDUMP;
+    public static final int MADV_DONTDUMP;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_DODUMP = OsConstantsHolder.MADV_DODUMP;
+    public static final int MADV_DODUMP;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_FREE = OsConstantsHolder.MADV_FREE;
+    public static final int MADV_FREE;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_WIPEONFORK = OsConstantsHolder.MADV_WIPEONFORK;
+    public static final int MADV_WIPEONFORK;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_KEEPONFORK = OsConstantsHolder.MADV_KEEPONFORK;
+    public static final int MADV_KEEPONFORK;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_COLD = OsConstantsHolder.MADV_COLD;
+    public static final int MADV_COLD;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_PAGEOUT = OsConstantsHolder.MADV_PAGEOUT;
+    public static final int MADV_PAGEOUT;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_POPULATE_READ = OsConstantsHolder.MADV_POPULATE_READ;
+    public static final int MADV_POPULATE_READ;
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_MADVISE_API)
-    public static final int MADV_POPULATE_WRITE = OsConstantsHolder.MADV_POPULATE_WRITE;
-
+    public static final int MADV_POPULATE_WRITE;
     /**
      * Version constant to be used in {@link StructCapUserHeader} with
      * {@link Os#capset(StructCapUserHeader, StructCapUserData[])} and
@@ -500,9 +499,9 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int _LINUX_CAPABILITY_VERSION_3 = OsConstantsHolder._LINUX_CAPABILITY_VERSION_3;
-    public static final int MAP_FIXED = OsConstantsHolder.MAP_FIXED;
-    public static final int MAP_ANONYMOUS = OsConstantsHolder.MAP_ANONYMOUS;
+    public static final int _LINUX_CAPABILITY_VERSION_3;
+    public static final int MAP_FIXED;
+    public static final int MAP_ANONYMOUS;
     /**
      * Flag argument for {@code mmap(long, long, int, int, FileDescriptor, long)}.
      *
@@ -512,51 +511,51 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int MAP_POPULATE = OsConstantsHolder.MAP_POPULATE;
-    public static final int MAP_PRIVATE = OsConstantsHolder.MAP_PRIVATE;
-    public static final int MAP_SHARED = OsConstantsHolder.MAP_SHARED;
-    public static final int MCAST_JOIN_GROUP = OsConstantsHolder.MCAST_JOIN_GROUP;
-    public static final int MCAST_LEAVE_GROUP = OsConstantsHolder.MCAST_LEAVE_GROUP;
-    public static final int MCAST_JOIN_SOURCE_GROUP = OsConstantsHolder.MCAST_JOIN_SOURCE_GROUP;
-    public static final int MCAST_LEAVE_SOURCE_GROUP = OsConstantsHolder.MCAST_LEAVE_SOURCE_GROUP;
-    public static final int MCAST_BLOCK_SOURCE = OsConstantsHolder.MCAST_BLOCK_SOURCE;
-    public static final int MCAST_UNBLOCK_SOURCE = OsConstantsHolder.MCAST_UNBLOCK_SOURCE;
-    public static final int MCL_CURRENT = OsConstantsHolder.MCL_CURRENT;
-    public static final int MCL_FUTURE = OsConstantsHolder.MCL_FUTURE;
-    public static final int MFD_CLOEXEC = OsConstantsHolder.MFD_CLOEXEC;
-    public static final int MSG_CTRUNC = OsConstantsHolder.MSG_CTRUNC;
-    public static final int MSG_DONTROUTE = OsConstantsHolder.MSG_DONTROUTE;
-    public static final int MSG_EOR = OsConstantsHolder.MSG_EOR;
-    public static final int MSG_OOB = OsConstantsHolder.MSG_OOB;
-    public static final int MSG_PEEK = OsConstantsHolder.MSG_PEEK;
-    public static final int MSG_TRUNC = OsConstantsHolder.MSG_TRUNC;
-    public static final int MSG_WAITALL = OsConstantsHolder.MSG_WAITALL;
-    public static final int MS_ASYNC = OsConstantsHolder.MS_ASYNC;
-    public static final int MS_INVALIDATE = OsConstantsHolder.MS_INVALIDATE;
-    public static final int MS_SYNC = OsConstantsHolder.MS_SYNC;
-    public static final int NETLINK_NETFILTER = OsConstantsHolder.NETLINK_NETFILTER;
-    public static final int NETLINK_ROUTE = OsConstantsHolder.NETLINK_ROUTE;
+    public static final int MAP_POPULATE;
+    public static final int MAP_PRIVATE;
+    public static final int MAP_SHARED;
+    public static final int MCAST_JOIN_GROUP;
+    public static final int MCAST_LEAVE_GROUP;
+    public static final int MCAST_JOIN_SOURCE_GROUP;
+    public static final int MCAST_LEAVE_SOURCE_GROUP;
+    public static final int MCAST_BLOCK_SOURCE;
+    public static final int MCAST_UNBLOCK_SOURCE;
+    public static final int MCL_CURRENT;
+    public static final int MCL_FUTURE;
+    public static final int MFD_CLOEXEC;
+    public static final int MSG_CTRUNC;
+    public static final int MSG_DONTROUTE;
+    public static final int MSG_EOR;
+    public static final int MSG_OOB;
+    public static final int MSG_PEEK;
+    public static final int MSG_TRUNC;
+    public static final int MSG_WAITALL;
+    public static final int MS_ASYNC;
+    public static final int MS_INVALIDATE;
+    public static final int MS_SYNC;
+    public static final int NETLINK_NETFILTER;
+    public static final int NETLINK_ROUTE;
     /**
      * SELinux enforces that only system_server and netd may use this netlink socket type.
      */
-    public static final int NETLINK_INET_DIAG = OsConstantsHolder.NETLINK_INET_DIAG;
+    public static final int NETLINK_INET_DIAG;
 
     /**
      * SELinux enforces that only system_server and netd may use this netlink socket type.
      *
      * @see <a href="https://man7.org/linux/man-pages/man7/netlink.7.html">netlink(7)</a>
      */
-    public static final int NETLINK_XFRM = OsConstantsHolder.NETLINK_XFRM;
+    public static final int NETLINK_XFRM;
 
-    public static final int NI_DGRAM = OsConstantsHolder.NI_DGRAM;
+    public static final int NI_DGRAM;
     public static final int NI_NAMEREQD = OsConstantsHolder.NI_NAMEREQD;
     public static final int NI_NOFQDN = OsConstantsHolder.NI_NOFQDN;
     public static final int NI_NUMERICHOST = OsConstantsHolder.NI_NUMERICHOST;
     public static final int NI_NUMERICSERV = OsConstantsHolder.NI_NUMERICSERV;
-    public static final int O_ACCMODE = OsConstantsHolder.O_ACCMODE;
-    public static final int O_APPEND = OsConstantsHolder.O_APPEND;
-    public static final int O_CLOEXEC = OsConstantsHolder.O_CLOEXEC;
-    public static final int O_CREAT = OsConstantsHolder.O_CREAT;
+    public static final int O_ACCMODE;
+    public static final int O_APPEND;
+    public static final int O_CLOEXEC;
+    public static final int O_CREAT;
     /**
      * Flag for {@code Os#open(String, int, int)}.
      *
@@ -577,26 +576,26 @@ public final class OsConstants {
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
     public static final int O_DIRECT = OsConstantsHolder.O_DIRECT;
-    public static final int O_EXCL = OsConstantsHolder.O_EXCL;
-    public static final int O_NOCTTY = OsConstantsHolder.O_NOCTTY;
+    public static final int O_EXCL;
+    public static final int O_NOCTTY;
     public static final int O_NOFOLLOW = OsConstantsHolder.O_NOFOLLOW;
-    public static final int O_NONBLOCK = OsConstantsHolder.O_NONBLOCK;
-    public static final int O_RDONLY = OsConstantsHolder.O_RDONLY;
-    public static final int O_RDWR = OsConstantsHolder.O_RDWR;
-    public static final int O_SYNC = OsConstantsHolder.O_SYNC;
-    public static final int O_DSYNC = OsConstantsHolder.O_DSYNC;
-    public static final int O_TRUNC = OsConstantsHolder.O_TRUNC;
-    public static final int O_WRONLY = OsConstantsHolder.O_WRONLY;
-    public static final int POLLERR = OsConstantsHolder.POLLERR;
-    public static final int POLLHUP = OsConstantsHolder.POLLHUP;
-    public static final int POLLIN = OsConstantsHolder.POLLIN;
-    public static final int POLLNVAL = OsConstantsHolder.POLLNVAL;
-    public static final int POLLOUT = OsConstantsHolder.POLLOUT;
-    public static final int POLLPRI = OsConstantsHolder.POLLPRI;
-    public static final int POLLRDBAND = OsConstantsHolder.POLLRDBAND;
-    public static final int POLLRDNORM = OsConstantsHolder.POLLRDNORM;
-    public static final int POLLWRBAND = OsConstantsHolder.POLLWRBAND;
-    public static final int POLLWRNORM = OsConstantsHolder.POLLWRNORM;
+    public static final int O_NONBLOCK;
+    public static final int O_RDONLY;
+    public static final int O_RDWR;
+    public static final int O_SYNC;
+    public static final int O_DSYNC;
+    public static final int O_TRUNC;
+    public static final int O_WRONLY;
+    public static final int POLLERR;
+    public static final int POLLHUP;
+    public static final int POLLIN;
+    public static final int POLLNVAL;
+    public static final int POLLOUT;
+    public static final int POLLPRI;
+    public static final int POLLRDBAND;
+    public static final int POLLRDNORM;
+    public static final int POLLWRBAND;
+    public static final int POLLWRNORM;
     /**
      * Reads or changes the ambient capability set of the calling thread.
      * Has to be used as a first argument for {@link Os#prctl(int, long, long, long, long)}.
@@ -607,7 +606,7 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int PR_CAP_AMBIENT = OsConstantsHolder.PR_CAP_AMBIENT;
+    public static final int PR_CAP_AMBIENT;
     /**
      * The capability specified in {@code arg3} of {@link Os#prctl(int, long, long, long, long)}
      * is added to the ambient set. The specified capability must already
@@ -619,15 +618,15 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int PR_CAP_AMBIENT_RAISE = OsConstantsHolder.PR_CAP_AMBIENT_RAISE;
-    public static final int PR_GET_DUMPABLE = OsConstantsHolder.PR_GET_DUMPABLE;
-    public static final int PR_SET_DUMPABLE = OsConstantsHolder.PR_SET_DUMPABLE;
-    public static final int PR_SET_NO_NEW_PRIVS = OsConstantsHolder.PR_SET_NO_NEW_PRIVS;
-    public static final int PROT_EXEC = OsConstantsHolder.PROT_EXEC;
-    public static final int PROT_NONE = OsConstantsHolder.PROT_NONE;
-    public static final int PROT_READ = OsConstantsHolder.PROT_READ;
-    public static final int PROT_WRITE = OsConstantsHolder.PROT_WRITE;
-    public static final int R_OK = OsConstantsHolder.R_OK;
+    public static final int PR_CAP_AMBIENT_RAISE;
+    public static final int PR_GET_DUMPABLE;
+    public static final int PR_SET_DUMPABLE;
+    public static final int PR_SET_NO_NEW_PRIVS;
+    public static final int PROT_EXEC;
+    public static final int PROT_NONE;
+    public static final int PROT_READ;
+    public static final int PROT_WRITE;
+    public static final int R_OK;
     /**
      * Specifies a value one greater than the maximum file
      * descriptor number that can be opened by this process.
@@ -642,16 +641,16 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int RLIMIT_NOFILE = OsConstantsHolder.RLIMIT_NOFILE;
+    public static final int RLIMIT_NOFILE;
     /** @hide */
     @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int RLIMIT_RTPRIO = OsConstantsHolder.RLIMIT_RTPRIO;
-    public static final int RT_SCOPE_HOST = OsConstantsHolder.RT_SCOPE_HOST;
-    public static final int RT_SCOPE_LINK = OsConstantsHolder.RT_SCOPE_LINK;
-    public static final int RT_SCOPE_NOWHERE = OsConstantsHolder.RT_SCOPE_NOWHERE;
-    public static final int RT_SCOPE_SITE = OsConstantsHolder.RT_SCOPE_SITE;
-    public static final int RT_SCOPE_UNIVERSE = OsConstantsHolder.RT_SCOPE_UNIVERSE;
+    public static final int RLIMIT_RTPRIO;
+    public static final int RT_SCOPE_HOST;
+    public static final int RT_SCOPE_LINK;
+    public static final int RT_SCOPE_NOWHERE;
+    public static final int RT_SCOPE_SITE;
+    public static final int RT_SCOPE_UNIVERSE;
     /**
      * Bitmask for IPv4 addresses add/delete events multicast groups mask.
      * Used in {@link NetlinkSocketAddress}.
@@ -662,84 +661,84 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int RTMGRP_IPV4_IFADDR = OsConstantsHolder.RTMGRP_IPV4_IFADDR;
+    public static final int RTMGRP_IPV4_IFADDR;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int RTMGRP_IPV4_MROUTE = OsConstantsHolder.RTMGRP_IPV4_MROUTE;
+    public static final int RTMGRP_IPV4_MROUTE;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int RTMGRP_IPV4_ROUTE = OsConstantsHolder.RTMGRP_IPV4_ROUTE;
+    public static final int RTMGRP_IPV4_ROUTE;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int RTMGRP_IPV4_RULE = OsConstantsHolder.RTMGRP_IPV4_RULE;
+    public static final int RTMGRP_IPV4_RULE;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int RTMGRP_IPV6_IFADDR = OsConstantsHolder.RTMGRP_IPV6_IFADDR;
+    public static final int RTMGRP_IPV6_IFADDR;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int RTMGRP_IPV6_IFINFO = OsConstantsHolder.RTMGRP_IPV6_IFINFO;
+    public static final int RTMGRP_IPV6_IFINFO;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int RTMGRP_IPV6_MROUTE = OsConstantsHolder.RTMGRP_IPV6_MROUTE;
+    public static final int RTMGRP_IPV6_MROUTE;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int RTMGRP_IPV6_PREFIX = OsConstantsHolder.RTMGRP_IPV6_PREFIX;
+    public static final int RTMGRP_IPV6_PREFIX;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int RTMGRP_IPV6_ROUTE = OsConstantsHolder.RTMGRP_IPV6_ROUTE;
+    public static final int RTMGRP_IPV6_ROUTE;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int RTMGRP_LINK = OsConstantsHolder.RTMGRP_LINK;
-    public static final int RTMGRP_NEIGH = OsConstantsHolder.RTMGRP_NEIGH;
+    public static final int RTMGRP_LINK;
+    public static final int RTMGRP_NEIGH;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int RTMGRP_NOTIFY = OsConstantsHolder.RTMGRP_NOTIFY;
+    public static final int RTMGRP_NOTIFY;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int RTMGRP_TC = OsConstantsHolder.RTMGRP_TC;
-    public static final int SEEK_CUR = OsConstantsHolder.SEEK_CUR;
-    public static final int SEEK_END = OsConstantsHolder.SEEK_END;
-    public static final int SEEK_SET = OsConstantsHolder.SEEK_SET;
-    public static final int SHUT_RD = OsConstantsHolder.SHUT_RD;
-    public static final int SHUT_RDWR = OsConstantsHolder.SHUT_RDWR;
-    public static final int SHUT_WR = OsConstantsHolder.SHUT_WR;
-    public static final int SIGABRT = OsConstantsHolder.SIGABRT;
-    public static final int SIGALRM = OsConstantsHolder.SIGALRM;
-    public static final int SIGBUS = OsConstantsHolder.SIGBUS;
-    public static final int SIGCHLD = OsConstantsHolder.SIGCHLD;
-    public static final int SIGCONT = OsConstantsHolder.SIGCONT;
-    public static final int SIGFPE = OsConstantsHolder.SIGFPE;
-    public static final int SIGHUP = OsConstantsHolder.SIGHUP;
-    public static final int SIGILL = OsConstantsHolder.SIGILL;
-    public static final int SIGINT = OsConstantsHolder.SIGINT;
-    public static final int SIGIO = OsConstantsHolder.SIGIO;
-    public static final int SIGKILL = OsConstantsHolder.SIGKILL;
-    public static final int SIGPIPE = OsConstantsHolder.SIGPIPE;
-    public static final int SIGPROF = OsConstantsHolder.SIGPROF;
-    public static final int SIGPWR = OsConstantsHolder.SIGPWR;
-    public static final int SIGQUIT = OsConstantsHolder.SIGQUIT;
-    public static final int SIGRTMAX = OsConstantsHolder.SIGRTMAX;
+    public static final int RTMGRP_TC;
+    public static final int SEEK_CUR;
+    public static final int SEEK_END;
+    public static final int SEEK_SET;
+    public static final int SHUT_RD;
+    public static final int SHUT_RDWR;
+    public static final int SHUT_WR;
+    public static final int SIGABRT;
+    public static final int SIGALRM;
+    public static final int SIGBUS;
+    public static final int SIGCHLD;
+    public static final int SIGCONT;
+    public static final int SIGFPE;
+    public static final int SIGHUP;
+    public static final int SIGILL;
+    public static final int SIGINT;
+    public static final int SIGIO;
+    public static final int SIGKILL;
+    public static final int SIGPIPE;
+    public static final int SIGPROF;
+    public static final int SIGPWR;
+    public static final int SIGQUIT;
+    public static final int SIGRTMAX;
     public static final int SIGRTMIN = OsConstantsHolder.SIGRTMIN;
-    public static final int SIGSEGV = OsConstantsHolder.SIGSEGV;
-    public static final int SIGSTKFLT = OsConstantsHolder.SIGSTKFLT;
-    public static final int SIGSTOP = OsConstantsHolder.SIGSTOP;
-    public static final int SIGSYS = OsConstantsHolder.SIGSYS;
-    public static final int SIGTERM = OsConstantsHolder.SIGTERM;
-    public static final int SIGTRAP = OsConstantsHolder.SIGTRAP;
-    public static final int SIGTSTP = OsConstantsHolder.SIGTSTP;
-    public static final int SIGTTIN = OsConstantsHolder.SIGTTIN;
-    public static final int SIGTTOU = OsConstantsHolder.SIGTTOU;
-    public static final int SIGURG = OsConstantsHolder.SIGURG;
-    public static final int SIGUSR1 = OsConstantsHolder.SIGUSR1;
-    public static final int SIGUSR2 = OsConstantsHolder.SIGUSR2;
-    public static final int SIGVTALRM = OsConstantsHolder.SIGVTALRM;
-    public static final int SIGWINCH = OsConstantsHolder.SIGWINCH;
-    public static final int SIGXCPU = OsConstantsHolder.SIGXCPU;
-    public static final int SIGXFSZ = OsConstantsHolder.SIGXFSZ;
-    public static final int SIOCGIFADDR = OsConstantsHolder.SIOCGIFADDR;
-    public static final int SIOCGIFBRDADDR = OsConstantsHolder.SIOCGIFBRDADDR;
-    public static final int SIOCGIFDSTADDR = OsConstantsHolder.SIOCGIFDSTADDR;
-    public static final int SIOCGIFNETMASK = OsConstantsHolder.SIOCGIFNETMASK;
+    public static final int SIGSEGV;
+    public static final int SIGSTKFLT;
+    public static final int SIGSTOP;
+    public static final int SIGSYS;
+    public static final int SIGTERM;
+    public static final int SIGTRAP;
+    public static final int SIGTSTP;
+    public static final int SIGTTIN;
+    public static final int SIGTTOU;
+    public static final int SIGURG;
+    public static final int SIGUSR1;
+    public static final int SIGUSR2;
+    public static final int SIGVTALRM;
+    public static final int SIGWINCH;
+    public static final int SIGXCPU;
+    public static final int SIGXFSZ;
+    public static final int SIOCGIFADDR;
+    public static final int SIOCGIFBRDADDR;
+    public static final int SIOCGIFDSTADDR;
+    public static final int SIOCGIFNETMASK;
 
     /**
      * Set the close-on-exec ({@code FD_CLOEXEC}) flag on the new file
@@ -753,8 +752,8 @@ public final class OsConstants {
      * may use {@link #O_CLOEXEC} instead. On Android, {@code O_CLOEXEC} and
      * {@code SOCK_CLOEXEC} are the same value.
      */
-    public static final int SOCK_CLOEXEC = OsConstantsHolder.SOCK_CLOEXEC;
-    public static final int SOCK_DGRAM = OsConstantsHolder.SOCK_DGRAM;
+    public static final int SOCK_CLOEXEC;
+    public static final int SOCK_DGRAM;
 
     /**
      * Set the O_NONBLOCK file status flag on the file descriptor
@@ -765,38 +764,38 @@ public final class OsConstants {
      * may use {@link #O_NONBLOCK} instead. On Android, {@code O_NONBLOCK}
      * and {@code SOCK_NONBLOCK} are the same value.
      */
-    public static final int SOCK_NONBLOCK = OsConstantsHolder.SOCK_NONBLOCK;
-    public static final int SOCK_RAW = OsConstantsHolder.SOCK_RAW;
-    public static final int SOCK_SEQPACKET = OsConstantsHolder.SOCK_SEQPACKET;
-    public static final int SOCK_STREAM = OsConstantsHolder.SOCK_STREAM;
-    public static final int SOL_SOCKET = OsConstantsHolder.SOL_SOCKET;
-    public static final int SOL_UDP = OsConstantsHolder.SOL_UDP;
-    public static final int SOL_PACKET = OsConstantsHolder.SOL_PACKET;
-    public static final int SO_BINDTODEVICE = OsConstantsHolder.SO_BINDTODEVICE;
-    public static final int SO_BROADCAST = OsConstantsHolder.SO_BROADCAST;
-    public static final int SO_DEBUG = OsConstantsHolder.SO_DEBUG;
+    public static final int SOCK_NONBLOCK;
+    public static final int SOCK_RAW;
+    public static final int SOCK_SEQPACKET;
+    public static final int SOCK_STREAM;
+    public static final int SOL_SOCKET;
+    public static final int SOL_UDP;
+    public static final int SOL_PACKET;
+    public static final int SO_BINDTODEVICE;
+    public static final int SO_BROADCAST;
+    public static final int SO_DEBUG;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int SO_DOMAIN = OsConstantsHolder.SO_DOMAIN;
-    public static final int SO_DONTROUTE = OsConstantsHolder.SO_DONTROUTE;
-    public static final int SO_ERROR = OsConstantsHolder.SO_ERROR;
-    public static final int SO_KEEPALIVE = OsConstantsHolder.SO_KEEPALIVE;
-    public static final int SO_LINGER = OsConstantsHolder.SO_LINGER;
-    public static final int SO_OOBINLINE = OsConstantsHolder.SO_OOBINLINE;
-    public static final int SO_PASSCRED = OsConstantsHolder.SO_PASSCRED;
-    public static final int SO_PEERCRED = OsConstantsHolder.SO_PEERCRED;
+    public static final int SO_DOMAIN;
+    public static final int SO_DONTROUTE;
+    public static final int SO_ERROR;
+    public static final int SO_KEEPALIVE;
+    public static final int SO_LINGER;
+    public static final int SO_OOBINLINE;
+    public static final int SO_PASSCRED;
+    public static final int SO_PEERCRED;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int SO_PROTOCOL = OsConstantsHolder.SO_PROTOCOL;
-    public static final int SO_RCVBUF = OsConstantsHolder.SO_RCVBUF;
-    public static final int SO_RCVLOWAT = OsConstantsHolder.SO_RCVLOWAT;
-    public static final int SO_RCVTIMEO = OsConstantsHolder.SO_RCVTIMEO;
-    public static final int SO_REUSEADDR = OsConstantsHolder.SO_REUSEADDR;
-    public static final int SO_SNDBUF = OsConstantsHolder.SO_SNDBUF;
-    public static final int SO_SNDLOWAT = OsConstantsHolder.SO_SNDLOWAT;
-    public static final int SO_SNDTIMEO = OsConstantsHolder.SO_SNDTIMEO;
-    public static final int SO_TYPE = OsConstantsHolder.SO_TYPE;
-    public static final int PACKET_IGNORE_OUTGOING = OsConstantsHolder.PACKET_IGNORE_OUTGOING;
+    public static final int SO_PROTOCOL;
+    public static final int SO_RCVBUF;
+    public static final int SO_RCVLOWAT;
+    public static final int SO_RCVTIMEO;
+    public static final int SO_REUSEADDR;
+    public static final int SO_SNDBUF;
+    public static final int SO_SNDLOWAT;
+    public static final int SO_SNDTIMEO;
+    public static final int SO_TYPE;
+    public static final int PACKET_IGNORE_OUTGOING;
     /**
      * Bitmask for flags argument of
      * {@link splice(java.io.FileDescriptor, Int64Ref, FileDescriptor, Int64Ref, long, int)}.
@@ -812,10 +811,10 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int SPLICE_F_MOVE = OsConstantsHolder.SPLICE_F_MOVE;
+    public static final int SPLICE_F_MOVE;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int SPLICE_F_NONBLOCK = OsConstantsHolder.SPLICE_F_NONBLOCK;
+    public static final int SPLICE_F_NONBLOCK;
     /**
      * Bitmask for flags argument of
      * {@link splice(java.io.FileDescriptor, Int64Ref, FileDescriptor, Int64Ref, long, int)}.
@@ -829,46 +828,46 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int SPLICE_F_MORE = OsConstantsHolder.SPLICE_F_MORE;
-    public static final int STDERR_FILENO = OsConstantsHolder.STDERR_FILENO;
-    public static final int STDIN_FILENO = OsConstantsHolder.STDIN_FILENO;
-    public static final int STDOUT_FILENO = OsConstantsHolder.STDOUT_FILENO;
-    public static final int ST_MANDLOCK = OsConstantsHolder.ST_MANDLOCK;
-    public static final int ST_NOATIME = OsConstantsHolder.ST_NOATIME;
-    public static final int ST_NODEV = OsConstantsHolder.ST_NODEV;
-    public static final int ST_NODIRATIME = OsConstantsHolder.ST_NODIRATIME;
-    public static final int ST_NOEXEC = OsConstantsHolder.ST_NOEXEC;
-    public static final int ST_NOSUID = OsConstantsHolder.ST_NOSUID;
-    public static final int ST_RDONLY = OsConstantsHolder.ST_RDONLY;
-    public static final int ST_RELATIME = OsConstantsHolder.ST_RELATIME;
-    public static final int ST_SYNCHRONOUS = OsConstantsHolder.ST_SYNCHRONOUS;
-    public static final int S_IFBLK = OsConstantsHolder.S_IFBLK;
-    public static final int S_IFCHR = OsConstantsHolder.S_IFCHR;
-    public static final int S_IFDIR = OsConstantsHolder.S_IFDIR;
-    public static final int S_IFIFO = OsConstantsHolder.S_IFIFO;
-    public static final int S_IFLNK = OsConstantsHolder.S_IFLNK;
-    public static final int S_IFMT = OsConstantsHolder.S_IFMT;
-    public static final int S_IFREG = OsConstantsHolder.S_IFREG;
-    public static final int S_IFSOCK = OsConstantsHolder.S_IFSOCK;
-    public static final int S_IRGRP = OsConstantsHolder.S_IRGRP;
-    public static final int S_IROTH = OsConstantsHolder.S_IROTH;
-    public static final int S_IRUSR = OsConstantsHolder.S_IRUSR;
-    public static final int S_IRWXG = OsConstantsHolder.S_IRWXG;
-    public static final int S_IRWXO = OsConstantsHolder.S_IRWXO;
-    public static final int S_IRWXU = OsConstantsHolder.S_IRWXU;
-    public static final int S_ISGID = OsConstantsHolder.S_ISGID;
-    public static final int S_ISUID = OsConstantsHolder.S_ISUID;
-    public static final int S_ISVTX = OsConstantsHolder.S_ISVTX;
-    public static final int S_IWGRP = OsConstantsHolder.S_IWGRP;
-    public static final int S_IWOTH = OsConstantsHolder.S_IWOTH;
-    public static final int S_IWUSR = OsConstantsHolder.S_IWUSR;
-    public static final int S_IXGRP = OsConstantsHolder.S_IXGRP;
-    public static final int S_IXOTH = OsConstantsHolder.S_IXOTH;
-    public static final int S_IXUSR = OsConstantsHolder.S_IXUSR;
-    public static final int TCP_NODELAY = OsConstantsHolder.TCP_NODELAY;
-    public static final int TCP_USER_TIMEOUT = OsConstantsHolder.TCP_USER_TIMEOUT;
-    public static final int UDP_GRO = OsConstantsHolder.UDP_GRO;
-    public static final int UDP_SEGMENT = OsConstantsHolder.UDP_SEGMENT;
+    public static final int SPLICE_F_MORE;
+    public static final int STDERR_FILENO;
+    public static final int STDIN_FILENO;
+    public static final int STDOUT_FILENO;
+    public static final int ST_MANDLOCK;
+    public static final int ST_NOATIME;
+    public static final int ST_NODEV;
+    public static final int ST_NODIRATIME;
+    public static final int ST_NOEXEC;
+    public static final int ST_NOSUID;
+    public static final int ST_RDONLY;
+    public static final int ST_RELATIME;
+    public static final int ST_SYNCHRONOUS;
+    public static final int S_IFBLK;
+    public static final int S_IFCHR;
+    public static final int S_IFDIR;
+    public static final int S_IFIFO;
+    public static final int S_IFLNK;
+    public static final int S_IFMT;
+    public static final int S_IFREG;
+    public static final int S_IFSOCK;
+    public static final int S_IRGRP;
+    public static final int S_IROTH;
+    public static final int S_IRUSR;
+    public static final int S_IRWXG;
+    public static final int S_IRWXO;
+    public static final int S_IRWXU;
+    public static final int S_ISGID;
+    public static final int S_ISUID;
+    public static final int S_ISVTX;
+    public static final int S_IWGRP;
+    public static final int S_IWOTH;
+    public static final int S_IWUSR;
+    public static final int S_IXGRP;
+    public static final int S_IXOTH;
+    public static final int S_IXUSR;
+    public static final int TCP_NODELAY;
+    public static final int TCP_USER_TIMEOUT;
+    public static final int UDP_GRO;
+    public static final int UDP_SEGMENT;
     /**
      * Get the number of bytes in the output buffer.
      *
@@ -878,7 +877,7 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int TIOCOUTQ = OsConstantsHolder.TIOCOUTQ;
+    public static final int TIOCOUTQ;
     /**
      * Sockopt option to encapsulate ESP packets in UDP.
      *
@@ -886,24 +885,24 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int UDP_ENCAP = OsConstantsHolder.UDP_ENCAP;
+    public static final int UDP_ENCAP;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int UDP_ENCAP_ESPINUDP_NON_IKE = OsConstantsHolder.UDP_ENCAP_ESPINUDP_NON_IKE;
+    public static final int UDP_ENCAP_ESPINUDP_NON_IKE;
     /** @hide */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int UDP_ENCAP_ESPINUDP = OsConstantsHolder.UDP_ENCAP_ESPINUDP;
+    public static final int UDP_ENCAP_ESPINUDP;
     /** @hide */
     @UnsupportedAppUsage
-    public static final int UNIX_PATH_MAX = OsConstantsHolder.UNIX_PATH_MAX;
-    public static final int WCONTINUED = OsConstantsHolder.WCONTINUED;
-    public static final int WEXITED = OsConstantsHolder.WEXITED;
-    public static final int WNOHANG = OsConstantsHolder.WNOHANG;
-    public static final int WNOWAIT = OsConstantsHolder.WNOWAIT;
-    public static final int WSTOPPED = OsConstantsHolder.WSTOPPED;
-    public static final int WUNTRACED = OsConstantsHolder.WUNTRACED;
-    public static final int W_OK = OsConstantsHolder.W_OK;
+    public static final int UNIX_PATH_MAX;
+    public static final int WCONTINUED;
+    public static final int WEXITED;
+    public static final int WNOHANG;
+    public static final int WNOWAIT;
+    public static final int WSTOPPED;
+    public static final int WUNTRACED;
+    public static final int W_OK;
     /**
      * {@code flags} option for {@link Os#setxattr(String, String, byte[], int)}.
      *
@@ -915,7 +914,7 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int XATTR_CREATE = OsConstantsHolder.XATTR_CREATE;
+    public static final int XATTR_CREATE;
     /**
      * {@code flags} option for {@link Os#setxattr(String, String, byte[], int)}.
      *
@@ -928,8 +927,8 @@ public final class OsConstants {
      */
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
-    public static final int XATTR_REPLACE = OsConstantsHolder.XATTR_REPLACE;
-    public static final int X_OK = OsConstantsHolder.X_OK;
+    public static final int XATTR_REPLACE;
+    public static final int X_OK;
     public static final int _SC_2_CHAR_TERM = OsConstantsHolder._SC_2_CHAR_TERM;
     public static final int _SC_2_C_BIND = OsConstantsHolder._SC_2_C_BIND;
     public static final int _SC_2_C_DEV = OsConstantsHolder._SC_2_C_DEV;
@@ -1321,5 +1320,498 @@ public final class OsConstants {
         AF_UNIX = 1;
         AF_VSOCK = 40;
         AF_UNSPEC = 0;
+
+        ARPHRD_ETHER = 1;
+        ARPHRD_LOOPBACK = 772;
+
+        VMADDR_PORT_ANY = -1;
+        VMADDR_CID_ANY = -1;
+        VMADDR_CID_LOCAL = 1;
+        VMADDR_CID_HOST = 2;
+
+        CAP_AUDIT_CONTROL = 30;
+        CAP_AUDIT_WRITE = 29;
+        CAP_BLOCK_SUSPEND = 36;
+        CAP_CHOWN = 0;
+        CAP_DAC_OVERRIDE = 1;
+        CAP_DAC_READ_SEARCH = 2;
+        CAP_FOWNER = 3;
+        CAP_FSETID = 4;
+        CAP_IPC_LOCK = 14;
+        CAP_IPC_OWNER = 15;
+        CAP_KILL = 5;
+        CAP_LAST_CAP = 40;
+        CAP_LEASE = 28;
+        CAP_LINUX_IMMUTABLE = 9;
+        CAP_MAC_ADMIN = 33;
+        CAP_MAC_OVERRIDE = 32;
+        CAP_MKNOD = 27;
+        CAP_NET_ADMIN = 12;
+        CAP_NET_BIND_SERVICE = 10;
+        CAP_NET_BROADCAST = 11;
+        CAP_NET_RAW = 13;
+        CAP_SETFCAP = 31;
+        CAP_SETGID = 6;
+        CAP_SETPCAP = 8;
+        CAP_SETUID = 7;
+        CAP_SYS_ADMIN = 21;
+        CAP_SYS_BOOT = 22;
+        CAP_SYS_CHROOT = 18;
+        CAP_SYSLOG = 34;
+        CAP_SYS_MODULE = 16;
+        CAP_SYS_NICE = 23;
+        CAP_SYS_PACCT = 20;
+        CAP_SYS_PTRACE = 19;
+        CAP_SYS_RAWIO = 17;
+        CAP_SYS_RESOURCE = 24;
+        CAP_SYS_TIME = 25;
+        CAP_SYS_TTY_CONFIG = 26;
+        CAP_WAKE_ALARM = 35;
+        _LINUX_CAPABILITY_VERSION_3 = 0x20080522;
+
+        // Defined in POSIX: https://pubs.opengroup.org/onlinepubs/9799919799/functions/stdin.html
+        STDIN_FILENO = 0;
+        STDOUT_FILENO = 1;
+        STDERR_FILENO = 2;
+
+        // include/uapi/asm-generic/errno.h and include/uapi/asm-generic/errno-base.h
+        // ENOTSUP is not mentioned there, but on Linux it is the same as EOPNOTSUPP.
+        E2BIG = 7;
+        EACCES = 13;
+        EADDRINUSE = 98;
+        EADDRNOTAVAIL = 99;
+        EAFNOSUPPORT = 97;
+        EAGAIN = 11;
+        EALREADY = 114;
+        EBADF = 9;
+        EBADMSG = 74;
+        EBUSY = 16;
+        ECANCELED = 125;
+        ECHILD = 10;
+        ECONNABORTED = 103;
+        ECONNREFUSED = 111;
+        ECONNRESET = 104;
+        EDEADLK = 35;
+        EDESTADDRREQ = 89;
+        EDOM = 33;
+        EDQUOT = 122;
+        EEXIST = 17;
+        EFAULT = 14;
+        EFBIG = 27;
+        EHOSTUNREACH = 113;
+        EIDRM = 43;
+        EILSEQ = 84;
+        EINPROGRESS = 115;
+        EINTR = 4;
+        EINVAL = 22;
+        EIO = 5;
+        EISCONN = 106;
+        EISDIR = 21;
+        ELOOP = 40;
+        EMFILE = 24;
+        EMLINK = 31;
+        EMSGSIZE = 90;
+        EMULTIHOP = 72;
+        ENAMETOOLONG = 36;
+        ENETDOWN = 100;
+        ENETRESET = 102;
+        ENETUNREACH = 101;
+        ENFILE = 23;
+        ENOBUFS = 105;
+        ENODATA = 61;
+        ENODEV = 19;
+        ENOENT = 2;
+        ENOEXEC = 8;
+        ENOLCK = 37;
+        ENOLINK = 67;
+        ENOMEM = 12;
+        ENOMSG = 42;
+        ENONET = 64;
+        ENOPROTOOPT = 92;
+        ENOSPC = 28;
+        ENOSR = 63;
+        ENOSTR = 60;
+        ENOSYS = 38;
+        ENOTCONN = 107;
+        ENOTDIR = 20;
+        ENOTEMPTY = 39;
+        ENOTSOCK = 88;
+        ENOTSUP = 95;
+        ENOTTY = 25;
+        ENXIO = 6;
+        EOPNOTSUPP = 95;
+        EOVERFLOW = 75;
+        EPERM = 1;
+        EPIPE = 32;
+        EPROTO = 71;
+        EPROTONOSUPPORT = 93;
+        EPROTOTYPE = 91;
+        ERANGE = 34;
+        EROFS = 30;
+        ESPIPE = 29;
+        ESRCH = 3;
+        ESTALE = 116;
+        ETIME = 62;
+        ETIMEDOUT = 110;
+        ETXTBSY = 26;
+        EUSERS = 87;
+        EXDEV = 18;
+
+        // Defined in POSIX.
+        EXIT_SUCCESS = 0;
+        // POSIX only says that it is "between 1 and 255", but in practice it is always 1.
+        EXIT_FAILURE = 1;
+
+        ETH_P_ALL = 0x0003;
+        ETH_P_ARP = 0x0806;
+        ETH_P_IP = 0x0800;
+        ETH_P_IPV6 = 0x86DD;
+
+        FD_CLOEXEC = 1;
+        FIONREAD = 21531;
+        F_DUPFD = 0;
+        F_DUPFD_CLOEXEC = 1030;
+        F_GETFD = 1;
+        F_GETFL = 3;
+        F_GETOWN = 9;
+        F_OK = 0;
+        R_OK = 4;
+        F_RDLCK = 0;
+        F_SETFD = 2;
+        F_SETFL = 4;
+        F_SETOWN = 8;
+        F_UNLCK = 2;
+        F_WRLCK = 1;
+
+        ICMP_ECHO = 8;
+        ICMP_ECHOREPLY = 0;
+        // These valued are defined in https://datatracker.ietf.org/doc/html/rfc2463.
+        ICMP6_ECHO_REQUEST = 128;
+        ICMP6_ECHO_REPLY = 129;
+
+        IFA_F_DADFAILED = 8;
+        IFA_F_DEPRECATED = 32;
+        IFA_F_HOMEADDRESS = 16;
+        IFA_F_MANAGETEMPADDR = 256;
+        IFA_F_NODAD = 2;
+        IFA_F_NOPREFIXROUTE = 512;
+        IFA_F_OPTIMISTIC = 4;
+        IFA_F_PERMANENT = 128;
+        IFA_F_SECONDARY = 1;
+        IFA_F_TEMPORARY = 1;
+        IFA_F_TENTATIVE = 64;
+
+        IFF_ALLMULTI = 512;
+        IFF_AUTOMEDIA = 16384;
+        IFF_BROADCAST = 2;
+        IFF_DEBUG = 4;
+        IFF_DYNAMIC = 32768;
+        IFF_LOOPBACK = 8;
+        IFF_MASTER = 1024;
+        IFF_MULTICAST = 4096;
+        IFF_NOARP = 128;
+        IFF_NOTRAILERS = 32;
+        IFF_POINTOPOINT = 16;
+        IFF_PORTSEL = 8192;
+        IFF_PROMISC = 256;
+        IFF_RUNNING = 64;
+        IFF_SLAVE = 2048;
+        IFF_UP = 1;
+
+        IPPROTO_ICMP = 1;
+        IPPROTO_ICMPV6 = 58;
+        IPPROTO_IP = 0;
+        IPPROTO_IPV6 = 41;
+        IPPROTO_RAW = 255;
+        IPPROTO_TCP = 6;
+        IPPROTO_UDP = 17;
+        IPPROTO_ESP = 50;
+        IPV6_CHECKSUM = 7;
+        IPV6_MULTICAST_HOPS = 18;
+        IPV6_MULTICAST_IF = 17;
+        IPV6_MULTICAST_LOOP = 19;
+        IPV6_PKTINFO = 50;
+        IPV6_RECVDSTOPTS = 58;
+        IPV6_RECVHOPLIMIT = 51;
+        IPV6_RECVHOPOPTS = 53;
+        IPV6_RECVPKTINFO = 49;
+        IPV6_RECVRTHDR = 56;
+        IPV6_RECVTCLASS = 66;
+        IPV6_TCLASS = 67;
+        IPV6_UNICAST_HOPS = 16;
+        IPV6_V6ONLY = 26;
+        IP_MULTICAST_ALL = 49;
+        IP_MULTICAST_IF = 32;
+        IP_MULTICAST_LOOP = 34;
+        IP_MULTICAST_TTL = 33;
+        IP_RECVTOS = 13;
+        IP_TOS = 1;
+        IP_TTL = 2;
+
+        MADV_NORMAL = 0;
+        MADV_RANDOM = 1;
+        MADV_SEQUENTIAL = 2;
+        MADV_WILLNEED = 3;
+        MADV_DONTNEED = 4;
+        MADV_REMOVE = 9;
+        MADV_DONTFORK = 10;
+        MADV_DOFORK = 11;
+        MADV_HWPOISON = 100;
+        MADV_MERGEABLE = 12;
+        MADV_UNMERGEABLE = 13;
+        MADV_SOFT_OFFLINE = 101;
+        MADV_HUGEPAGE = 14;
+        MADV_NOHUGEPAGE = 15;
+        MADV_COLLAPSE = 25;
+        MADV_DONTDUMP = 16;
+        MADV_DODUMP = 17;
+        MADV_FREE = 8;
+        MADV_WIPEONFORK = 18;
+        MADV_KEEPONFORK = 19;
+        MADV_COLD = 20;
+        MADV_PAGEOUT = 21;
+        MADV_POPULATE_READ = 22;
+        MADV_POPULATE_WRITE = 23;
+
+        MAP_FIXED = 16;
+        MAP_ANONYMOUS = 32;
+        MAP_POPULATE = 32768;
+        MAP_PRIVATE = 2;
+        MAP_SHARED = 1;
+
+        MCAST_JOIN_GROUP = 42;
+        MCAST_LEAVE_GROUP = 45;
+        MCAST_JOIN_SOURCE_GROUP = 46;
+        MCAST_LEAVE_SOURCE_GROUP = 47;
+        MCAST_BLOCK_SOURCE = 43;
+        MCAST_UNBLOCK_SOURCE = 44;
+
+        MCL_CURRENT = 1;
+        MCL_FUTURE = 2;
+
+        MFD_CLOEXEC = 1;
+
+        MSG_CTRUNC = 8;
+        MSG_DONTROUTE = 4;
+        MSG_EOR = 128;
+        MSG_OOB = 1;
+        MSG_PEEK = 2;
+        MSG_TRUNC = 32;
+        MSG_WAITALL = 256;
+
+        MS_ASYNC = 1;
+        MS_INVALIDATE = 2;
+        MS_SYNC = 4;
+
+        NETLINK_NETFILTER = 12;
+        NETLINK_ROUTE = 0;
+        NETLINK_INET_DIAG = 4;
+        NETLINK_XFRM = 6;
+
+        NI_DGRAM = 16;
+
+        O_ACCMODE = 3;
+        O_APPEND = 1024;
+        O_CLOEXEC = 524288;
+        O_CREAT = 64;
+        O_EXCL = 128;
+        O_NOCTTY = 256;
+        O_NONBLOCK = 2048;
+        O_RDONLY = 0;
+        O_RDWR = 2;
+        O_SYNC = 1052672;
+        O_DSYNC = 4096;
+        O_TRUNC = 512;
+        O_WRONLY = 1;
+
+        POLLERR = 8;
+        POLLHUP = 16;
+        POLLIN = 1;
+        POLLNVAL = 32;
+        POLLOUT = 4;
+        POLLPRI = 2;
+        POLLRDBAND = 128;
+        POLLRDNORM = 64;
+        POLLWRBAND = 512;
+        POLLWRNORM = 256;
+
+        PR_CAP_AMBIENT = 47;
+        PR_CAP_AMBIENT_RAISE = 2;
+        PR_GET_DUMPABLE = 3;
+        PR_SET_DUMPABLE = 4;
+        PR_SET_NO_NEW_PRIVS = 38;
+
+        PROT_EXEC = 4;
+        PROT_NONE = 0;
+        PROT_READ = 1;
+        PROT_WRITE = 2;
+
+        RLIMIT_NOFILE = 7;
+        RLIMIT_RTPRIO = 14;
+
+        RT_SCOPE_HOST = 254;
+        RT_SCOPE_LINK = 253;
+        RT_SCOPE_NOWHERE = 255;
+        RT_SCOPE_SITE = 200;
+        RT_SCOPE_UNIVERSE = 0;
+
+        RTMGRP_IPV4_IFADDR = 16;
+        RTMGRP_IPV4_MROUTE = 32;
+        RTMGRP_IPV4_ROUTE = 64;
+        RTMGRP_IPV4_RULE = 128;
+        RTMGRP_IPV6_IFADDR = 256;
+        RTMGRP_IPV6_IFINFO = 2048;
+        RTMGRP_IPV6_MROUTE = 512;
+        RTMGRP_IPV6_PREFIX = 131072;
+        RTMGRP_IPV6_ROUTE = 1024;
+        RTMGRP_LINK = 1;
+        RTMGRP_NEIGH = 4;
+        RTMGRP_NOTIFY = 2;
+        RTMGRP_TC = 8;
+
+        SEEK_CUR = 1;
+        SEEK_END = 2;
+        SEEK_SET = 0;
+
+        SHUT_RD = 0;
+        SHUT_RDWR = 2;
+        SHUT_WR = 1;
+
+        SIGABRT = 6;
+        SIGALRM = 14;
+        SIGBUS = 7;
+        SIGCHLD = 17;
+        SIGCONT = 18;
+        SIGFPE = 8;
+        SIGHUP = 1;
+        SIGILL = 4;
+        SIGINT = 2;
+        SIGIO = 29;
+        SIGKILL = 9;
+        SIGPIPE = 13;
+        SIGPROF = 27;
+        SIGPWR = 30;
+        SIGQUIT = 3;
+        SIGRTMAX = 64;
+        SIGSEGV = 11;
+        SIGSTKFLT = 16;
+        SIGSTOP = 19;
+        SIGSYS = 31;
+        SIGTERM = 15;
+        SIGTRAP = 5;
+        SIGTSTP = 20;
+        SIGTTIN = 21;
+        SIGTTOU = 22;
+        SIGURG = 23;
+        SIGUSR1 = 10;
+        SIGUSR2 = 12;
+        SIGVTALRM = 26;
+        SIGWINCH = 28;
+        SIGXCPU = 24;
+        SIGXFSZ = 25;
+
+        SIOCGIFADDR = 35093;
+        SIOCGIFBRDADDR = 35097;
+        SIOCGIFDSTADDR = 35095;
+        SIOCGIFNETMASK = 35099;
+
+        SOCK_CLOEXEC = 524288;
+        SOCK_DGRAM = 2;
+        SOCK_NONBLOCK = 2048;
+        SOCK_RAW = 3;
+        SOCK_SEQPACKET = 5;
+        SOCK_STREAM = 1;
+
+        SOL_SOCKET = 1;
+        SOL_UDP = 17;
+        SOL_PACKET = 263;
+
+        SO_BINDTODEVICE = 25;
+        SO_BROADCAST = 6;
+        SO_DEBUG = 1;
+        SO_DOMAIN = 39;
+        SO_DONTROUTE = 5;
+        SO_ERROR = 4;
+        SO_KEEPALIVE = 9;
+        SO_LINGER = 13;
+        SO_OOBINLINE = 10;
+        SO_PASSCRED = 16;
+        SO_PEERCRED = 17;
+        SO_PROTOCOL = 38;
+        SO_RCVBUF = 8;
+        SO_RCVLOWAT = 18;
+        SO_RCVTIMEO = 20;
+        SO_REUSEADDR = 2;
+        SO_SNDBUF = 7;
+        SO_SNDLOWAT = 19;
+        SO_SNDTIMEO = 21;
+        SO_TYPE = 3;
+
+        PACKET_IGNORE_OUTGOING = 23;
+
+        SPLICE_F_MOVE = 1;
+        SPLICE_F_NONBLOCK = 2;
+        SPLICE_F_MORE = 4;
+
+        ST_MANDLOCK = 64;
+        ST_NOATIME = 1024;
+        ST_NODEV = 4;
+        ST_NODIRATIME = 2048;
+        ST_NOEXEC = 8;
+        ST_NOSUID = 2;
+        ST_RDONLY = 1;
+        ST_RELATIME = 4096;
+        ST_SYNCHRONOUS = 16;
+
+        S_IFBLK = 24576;
+        S_IFCHR = 8192;
+        S_IFDIR = 16384;
+        S_IFIFO = 4096;
+        S_IFLNK = 40960;
+        S_IFMT = 61440;
+        S_IFREG = 32768;
+        S_IFSOCK = 49152;
+        S_IRGRP = 32;
+        S_IROTH = 4;
+        S_IRUSR = 256;
+        S_IRWXG = 56;
+        S_IRWXO = 7;
+        S_IRWXU = 448;
+        S_ISGID = 1024;
+        S_ISUID = 2048;
+        S_ISVTX = 512;
+        S_IWGRP = 16;
+        S_IWOTH = 2;
+        S_IWUSR = 128;
+        S_IXGRP = 8;
+        S_IXOTH = 1;
+        S_IXUSR = 64;
+
+        TCP_NODELAY = 1;
+        TCP_USER_TIMEOUT = 18;
+
+        UDP_GRO = 104;
+        UDP_SEGMENT = 103;
+
+        TIOCOUTQ = 21521;
+
+        UDP_ENCAP = 100;
+        UDP_ENCAP_ESPINUDP_NON_IKE = 1;
+        UDP_ENCAP_ESPINUDP = 2;
+
+        // sizeof(sockaddr_un::sun_path).
+        UNIX_PATH_MAX = 108;
+
+        WCONTINUED = 8;
+        WEXITED = 4;
+        WNOHANG = 1;
+        WNOWAIT = 16777216;
+        WSTOPPED = 2;
+        WUNTRACED = 2;
+        W_OK = 2;
+
+        XATTR_CREATE = 1;
+        XATTR_REPLACE = 2;
+        X_OK = 1;
     }
 }
