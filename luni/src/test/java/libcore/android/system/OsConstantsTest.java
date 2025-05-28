@@ -449,9 +449,24 @@ public class OsConstantsTest {
         checkConsistency();
     }
 
+    @Test
+    public void check_no_field_is_missing_in_macro() throws Exception {
+        Class<?> osConstantsHolderClass = Class.forName("android.system.OsConstantsHolder");
+        Class<?> osConstantsClass = Class.forName("android.system.OsConstants");
+        int countInHolder = osConstantsHolderClass.getDeclaredFields().length;
+        int countInOsConstants = osConstantsClass.getDeclaredFields().length;
+
+        // A constant in OsConstants is either initialized in Java code and hence should be listed
+        // in JAVA_INITIALIZED_FIELDS or is taken from native and will appear in OsConstantsHolder.
+        // JAVA_INITIALIZED_FIELDS is used to validate Java-initialized constants and not listing
+        // a constant there might lead to wrong values being passed to native methods.
+        assertEquals(countInOsConstants, countInHolder + initializedInJavaCount());
+    }
+
     static {
         System.loadLibrary("javacoretests");
     }
 
     private static native void checkConsistency();
+    private static native int initializedInJavaCount();
 }
