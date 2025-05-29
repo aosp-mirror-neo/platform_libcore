@@ -327,7 +327,7 @@ public class Thread implements java.lang.Runnable {
         throw new RuntimeException("Stub!");
     }
 
-    native void setPriority0(int newPriority);
+    native void setPriority0(int newPriority, int newNiceness);
 
     private native int setNiceness0(int niceness);
 
