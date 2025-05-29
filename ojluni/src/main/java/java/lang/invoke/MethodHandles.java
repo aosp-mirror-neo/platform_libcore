@@ -1532,6 +1532,10 @@ assertEquals(""+l, (String) MH_this.invokeExact(subl)); // Listie method
                 }
             }
 
+            if (isSetterKind && field.isMonotonic()) {
+                throw new IllegalAccessException("Field " + field + " can't be overwritten");
+            }
+
             final MethodType methodType;
             switch (kind) {
                 case MethodHandle.SGET:
