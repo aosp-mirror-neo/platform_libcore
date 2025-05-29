@@ -192,30 +192,6 @@ public class RecordTest {
     }
 
     @Test
-    public void testMethodHandlesUnreflectInstanceField() throws Throwable {
-        Field field = RecordInteger.class.getDeclaredField("x");
-
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
-
-        assertThrows(IllegalAccessException.class, () -> lookup.unreflectSetter(field));
-
-        field.setAccessible(true);
-        assertThrows(IllegalAccessException.class, () -> lookup.unreflectSetter(field));
-    }
-
-    @Test
-    public void testMethodHandlesUnreflectStaticField() throws Throwable {
-        Field field = RecordString.class.getDeclaredField("A");
-
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
-
-        assertThrows(IllegalAccessException.class, () -> lookup.unreflectSetter(field));
-
-        field.setAccessible(true);
-        assertThrows(IllegalAccessException.class, () -> lookup.unreflectSetter(field));
-    }
-
-    @Test
     public void testVarHandleWrite() throws ReflectiveOperationException {
         NonRecordInteger a = new NonRecordInteger(8);
 

@@ -942,23 +942,6 @@ class Field extends AccessibleObject implements Member {
 
     // BEGIN Android-added: Methods for use by Android-specific code.
     /**
-     * Returns true if value of the field can be set only once. Write-protected fields are assumed
-     * to be unmodifiable here.
-     *
-     * @hide
-     */
-    public boolean isMonotonic() {
-        if (declaringClass == System.class) {
-            String name = getName();
-            return name.equals("in") || name.equals("out") || name.equals("err");
-        }
-
-        return isMonotonic0();
-    }
-
-    private native boolean isMonotonic0();
-
-    /**
      * Returns the offset of the field within an instance, or for static fields, the class.
      *
      * @hide
