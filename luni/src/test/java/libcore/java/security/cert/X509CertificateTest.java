@@ -125,6 +125,9 @@ public class X509CertificateTest extends TestCaseWithRules {
 
     private static final String CERTS_X509_PEM = "x509/certs.pem";
 
+    private static final String CERTS_X509_PEM_WITH_COMMENT =
+        "x509/certs_with_comment.pem";
+
     private static final String CERTS_X509_DER = "x509/certs.der";
 
     private static final String CERTS_PKCS7_PEM = "x509/certs-pk7.pem";
@@ -301,6 +304,7 @@ public class X509CertificateTest extends TestCaseWithRules {
                 generateCertificate_PEM_TrailingData(f);
                 generateCertificate_DER_TrailingData(f);
                 generateCertificates_X509_PEM(f);
+                generateCertificates_X509_PEM_WITH_COMMENT(f);
                 generateCertificates_X509_DER(f);
                 generateCertificates_PKCS7_PEM(f);
                 generateCertificates_PKCS7_DER(f);
@@ -1151,6 +1155,14 @@ public class X509CertificateTest extends TestCaseWithRules {
         Collection<? extends X509Certificate> certs = getCertificates(f, CERTS_X509_PEM);
         assertNotNull(certs);
         assertEquals(2, certs.size());
+    }
+
+    private void generateCertificates_X509_PEM_WITH_COMMENT(CertificateFactory f)
+        throws Exception {
+        /* PEM-encoded list of certificates */
+        Collection<? extends X509Certificate> certs = getCertificates(f, CERTS_X509_PEM_WITH_COMMENT);
+        assertNotNull(certs);
+        assertEquals(4, certs.size());
     }
 
     private void generateCertificates_PKCS7_PEM(CertificateFactory f) throws Exception {
