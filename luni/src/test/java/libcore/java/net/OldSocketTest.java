@@ -39,6 +39,7 @@ import java.net.UnknownHostException;
 import java.nio.channels.IllegalBlockingModeException;
 import java.nio.channels.SocketChannel;
 import java.security.Permission;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 import libcore.junit.util.ResourceLeakageDetector.DisableResourceLeakageDetection;
 import tests.support.Support_Configuration;
@@ -1150,14 +1151,14 @@ public class OldSocketTest extends OldSocketTestCase {
             } catch (ConnectException ce) {
                 // some networks will quickly reset the TCP connection attempt to this fake IP
                 assertTrue(
-                        "Wrong exception when connecting to address nobody listening on with short timeout 200: "
-                                + ce.toString(),
-                        (ce.getMessage() != null && ce.getMessage().contains("ECONNREFUSED")));
+                    "Wrong exception when connecting to address nobody listening on with short timeout 200: "
+                        + ce.toString(),
+                    (ce.getMessage() != null && ce.getMessage().contains("ECONNREFUSED")));
             } catch (Exception e) {
                 assertTrue(
-                        "Wrong exception when connecting to address nobody listening on with short timeout 200: "
-                                + e.toString(),
-                        (e instanceof SocketTimeoutException));
+                    "Wrong exception when connecting to address nobody listening on with short timeout 200: "
+                        + e.toString(),
+                    (e instanceof SocketTimeoutException));
             }
         }
 
@@ -1171,14 +1172,14 @@ public class OldSocketTest extends OldSocketTestCase {
             } catch (ConnectException ce) {
                 // some networks will quickly reset the TCP connection attempt to this fake IP
                 assertTrue(
-                        "Wrong exception when connecting to address nobody listening on with short timeout 40: "
-                                + ce.toString(),
-                        (ce.getMessage() != null && ce.getMessage().contains("ECONNREFUSED")));
+                    "Wrong exception when connecting to address nobody listening on with short timeout 40: "
+                        + ce.toString(),
+                    (ce.getMessage() != null && ce.getMessage().contains("ECONNREFUSED")));
             } catch (Exception e) {
                 assertTrue(
-                        "Wrong exception when connecting to address nobody listening on with short timeout 40: "
-                                + e.toString(),
-                        (e instanceof SocketTimeoutException));
+                    "Wrong exception when connecting to address nobody listening on with short timeout 40: "
+                        + e.toString(),
+                    (e instanceof SocketTimeoutException));
             }
         }
 
@@ -1276,10 +1277,12 @@ public class OldSocketTest extends OldSocketTestCase {
             private final int timeout;
             private final Socket theSocket;
             private final SocketAddress address;
+            private final CountDownLatch latch = new CountDownLatch(1);
 
             @Override
             public void run() {
                 try {
+                    latch.countDown();
                     theSocket.connect(address, timeout);
                 } catch (Exception e) {
                     exceptionRef.set(e);
@@ -1291,6 +1294,15 @@ public class OldSocketTest extends OldSocketTestCase {
                 this.theSocket = theSocket;
                 this.address = address;
             }
+
+            public void await() {
+                try {
+                    latch.await();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    exceptionRef.set(e);
+                }
+            }
         }
 
         // Now try to set options while we are connecting
@@ -1301,11 +1313,20 @@ public class OldSocketTest extends OldSocketTestCase {
             final SocketConnector connector
                 = new SocketConnector(5000, theSocket, UNREACHABLE_ADDRESS);
             connector.start();
+            connector.await();
             theSocket.setSoTimeout(1000);
             Thread.sleep(10);
+            // The socket would still try to reach UNREACHABLE_ADDRESS, unless the network is
+            // unavailable.
+            assertFalse("Socket closed early, network probably unavailable",
+                theSocket.isClosed());
             assertTrue("Socket option not set during connect: 10 ",
                     Math.abs(1000 - theSocket.getSoTimeout()) <= 10);
             Thread.sleep(50);
+            // The socket would still try to reach UNREACHABLE_ADDRESS, unless the network is
+            // unavailable.
+            assertFalse("Socket closed early, network probably unavailable",
+                theSocket.isClosed());
             theSocket.setSoTimeout(2000);
             assertTrue("Socket option not set during connect: 50 ",
                     Math.abs(2000 - theSocket.getSoTimeout()) <= 10);
