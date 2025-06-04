@@ -139,6 +139,14 @@ public final class Os {
     public static void connect(@NonNull FileDescriptor fd, @NonNull SocketAddress address) throws ErrnoException, SocketException { Libcore.os.connect(fd, address); }
 
     /**
+     * See <a href="https://man7.org/linux/man-pages/man3/dladdr.3.html">dladdr(3)</>
+     *
+     * @return null if the underlying native {@code dladdr} call fails.
+     */
+    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
+    public static StructDlInfo dladdr(long addr) { return Libcore.os.dladdr(addr); }
+
+    /**
      * See <a href="http://man7.org/linux/man-pages/man2/dup.2.html">dup(2)</a>.
      */
     public static FileDescriptor dup(FileDescriptor oldFd) throws ErrnoException { return Libcore.os.dup(oldFd); }

@@ -23,6 +23,7 @@ import android.system.Os;
 import android.system.OsConstants;
 import android.system.PacketSocketAddress;
 import android.system.StructCmsghdr;
+import android.system.StructDlInfo;
 import android.system.StructMsghdr;
 import android.system.StructRlimit;
 import android.system.StructStat;
@@ -2333,6 +2334,44 @@ public class OsTest {
             Os.munmap(address, size);
         }
     }
+
+    @Test
+    public void test_structDlInfo_constructor() {
+        String fname = "fname";
+        long fbase = 1;
+        String sname = "sname";
+        long saddr = 2;
+
+        StructDlInfo dlInfo = new StructDlInfo(fname, fbase, sname, saddr);
+
+        assertEquals(fname, dlInfo.dli_fname);
+        assertEquals(fbase, dlInfo.dli_fbase);
+        assertEquals(sname, dlInfo.dli_sname);
+        assertEquals(saddr, dlInfo.dli_saddr);
+    }
+
+    @Test
+    public void dladdr_returnsNull_whenAddrIsNotValid() {
+        // Expectation is that there won't be any symbol at address 0.
+        assertNull(Os.dladdr(0));
+    }
+
+    @Test
+    public void dladdr_shouldFindMktime() {
+        StructDlInfo dladdr = Os.dladdr(findMktime());
+
+        assertEquals(dladdr.dli_sname, "mktime", dladdr.dli_sname);
+        assertTrue(dladdr.dli_fname, dladdr.dli_fname.contains("libc.so"));
+        assertTrue(dladdr.dli_fbase != 0);
+        assertTrue(dladdr.dli_saddr != 0);
+    }
+
+    static {
+        System.loadLibrary("javacoretests");
+    }
+
+    // Returns address of libc's mktime symbol. Decided not to expose dlsym in androd.system.Os yet.
+    private static native long findMktime();
 
     /*
      * Checks that all ways of accessing the environment are consistent by collecting:

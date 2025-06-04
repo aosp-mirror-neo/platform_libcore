@@ -18,6 +18,7 @@
 
 #include <arpa/inet.h>
 #include <errno.h>
+#include <dlfcn.h>
 #include <fcntl.h>
 #include <ifaddrs.h>
 #include <linux/rtnetlink.h>
@@ -1251,6 +1252,34 @@ static void Linux_connectSocketAddress(
     const sockaddr* sa = reinterpret_cast<const sockaddr*>(&ss);
     // We don't need the return value because we'll already have thrown.
     (void) NET_FAILURE_RETRY(env, int, connect, javaFd, sa, sa_len);
+}
+
+static jobject makeStructDlInfo(JNIEnv* env, const Dl_info& dl_info) {
+    jclass dlInfoClass = JniConstants::GetStructDlInfoClass(env);
+    static jmethodID ctor = env->GetMethodID(dlInfoClass,
+                                             "<init>",
+                                             "(Ljava/lang/String;JLjava/lang/String;J)V");
+    if (ctor == nullptr) {
+        return nullptr;
+    }
+    TO_JAVA_STRING(dli_fname, dl_info.dli_fname);
+    jlong dli_fbase = reinterpret_cast<jlong>(dl_info.dli_fbase);
+    TO_JAVA_STRING(dli_sname, dl_info.dli_sname);
+    jlong dli_saddr = reinterpret_cast<jlong>(dl_info.dli_saddr);
+
+    return env->NewObject(dlInfoClass, ctor, dli_fname, dli_fbase, dli_sname, dli_saddr);
+}
+
+static jobject Linux_dladdr(JNIEnv* env, jobject, jlong jaddr) {
+    void* addr = reinterpret_cast<void*>(jaddr);
+    Dl_info info;
+    int ret = dladdr(addr, &info);
+
+    if (ret == 0) {
+        return nullptr;
+    }
+
+    return makeStructDlInfo(env, info);
 }
 
 static jobject Linux_dup(JNIEnv* env, jobject, jobject javaOldFd) {
@@ -2770,6 +2799,7 @@ static JNINativeMethod gMethods[] = {
     NATIVE_METHOD(Linux, close, "(Ljava/io/FileDescriptor;)V"),
     NATIVE_METHOD(Linux, connect, "(Ljava/io/FileDescriptor;Ljava/net/InetAddress;I)V"),
     NATIVE_METHOD_OVERLOAD(Linux, connect, "(Ljava/io/FileDescriptor;Ljava/net/SocketAddress;)V", SocketAddress),
+    NATIVE_METHOD(Linux, dladdr, "(J)Landroid/system/StructDlInfo;"),
     NATIVE_METHOD(Linux, dup, "(Ljava/io/FileDescriptor;)Ljava/io/FileDescriptor;"),
     NATIVE_METHOD(Linux, dup2, "(Ljava/io/FileDescriptor;I)Ljava/io/FileDescriptor;"),
     NATIVE_METHOD(Linux, environ, "()[Ljava/lang/String;"),
