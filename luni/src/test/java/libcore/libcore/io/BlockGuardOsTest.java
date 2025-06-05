@@ -240,6 +240,7 @@ public class BlockGuardOsTest {
                 "bind(java.io.FileDescriptor,java.net.SocketAddress)",
                 "capget(android.system.StructCapUserHeader)",
                 "capset(android.system.StructCapUserHeader,android.system.StructCapUserData[])",
+                "dladdr(long)",
                 "dup(java.io.FileDescriptor)",
                 "dup2(java.io.FileDescriptor,int)",
                 "environ()",

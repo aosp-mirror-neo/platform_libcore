@@ -209,6 +209,7 @@ cc_library_shared {
 
     srcs: [
         "luni/src/test/native/libcore_android_system_OsConstantsTest.cpp",
+        "luni/src/test/native/libcore_android_system_OsTest.cpp",
         "luni/src/test/native/libcore_dalvik_system_JniTest.cpp",
         "luni/src/test/native/libcore_java_io_FileTest.cpp",
         "luni/src/test/native/libcore_java_lang_OldStackTraceElementTest.cpp",

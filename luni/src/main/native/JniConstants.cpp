@@ -67,6 +67,7 @@ static bool g_constants_valid = false;
     V(StringClass, "java/lang/String")                                                      \
     V(StructAddrinfoClass, "android/system/StructAddrinfo")                                 \
     V(StructCmsghdrClass, "android/system/StructCmsghdr")                                   \
+    V(StructDlInfoClass, "android/system/StructDlInfo")                                     \
     V(StructGroupReqClass, "android/system/StructGroupReq")                                 \
     V(StructIfaddrsClass, "android/system/StructIfaddrs")                                   \
     V(StructLingerClass, "android/system/StructLinger")                                     \

@@ -23,6 +23,7 @@ import android.system.Int64Ref;
 import android.system.StructAddrinfo;
 import android.system.StructCapUserData;
 import android.system.StructCapUserHeader;
+import android.system.StructDlInfo;
 import android.system.StructGroupReq;
 import android.system.StructIfaddrs;
 import android.system.StructLinger;
@@ -71,6 +72,7 @@ public final class Linux implements Os {
 
     public native void connect(FileDescriptor fd, InetAddress address, int port) throws ErrnoException, SocketException;
     public native void connect(FileDescriptor fd, SocketAddress address) throws ErrnoException, SocketException;
+    public native StructDlInfo dladdr(long addr);
     public native FileDescriptor dup(FileDescriptor oldFd) throws ErrnoException;
     public native FileDescriptor dup2(FileDescriptor oldFd, int newFd) throws ErrnoException;
     public native String[] environ();

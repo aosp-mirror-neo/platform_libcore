@@ -51,6 +51,7 @@ struct JniConstants {
     static jclass GetStringClass(JNIEnv* env);
     static jclass GetStructAddrinfoClass(JNIEnv* env);
     static jclass GetStructCmsghdrClass(JNIEnv* env);
+    static jclass GetStructDlInfoClass(JNIEnv* env);
     static jclass GetStructFlockClass(JNIEnv* env);
     static jclass GetStructGroupReqClass(JNIEnv* env);
     static jclass GetStructIfaddrsClass(JNIEnv* env);

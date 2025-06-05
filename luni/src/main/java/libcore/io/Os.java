@@ -25,6 +25,7 @@ import android.system.Int64Ref;
 import android.system.StructAddrinfo;
 import android.system.StructCapUserData;
 import android.system.StructCapUserHeader;
+import android.system.StructDlInfo;
 import android.system.StructGroupReq;
 import android.system.StructIfaddrs;
 import android.system.StructLinger;
@@ -144,6 +145,11 @@ public interface Os {
      * @hide
      */
     public void connect(FileDescriptor fd, SocketAddress address) throws ErrnoException, SocketException;
+
+    /**
+     * @hide
+     */
+    public StructDlInfo dladdr(long addr);
 
     /**
      * @hide
