@@ -1095,6 +1095,8 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      * @param gatherer a gatherer
      * @return the new stream
      * @since 24
+     *
+     * @hide TODO: Expose this API when Gatherer is ready.
      */
     default <R> Stream<R> gather(Gatherer<? super T, ?, R> gatherer) {
         return StreamSupport.stream(spliterator(), isParallel())
