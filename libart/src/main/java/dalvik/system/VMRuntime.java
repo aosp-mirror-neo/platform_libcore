@@ -1184,6 +1184,10 @@ public final class VMRuntime {
     public static boolean isArtTestFlagEnabled() {
         return com.android.art.flags.Flags.test();
     }
+    /**
+     * @hide for internal testing.
+     */
+    public static native boolean isArtTestRwFlagEnabled();
 
     /**
      * Returns the full GC count - how many times did full GC happen
