@@ -20,6 +20,8 @@ import static android.annotation.SystemApi.Client.MODULE_LIBRARIES;
 
 import android.annotation.SystemApi;
 import android.annotation.FlaggedApi;
+import android.system.Os;
+import android.system.StructDlInfo;
 
 import dalvik.system.VMRuntime;
 import sun.misc.Cleaner;
@@ -549,8 +551,19 @@ public class NativeAllocationRegistry {
 
         // Only for error reporting.
         @Override public String toString() {
-            return super.toString() + "(freeFunction = " + dlAddr(freeFunction)
+            return super.toString() + "(freeFunction = " + stringifySymbol(freeFunction)
                 + ", nativePtr = 0x" + Long.toHexString(nativePtr) + ", size = " + size + ")";
+        }
+
+        private static String stringifySymbol(long addr) {
+            StructDlInfo dlInfo = Os.dladdr(addr);
+            if (dlInfo == null || dlInfo.dli_fname == null || dlInfo.dli_fname.isEmpty()) {
+                return "0x" + Long.toHexString(addr);
+            } else if (dlInfo.dli_sname == null) {
+                return dlInfo.dli_fname + "+" + (addr - dlInfo.dli_fbase);
+            } else {
+                return dlInfo.dli_sname + "+" + (addr - dlInfo.dli_saddr);
+            }
         }
     }
 
@@ -611,11 +624,5 @@ public class NativeAllocationRegistry {
      */
     @SystemApi(client = MODULE_LIBRARIES)
     public static native void applyFreeFunction(long freeFunction, long nativePtr);
-
-    /**
-     * Return a String description of freeFunction, preferring a symbolic representation when
-     * possible.
-     */
-    private static native String dlAddr(long freeFunction);
 }
 
