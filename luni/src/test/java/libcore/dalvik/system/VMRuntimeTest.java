@@ -159,6 +159,12 @@ public final class VMRuntimeTest {
     }
 
     @Test
+    public void testIsArtTestRwFlagEnabled() {
+        Assume.assumeTrue(VMRuntime.isArtTestRwFlagEnabled());
+    }
+
+
+    @Test
     public void testGetFullGcCount() {
         long gcCount = VMRuntime.getFullGcCount();
         // full GC count needs to be larger or equal to 0

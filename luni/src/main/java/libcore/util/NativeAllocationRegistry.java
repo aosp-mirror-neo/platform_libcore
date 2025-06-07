@@ -549,7 +549,7 @@ public class NativeAllocationRegistry {
 
         // Only for error reporting.
         @Override public String toString() {
-            return super.toString() + "(freeFunction = 0x" + Long.toHexString(freeFunction)
+            return super.toString() + "(freeFunction = " + dlAddr(freeFunction)
                 + ", nativePtr = 0x" + Long.toHexString(nativePtr) + ", size = " + size + ")";
         }
     }
@@ -611,5 +611,11 @@ public class NativeAllocationRegistry {
      */
     @SystemApi(client = MODULE_LIBRARIES)
     public static native void applyFreeFunction(long freeFunction, long nativePtr);
+
+    /**
+     * Return a String description of freeFunction, preferring a symbolic representation when
+     * possible.
+     */
+    private static native String dlAddr(long freeFunction);
 }
 
