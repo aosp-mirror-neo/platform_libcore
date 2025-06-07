@@ -698,7 +698,7 @@ static bool javaUnixSocketAddressToSockaddr(
             JniConstants::GetUnixSocketAddressClass(env), "sun_path", "[B");
 
     struct sockaddr_un* un_addr = reinterpret_cast<struct sockaddr_un*>(&ss);
-    memset (un_addr, 0, sizeof(sockaddr_un));
+    memset(un_addr, 0, sizeof(sockaddr_un));
     un_addr->sun_family = AF_UNIX;
 
     jbyteArray javaSunPath = (jbyteArray) env->GetObjectField(javaUnixSocketAddress, sunPathFid);
@@ -814,10 +814,9 @@ static jobject doStat(JNIEnv* env, jstring javaPath, bool isLstat) {
 
 static jobject doGetSockName(JNIEnv* env, jobject javaFd, bool is_sockname) {
   int fd = jniGetFDFromFileDescriptor(env, javaFd);
-  sockaddr_storage ss;
+  sockaddr_storage ss = {};
   sockaddr* sa = reinterpret_cast<sockaddr*>(&ss);
   socklen_t byteCount = sizeof(ss);
-  memset(&ss, 0, byteCount);
   int rc = is_sockname ? TEMP_FAILURE_RETRY(getsockname(fd, sa, &byteCount))
       : TEMP_FAILURE_RETRY(getpeername(fd, sa, &byteCount));
   if (rc == -1) {
@@ -1017,9 +1016,8 @@ static size_t GetCapUserDataLength(uint32_t version) {
 }
 
 static jobject Linux_accept(JNIEnv* env, jobject, jobject javaFd, jobject javaSocketAddress) {
-    sockaddr_storage ss;
+    sockaddr_storage ss = {};
     socklen_t sl = sizeof(ss);
-    memset(&ss, 0, sizeof(ss));
     sockaddr* peer = (javaSocketAddress != NULL) ? reinterpret_cast<sockaddr*>(&ss) : NULL;
     socklen_t* peerLength = (javaSocketAddress != NULL) ? &sl : 0;
     jint clientFd = NET_FAILURE_RETRY(env, int, accept, javaFd, peer, peerLength);
@@ -1397,8 +1395,7 @@ static jobjectArray Linux_android_getaddrinfo(JNIEnv* env, jobject, jstring java
     static jfieldID socktypeFid = env->GetFieldID(JniConstants::GetStructAddrinfoClass(env), "ai_socktype", "I");
     static jfieldID protocolFid = env->GetFieldID(JniConstants::GetStructAddrinfoClass(env), "ai_protocol", "I");
 
-    addrinfo hints;
-    memset(&hints, 0, sizeof(hints));
+    addrinfo hints= {};
     hints.ai_flags = env->GetIntField(javaHints, flagsFid);
     hints.ai_family = env->GetIntField(javaHints, familyFid);
     hints.ai_socktype = env->GetIntField(javaHints, socktypeFid);
@@ -1546,8 +1543,7 @@ static jint Linux_getsockoptByte(JNIEnv* env, jobject, jobject javaFd, jint leve
 
 static jobject Linux_getsockoptInAddr(JNIEnv* env, jobject, jobject javaFd, jint level, jint option) {
     int fd = jniGetFDFromFileDescriptor(env, javaFd);
-    sockaddr_storage ss;
-    memset(&ss, 0, sizeof(ss));
+    sockaddr_storage ss = {};
     ss.ss_family = AF_INET; // This is only for the IPv4-only IP_MULTICAST_IF.
     sockaddr_in* sa = reinterpret_cast<sockaddr_in*>(&ss);
     socklen_t size = sizeof(sa->sin_addr);
@@ -1569,9 +1565,8 @@ static jint Linux_getsockoptInt(JNIEnv* env, jobject, jobject javaFd, jint level
 
 static jobject Linux_getsockoptLinger(JNIEnv* env, jobject, jobject javaFd, jint level, jint option) {
     int fd = jniGetFDFromFileDescriptor(env, javaFd);
-    struct linger l;
+    struct linger l = {};
     socklen_t size = sizeof(l);
-    memset(&l, 0, size);
     int rc = TEMP_FAILURE_RETRY(getsockopt(fd, level, option, &l, &size));
     if (rc == -1) {
         throwErrnoException(env, "getsockopt");
@@ -1582,9 +1577,8 @@ static jobject Linux_getsockoptLinger(JNIEnv* env, jobject, jobject javaFd, jint
 
 static jobject Linux_getsockoptTimeval(JNIEnv* env, jobject, jobject javaFd, jint level, jint option) {
     int fd = jniGetFDFromFileDescriptor(env, javaFd);
-    struct timeval tv;
+    struct timeval tv = {};
     socklen_t size = sizeof(tv);
-    memset(&tv, 0, size);
     int rc = TEMP_FAILURE_RETRY(getsockopt(fd, level, option, &tv, &size));
     if (rc == -1) {
         throwErrnoException(env, "getsockopt");
@@ -1602,9 +1596,8 @@ static jobject Linux_getsockoptTimeval(JNIEnv* env, jobject, jobject javaFd, jin
 
 static jobject Linux_getsockoptUcred(JNIEnv* env, jobject, jobject javaFd, jint level, jint option) {
   int fd = jniGetFDFromFileDescriptor(env, javaFd);
-  struct ucred u;
+  struct ucred u = {};
   socklen_t size = sizeof(u);
-  memset(&u, 0, size);
   int rc = TEMP_FAILURE_RETRY(getsockopt(fd, level, option, &u, &size));
   if (rc == -1) {
     throwErrnoException(env, "getsockopt");
@@ -1788,8 +1781,7 @@ static jobject Linux_inet_pton(JNIEnv* env, jobject, jint family, jstring javaNa
     if (name.c_str() == NULL) {
         return NULL;
     }
-    sockaddr_storage ss;
-    memset(&ss, 0, sizeof(ss));
+    sockaddr_storage ss = {};
     void* dst;
     if (family == AF_INET) {
       dst = &reinterpret_cast<sockaddr_in*>(&ss)->sin_addr;
@@ -2192,9 +2184,8 @@ static jint Linux_recvfromBytes(JNIEnv* env, jobject, jobject javaFd, jobject ja
     if (bytes.get() == NULL) {
         return -1;
     }
-    sockaddr_storage ss;
+    sockaddr_storage ss = {};
     socklen_t sl = sizeof(ss);
-    memset(&ss, 0, sizeof(ss));
     sockaddr* from = (javaInetSocketAddress != NULL) ? reinterpret_cast<sockaddr*>(&ss) : NULL;
     socklen_t* fromLength = (javaInetSocketAddress != NULL) ? &sl : 0;
     jint recvCount = NET_FAILURE_RETRY(env, ssize_t, recvfrom, javaFd, bytes.get() + byteOffset, byteCount, flags, from, fromLength);
@@ -2491,17 +2482,13 @@ static void Linux_setsockoptInt(JNIEnv* env, jobject, jobject javaFd, jint level
 }
 
 static void Linux_setsockoptIpMreqn(JNIEnv* env, jobject, jobject javaFd, jint level, jint option, jint value) {
-    ip_mreqn req;
-    memset(&req, 0, sizeof(req));
-    req.imr_ifindex = value;
+    ip_mreqn req = { .imr_ifindex = value };
     int fd = jniGetFDFromFileDescriptor(env, javaFd);
     throwIfMinusOne(env, "setsockopt", TEMP_FAILURE_RETRY(setsockopt(fd, level, option, &req, sizeof(req))));
 }
 
 static void Linux_setsockoptGroupReq(JNIEnv* env, jobject, jobject javaFd, jint level, jint option, jobject javaGroupReq) {
-    struct group_req req;
-    memset(&req, 0, sizeof(req));
-
+    struct group_req req = {};
     static jfieldID grInterfaceFid = env->GetFieldID(JniConstants::GetStructGroupReqClass(env), "gr_interface", "I");
     req.gr_interface = env->GetIntField(javaGroupReq, grInterfaceFid);
     // Get the IPv4 or IPv6 multicast address to join or leave.

@@ -1169,6 +1169,21 @@ java_aconfig_library {
     ],
 }
 
+cc_aconfig_library {
+    name: "libcore-aconfig-flags-native-lib",
+    aconfig_declarations: "libcore-aconfig-flags",
+    host_supported: true,
+    min_sdk_version: "31",
+    apex_available: [
+        "//apex_available:platform",
+        "//apex_available:anyapex",
+    ],
+    visibility: [
+        "//art:__subpackages__",
+        "//libcore:__subpackages__",
+    ],
+}
+
 // Define the public SDK API provided by the ART module.
 java_sdk_library {
     name: "art.module.public.api",
