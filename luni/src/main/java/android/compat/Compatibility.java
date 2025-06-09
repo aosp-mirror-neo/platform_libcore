@@ -50,10 +50,6 @@ public final class Compatibility {
      * regardless of the process it's running in. When called in a non-app process, this method is
      * a no-op.
      *
-     * <p>Note: for changes that are gated using {@link #isChangeEnabled(long)}, you do not need to
-     * call this API directly. The change will be reported for you in the case that
-     * {@link #isChangeEnabled(long)} returns {@code true}.
-     *
      * @param changeId The ID of the compatibility change taking effect.
      *
      * @hide
