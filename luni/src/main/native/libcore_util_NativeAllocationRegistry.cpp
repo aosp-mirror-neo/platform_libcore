@@ -33,25 +33,8 @@ static void NativeAllocationRegistry_applyFreeFunction(JNIEnv*,
     nativeFreeFunction(nativePtr);
 }
 
-static jstring NativeAllocationRegistry_dlAddr(JNIEnv* env, jclass, jlong freeFunction) {
-    uintptr_t ff = static_cast<uintptr_t>(freeFunction);
-    Dl_info info;
-    int ret = dladdr(reinterpret_cast<void*>(ff), &info);
-    std::stringstream result;
-    if (ret == 0 /* failed */ || info.dli_fname == nullptr || strlen(info.dli_fname) == 0) {
-      result << "0x" << std::hex << ff;
-    } else if (info.dli_sname == nullptr) {
-      result << info.dli_fname << "+" << (ff - reinterpret_cast<uintptr_t>(info.dli_fbase));
-    } else {
-      result << info.dli_sname << "+" << (ff - reinterpret_cast<uintptr_t>(info.dli_saddr));
-    }
-    return env->NewStringUTF(result.str().c_str());
-}
-
-
 static JNINativeMethod gMethods[] = {
     NATIVE_METHOD(NativeAllocationRegistry, applyFreeFunction, "(JJ)V"),
-    NATIVE_METHOD(NativeAllocationRegistry, dlAddr, "(J)Ljava/lang/String;"),
 };
 
 void register_libcore_util_NativeAllocationRegistry(JNIEnv* env) {

@@ -2686,6 +2686,13 @@ ojluni/src/test/java/util/regex/PatternStreamTest.java,jdk21u/jdk-21.0.6-ga,test
 ojluni/src/test/java/util/regex/RegExTest.java,jdk17u/jdk-17.0.14-ga,test/jdk/java/util/regex/RegExTest.java
 ojluni/src/test/java/util/regex/SupplementaryTestCases.txt,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/regex/SupplementaryTestCases.txt
 ojluni/src/test/java/util/regex/TestCases.txt,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/regex/TestCases.txt
+ojluni/src/test/java/util/stream/GathererAPITest.java,jdk/jdk-25+25,test/jdk/java/util/stream/GathererAPITest.java
+ojluni/src/test/java/util/stream/GathererShortCircuitTest.java,jdk/jdk-25+25,test/jdk/java/util/stream/GathererShortCircuitTest.java
+ojluni/src/test/java/util/stream/GathererTest.java,jdk/jdk-25+25,test/jdk/java/util/stream/GathererTest.java
+ojluni/src/test/java/util/stream/GatherersFoldTest.java,jdk/jdk-25+25,test/jdk/java/util/stream/GatherersFoldTest.java
+ojluni/src/test/java/util/stream/GatherersScanTest.java,jdk/jdk-25+25,test/jdk/java/util/stream/GatherersScanTest.java
+ojluni/src/test/java/util/stream/GatherersWindowFixedTest.java,jdk/jdk-25+25,test/jdk/java/util/stream/GatherersWindowFixedTest.java
+ojluni/src/test/java/util/stream/GatherersWindowSlidingTest.java,jdk/jdk-25+25,test/jdk/java/util/stream/GatherersWindowSlidingTest.java
 ojluni/src/test/java/util/stream/TestDoubleSumAverage.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/stream/TestDoubleSumAverage.java
 ojluni/src/test/java/util/stream/test/org/openjdk/tests/java/util/stream/CollectAndSummaryStatisticsTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/stream/test/org/openjdk/tests/java/util/stream/CollectAndSummaryStatisticsTest.java
 ojluni/src/test/java/util/stream/test/org/openjdk/tests/java/util/stream/CollectionAndMapModifyStreamTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/stream/test/org/openjdk/tests/java/util/stream/CollectionAndMapModifyStreamTest.java

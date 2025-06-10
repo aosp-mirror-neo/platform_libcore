@@ -190,7 +190,17 @@ public class Thread implements Runnable {
     private volatile String name;
 
     // Android-changed: Cache Posix niceness instead of managed thread priority.
-    private int niceness;
+    // Set before we actually change the priority. Thus the thread itself can restore the OS
+    // priority without synchronization by
+    //  1. reading niceness
+    //  2. Calling Posix setpriority on the result
+    //  3. re-reading niceness and repeating if it changed in the interim.
+    //  If niceness was changed by another thread before the last step, we restore that value.
+    //  If it is changed after that, the Java.setPriority() call will do the right thing.
+    // For this to work, we need to ensure, among other things, that a setpriority call and a
+    // subsequent read of niceness are not reordered. Such guarantees are generally unclear; we
+    // assume that consistently treating niceness as Java `volatile` / C++ `seq_cst` suffices.
+    private volatile int niceness;
 
     private int priority;  // Only for reading via reflection and for unstarted threads. Avoid.
 
@@ -1705,13 +1715,14 @@ public class Thread implements Runnable {
                 newPriority = g.getMaxPriority();
             }
             // Android-changed: Avoid native call if Thread is not yet started.
-            // setPriority0(priority = newPriority);
+            // Pass both priority and niceness, since S workaround requires priority, otherwise we
+            // need niceness.
+            // was: setPriority0(priority = newPriority);
             synchronized(this) {
-                this.priority = newPriority;  // Ignored by us if already started.
+                priority = newPriority;  // Ignored by us if already started.
+                niceness = nicenessForPriority(newPriority);
                 if (isAlive()) {
-                    this.niceness = setPriority0(newPriority);
-                } else {
-                    this.niceness = nicenessForPriority(newPriority);
+                    setPriority0(newPriority, niceness);
                 }
             }
         }
@@ -2905,19 +2916,18 @@ public class Thread implements Runnable {
 
     /* Some private helper methods */
     /**
-     * Android-changed: Make accessible to Daemons.java for internal use. Return signed niceness
-     * value corresponding to newPriority. The argument is still a Java priority.
+     * Android-changed: Add niceness argument to avoid recomputation.
      *
      * Equivalent to
      *
      *   int n = nicenessForPriority(newPriority);
-     *   setNiceness0(nicenessForPriority(n));
-     *   return n;
+     *   setNiceness0(n);
      *
      * But it allows us to implement Thread.setPriority() with a single native call.
      * (On Android S, this equivalence is approximate. See implementation.)
      */
-    native int setPriority0(int newPriority);
+    @FastNative
+    private native void setPriority0(int newPriority, int newNiceness);
 
     /**
      * Android-added: Helper methods allowing us to understand the priority to niceness mapping,
@@ -2925,8 +2935,9 @@ public class Thread implements Runnable {
      */
 
     /**
-     * setPriority0, but with nicenes argument and returns an errno value.
+     * Set the Posix niceness value associated with this thread. Returns an errno value.
      */
+    @FastNative
     private native int setNiceness0(int niceness);
 
     /**
