@@ -119,6 +119,8 @@ public final class Daemons {
             thread.start();
         }
 
+        static final int MIN_NICENESS = -8;  // Corresponds to MAX_PRIORITY.
+
         public final void run() {
             if (postZygoteFork) {
                 // We don't set the priority before the Thread.start() call above because
@@ -135,7 +137,7 @@ public final class Daemons {
                 // Terminate the underlying system thread as quickly as possible.
                 // Mirroring setSystemDaemonThreadPriority, we only touch the native priority,
                 // bypassing the rest of setPriority().
-                Thread.currentThread().setPriority0(Thread.MAX_PRIORITY);
+                Thread.currentThread().setPosixNicenessInternal(MIN_NICENESS);
             } catch (Throwable ex) {
                 // Usually caught in runInternal. May not o.w. get reported, e.g. in zygote.
                 // Risk logging redundantly, rather than losing it.
