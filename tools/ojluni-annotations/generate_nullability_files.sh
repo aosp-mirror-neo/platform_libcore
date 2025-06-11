@@ -22,7 +22,7 @@ build/soong/soong_ui.bash --make-mode openjdk-sdk-stubs-no-javadoc libart-sdk-st
 for CLASS in "$@";
 do
   FILE=${CLASS//./\/}
-  unzip out/soong/.intermediates/libcore/openjdk-sdk-stubs-no-javadoc/android_common/exportable/openjdk-sdk-stubs-no-javadoc-stubs.srcjar \
+  unzip out/soong/.intermediates/libcore/openjdk-sdk-stubs-no-javadoc/android_common/everything/openjdk-sdk-stubs-no-javadoc-stubs.srcjar \
     "${FILE}".java -d libcore/ojluni/annotations/sdk/nullability/
   mv libcore/ojluni/annotations/sdk/nullability/"$FILE".java libcore/ojluni/annotations/sdk/nullability/"$FILE".annotated.java
 done
