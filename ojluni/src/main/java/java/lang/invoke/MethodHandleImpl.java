@@ -43,16 +43,14 @@ public class MethodHandleImpl extends MethodHandle implements Cloneable {
     // TODO(b/297147201): create separate AccessorMethodHandle class and move target and field
     // into it.
     // Used by runtime only.
-    // For compat reasons this field is named in such a way that offsets of existing fields in
-    // the class's memory layout are the same as before.
-    private final long targetMethodEntry;
+    private final long target;
     private Object targetClassOrMethodHandleInfo;
     Field field;
 
     MethodHandleImpl(long artFieldOrMethod, int handleKind, MethodType type) {
         super(artFieldOrMethod, handleKind, type);
         this.targetClassOrMethodHandleInfo = getMemberInternal().getDeclaringClass();
-        this.targetMethodEntry = 0;
+        this.target = 0;
     }
 
     MethodHandleImpl(Field field, int handleKind, MethodType type) {
@@ -62,7 +60,7 @@ public class MethodHandleImpl extends MethodHandle implements Cloneable {
         MethodHandleStatics.UNSAFE.ensureClassInitialized(field.getDeclaringClass());
         this.targetClassOrMethodHandleInfo = getMemberInternal().getDeclaringClass();
         this.field = field;
-        this.targetMethodEntry = resolveTarget(handleKind, field);
+        this.target = resolveTarget(handleKind, field);
     }
 
     private static long resolveTarget(int handleKind, Field field) {
