@@ -467,7 +467,7 @@ public interface Gatherer<T, A, R> {
             Integrator<A, T, R> integrator,
             BinaryOperator<A> combiner,
             BiConsumer<A, Downstream<? super R>> finisher) {
-        return new Gatherers.GathererImpl<>(
+        return new GathererImpl<>(
                 Objects.requireNonNull(initializer),
                 Objects.requireNonNull(integrator),
                 Objects.requireNonNull(combiner),

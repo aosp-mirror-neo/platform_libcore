@@ -502,6 +502,9 @@ public final class Gatherers {
         }
     }
 
+    // Android-removed: http://b/329219364 Moved this to GathererImpl.java
+    //   due to syntax error in Metalava.
+    /*
     record GathererImpl<T, A, R>(
             @Override Supplier<A> initializer,
             @Override Integrator<A, T, R> integrator,
@@ -521,6 +524,7 @@ public final class Gatherers {
             );
         }
     }
+    */
 
     static final class Composite<T, A, R, AA, RR> implements Gatherer<T, Object, RR> {
         private final Gatherer<T, A, ? extends R> left;

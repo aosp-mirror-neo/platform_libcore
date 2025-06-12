@@ -18487,6 +18487,45 @@ package java.util.stream {
     method public void accept(double, java.util.function.DoubleConsumer);
   }
 
+  @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public interface Gatherer<T, A, R> {
+    method public default <RR> java.util.stream.Gatherer<T,?,RR> andThen(java.util.stream.Gatherer<? super R,?,? extends RR>);
+    method public default java.util.function.BinaryOperator<A> combiner();
+    method public static <A> java.util.function.BinaryOperator<A> defaultCombiner();
+    method public static <A, R> java.util.function.BiConsumer<A,java.util.stream.Gatherer.Downstream<? super R>> defaultFinisher();
+    method public static <A> java.util.function.Supplier<A> defaultInitializer();
+    method public default java.util.function.BiConsumer<A,java.util.stream.Gatherer.Downstream<? super R>> finisher();
+    method public default java.util.function.Supplier<A> initializer();
+    method public java.util.stream.Gatherer.Integrator<A,T,R> integrator();
+    method public static <T, R> java.util.stream.Gatherer<T,java.lang.Void,R> of(java.util.stream.Gatherer.Integrator<java.lang.Void,T,R>);
+    method public static <T, R> java.util.stream.Gatherer<T,java.lang.Void,R> of(java.util.stream.Gatherer.Integrator<java.lang.Void,T,R>, java.util.function.BiConsumer<java.lang.Void,java.util.stream.Gatherer.Downstream<? super R>>);
+    method public static <T, A, R> java.util.stream.Gatherer<T,A,R> of(java.util.function.Supplier<A>, java.util.stream.Gatherer.Integrator<A,T,R>, java.util.function.BinaryOperator<A>, java.util.function.BiConsumer<A,java.util.stream.Gatherer.Downstream<? super R>>);
+    method public static <T, R> java.util.stream.Gatherer<T,java.lang.Void,R> ofSequential(java.util.stream.Gatherer.Integrator<java.lang.Void,T,R>);
+    method public static <T, R> java.util.stream.Gatherer<T,java.lang.Void,R> ofSequential(java.util.stream.Gatherer.Integrator<java.lang.Void,T,R>, java.util.function.BiConsumer<java.lang.Void,java.util.stream.Gatherer.Downstream<? super R>>);
+    method public static <T, A, R> java.util.stream.Gatherer<T,A,R> ofSequential(java.util.function.Supplier<A>, java.util.stream.Gatherer.Integrator<A,T,R>);
+    method public static <T, A, R> java.util.stream.Gatherer<T,A,R> ofSequential(java.util.function.Supplier<A>, java.util.stream.Gatherer.Integrator<A,T,R>, java.util.function.BiConsumer<A,java.util.stream.Gatherer.Downstream<? super R>>);
+  }
+
+  @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") @java.lang.FunctionalInterface public static interface Gatherer.Downstream<T> {
+    method public default boolean isRejecting();
+    method public boolean push(T);
+  }
+
+  @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") @java.lang.FunctionalInterface public static interface Gatherer.Integrator<A, T, R> {
+    method public boolean integrate(A, T, java.util.stream.Gatherer.Downstream<? super R>);
+    method public static <A, T, R> java.util.stream.Gatherer.Integrator<A,T,R> of(java.util.stream.Gatherer.Integrator<A,T,R>);
+    method public static <A, T, R> java.util.stream.Gatherer.Integrator.Greedy<A,T,R> ofGreedy(java.util.stream.Gatherer.Integrator.Greedy<A,T,R>);
+  }
+
+  @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") @java.lang.FunctionalInterface public static interface Gatherer.Integrator.Greedy<A, T, R> extends java.util.stream.Gatherer.Integrator<A,T,R> {
+  }
+
+  @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public final class Gatherers {
+    method public static <T, R> java.util.stream.Gatherer<T,?,R> fold(java.util.function.Supplier<R>, java.util.function.BiFunction<? super R,? super T,? extends R>);
+    method public static <T, R> java.util.stream.Gatherer<T,?,R> scan(java.util.function.Supplier<R>, java.util.function.BiFunction<? super R,? super T,? extends R>);
+    method public static <TR> java.util.stream.Gatherer<TR,?,java.util.List<TR>> windowFixed(int);
+    method public static <TR> java.util.stream.Gatherer<TR,?,java.util.List<TR>> windowSliding(int);
+  }
+
   public interface IntStream extends java.util.stream.BaseStream<java.lang.Integer,java.util.stream.IntStream> {
     method public boolean allMatch(java.util.function.IntPredicate);
     method public boolean anyMatch(java.util.function.IntPredicate);
@@ -18626,6 +18665,7 @@ package java.util.stream {
     method public java.util.stream.LongStream flatMapToLong(java.util.function.Function<? super T,? extends java.util.stream.LongStream>);
     method public void forEach(java.util.function.Consumer<? super T>);
     method public void forEachOrdered(java.util.function.Consumer<? super T>);
+    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public default <R> java.util.stream.Stream<R> gather(java.util.stream.Gatherer<? super T,?,R>);
     method public static <T> java.util.stream.Stream<T> generate(java.util.function.Supplier<? extends T>);
     method public static <T> java.util.stream.Stream<T> iterate(T, java.util.function.UnaryOperator<T>);
     method public static <T> java.util.stream.Stream<T> iterate(T, java.util.function.Predicate<? super T>, java.util.function.UnaryOperator<T>);
