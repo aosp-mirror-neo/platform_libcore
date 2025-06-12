@@ -263,6 +263,7 @@ ojluni/src/main/java/java/lang/invoke/CallSite.java,jdk8u/jdk8u121-b13,jdk/src/s
 ojluni/src/main/java/java/lang/invoke/ConstantBootstraps.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/invoke/ConstantBootstraps.java
 ojluni/src/main/java/java/lang/invoke/ConstantCallSite.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/java/lang/invoke/ConstantCallSite.java
 ojluni/src/main/java/java/lang/invoke/LambdaConversionException.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/java/lang/invoke/LambdaConversionException.java
+ojluni/src/main/java/java/lang/invoke/LambdaMetafactory.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/invoke/LambdaMetafactory.java
 ojluni/src/main/java/java/lang/invoke/MethodHandle.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/java/lang/invoke/MethodHandle.java
 # java.lang.invoke.MethodHandleImpl in libcore/ doesn't come from the upstream.
 ojluni/src/main/java/java/lang/invoke/MethodHandleInfo.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/java/lang/invoke/MethodHandleInfo.java
@@ -272,6 +273,7 @@ ojluni/src/main/java/java/lang/invoke/MethodHandles.java,jdk8u/jdk8u121-b13,jdk/
 ojluni/src/main/java/java/lang/invoke/MethodType.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/java/lang/invoke/MethodType.java
 ojluni/src/main/java/java/lang/invoke/MethodTypeForm.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/java/lang/invoke/MethodTypeForm.java
 ojluni/src/main/java/java/lang/invoke/MutableCallSite.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/java/lang/invoke/MutableCallSite.java
+ojluni/src/main/java/java/lang/invoke/SerializedLambda.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/invoke/SerializedLambda.java
 ojluni/src/main/java/java/lang/invoke/StringConcatException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/invoke/StringConcatException.java
 ojluni/src/main/java/java/lang/invoke/TypeDescriptor.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/invoke/TypeDescriptor.java
 # java.lang.invoke.Transformers isn't in the upstream OpenJDK

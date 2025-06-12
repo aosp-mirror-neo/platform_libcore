@@ -1462,6 +1462,8 @@ filegroup {
         "ojluni/src/lambda/java/java/lang/invoke/CallSite.java",
         "ojluni/src/lambda/java/java/lang/invoke/MethodHandles.java",
         "ojluni/src/lambda/java/java/lang/invoke/LambdaConversionException.java",
+        "ojluni/src/lambda/java/java/lang/invoke/LambdaMetafactory.java",
+        "ojluni/src/lambda/java/java/lang/invoke/SerializedLambda.java",
         "ojluni/src/lambda/java/java/lang/invoke/MethodHandle.java",
         "ojluni/src/lambda/java/java/lang/invoke/MethodType.java",
         "ojluni/src/lambda/java/java/lang/invoke/StringConcatException.java",
@@ -1532,6 +1534,8 @@ filegroup {
         "ojluni/src/main/java/java/lang/constant/PrimitiveClassDescImpl.java",
         "ojluni/src/main/java/java/lang/constant/ReferenceClassDescImpl.java",
         "ojluni/src/main/java/java/lang/constant/package-info.java",
+        "ojluni/src/main/java/java/lang/invoke/LambdaMetafactory.java",
+        "ojluni/src/main/java/java/lang/invoke/SerializedLambda.java",
         "ojluni/src/main/java/java/time/zone/IcuZoneRulesProvider.java",
         "ojluni/src/main/java/java/time/zone/ZoneRulesProvider.java",
         "ojluni/src/main/java/java/util/ImmutableCollections.java",
@@ -2001,7 +2005,9 @@ filegroup {
         ":openjdk_javadoc_files",
         ":openjdk_mmodule_extra_files",
         ":openjdk_internal_files",
-        ":openjdk_lambda_stub_files",
+        // openjdk_lambda_stub_files is not here as LambdaMetafactory and SerializedLambda are in
+        // openjdk_internal_files. StringConcatFactory was added into openjdk_lambda_stub_files
+        // for different reasons and not including it here should be fine.
     ],
 }
 
