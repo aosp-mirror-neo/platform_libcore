@@ -29,6 +29,8 @@ package java.lang;
 
 import static android.system.OsConstants._SC_NPROCESSORS_CONF;
 
+import android.system.Os;
+
 import com.android.libcore.Flags;
 
 import dalvik.annotation.compat.VersionCodes;
@@ -40,6 +42,7 @@ import dalvik.system.VMRuntime;
 
 import libcore.io.Libcore;
 import libcore.util.EmptyArray;
+import libcore.util.LibcoreStatsLog;
 
 import java.io.File;
 import java.io.IOException;
@@ -934,11 +937,19 @@ public class Runtime {
         if (filename == null) {
             throw new NullPointerException("filename == null");
         }
-        if (Flags.readOnlyDynamicCodeLoad()) {
-            if (!file.toPath().getFileSystem().isReadOnly() && file.canWrite()) {
-                if (VMRuntime.getSdkVersion() >= VersionCodes.VANILLA_ICE_CREAM) {
-                    System.logW("Attempt to load writable file: " + filename
-                            + ". This will throw on a future Android version");
+        if (!file.toPath().getFileSystem().isReadOnly() && file.canWrite()) {
+            System.logW("Attempt to load writable file: " + filename
+                    + ". This will throw on a future Android version");
+            if (VMRuntime.getSdkVersion() >= VersionCodes.C) {
+                if (VMRuntime.isReadOnlyDynamicCodeLoadWwLogEnabled()) {
+                    LibcoreStatsLog.writeRuntimeUnsafeDclReported(
+                        Os.getuid(),
+                        fromClass.getPackageName(),
+                        file.getName());
+                }
+                if (VMRuntime.isReadOnlyDynamicCodeLoadThrowExceptionEnabled()) {
+                    throw new UnsatisfiedLinkError(
+                      "Attempt to load writable file: " + filename);
                 }
             }
         }
