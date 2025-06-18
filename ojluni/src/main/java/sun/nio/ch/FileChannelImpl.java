@@ -101,6 +101,11 @@ public class FileChannelImpl
     @ReachabilitySensitive
     private final CloseGuard guard = CloseGuard.get();
 
+    // Android-changed: b/418765270. Make map() operation uninterruptible optionally.
+    // The upstream has a similar change to support uninterruptible operations.
+    // blocking operations are not interruptible
+    private volatile boolean uninterruptible;
+
     private FileChannelImpl(FileDescriptor fd, String path, boolean readable,
                             boolean writable, Object parent)
     {
@@ -130,12 +135,9 @@ public class FileChannelImpl
             throw new ClosedChannelException();
     }
 
-    // Android-added: Cherry-pick this unimplemented method from OpenJDK 11.
     public void setUninterruptible() {
-        // TODO: Implement this method when FileChannelImpl is updated to 11.
-        //uninterruptible = true;
+        uninterruptible = true;
     }
-
 
     // -- Standard channel operations --
 
@@ -939,7 +941,11 @@ public class FileChannelImpl
         long addr = -1;
         int ti = -1;
         try {
-            begin();
+            // Android-changed: http://b/425897917. Reading CEN of ZipFile is uninterruptible.
+            // begin();
+            if (!uninterruptible) {
+                begin();
+            }
             ti = threads.add();
             if (!isOpen())
                 return null;
@@ -1035,7 +1041,12 @@ public class FileChannelImpl
                     (!writable) || (imode == MAP_RO));
         } finally {
             threads.remove(ti);
-            end(IOStatus.checkAll(addr));
+            // Android-changed: http://b/425897917. Reading CEN of ZipFile is uninterruptible.
+            // end(IOStatus.checkAll(addr));
+            if (!uninterruptible) {
+                end(IOStatus.checkAll(addr));
+            }
+
         }
     }
 

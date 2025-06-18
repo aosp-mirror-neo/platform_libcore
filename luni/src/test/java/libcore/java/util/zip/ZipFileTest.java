@@ -16,6 +16,8 @@
 
 package libcore.java.util.zip;
 
+import libcore.io.ClassPathURLStreamHandler;
+import libcore.libcore.io.ClassPathURLStreamHandlerTest;
 import libcore.test.annotation.NonCts;
 import libcore.test.reasons.NonCtsReasons;
 
@@ -71,6 +73,45 @@ public final class ZipFileTest extends AbstractZipFileTest {
             assertEquals("имя файла", zipEntry.getName());
         }
     }
+
+    // Regression test for http://b/425897917 and http://b/418765270.
+    public void test_zipFile_notAffectedByInterrupt() throws Exception {
+        String jarName = "/tests/resources/ClassPathURLStreamHandlerTest.jar";
+        File file = readResource(jarName);
+        String expected_file = ClassPathURLStreamHandlerTest.ENTRY_STORED;
+        Thread thread = Thread.currentThread();
+
+        new Thread(thread::interrupt).start();
+        while (!thread.isInterrupted()) {}
+        try (ZipFile zipFile = new ZipFile(file)) {
+            assertNotNull("Can't open " + expected_file,  zipFile.getEntry(expected_file));
+            assertTrue(thread.isInterrupted());
+        } finally {
+            // Clear interrupted status
+            Thread.interrupted();
+        }
+
+        new Thread(thread::interrupt).start();
+        while (!thread.isInterrupted()) {}
+        try (HandlerWrapper wrapper = new HandlerWrapper(
+                new ClassPathURLStreamHandler(file.getPath(), false))) {
+            assertTrue(wrapper.handler().isEntryStored(expected_file));
+            assertNotNull("Can't open " + expected_file,
+                    wrapper.handler().getEntryUrlOrNull(expected_file));
+            assertTrue(thread.isInterrupted());
+        } finally {
+            // Clear interrupted status
+            Thread.interrupted();
+        }
+}
+
+    record HandlerWrapper(ClassPathURLStreamHandler handler) implements AutoCloseable {
+        @Override
+        public void close() throws Exception {
+            handler.close();
+        }
+    }
+
 
     public void test_throwsWhenTriesToOpenCorruptedFile() throws Exception {
         // This file was by running following commands:
