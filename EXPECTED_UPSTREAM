@@ -229,6 +229,7 @@ ojluni/src/main/java/java/lang/UnsupportedClassVersionError.java,jdk21u/jdk-21.0
 ojluni/src/main/java/java/lang/UnsupportedOperationException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/UnsupportedOperationException.java
 ojluni/src/main/java/java/lang/VerifyError.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/VerifyError.java
 ojluni/src/main/java/java/lang/VirtualMachineError.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/VirtualMachineError.java
+ojluni/src/main/java/java/lang/VirtualThread.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/VirtualThread.java
 ojluni/src/main/java/java/lang/Void.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/Void.java
 ojluni/src/main/java/java/lang/WrongThreadException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/WrongThreadException.java
 ojluni/src/main/java/java/lang/annotation/Annotation.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/annotation/Annotation.java
