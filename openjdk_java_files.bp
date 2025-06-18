@@ -1516,6 +1516,7 @@ filegroup {
         "ojluni/src/main/java/java/lang/JavaLangAccess.java",
         "ojluni/src/main/java/java/lang/StringLatin1.java",
         "ojluni/src/main/java/java/lang/StringUTF16.java",
+        "ojluni/src/main/java/java/lang/ThreadBuilders.java",
         "ojluni/src/main/java/java/lang/VirtualThread.java",
         "ojluni/src/main/java/java/lang/WrongThreadException.java",
         // Hide the java.lang.constant APIs until master switches away from Android UDC. b/270028670
