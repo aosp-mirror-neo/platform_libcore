@@ -42,7 +42,7 @@ public class ClassPathURLStreamHandlerTest extends TestCase {
     private static final String DIR_ENTRY_WITHOUT_SLASH = "foo";
     private static final String DIR_ENTRY_WITH_SLASH = DIR_ENTRY_WITHOUT_SLASH + "/";
     private static final String ENTRY_IN_SUBDIR = "foo/bar/baz.txt";
-    private static final String ENTRY_STORED = "stored_file.txt";
+    public static final String ENTRY_STORED = "stored_file.txt";
     private static final String ENTRY_WITH_SPACES_ENCODED = "file%20with%20spaces.txt";
     private static final String ENTRY_WITH_SPACES_UNENCODED = "file with spaces.txt";
     private static final String ENTRY_THAT_NEEDS_ESCAPING = "file_with_percent20_%20.txt";
