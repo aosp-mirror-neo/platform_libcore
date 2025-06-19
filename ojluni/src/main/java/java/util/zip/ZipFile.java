@@ -35,10 +35,6 @@ import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.io.UncheckedIOException;
 import java.lang.ref.Cleaner.Cleanable;
-import java.nio.ByteOrder;
-import java.nio.DirectByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -75,7 +71,6 @@ import jdk.internal.access.SharedSecrets;
 import jdk.internal.misc.VM;
 import jdk.internal.ref.CleanerFactory;
 import jdk.internal.vm.annotation.Stable;
-import sun.misc.Cleaner;
 import sun.nio.fs.DefaultFileSystemProvider;
 import sun.security.action.GetPropertyAction;
 import sun.security.util.SignatureFileVerifier;
@@ -649,9 +644,7 @@ public class ZipFile implements ZipConstants, Closeable {
     }
 
     private String getEntryName(int pos) {
-        // Android-changed: don't keep CEN bytes in heap memory after initialization.
-        //byte[] cen = res.zsrc.cen;
-        DirectByteBuffer cen = res.zsrc.cen;
+        byte[] cen = res.zsrc.cen;
         int nlen = CENNAM(cen, pos);
         ZipCoder zc = res.zsrc.zipCoderForPos(pos);
         return zc.toString(cen, pos + CENHDR, nlen);
@@ -698,9 +691,7 @@ public class ZipFile implements ZipConstants, Closeable {
 
     /* Check ensureOpen() before invoking this method */
     private ZipEntry getZipEntry(String name, int pos) {
-        // Android-changed: don't keep CEN bytes in heap memory after initialization.
-        //byte[] cen = res.zsrc.cen;
-        DirectByteBuffer cen = res.zsrc.cen;
+        byte[] cen = res.zsrc.cen;
         int nlen = CENNAM(cen, pos);
         int elen = CENEXT(cen, pos);
         int clen = CENCOM(cen, pos);
@@ -740,12 +731,7 @@ public class ZipFile implements ZipConstants, Closeable {
 
         if (elen != 0) {
             int start = pos + CENHDR + nlen;
-            // BEGIN Android-changed: don't keep CEN bytes in heap memory after initialization.
-            //e.setExtra0(Arrays.copyOfRange(cen, start, start + elen), true, false);
-            byte[] bytes = new byte[elen];
-            cen.get(start, bytes, 0, elen);
-            e.setExtra0(bytes, true, false);
-            // END Android-changed: don't keep CEN bytes in heap memory after initialization.
+            e.setExtra0(Arrays.copyOfRange(cen, start, start + elen), true, false);
         }
         if (clen != 0) {
             int start = pos + CENHDR + nlen + elen;
@@ -945,9 +931,7 @@ public class ZipFile implements ZipConstants, Closeable {
         protected long rem;     // number of remaining bytes within entry
         protected long size;    // uncompressed size of this entry
 
-        // Android-changed: don't keep CEN bytes in heap memory after initialization.
-        //ZipFileInputStream(byte[] cen, int cenpos) {
-        ZipFileInputStream(DirectByteBuffer cen, int cenpos) {
+        ZipFileInputStream(byte[] cen, int cenpos) {
             rem = CENSIZ(cen, cenpos);
             size = CENLEN(cen, cenpos);
             pos = CENOFF(cen, cenpos);
@@ -960,9 +944,7 @@ public class ZipFile implements ZipConstants, Closeable {
             pos = - (pos + ZipFile.this.res.zsrc.locpos);
         }
 
-        // Android-changed: don't keep CEN bytes in heap memory after initialization.
-        //private void checkZIP64(byte[] cen, int cenpos) {
-        private void checkZIP64(DirectByteBuffer cen, int cenpos) {
+        private void checkZIP64(byte[] cen, int cenpos) {
             int off = cenpos + CENHDR + CENNAM(cen, cenpos);
             int end = off + CENEXT(cen, cenpos);
             while (off + 4 < end) {
@@ -1279,9 +1261,7 @@ public class ZipFile implements ZipConstants, Closeable {
         private int refs = 1;
 
         private RandomAccessFile zfile;      // zfile of the underlying zip file
-        private DirectByteBuffer cen;        // CEN & ENDHDR
-        private int cenlen;                  // length of CEN & ENDHDR
-        private long cenpos;                 // position of CEN & ENDHDR
+        private byte[] cen;                  // CEN & ENDHDR
         private long locpos;                 // position of first LOC header (usually 0)
         private byte[] comment;              // zip file comment
                                              // list of meta entries in META-INF dir
@@ -1313,13 +1293,10 @@ public class ZipFile implements ZipConstants, Closeable {
 
         // Checks the entry at offset pos in the CEN, calculates the Entry values as per above,
         // then returns the length of the entry name.
-        // Android-changed: don't keep CEN bytes in heap memory after initialization.
-        //private int checkAndAddEntry(int pos, int index)
-        private int checkAndAddEntry(byte[] cen, int pos, int index)
+        private int checkAndAddEntry(int pos, int index)
             throws ZipException
         {
-            // Android-changed: don't keep CEN bytes in heap memory after initialization.
-            //byte[] cen = this.cen;
+            byte[] cen = this.cen;
             if (CENSIG(cen, pos) != CENSIG) {
                 zerror("invalid CEN header (bad signature)");
             }
@@ -1347,7 +1324,7 @@ public class ZipFile implements ZipConstants, Closeable {
             }
 
             try {
-                ZipCoder zcp = zipCoderForPos(cen, pos);
+                ZipCoder zcp = zipCoderForPos(pos);
                 int hash = zcp.checkedHash(cen, entryPos, nlen);
                 int hsh = (hash & 0x7fffffff) % tablelen;
                 int next = table[hsh];
@@ -1378,9 +1355,7 @@ public class ZipFile implements ZipConstants, Closeable {
             }
             // CEN Offset where this Extra field ends
             int extraEndOffset = startingOffset + extraFieldLen;
-            // Android-changed: don't keep CEN bytes in heap memory after initialization.
-            //if (extraEndOffset > cen.length) {
-            if (extraEndOffset > cen.limit()) {
+            if (extraEndOffset > cen.length) {
                 zerror("Invalid CEN header (extra data field size too long)");
             }
             int currentOffset = startingOffset;
@@ -1432,9 +1407,7 @@ public class ZipFile implements ZipConstants, Closeable {
         private void checkZip64ExtraFieldValues(int off, int blockSize, long csize,
                                                 long size)
                 throws ZipException {
-            // Android-changed: don't keep CEN bytes in heap memory after initialization.
-            // byte[] cen = this.cen;
-            DirectByteBuffer cen = this.cen;
+            byte[] cen = this.cen;
             // if ZIP64_EXTID blocksize == 0, which may occur with some older
             // versions of Apache Ant and Commons Compress, validate csize and size
             // to make sure neither field == ZIP64_MAGICVAL
@@ -1642,7 +1615,7 @@ public class ZipFile implements ZipConstants, Closeable {
                 this.zfile = new RandomAccessFile(key.file, "r", /* setCloExecFlag= */ true);
             }
             try {
-                initCEN(null, -1);
+                initCEN(-1);
                 byte[] buf = new byte[4];
                 readFullyAt(buf, 0, 4, 0);
                 // BEGIN Android-changed: do not accept files with invalid header
@@ -1668,13 +1641,7 @@ public class ZipFile implements ZipConstants, Closeable {
         private void close() throws IOException {
             zfile.close();
             zfile = null;
-            if (cen != null) {
-                Cleaner cleaner = cen.cleaner();
-                if (cleaner != null) {
-                    cleaner.clean();
-                }
-                cen = null;
-            }
+            cen = null;
             entries = null;
             table = null;
             manifestPos = -1;
@@ -1817,12 +1784,9 @@ public class ZipFile implements ZipConstants, Closeable {
         }
 
         // Reads zip file central directory.
-        // BEGIN Android-changed: don't keep CEN bytes in heap memory after initialization.
-        //private void initCEN(int knownTotal) throws IOException {
-        private void initCEN(byte[] cen, int knownTotal) throws IOException {
+        private void initCEN(int knownTotal) throws IOException {
             // Prefer locals for better performance during startup
-            //byte[] cen;
-            // END Android-changed: don't keep CEN bytes in heap memory after initialization.
+            byte[] cen;
             if (knownTotal == -1) {
                 End end = findEND();
                 if (end.endpos == 0) {
@@ -1834,8 +1798,7 @@ public class ZipFile implements ZipConstants, Closeable {
                 }
                 if (end.cenlen > end.endpos)
                     zerror("invalid END header (bad central directory size)");
-                // Android-changed: don't keep CEN bytes in heap memory after initialization.
-                /*long */cenpos = end.endpos - end.cenlen;     // position of CEN table
+                long cenpos = end.endpos - end.cenlen;     // position of CEN table
                 // Get position of first local file (LOC) header, taking into
                 // account that there may be a stub prefixed to the zip file.
                 locpos = cenpos - end.cenoff;
@@ -1846,22 +1809,13 @@ public class ZipFile implements ZipConstants, Closeable {
                 if (end.cenlen + ENDHDR >= Integer.MAX_VALUE) {
                     zerror("invalid END header (central directory size too large)");
                 }
-                // BEGIN Android-changed: don't keep CEN bytes in heap memory after initialization.
-                // cen = this.cen = new byte[(int)(end.cenlen + ENDHDR)];
-                // if (readFullyAt(cen, 0, cen.length, cenpos) != end.cenlen + ENDHDR) {
-                //     zerror("read CEN tables failed");
-                // }
-                cenlen = (int) (end.cenlen + ENDHDR);
-                DirectByteBuffer cenBuf = this.cen = (DirectByteBuffer) zfile.getChannel()
-                        .map(MapMode.READ_ONLY, cenpos, cenlen);
-                cenBuf.order(ByteOrder.LITTLE_ENDIAN);
-                cen = new byte[cenlen];
-                cenBuf.get(0, cen, 0, cenlen);
-                // END Android-changed: don't keep CEN bytes in heap memory after initialization.
+                cen = this.cen = new byte[(int)(end.cenlen + ENDHDR)];
+                if (readFullyAt(cen, 0, cen.length, cenpos) != end.cenlen + ENDHDR) {
+                    zerror("read CEN tables failed");
+                }
                 this.total = end.centot;
             } else {
-                // Android-changed: don't keep CEN bytes in heap memory after initialization.
-                //cen = this.cen;
+                cen = this.cen;
                 this.total = knownTotal;
             }
             // hash table for entries
@@ -1885,9 +1839,7 @@ public class ZipFile implements ZipConstants, Closeable {
             int idx = 0; // Index into the entries array
             int pos = 0;
             int entryPos = CENHDR;
-            // Android-changed: don't keep CEN bytes in heap memory after initialization.
-            //int limit = cen.length - ENDHDR;
-            int limit = cenlen - ENDHDR;
+            int limit = cen.length - ENDHDR;
             manifestNum = 0;
             // Android-added: duplicate entries are not allowed. See CVE-2013-4787 and b/8219321
             Set<String> entriesNames = new HashSet<>();
@@ -1896,17 +1848,17 @@ public class ZipFile implements ZipConstants, Closeable {
                     // This will only happen if the zip file has an incorrect
                     // ENDTOT field, which usually means it contains more than
                     // 65535 entries.
-                    initCEN(cen, countCENHeaders(cen, limit));
+                    initCEN(countCENHeaders(cen, limit));
                     return;
                 }
 
                 // Checks the entry and adds values to entries[idx ... idx+2]
-                int nlen = checkAndAddEntry(cen, pos, idx);
+                int nlen = checkAndAddEntry(pos, idx);
 
                 // BEGIN Android-added: duplicate entries are not allowed. See CVE-2013-4787
                 // and b/8219321.
                 // zipCoderForPos takes USE_UTF8 flag into account.
-                ZipCoder zcp = zipCoderForPos(cen, entryPos);
+                ZipCoder zcp = zipCoderForPos(entryPos);
                 String name = zcp.toString(cen, pos + CENHDR, nlen);
                 if (!entriesNames.add(name)) {
                     zerror("Duplicate entry name: " + name);
@@ -1933,11 +1885,11 @@ public class ZipFile implements ZipConstants, Closeable {
                 // Adds name to metanames.
                 if (isMetaName(cen, entryPos, nlen)) {
                     // nlen is at least META_INF_LENGTH
-                    if (isManifestName(cen, entryPos + META_INF_LEN, nlen - META_INF_LEN)) {
+                    if (isManifestName(entryPos + META_INF_LEN, nlen - META_INF_LEN)) {
                         manifestPos = pos;
                         manifestNum++;
                     } else {
-                        if (isSignatureRelated(cen, entryPos, nlen)) {
+                        if (isSignatureRelated(entryPos, nlen)) {
                             if (signatureNames == null)
                                 signatureNames = new ArrayList<>(4);
                             signatureNames.add(pos);
@@ -1946,7 +1898,7 @@ public class ZipFile implements ZipConstants, Closeable {
                         // If this is a versioned entry, parse the version
                         // and store it for later. This optimizes lookup
                         // performance in multi-release jar files
-                        int version = getMetaVersion(cen, entryPos + META_INF_LEN, nlen - META_INF_LEN);
+                        int version = getMetaVersion(entryPos + META_INF_LEN, nlen - META_INF_LEN);
                         if (version > 0) {
                             if (metaVersionsSet == null)
                                 metaVersionsSet = new TreeSet<>();
@@ -1955,7 +1907,7 @@ public class ZipFile implements ZipConstants, Closeable {
                     }
                 }
                 // skip to the start of the next entry
-                pos = nextEntryPos(cen, pos, entryPos, nlen);
+                pos = nextEntryPos(pos, entryPos, nlen);
                 entryPos = pos + CENHDR;
             }
 
@@ -1983,9 +1935,7 @@ public class ZipFile implements ZipConstants, Closeable {
             }
         }
 
-        // Android-changed: don't keep CEN bytes in heap memory after initialization.
-        //private int nextEntryPos(byte[] cen, int pos, int entryPos, int nlen) {
-        private int nextEntryPos(byte[] cen, int pos, int entryPos, int nlen) {
+        private int nextEntryPos(int pos, int entryPos, int nlen) {
             return entryPos + nlen + CENCOM(cen, pos) + CENEXT(cen, pos);
         }
 
@@ -2052,17 +2002,6 @@ public class ZipFile implements ZipConstants, Closeable {
             return zc;
         }
 
-        // Android-changed: don't keep CEN bytes in heap memory after initialization.
-        private ZipCoder zipCoderForPos(byte[] cen, int pos) {
-            if (zc.isUTF8()) {
-                return zc;
-            }
-            if ((CENFLG(cen, pos) & USE_UTF8) != 0) {
-                return ZipCoder.UTF8;
-            }
-            return zc;
-        }
-
         /**
          * Returns true if the bytes represent a non-directory name
          * beginning with "META-INF/", disregarding ASCII case.
@@ -2086,9 +2025,8 @@ public class ZipFile implements ZipConstants, Closeable {
         /*
          * Check if the bytes represents a name equals to MANIFEST.MF
          */
-        // Android-changed: don't keep CEN bytes in heap memory after initialization.
-        //private boolean isManifestName(int off, int len) {
-        private boolean isManifestName(byte[] name, int off, int len) {
+        private boolean isManifestName(int off, int len) {
+            byte[] name = cen;
             return (len == 11 // "MANIFEST.MF".length()
                     && (name[off++] | 0x20) == 'm'
                     && (name[off++] | 0x20) == 'a'
@@ -2103,15 +2041,12 @@ public class ZipFile implements ZipConstants, Closeable {
                     && (name[off]   | 0x20) == 'f');
         }
 
-        // Android-changed: don't keep CEN bytes in heap memory after initialization.
-        //private boolean isSignatureRelated(int off, int len) {
-        private boolean isSignatureRelated(byte[] name, int off, int len) {
+        private boolean isSignatureRelated(int off, int len) {
             // Only called when isMetaName(name, off, len) is true, which means
             // len is at least META_INF_LENGTH
             // assert isMetaName(name, off, len)
             boolean signatureRelated = false;
-            // Android-changed: don't keep CEN bytes in heap memory after initialization.
-            //byte[] name = cen;
+            byte[] name = cen;
             if (name[off + len - 3] == '.') {
                 // Check if entry ends with .EC and .SF
                 int b1 = name[off + len - 2] | 0x20;
@@ -2143,11 +2078,8 @@ public class ZipFile implements ZipConstants, Closeable {
          * followed by a '/', then return that integer value.
          * Otherwise, return 0
          */
-        // BEGIN Android-changed: don't keep CEN bytes in heap memory after initialization.
-        //private int getMetaVersion(int off, int len) {
-        private int getMetaVersion(byte[] name, int off, int len) {
-            //byte[] name = cen;
-            // END Android-changed: don't keep CEN bytes in heap memory after initialization.
+        private int getMetaVersion(int off, int len) {
+            byte[] name = cen;
             int nend = off + len;
             if (!(len > 10                         // "versions//".length()
                     && name[off + len - 1] != '/'  // non-directory

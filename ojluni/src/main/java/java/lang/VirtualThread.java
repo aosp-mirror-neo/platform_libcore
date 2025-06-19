@@ -24,10 +24,16 @@
  */
 package java.lang;
 
+import java.util.concurrent.Executor;
+
 import jdk.internal.vm.ContinuationScope;
 
-final class VirtualThread {
+final class VirtualThread extends Thread {
     private static final ContinuationScope VTHREAD_SCOPE = new ContinuationScope("VirtualThreads");
+
+    public VirtualThread(Executor scheduler, String name, int characteristics, Runnable task) {
+        super(task, name);
+    }
 
     /**
      * Returns the continuation scope used for virtual threads.
