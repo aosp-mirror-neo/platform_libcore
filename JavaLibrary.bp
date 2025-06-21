@@ -992,27 +992,6 @@ filegroup {
     ],
 }
 
-// A special set of stubs containing the minimal set of self consistent
-// classes for which a system module can be created. Every system module must
-// contain the java.lang classes so the set was constructed by starting with
-// the java.lang classes and then adding their transitive dependencies without
-// splitting packages. So, if one class from a package is used then all classes
-// in that package were added to the set.
-//
-// Needed for java-current-stubs-system-modules.
-droidstubs {
-    name: "java-current-stubs-source",
-    srcs: [
-        ":core_oj_api_files",
-        ":core_libart_api_files",
-    ],
-    installable: false,
-    sdk_version: "none",
-    system_modules: "none",
-
-    args: "--stub-packages java.*:javax.*:org.w3c.dom.*:org.xml.sax.*",
-}
-
 // Generates stub files for the classes exposed in the public API, without
 // javadoc. This can be used as a starting point for adding a new file to
 // libcore/luni/annotations/flagged_api.
@@ -1031,6 +1010,18 @@ droidstubs {
         "--exclude-documentation-from-stubs",
         "--show-for-stub-purposes-annotation android.annotation.SystemApi\\(client=android.annotation.SystemApi.Client.MODULE_LIBRARIES\\)",
     ],
+
+    // Use the compatibility check properties to supply the previously released API to which
+    // flagged APIs can be reverted but disable the compatibility check as it is not required.
+    check_api: {
+        last_released: {
+            enabled: false,
+            // Use special target to indicate that the previously released API is actually
+            // missing.
+            api_file: ":default-unsafe-ignore-missing-latest-api",
+            removed_api_file: ":default-unsafe-ignore-missing-latest-api",
+        },
+    },
 }
 
 // Separate @FlaggedApi annotations for luni/ to avoid a circular dependency between
@@ -1039,28 +1030,6 @@ droiddoc_exported_dir {
     name: "luni-annotated-flagged-stubs",
     path: "luni/annotations/flagged_api",
     visibility: ["//visibility:private"],
-}
-
-java_library {
-    name: "java.current.stubs",
-    srcs: [":java-current-stubs-source"],
-    errorprone: {
-        javacflags: [
-            "-Xep:MissingOverride:OFF",
-        ],
-    },
-    patch_module: "java.base",
-    sdk_version: "none",
-    system_modules: "none",
-}
-
-// A special set of system modules needed to build art.module.public.api
-java_system_modules {
-    name: "java-current-stubs-system-modules",
-    libs: [
-        // Minimal set of classes required for a system module.
-        "java.current.stubs",
-    ],
 }
 
 java_library {
@@ -1267,7 +1236,7 @@ java_sdk_library {
     },
     patch_module: "java.base",
     sdk_version: "none",
-    system_modules: "java-current-stubs-system-modules",
+    system_modules: "none",
     // The base name for the artifacts that are automatically published to the
     // dist and which end up in one of the sub-directories of prebuilts/sdk.
     // As long as this matches the name of the artifacts in prebuilts/sdk then
