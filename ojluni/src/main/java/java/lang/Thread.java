@@ -333,7 +333,7 @@ public class Thread implements Runnable {
      * operation, if any.  The blocker's interrupt method should be invoked
      * after setting this thread's interrupt status.
      */
-    private volatile Interruptible blocker;
+    volatile Interruptible blocker;
     private final Object blockerLock = new Object();
 
     /**
@@ -467,6 +467,15 @@ public class Thread implements Runnable {
     @IntrinsicCandidate
     @FastNative
     public static native Thread currentThread();
+
+
+    /**
+     * Sets the Thread object to be returned by Thread.currentThread().
+     */
+    @IntrinsicCandidate
+    void setCurrentThread(Thread thread) {
+        // TODO: Implement this.
+    }
 
     /**
      * A hint to the scheduler that the current thread is willing to yield
@@ -1398,6 +1407,17 @@ public class Thread implements Runnable {
         // Reference.reachabilityFence(bindings);
     }
 
+    /**
+     * Null out reference after Thread termination.
+     */
+    void clearReferences() {
+        threadLocals = null;
+        inheritableThreadLocals = null;
+        inheritedAccessControlContext = null;
+        blocker = null;
+        uncaughtExceptionHandler = null;
+    }
+
 
     /**
      * This method is called by the system to give a Thread
@@ -1411,11 +1431,7 @@ public class Thread implements Runnable {
         /* Aggressively null out all reference fields: see bug 4006245 */
         target = null;
         /* Speed the release of some of these resources */
-        threadLocals = null;
-        inheritableThreadLocals = null;
-        inheritedAccessControlContext = null;
-        blocker = null;
-        uncaughtExceptionHandler = null;
+        clearReferences();
     }
 
     // Android-changed: Throws UnsupportedOperationException.
@@ -1590,6 +1606,21 @@ public class Thread implements Runnable {
     @FastNative
     public static native boolean interrupted();
 
+    // Android-changed: Avoid instance method to clear interrupted status. See #interrupted()
+    /*
+        final void clearInterrupt() {
+        // assert Thread.currentCarrierThread() == this;
+        if (interrupted) {
+            interrupted = false;
+            clearInterruptEvent();
+        }
+    }
+    */
+    @SuppressWarnings("CheckReturnValue")
+    static void clearCarrierInterrupt() {
+        interrupted();
+    }
+
     /**
      * Tests whether this thread has been interrupted.  The <i>interrupted
      * status</i> of the thread is unaffected by this method.
@@ -1642,18 +1673,35 @@ public class Thread implements Runnable {
     }
     // END Android-changed: Throw UnsupportedOperationException instead of NoSuchMethodError.
 
+    final void setInterrupt() {
+        assert Thread.currentCarrierThread() == this;
+
+        // Android-removed: Remove unused the interrupted field.
+        // if (!interrupted) {
+        //     interrupted = true;
+        //     interrupt0();  // inform VM of interrupt
+        // }
+        interrupt0();  // inform VM of interrupt
+    }
+
     /**
      * Tests if this thread is alive. A thread is alive if it has
-     * been started and has not yet died.
+     * been started and has not yet terminated.
      *
      * @return  {@code true} if this thread is alive;
      *          {@code false} otherwise.
      */
-    // Android-changed: Provide pure Java implementation of isAlive().
-    // public final boolean isAlive() {
-    //     return eetop != 0;
-    // }
     public final boolean isAlive() {
+        return alive();
+    }
+
+    /**
+     * Returns true if this thread is alive.
+     * This method is non-final so it can be overridden.
+     */
+    boolean alive() {
+        // Android-changed: Provide pure Java implementation of isAlive().
+        // return eetop != 0;
         return nativePeer != 0;
     }
 
@@ -2923,6 +2971,13 @@ public class Thread implements Runnable {
         // information.
         // return jdk.internal.misc.VM.toThreadState(holder.threadStatus);
         return State.values()[nativeGetStatus(started)];
+    }
+
+    /**
+     * Returns true if the thread has terminated.
+     */
+    boolean isTerminated() {
+        return threadState() == State.TERMINATED;
     }
 
     // Added in JSR-166

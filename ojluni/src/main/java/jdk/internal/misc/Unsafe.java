@@ -26,6 +26,8 @@
 package jdk.internal.misc;
 
 import dalvik.annotation.optimization.FastNative;
+
+import jdk.internal.vm.annotation.ForceInline;
 import jdk.internal.vm.annotation.IntrinsicCandidate;
 import sun.reflect.Reflection;
 
@@ -1765,8 +1767,6 @@ public final class Unsafe {
         return compareAndSetInt(o, offset, expected, x);
     }
 
-    // BEGIN Android-removed: Not used in Android.
-    /*
     @IntrinsicCandidate
     public final byte compareAndExchangeByte(Object o, long offset,
                                              byte expected,
@@ -1802,7 +1802,8 @@ public final class Unsafe {
                                                byte x) {
         return compareAndSetByte(o, offset, expected, x);
     }
-
+    // BEGIN Android-removed: Not used in Android.
+    /*
     @IntrinsicCandidate
     public final boolean weakCompareAndSetByteAcquire(Object o, long offset,
                                                       byte expected,
@@ -1979,6 +1980,7 @@ public final class Unsafe {
                                                     char x) {
         return weakCompareAndSetShortPlain(o, offset, c2s(expected), c2s(x));
     }
+    */
 
     /**
      * The JVM converts integral values to boolean values using two
@@ -2009,7 +2011,7 @@ public final class Unsafe {
      *
      * @param b the byte to be converted to boolean
      * @return the result of the conversion
-     * /
+     */
     @ForceInline
     private boolean byte2bool(byte b) {
         return b != 0;
@@ -2023,12 +2025,13 @@ public final class Unsafe {
      *
      * @param b the boolean to be converted to byte (and then normalized)
      * @return the result of the conversion
-     * /
+     */
     @ForceInline
     private byte bool2byte(boolean b) {
         return b ? (byte)1 : (byte)0;
     }
 
+    /*
     @ForceInline
     public final boolean compareAndSetBoolean(Object o, long offset,
                                               boolean expected,
@@ -3167,6 +3170,7 @@ public final class Unsafe {
         } while (!weakCompareAndSetReferenceAcquire(o, offset, v, newValue));
         return v;
     }
+    */
 
     @IntrinsicCandidate
     public final byte getAndSetByte(Object o, long offset, byte newValue) {
@@ -3177,6 +3181,7 @@ public final class Unsafe {
         return v;
     }
 
+    /*
     @ForceInline
     public final byte getAndSetByteRelease(Object o, long offset, byte newValue) {
         byte v;
@@ -3194,12 +3199,14 @@ public final class Unsafe {
         } while (!weakCompareAndSetByteAcquire(o, offset, v, newValue));
         return v;
     }
+    */
 
     @ForceInline
     public final boolean getAndSetBoolean(Object o, long offset, boolean newValue) {
         return byte2bool(getAndSetByte(o, offset, bool2byte(newValue)));
     }
 
+    /*
     @ForceInline
     public final boolean getAndSetBooleanRelease(Object o, long offset, boolean newValue) {
         return byte2bool(getAndSetByteRelease(o, offset, bool2byte(newValue)));
