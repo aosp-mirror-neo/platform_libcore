@@ -36,6 +36,7 @@ import java.lang.reflect.Field;
 import java.security.AccessController;
 import java.security.AccessControlContext;
 import java.security.PrivilegedAction;
+import java.time.Duration;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Objects;
@@ -45,6 +46,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
+import jdk.internal.event.ThreadSleepEvent;
 import jdk.internal.misc.TerminatingThreadLocal;
 import jdk.internal.misc.Unsafe;
 import jdk.internal.reflect.CallerSensitive;
@@ -67,6 +69,7 @@ import dalvik.system.VMStack;
 
 import libcore.util.EmptyArray;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import android.compat.Compatibility;
@@ -588,14 +591,23 @@ public class Thread implements Runnable {
             return;
         }
 
-        final int nanosPerMilli = 1000000;
         final long durationNanos;
-        if (millis >= Long.MAX_VALUE / nanosPerMilli - 1L) {
-          // > 292 years. Avoid overflow by capping it at roughly 292 years.
-          durationNanos = Long.MAX_VALUE;
+        if (millis >= Long.MAX_VALUE / NANOS_PER_MILLI - 1L) {
+            // > 292 years. Avoid overflow by capping it at roughly 292 years.
+            durationNanos = Long.MAX_VALUE;
         } else {
-          durationNanos = (millis * nanosPerMilli) + nanos;
+            durationNanos = (millis * NANOS_PER_MILLI) + nanos;
         }
+
+        sleep0(durationNanos);
+        // END Android-changed: Implement sleep() methods using a shared native implementation.
+    }
+
+    private static final int NANOS_PER_MILLI = 1000000;
+
+    // Android-changed: Implement sleep() methods using a shared native implementation.
+    // private static native void sleep0(long nanos) throws InterruptedException;
+    private static void sleep0(long durationNanos) throws InterruptedException {
         long startNanos = System.nanoTime();
 
         Object lock = currentThread().lock;
@@ -607,12 +619,85 @@ public class Thread implements Runnable {
             for (long elapsed = 0L; elapsed < durationNanos;
                     elapsed = System.nanoTime() - startNanos) {
                 final long remaining = durationNanos - elapsed;
-                millis = remaining / nanosPerMilli;
-                nanos = (int) (remaining % nanosPerMilli);
+                long millis = remaining / NANOS_PER_MILLI;
+                int nanos = (int) (remaining % NANOS_PER_MILLI);
                 sleep(lock, millis, nanos);
             }
         }
-        // END Android-changed: Implement sleep() methods using a shared native implementation.
+    }
+
+    /**
+     * Causes the currently executing thread to sleep (temporarily cease
+     * execution) for the specified duration, subject to the precision and
+     * accuracy of system timers and schedulers. This method is a no-op if
+     * the duration is {@linkplain Duration#isNegative() negative}.
+     *
+     * @param  duration
+     *         the duration to sleep
+     *
+     * @throws  InterruptedException
+     *          if the current thread is interrupted while sleeping. The
+     *          <i>interrupted status</i> of the current thread is
+     *          cleared when this exception is thrown.
+     *
+     * @since 19
+     *
+     * @hide TODO: Expose this API.
+     */
+    public static void sleep(Duration duration) throws InterruptedException {
+        long nanos = NANOSECONDS.convert(duration);  // MAX_VALUE if > 292 years
+        if (nanos < 0) {
+            return;
+        }
+
+        // Android-added: Handle nanos == 0 case.
+        // The JLS 3rd edition, section 17.9 says: "...sleep for zero
+        // time...need not have observable effects."
+        if (nanos == 0) {
+            // ...but we still have to handle being interrupted.
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+            }
+            return;
+        }
+
+        ThreadSleepEvent event = beforeSleep(nanos);
+        try {
+            sleep0(nanos);
+        } finally {
+            afterSleep(event);
+        }
+    }
+
+
+    /**
+     * Called before sleeping to create a jdk.ThreadSleep event.
+     */
+    private static ThreadSleepEvent beforeSleep(long nanos) {
+        ThreadSleepEvent event = null;
+        if (ThreadSleepEvent.isTurnedOn()) {
+            try {
+                event = new ThreadSleepEvent();
+                event.time = nanos;
+                event.begin();
+            } catch (OutOfMemoryError e) {
+                event = null;
+            }
+        }
+        return event;
+    }
+
+    /**
+     * Called after sleeping to commit the jdk.ThreadSleep event.
+     */
+    private static void afterSleep(ThreadSleepEvent event) {
+        if (event != null) {
+            try {
+                event.commit();
+            } catch (OutOfMemoryError e) {
+                // ignore
+            }
+        }
     }
 
     /**
@@ -2124,6 +2209,51 @@ public class Thread implements Runnable {
      */
     public final void join() throws InterruptedException {
         join(0);
+    }
+
+    /**
+     * Waits for this thread to terminate for up to the given waiting duration.
+     *
+     * <p> This method does not wait if the duration to wait is less than or
+     * equal to zero. In this case, the method just tests if the thread has
+     * terminated.
+     *
+     * @param   duration
+     *          the maximum duration to wait
+     *
+     * @return  {@code true} if the thread has terminated, {@code false} if the
+     *          thread has not terminated
+     *
+     * @throws  InterruptedException
+     *          if the current thread is interrupted while waiting.
+     *          The <i>interrupted status</i> of the current thread is cleared
+     *          when this exception is thrown.
+     *
+     * @throws  IllegalThreadStateException
+     *          if this thread has not been started.
+     *
+     * @since 19
+     *
+     * @hide TODO: Expose this new API.
+     */
+    public final boolean join(Duration duration) throws InterruptedException {
+        long nanos = NANOSECONDS.convert(duration); // MAX_VALUE if > 292 years
+
+        Thread.State state = threadState();
+        if (state == State.NEW)
+            throw new IllegalThreadStateException("Thread not started");
+        if (state == State.TERMINATED)
+            return true;
+        if (nanos <= 0)
+            return false;
+
+        // convert to milliseconds
+        long millis = MILLISECONDS.convert(nanos, NANOSECONDS);
+        if (nanos > NANOSECONDS.convert(millis, MILLISECONDS)) {
+            millis += 1L;
+        }
+        join(millis);
+        return isTerminated();
     }
 
     /**
