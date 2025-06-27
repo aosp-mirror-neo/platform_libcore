@@ -496,7 +496,11 @@ public class Thread implements Runnable {
      * concurrency control constructs such as the ones in the
      * {@link java.util.concurrent.locks} package.
      */
-    public static native void yield();
+    public static void yield() {
+        yield0();
+    }
+
+    private static native void yield0();
 
     /**
      * Causes the currently executing thread to sleep (temporarily cease
