@@ -1276,6 +1276,18 @@ droidstubs {
     validate_nullability_from_list: "nullability_annotated_classes.txt",
     // The expected set of warnings about missing annotations:
     check_nullability_warnings: "nullability_warnings.txt",
+
+    // Use the compatibility check properties to supply the previously released API to which
+    // flagged APIs can be reverted but disable the compatibility check as it is not required.
+    check_api: {
+        last_released: {
+            enabled: false,
+            // Use special target to indicate that the previously released API is actually
+            // missing.
+            api_file: ":default-unsafe-ignore-missing-latest-api",
+            removed_api_file: ":default-unsafe-ignore-missing-latest-api",
+        },
+    },
 }
 
 // A special set of system modules for building the following library for use
