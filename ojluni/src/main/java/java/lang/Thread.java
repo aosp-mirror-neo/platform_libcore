@@ -455,12 +455,8 @@ public class Thread implements Runnable {
      * @hide
      */
     @IntrinsicCandidate
-    // Android-changed: Android has a different implementation.
-    // static native Thread currentCarrierThread();
-    public static Thread currentCarrierThread() {
-        // TODO: Simple use currentThread() until java.lang.VirtualThread is supported.
-        return currentThread();
-    }
+    @FastNative
+    static native Thread currentCarrierThread();
 
     /**
      * Returns a reference to the currently executing thread object.
