@@ -62,21 +62,11 @@ public final class VirtualThreadContext implements Runnable {
      */
     public volatile Thread pinnedCarrierThread;
 
-    private VirtualThreadContext(Runnable target, long id) {
+    public VirtualThreadContext(Runnable target, long id) {
         Objects.requireNonNull(target);
         this.id = id;
         this.target = target;
         this.carrierName = "VirtualThread-" + id;
-    }
-
-    public VirtualThreadContext(Runnable target) {
-        this(target, nextVirtualThreadId());
-    }
-
-
-    private static final AtomicLong NEXT_ID = new AtomicLong(0L);
-    public static long nextVirtualThreadId() {
-        return NEXT_ID.incrementAndGet();
     }
 
     @Override
@@ -90,6 +80,14 @@ public final class VirtualThreadContext implements Runnable {
 
     public boolean isPinned() {
         return pinnedCarrierThread != null;
+    }
+
+    /**
+     * @return true if the thread started, and is parked, and unmounted, i.e. not pinned to a
+     *   carrier thread.
+     */
+    public boolean isUnmounted() {
+        return parkedStates != null;
     }
 
     public void parkOnCarrierThreadIfPinned() {

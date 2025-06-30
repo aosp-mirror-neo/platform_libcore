@@ -2031,7 +2031,6 @@ public final class Unsafe {
         return b ? (byte)1 : (byte)0;
     }
 
-    /*
     @ForceInline
     public final boolean compareAndSetBoolean(Object o, long offset,
                                               boolean expected,
@@ -2039,6 +2038,7 @@ public final class Unsafe {
         return compareAndSetByte(o, offset, bool2byte(expected), bool2byte(x));
     }
 
+    /*
     @ForceInline
     public final boolean compareAndExchangeBoolean(Object o, long offset,
                                                    boolean expected,
