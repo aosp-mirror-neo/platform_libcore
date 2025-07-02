@@ -472,9 +472,27 @@ public class Thread implements Runnable {
      * Sets the Thread object to be returned by Thread.currentThread().
      */
     @IntrinsicCandidate
-    void setCurrentThread(Thread thread) {
-        // TODO: Implement this.
+    final void setCurrentThread(Thread thread) {
+        // Perform sanity check for the upstream usage of this instance method.
+        // TODO: Avoid this check by replacing all call sites with the static method.
+        if (this != currentCarrierThread()) {
+            throw new WrongThreadException("setCurrentThread(Thread) can only be called on the "
+                    + "current carrier thread.");
+        }
+
+        if (thread != this && !(thread instanceof VirtualThread)) {
+            throw new IllegalArgumentException("Must be a VirtualThread or "
+                    + "the current carrier thread.");
+        }
+
+        setCurrentThreadNative(thread);
     }
+
+    /**
+     * Set the current thread in the thread-local storage.
+     */
+    @FastNative
+    private native static void setCurrentThreadNative(Thread thread);
 
     /**
      * A hint to the scheduler that the current thread is willing to yield

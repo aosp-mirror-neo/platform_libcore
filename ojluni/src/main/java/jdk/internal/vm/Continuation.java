@@ -91,9 +91,7 @@ public class Continuation {
     }
 
     private static Thread currentCarrierThread() {
-        // TODO: Get it from java.lang.Thread.
-        // return JLA.currentCarrierThread();
-        return null;
+        return JLA.currentCarrierThread();
     }
 
     static {
