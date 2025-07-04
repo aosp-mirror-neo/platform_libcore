@@ -1088,6 +1088,7 @@ ojluni/src/main/java/java/util/concurrent/SubmissionPublisher.java,jdk21u/jdk-21
 ojluni/src/main/java/java/util/concurrent/SynchronousQueue.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/util/concurrent/SynchronousQueue.java
 ojluni/src/main/java/java/util/concurrent/ThreadFactory.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/util/concurrent/ThreadFactory.java
 ojluni/src/main/java/java/util/concurrent/ThreadLocalRandom.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/util/concurrent/ThreadLocalRandom.java
+ojluni/src/main/java/java/util/concurrent/ThreadPerTaskExecutor.java,jdk21u/jdk-21.0.7-ga,src/java.base/share/classes/java/util/concurrent/ThreadPerTaskExecutor.java
 ojluni/src/main/java/java/util/concurrent/ThreadPoolExecutor.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/util/concurrent/ThreadPoolExecutor.java
 ojluni/src/main/java/java/util/concurrent/TimeUnit.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/util/concurrent/TimeUnit.java
 ojluni/src/main/java/java/util/concurrent/TimeoutException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/util/concurrent/TimeoutException.java
@@ -2674,6 +2675,7 @@ ojluni/src/test/java/util/Vector/SyncLastIndexOf.java,jdk21u/jdk-21.0.6-ga,test/
 ojluni/src/test/java/util/WeakHashMap/GCDuringIteration.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/WeakHashMap/GCDuringIteration.java
 ojluni/src/test/java/util/WeakHashMap/Iteration.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/WeakHashMap/Iteration.java
 ojluni/src/test/java/util/WeakHashMap/ZeroInitCap.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/WeakHashMap/ZeroInitCap.java
+ojluni/src/test/java/util/concurrent/ThreadPerTaskExecutor/ThreadPerTaskExecutorTest.java,jdk21u/jdk-21.0.7-ga,test/jdk/java/util/concurrent/ThreadPerTaskExecutor/ThreadPerTaskExecutorTest.java
 ojluni/src/test/java/util/concurrent/tck/CompletableFutureTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/concurrent/tck/CompletableFutureTest.java
 ojluni/src/test/java/util/concurrent/tck/ForkJoinPool19Test.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/concurrent/tck/ForkJoinPool19Test.java
 ojluni/src/test/java/util/concurrent/tck/ForkJoinPool20Test.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/concurrent/tck/ForkJoinPool20Test.java
