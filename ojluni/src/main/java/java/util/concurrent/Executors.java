@@ -254,8 +254,6 @@ public class Executors {
      * @return a new executor that creates a new Thread for each task
      * @throws NullPointerException if threadFactory is null
      * @since 21
-     *
-     * @hide TODO: Expose this API.
      */
     public static ExecutorService newThreadPerTaskExecutor(ThreadFactory threadFactory) {
         return ThreadPerTaskExecutor.create(threadFactory);
@@ -271,10 +269,7 @@ public class Executors {
      *
      * @return a new executor that creates a new virtual Thread for each task
      * @since 21
-     *
-     * @hide TODO: Expose this API.
      */
-    // Android-removed: Virtual threads not available.
     public static ExecutorService newVirtualThreadPerTaskExecutor() {
         ThreadFactory factory = Thread.ofVirtual().factory();
         return newThreadPerTaskExecutor(factory);

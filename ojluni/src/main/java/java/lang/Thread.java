@@ -690,8 +690,6 @@ public class Thread implements Runnable {
      *          cleared when this exception is thrown.
      *
      * @since 19
-     *
-     * @hide TODO: Expose this API.
      */
     public static void sleep(Duration duration) throws InterruptedException {
         long nanos = NANOSECONDS.convert(duration);  // MAX_VALUE if > 292 years
@@ -1339,7 +1337,6 @@ public class Thread implements Runnable {
      * @return a new, and started, virtual thread
      * @see <a href="#inheritance">Inheritance when creating threads</a>
      * @since 21
-     * @hide
      */
     public static Thread startVirtualThread(Runnable task) {
         Objects.requireNonNull(task);
@@ -2317,8 +2314,6 @@ public class Thread implements Runnable {
      *          if this thread has not been started.
      *
      * @since 19
-     *
-     * @hide TODO: Expose this new API.
      */
     public final boolean join(Duration duration) throws InterruptedException {
         long nanos = NANOSECONDS.convert(duration); // MAX_VALUE if > 292 years
@@ -2470,8 +2465,6 @@ public class Thread implements Runnable {
      *
      * @return A builder for creating {@code Thread} or {@code ThreadFactory} objects.
      * @since 21
-     *
-     * @hide TODO: Expose this API.
      */
     public static Builder.OfPlatform ofPlatform() {
         return new ThreadBuilders.PlatformThreadBuilder();
@@ -2492,8 +2485,6 @@ public class Thread implements Runnable {
      *
      * @return A builder for creating {@code Thread} or {@code ThreadFactory} objects.
      * @since 21
-     *
-     * @hide TODO: Expose this API.
      */
     public static Builder.OfVirtual ofVirtual() {
         return new ThreadBuilders.VirtualThreadBuilder();
@@ -2526,8 +2517,6 @@ public class Thread implements Runnable {
      * @see Thread#ofPlatform()
      * @see Thread#ofVirtual()
      * @since 21
-     *
-     * @hide TODO: Expose this sealed class as the API.
      */
     // Android-changed: Remove sealed keyword to make Metalava happy.
     public interface Builder {
@@ -2622,8 +2611,6 @@ public class Thread implements Runnable {
          *
          * @see Thread#ofPlatform()
          * @since 21
-         *
-         * @hide TODO: Expose this API.
          */
         interface OfPlatform extends Builder {
             @Override OfPlatform name(String name);
@@ -2688,8 +2675,6 @@ public class Thread implements Runnable {
          *
          * @see Thread#ofVirtual()
          * @since 21
-         *
-         * @hide TODO: Expose this API.
          */
         interface OfVirtual extends Builder {
             @Override OfVirtual name(String name);

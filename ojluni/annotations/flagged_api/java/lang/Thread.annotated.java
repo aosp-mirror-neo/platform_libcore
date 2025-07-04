@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 The Android Open Source Project
- * Copyright (c) 1994, 2019, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -56,13 +56,7 @@ public final void checkAccess() { throw new RuntimeException("Stub!"); }
 
 protected java.lang.Object clone() throws java.lang.CloneNotSupportedException { throw new RuntimeException("Stub!"); }
 
-@Deprecated
-public int countStackFrames() { throw new RuntimeException("Stub!"); }
-
 public static native java.lang.Thread currentThread();
-
-@Deprecated
-public void destroy() { throw new RuntimeException("Stub!"); }
 
 public static void dumpStack() { throw new RuntimeException("Stub!"); }
 
@@ -107,14 +101,20 @@ public final boolean isVirtual() { throw new RuntimeException("Stub!"); }
 
 public final void join() throws java.lang.InterruptedException { throw new RuntimeException("Stub!"); }
 
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_25_V1_APIS)
+public final boolean join(java.time.Duration duration) throws java.lang.InterruptedException { throw new RuntimeException("Stub!"); }
+
 public final void join(long millis) throws java.lang.InterruptedException { throw new RuntimeException("Stub!"); }
 
 public final void join(long millis, int nanos) throws java.lang.InterruptedException { throw new RuntimeException("Stub!"); }
 
-public static void onSpinWait() { throw new RuntimeException("Stub!"); }
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_VIRTUAL_THREAD_API_V1)
+public static java.lang.Thread.Builder.OfPlatform ofPlatform() { throw new RuntimeException("Stub!"); }
 
-@Deprecated
-public final void resume() { throw new RuntimeException("Stub!"); }
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_VIRTUAL_THREAD_API_V1)
+public static java.lang.Thread.Builder.OfVirtual ofVirtual() { throw new RuntimeException("Stub!"); }
+
+public static void onSpinWait() { throw new RuntimeException("Stub!"); }
 
 public void run() { throw new RuntimeException("Stub!"); }
 
@@ -130,33 +130,91 @@ public final void setPriority(int newPriority) { throw new RuntimeException("Stu
 
 public void setUncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler eh) { throw new RuntimeException("Stub!"); }
 
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_25_V1_APIS)
+public static void sleep(java.time.Duration duration) throws java.lang.InterruptedException { throw new RuntimeException("Stub!"); }
+
 public static void sleep(long millis) throws java.lang.InterruptedException { throw new RuntimeException("Stub!"); }
 
 public static void sleep(long millis, int nanos) throws java.lang.InterruptedException { throw new RuntimeException("Stub!"); }
 
 public synchronized void start() { throw new RuntimeException("Stub!"); }
 
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_VIRTUAL_THREAD_API_V1)
+public static java.lang.Thread startVirtualThread(java.lang.Runnable task) { throw new RuntimeException("Stub!"); }
+
 @Deprecated
 public final void stop() { throw new RuntimeException("Stub!"); }
-
-@Deprecated
-public final synchronized void stop(java.lang.Throwable obj) { throw new RuntimeException("Stub!"); }
-
-@Deprecated
-public final void suspend() { throw new RuntimeException("Stub!"); }
 
 @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public final long threadId() { throw new RuntimeException("Stub!"); }
 
 public java.lang.String toString() { throw new RuntimeException("Stub!"); }
 
-public static native void yield();
+public static void yield() { throw new RuntimeException("Stub!"); }
 
-public static final int MAX_PRIORITY = 10; // 0xa
+public static final int MAX_PRIORITY = 10;
 
-public static final int MIN_PRIORITY = 1; // 0x1
+public static final int MIN_PRIORITY = 1;
 
-public static final int NORM_PRIORITY = 5; // 0x5
+public static final int NORM_PRIORITY = 5;
+
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_VIRTUAL_THREAD_API_V1)
+@SuppressWarnings({"unchecked", "deprecation", "all"})
+public static interface Builder {
+
+public java.util.concurrent.ThreadFactory factory();
+
+public java.lang.Thread.Builder inheritInheritableThreadLocals(boolean inherit);
+
+public java.lang.Thread.Builder name(java.lang.String name);
+
+public java.lang.Thread.Builder name(java.lang.String prefix, long start);
+
+public java.lang.Thread start(java.lang.Runnable task);
+
+public java.lang.Thread.Builder uncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler ueh);
+
+public java.lang.Thread unstarted(java.lang.Runnable task);
+
+
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_VIRTUAL_THREAD_API_V1)
+@SuppressWarnings({"unchecked", "deprecation", "all"})
+public static interface OfPlatform extends java.lang.Thread.Builder {
+
+public default java.lang.Thread.Builder.OfPlatform daemon() { throw new RuntimeException("Stub!"); }
+
+public java.lang.Thread.Builder.OfPlatform daemon(boolean on);
+
+public java.lang.Thread.Builder.OfPlatform group(java.lang.ThreadGroup group);
+
+public java.lang.Thread.Builder.OfPlatform inheritInheritableThreadLocals(boolean inherit);
+
+public java.lang.Thread.Builder.OfPlatform name(java.lang.String name);
+
+public java.lang.Thread.Builder.OfPlatform name(java.lang.String prefix, long start);
+
+public java.lang.Thread.Builder.OfPlatform priority(int priority);
+
+public java.lang.Thread.Builder.OfPlatform stackSize(long stackSize);
+
+public java.lang.Thread.Builder.OfPlatform uncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler ueh);
+}
+
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_VIRTUAL_THREAD_API_V1)
+@SuppressWarnings({"unchecked", "deprecation", "all"})
+public static interface OfVirtual extends java.lang.Thread.Builder {
+
+public java.lang.Thread.Builder.OfVirtual inheritInheritableThreadLocals(boolean inherit);
+
+public java.lang.Thread.Builder.OfVirtual name(java.lang.String name);
+
+public java.lang.Thread.Builder.OfVirtual name(java.lang.String prefix, long start);
+
+public java.lang.Thread.Builder.OfVirtual uncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler ueh);
+}
+
+}
+
 @SuppressWarnings({"unchecked", "deprecation", "all"})
 public enum State {
 BLOCKED,
