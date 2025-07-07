@@ -218,6 +218,31 @@ java_defaults {
 // Build for the target (device).
 //
 
+// There's some duplication of settings from framework-module-defaults, which
+// cannot be used here.
+java_defaults {
+    name: "core_r8_optimize_defaults",
+    defaults_visibility: ["//visibility:public"],
+
+    optimize: {
+        enabled: true,
+        shrink: false,
+        optimize: false,
+        obfuscate: false,
+        protect_api_surface: true,
+        proguard_compatibility: false,
+        ignore_warnings: false,
+        proguard_flags_files: [
+            ":framework-sdk-proguard-rules",
+        ],
+    },
+
+    dxflags: [
+        // For parity with d8, which enables debug info by default.
+        "--debug",
+    ],
+}
+
 // A target used to bootstrap compilation for the core library.
 //
 // See core-all-system-modules for more details.
@@ -281,12 +306,12 @@ platform_compat_config {
 
 // A system modules definition for use by core library targets only. It only
 // contains the core-all jar, which contains the classes that end up in core-oj,
-// core-libart as well as the lambda stubs needed to compile Java lambda code.
-// It does not contain other parts of core library like conscrypt, bouncycastle,
-// etc. This system_modules definition is used to bootstrap compilation for
-// other parts of the core library like core-oj, core-libart, conscrypt,
-// bouncycastle, etc. It is also used to compile Libcore tests, as well as ART
-// Java tests (run-tests).
+// core-libart, and okhttp, as well as the lambda stubs needed to compile Java
+// lambda code. It does not contain other parts of core library like conscrypt,
+// bouncycastle, etc. This system_modules definition is used to bootstrap
+// compilation for other parts of the core library like core-oj, core-libart,
+// conscrypt, bouncycastle, etc. It is also used to compile Libcore tests, as
+// well as ART Java tests (run-tests).
 java_system_modules {
     name: "core-all-system-modules",
 
@@ -327,7 +352,10 @@ java_library {
         "com.android.art",
         "com.android.art.debug",
     ],
-    defaults: ["libcore_java_defaults"],
+    defaults: [
+        "core_r8_optimize_defaults",
+        "libcore_java_defaults",
+    ],
     installable: true,
     hostdex: true,
 
@@ -337,6 +365,15 @@ java_library {
     sdk_version: "none",
     system_modules: "core-all-system-modules",
     patch_module: "java.base",
+
+    optimize: {
+        exclude: "r8_exclude_classes.txt",
+        // core-all contains all the symbols in core-oj, so they'll conflict
+        // when it's used as a library to build that same library if R8
+        // reference them as --libs. This makes R8 import them through
+        // --classpath instead, which allows overrides.
+        import_libraries_as_classpath: true,
+    },
 
     jacoco: {
         exclude_filter: [
@@ -391,7 +428,10 @@ java_library {
         "com.android.art",
         "com.android.art.debug",
     ],
-    defaults: ["libcore_java_defaults"],
+    defaults: [
+        "core_r8_optimize_defaults",
+        "libcore_java_defaults",
+    ],
     installable: true,
     hostdex: true,
 
@@ -404,6 +444,10 @@ java_library {
     sdk_version: "none",
     system_modules: "core-all-system-modules",
     patch_module: "java.base",
+
+    optimize: {
+        exclude: "r8_exclude_classes.txt",
+    },
 
     jacoco: {
         exclude_filter: [
@@ -560,8 +604,6 @@ java_library {
         "//frameworks/base/api",
     ],
     defaults: ["libcore_java_defaults"],
-    srcs: [
-    ],
     hostdex: true,
     sdk_version: "none",
     system_modules: "core-all-system-modules",
