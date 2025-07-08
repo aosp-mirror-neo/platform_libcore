@@ -54,6 +54,7 @@ import jdk.internal.reflect.Reflection;
 import jdk.internal.vm.annotation.ForceInline;
 import jdk.internal.vm.annotation.Hidden;
 import jdk.internal.vm.annotation.IntrinsicCandidate;
+import jdk.internal.vm.Continuation;
 import jdk.internal.vm.StackableScope;
 import jdk.internal.vm.ThreadContainer;
 import jdk.internal.vm.annotation.Stable;
@@ -340,7 +341,7 @@ public class Thread implements Runnable {
     private final Object blockerLock = new Object();
 
     /**
-     * Starts a virtual thread. Compared to {@linkplain startVirtualThread(Runnable)}, it returns
+     * Starts a virtual thread. Compared to {@linkplain #startVirtualThread(Runnable)}, it returns
      * the carrier thread. This is useful for internal testing and verifying the states of a
      * carrier thread.
      *
@@ -348,7 +349,7 @@ public class Thread implements Runnable {
      */
     public static Thread startVirtual(Runnable task) {
         Objects.requireNonNull(task);
-        VirtualThreadContext vContext = new VirtualThreadContext(task);
+        VirtualThreadContext vContext = new VirtualThreadContext(task, nextThreadID());
         return Thread.startVirtual(vContext);
     }
 
@@ -449,6 +450,27 @@ public class Thread implements Runnable {
      */
     public static final int MAX_PRIORITY = 10;
 
+    /*
+     * Current inner-most continuation.
+     */
+    private Continuation cont;
+
+    /**
+     * Returns the current continuation.
+     * @hide
+     */
+    public Continuation getContinuation() {
+        return cont;
+    }
+
+    /**
+     * Sets the current continuation.
+     * @hide
+     */
+    public void setContinuation(Continuation cont) {
+        this.cont = cont;
+    }
+
     /**
      * Returns the Thread object for the current platform thread. If the
      * current thread is a virtual thread then this method returns the carrier.
@@ -511,7 +533,11 @@ public class Thread implements Runnable {
      * {@link java.util.concurrent.locks} package.
      */
     public static void yield() {
-        yield0();
+        if (currentThread() instanceof VirtualThread vthread) {
+            vthread.tryYield();
+        } else {
+            yield0();
+        }
     }
 
     private static native void yield0();
@@ -599,6 +625,7 @@ public class Thread implements Runnable {
 
         sleep(millis);
         */
+
         // The JLS 3rd edition, section 17.9 says: "...sleep for zero
         // time...need not have observable effects."
         if (millis == 0 && nanos == 0) {
@@ -609,16 +636,20 @@ public class Thread implements Runnable {
             return;
         }
 
-        final long durationNanos;
+        final long totalNanos;
         if (millis >= Long.MAX_VALUE / NANOS_PER_MILLI - 1L) {
             // > 292 years. Avoid overflow by capping it at roughly 292 years.
-            durationNanos = Long.MAX_VALUE;
+            totalNanos = Long.MAX_VALUE;
         } else {
-            durationNanos = (millis * NANOS_PER_MILLI) + nanos;
+            totalNanos = (millis * NANOS_PER_MILLI) + nanos;
         }
-
-        sleep0(durationNanos);
         // END Android-changed: Implement sleep() methods using a shared native implementation.
+
+        if (currentThread() instanceof VirtualThread vthread) {
+            vthread.sleepNanos(totalNanos);
+        } else {
+            sleep0(totalNanos);
+        }
     }
 
     private static final int NANOS_PER_MILLI = 1000000;
@@ -681,7 +712,11 @@ public class Thread implements Runnable {
 
         ThreadSleepEvent event = beforeSleep(nanos);
         try {
-            sleep0(nanos);
+            if (currentThread() instanceof VirtualThread vthread) {
+                vthread.sleepNanos(nanos);
+            } else {
+                sleep0(nanos);
+            }
         } finally {
             afterSleep(event);
         }
@@ -1295,6 +1330,25 @@ public class Thread implements Runnable {
     }
 
     /**
+     * Creates a virtual thread to execute a task and schedules it to execute.
+     *
+     * <p> This method is equivalent to:
+     * <pre>{@code Thread.ofVirtual().start(task); }</pre>
+     *
+     * @param task the object to run when the thread executes
+     * @return a new, and started, virtual thread
+     * @see <a href="#inheritance">Inheritance when creating threads</a>
+     * @since 21
+     * @hide
+     */
+    public static Thread startVirtualThread(Runnable task) {
+        Objects.requireNonNull(task);
+        var thread = ThreadBuilders.newVirtualThread(null, null, 0, task);
+        thread.start();
+        return thread;
+    }
+
+    /**
      * Returns {@code true} if this thread is a virtual thread. A virtual thread
      * is scheduled by the Java virtual machine rather than the operating system.
      *
@@ -1308,7 +1362,8 @@ public class Thread implements Runnable {
     public final boolean isVirtual() {
         // Android-changed: Android has its own implementation.
         // return (this instanceof BaseVirtualThread);
-        return target instanceof VirtualThreadContext;
+        return target instanceof VirtualThreadContext ||
+                this instanceof BaseVirtualThread;
     }
 
     /**
@@ -1967,8 +2022,12 @@ public class Thread implements Runnable {
      * @see     #setPriority
      */
     public final int getPriority() {
-        // Android-changed: Convert from stored niceness.
-        return cachingPriorityForNiceness(niceness);
+        if (isVirtual()) {
+            return Thread.NORM_PRIORITY;
+        } else {
+            // Android-changed: Convert from stored niceness.
+            return cachingPriorityForNiceness(niceness);
+        }
     }
 
     /**
@@ -2134,6 +2193,13 @@ public class Thread implements Runnable {
         if (millis < 0) {
             throw new IllegalArgumentException("timeout value is negative");
         }
+        if (this instanceof VirtualThread vthread) {
+            if (isAlive()) {
+                long nanos = MILLISECONDS.toNanos(millis);
+                vthread.joinNanos(nanos);
+            }
+            return;
+        }
 
         // BEGIN Android-changed: Synchronize on separate lock object not this Thread.
         // nativePeer and hence isAlive() can change asynchronously, but Thread::Destroy
@@ -2264,6 +2330,10 @@ public class Thread implements Runnable {
             return true;
         if (nanos <= 0)
             return false;
+
+        if (this instanceof VirtualThread vthread) {
+            return vthread.joinNanos(nanos);
+        }
 
         // convert to milliseconds
         long millis = MILLISECONDS.convert(nanos, NANOSECONDS);
