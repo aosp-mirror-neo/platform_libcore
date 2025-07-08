@@ -743,6 +743,7 @@ public class MethodHandles {
                             && !name.equals("java.lang.Daemons$FinalizerWatchdogDaemon")
                             && !name.equals("java.lang.runtime.ObjectMethods")
                             && !name.equals("java.lang.Thread")
+                            && !name.equals("java.lang.ThreadBuilders$BaseThreadFactory")
                             && !name.equals("java.util.HashMap")
                             && !name.equals("java.util.HashSet")
                             && !name.equals("java.util.WeakHashMap")
