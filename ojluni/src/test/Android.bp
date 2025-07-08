@@ -38,6 +38,7 @@ java_test {
     srcs: [
         "java/**/*.java",
         "javax/**/*.java",
+        "jdk/test/**/*.java",
         "sun/**/*.java",
     ],
     java_resource_dirs: [
@@ -120,6 +121,7 @@ java_test {
     srcs: [
         "java/**/*.java",
         "javax/**/*.java",
+        "jdk/test/**/*.java",
         "sun/**/*.java",
     ],
     // Filter out the following:

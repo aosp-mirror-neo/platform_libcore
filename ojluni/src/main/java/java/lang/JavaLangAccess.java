@@ -27,8 +27,11 @@ package java.lang;
 
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
+import java.util.concurrent.RejectedExecutionException;
 
 import jdk.internal.misc.CarrierThreadLocal;
+import jdk.internal.vm.Continuation;
+import jdk.internal.vm.ContinuationScope;
 import jdk.internal.vm.StackableScope;
 import jdk.internal.vm.ThreadContainer;
 
@@ -549,34 +552,55 @@ public final class JavaLangAccess {
      * Return the current thread's scoped value bindings.
      * /
     Object scopedValueBindings();
+     */
 
     /**
      * Returns the innermost mounted continuation
-     * /
-    Continuation getContinuation(Thread thread);
+     */
+    public Continuation getContinuation(Thread thread) {
+        return thread.getContinuation();
+    }
 
     /**
      * Sets the innermost mounted continuation
-     * /
-    void setContinuation(Thread thread, Continuation continuation);
+     */
+    public void setContinuation(Thread thread, Continuation continuation) {
+        thread.setContinuation(continuation);
+    }
 
     /**
      * The ContinuationScope of virtual thread continuations
-     * /
-    ContinuationScope virtualThreadContinuationScope();
+     */
+    public ContinuationScope virtualThreadContinuationScope() {
+        return VirtualThread.continuationScope();
+    }
 
     /**
      * Parks the current virtual thread.
      * @throws WrongThreadException if the current thread is not a virtual thread
-     * /
-    void parkVirtualThread();
+     */
+    public void parkVirtualThread() {
+        Thread thread = Thread.currentThread();
+        if (thread instanceof BaseVirtualThread vthread) {
+            vthread.park();
+        } else {
+            throw new WrongThreadException();
+        }
+    }
 
     /**
      * Parks the current virtual thread for up to the given waiting time.
      * @param nanos the maximum number of nanoseconds to wait
      * @throws WrongThreadException if the current thread is not a virtual thread
-     * /
-    void parkVirtualThread(long nanos);
+     */
+    public void parkVirtualThread(long nanos) {
+        Thread thread = Thread.currentThread();
+        if (thread instanceof BaseVirtualThread vthread) {
+            vthread.parkNanos(nanos);
+        } else {
+            throw new WrongThreadException();
+        }
+    }
 
     /**
      * Re-enables a virtual thread for scheduling. If the thread was parked then
@@ -584,9 +608,16 @@ public final class JavaLangAccess {
      * @param thread the virtual thread to unpark
      * @throws IllegalArgumentException if the thread is not a virtual thread
      * @throws RejectedExecutionException if the scheduler cannot accept a task
-     * /
-    void unparkVirtualThread(Thread thread);
+     */
+    public void unparkVirtualThread(Thread thread) {
+        if (thread instanceof BaseVirtualThread vthread) {
+            vthread.unpark();
+        } else {
+            throw new WrongThreadException();
+        }
+    }
 
+    /*
     /**
      * Creates a new StackWalker
      * /

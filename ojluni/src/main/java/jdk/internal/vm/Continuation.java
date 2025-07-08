@@ -25,6 +25,10 @@
 
 package jdk.internal.vm;
 
+import dalvik.system.VirtualThreadContext;
+import dalvik.system.VirtualThreadParkedStates;
+import dalvik.system.VirtualThreadParkingError;
+
 import jdk.internal.misc.Unsafe;
 import jdk.internal.vm.annotation.DontInline;
 import jdk.internal.vm.annotation.IntrinsicCandidate;
@@ -42,7 +46,9 @@ import jdk.internal.vm.annotation.Hidden;
 public class Continuation {
     private static final Unsafe U = Unsafe.getUnsafe();
     private static final long MOUNTED_OFFSET = U.objectFieldOffset(Continuation.class, "mounted");
-    private static final boolean PRESERVE_SCOPED_VALUE_CACHE;
+
+    // Android-removed: ScopedValue is not yet supported.
+    // private static final boolean PRESERVE_SCOPED_VALUE_CACHE;
     private static final JavaLangAccess JLA = SharedSecrets.getJavaLangAccess();
     static {
         // Android-removed: This check during startup isn't necessary on ART.
@@ -50,17 +56,19 @@ public class Continuation {
 
         StackChunk.init(); // ensure StackChunk class is initialized
 
-        // Android-changed: Remove ScopedValue until the feature is finalized.
+        // Android-removed: ScopedValue is not yet supported.
         // String value = GetPropertyAction.privilegedGetProperty("jdk.preserveScopedValueCache");
         // PRESERVE_SCOPED_VALUE_CACHE = (value == null) || Boolean.parseBoolean(value);
-        PRESERVE_SCOPED_VALUE_CACHE = false;
     }
 
     /** Reason for pinning */
     public enum Pinned {
         /** Native frame on stack */ NATIVE,
         /** Monitor held */          MONITOR,
-        /** In critical section */   CRITICAL_SECTION }
+        /** In critical section */   CRITICAL_SECTION,
+        // Android-added: Indicate that ART encounters an unexpected frame.
+        /** Unsupported frame */     UNSUPPORTED_FRAME
+    }
 
     /** Preemption attempt result */
     public enum PreemptStatus {
@@ -81,11 +89,14 @@ public class Continuation {
         public Pinned pinned() { return pinned; }
     }
 
+    // Android note: It should match PinningReason in virtual_parking_util.h.
     private static Pinned pinnedReason(int reason) {
         return switch (reason) {
             case 2 -> Pinned.CRITICAL_SECTION;
             case 3 -> Pinned.NATIVE;
             case 4 -> Pinned.MONITOR;
+            // Android-added: Indicate that ART encounters an unexpected frame.
+            case 5 -> Pinned.UNSUPPORTED_FRAME;
             default -> throw new AssertionError("Unknown pinned reason: " + reason);
         };
     }
@@ -116,7 +127,9 @@ public class Continuation {
     private Continuation parent; // null for native stack
     private Continuation child; // non-null when we're yielded in a child continuation
 
-    private StackChunk tail;
+    // Android-changed: ART uses VirtualThreadContext to store the stack.
+    // private StackChunk tail;
+    private final VirtualThreadContext virtualThreadContext;
 
     private boolean done;
     private volatile boolean mounted;
@@ -125,14 +138,20 @@ public class Continuation {
 
     private Object[] scopedValueCache;
 
+    // Android-added: A constructor for test because ART supports one ContinuationScope type only.
+    public Continuation(VirtualThreadContext virtualThreadContext) {
+        this(JLA.virtualThreadContinuationScope(), virtualThreadContext);
+    }
+
     /**
      * Constructs a continuation
      * @param scope the continuation's scope, used in yield
-     * @param target the continuation's body
+     * @param virtualThreadContext the Virtual Thread context used in this Continuation
      */
-    public Continuation(ContinuationScope scope, Runnable target) {
+    public Continuation(ContinuationScope scope, VirtualThreadContext virtualThreadContext) {
         this.scope = scope;
-        this.target = target;
+        this.virtualThreadContext = virtualThreadContext;
+        this.target = virtualThreadContext;
     }
 
     @Override
@@ -148,15 +167,17 @@ public class Continuation {
         return parent;
     }
 
+    public VirtualThreadContext getVirtualThreadContext() {
+        return virtualThreadContext;
+    }
+
     /**
      * Returns the current innermost continuation with the given scope
      * @param scope the scope
      * @return the continuation
      */
     public static Continuation getCurrentContinuation(ContinuationScope scope) {
-        // TODO: Implement this.
-        // Continuation cont = JLA.getContinuation(currentCarrierThread());
-        Continuation cont = null;
+        Continuation cont = JLA.getContinuation(currentCarrierThread());
         while (cont != null && cont.scope != scope)
             cont = cont.parent;
         return cont;
@@ -236,27 +257,26 @@ public class Continuation {
     public final void run() {
         while (true) {
             mount();
-            // Android-removed: Remove ScopedValue until the feature is finalized.
+            // Android-removed: ScopedValue is not yet supported.
             // JLA.setScopedValueCache(scopedValueCache);
 
             if (done)
                 throw new IllegalStateException("Continuation terminated");
 
             Thread t = currentCarrierThread();
-            // TODO: Implement this.
-            /*
             if (parent != null) {
                 if (parent != JLA.getContinuation(t))
                     throw new IllegalStateException();
             } else
                 this.parent = JLA.getContinuation(t);
             JLA.setContinuation(t, this);
-            */
 
             try {
-                // TODO: Implement this.
-                // boolean isVirtualThread = (scope == JLA.virtualThreadContinuationScope());
-                boolean isVirtualThread = true;
+                boolean isVirtualThread = (scope == JLA.virtualThreadContinuationScope());
+                // Android-changed: Continuation supports Virtual Thread only on Android
+                if (!isVirtualThread) {
+                    throw new IllegalStateException("Scope isn't a Virtual Thread Scope");
+                }
                 if (!isStarted()) { // is this the first run? (at this point we know !done)
                     enterSpecial(this, false, isVirtualThread);
                 } else {
@@ -267,15 +287,14 @@ public class Continuation {
                 fence();
                 try {
                     assert isEmpty() == done : "empty: " + isEmpty() + " done: " + done + " cont: " + Integer.toHexString(System.identityHashCode(this));
-                    // TODO: Implement this.
-                    // JLA.setContinuation(currentCarrierThread(), this.parent);
+                    JLA.setContinuation(currentCarrierThread(), this.parent);
                     if (parent != null)
                         parent.child = null;
 
                     postYieldCleanup();
 
                     unmount();
-                    // Android-removed: Remove ScopedValue until the feature is finalized.
+                    // Android-removed: ScopedValue is not yet supported.
                     /*
                     if (PRESERVE_SCOPED_VALUE_CACHE) {
                         scopedValueCache = JLA.scopedValueCache();
@@ -302,9 +321,12 @@ public class Continuation {
     }
 
     private void postYieldCleanup() {
+        // Android-changed: It isn't needed because ART does the cleanup.
+        /*
         if (done) {
             this.tail = null;
         }
+        */
     }
 
     private void finish() {
@@ -312,8 +334,14 @@ public class Continuation {
         assert isEmpty();
     }
 
+    private int doYield() {
+        return doYieldNative(virtualThreadContext, new VirtualThreadParkedStates(),
+                VirtualThreadParkingError.INSTANCE);
+    }
+
     @IntrinsicCandidate
-    private native static int doYield();
+    private native static int doYieldNative(VirtualThreadContext context,
+            VirtualThreadParkedStates states, VirtualThreadParkingError error);
 
     @IntrinsicCandidate
     private native static void enterSpecial(Continuation c, boolean isContinue, boolean isVirtualThread);
@@ -338,15 +366,21 @@ public class Continuation {
     }
 
     private boolean isStarted() {
-        return tail != null;
+        // Android-changed: Android stores the stack in VirtualThreadContext instead of StackChunk.
+        // return tail != null;
+        return virtualThreadContext.parkedStates != null;
     }
 
     private boolean isEmpty() {
+        // Android-changed: Android stores the stack in VirtualThreadContext instead of StackChunk.
+        /*
         for (StackChunk c = tail; c != null; c = c.parent()) {
             if (!c.isEmpty())
                 return false;
         }
         return true;
+        */
+        return virtualThreadContext.parkedStates == null;
     }
 
     /**
@@ -358,9 +392,7 @@ public class Continuation {
      */
     @Hidden
     public static boolean yield(ContinuationScope scope) {
-        // TODO: Implement this.
-        // Continuation cont = JLA.getContinuation(currentCarrierThread());
-        Continuation cont = null;
+        Continuation cont = JLA.getContinuation(currentCarrierThread());
         Continuation c;
         for (c = cont; c != null && c.scope != scope; c = c.parent)
             ;
@@ -370,6 +402,9 @@ public class Continuation {
         return cont.yield0(scope, null);
     }
 
+    /**
+     * @return false if the Continuation is pinned.
+     */
     @Hidden
     private boolean yield0(ContinuationScope scope, Continuation child) {
         preempted = false;
@@ -442,19 +477,20 @@ public class Continuation {
         return preempted;
     }
 
+    // BEGIN Android-removed: Unused code.
+    /*
     /**
      * Pins the current continuation (enters a critical section).
      * This increments an internal semaphore that, when greater than 0, pins the continuation.
-     */
-    // Android-removed: unused
-    // public static native void pin();
+     * /
+    public static native void pin();
 
     /**
      * Unpins the current continuation (exits a critical section).
      * This decrements an internal semaphore that, when equal 0, unpins the current continuation
      * if pinned with {@link #pin()}.
-     */
-    // public static native void unpin();
+     * /
+    public static native void unpin();
 
     /**
      * Tests whether the given scope is pinned.
@@ -462,13 +498,15 @@ public class Continuation {
      *
      * @param scope the continuation scope
      * @return {@code} true if we're in the give scope and are pinned; {@code false otherwise}
-     */
+     * /
     public static boolean isPinned(ContinuationScope scope) {
         int res = isPinned0(scope);
         return res != 0;
     }
 
     static private native int isPinned0(ContinuationScope scope);
+    */
+    // END Android-removed: Unused code.
 
     private boolean fence() {
         U.storeFence(); // needed to prevent certain transformations by the compiler
@@ -476,9 +514,7 @@ public class Continuation {
     }
 
     private boolean compareAndSetMounted(boolean expectedValue, boolean newValue) {
-        // TODO: Implement Unsafe.compareAndSetBoolean or replace it with VarHandle.
-        // return U.compareAndSetBoolean(this, MOUNTED_OFFSET, expectedValue, newValue);
-        return false;
+        return U.compareAndSetBoolean(this, MOUNTED_OFFSET, expectedValue, newValue);
     }
 
     private void setMounted(boolean newValue) {
