@@ -4537,6 +4537,9 @@ package java.lang {
     method public final void join(long) throws java.lang.InterruptedException;
     method public final void join(long, int) throws java.lang.InterruptedException;
     method public final void join() throws java.lang.InterruptedException;
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public final boolean join(java.time.Duration) throws java.lang.InterruptedException;
+    method @FlaggedApi("com.android.libcore.virtual_thread_api_v1") public static java.lang.Thread.Builder.OfPlatform ofPlatform();
+    method @FlaggedApi("com.android.libcore.virtual_thread_api_v1") public static java.lang.Thread.Builder.OfVirtual ofVirtual();
     method public static void onSpinWait();
     method public void run();
     method public void setContextClassLoader(@Nullable ClassLoader);
@@ -4547,13 +4550,44 @@ package java.lang {
     method public void setUncaughtExceptionHandler(@Nullable java.lang.Thread.UncaughtExceptionHandler);
     method public static void sleep(long) throws java.lang.InterruptedException;
     method public static void sleep(long, int) throws java.lang.InterruptedException;
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static void sleep(java.time.Duration) throws java.lang.InterruptedException;
     method public void start();
+    method @FlaggedApi("com.android.libcore.virtual_thread_api_v1") public static Thread startVirtualThread(Runnable);
     method @Deprecated public final void stop();
     method @FlaggedApi("com.android.libcore.openjdk_21_v1_apis") public final long threadId();
     method public static void yield();
     field public static final int MAX_PRIORITY = 10; // 0xa
     field public static final int MIN_PRIORITY = 1; // 0x1
     field public static final int NORM_PRIORITY = 5; // 0x5
+  }
+
+  @FlaggedApi("com.android.libcore.virtual_thread_api_v1") public static interface Thread.Builder {
+    method public java.util.concurrent.ThreadFactory factory();
+    method public java.lang.Thread.Builder inheritInheritableThreadLocals(boolean);
+    method public java.lang.Thread.Builder name(String);
+    method public java.lang.Thread.Builder name(String, long);
+    method public Thread start(Runnable);
+    method public java.lang.Thread.Builder uncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler);
+    method public Thread unstarted(Runnable);
+  }
+
+  @FlaggedApi("com.android.libcore.virtual_thread_api_v1") public static interface Thread.Builder.OfPlatform extends java.lang.Thread.Builder {
+    method public java.lang.Thread.Builder.OfPlatform daemon(boolean);
+    method public default java.lang.Thread.Builder.OfPlatform daemon();
+    method public java.lang.Thread.Builder.OfPlatform group(ThreadGroup);
+    method public java.lang.Thread.Builder.OfPlatform inheritInheritableThreadLocals(boolean);
+    method public java.lang.Thread.Builder.OfPlatform name(String);
+    method public java.lang.Thread.Builder.OfPlatform name(String, long);
+    method public java.lang.Thread.Builder.OfPlatform priority(int);
+    method public java.lang.Thread.Builder.OfPlatform stackSize(long);
+    method public java.lang.Thread.Builder.OfPlatform uncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler);
+  }
+
+  @FlaggedApi("com.android.libcore.virtual_thread_api_v1") public static interface Thread.Builder.OfVirtual extends java.lang.Thread.Builder {
+    method public java.lang.Thread.Builder.OfVirtual inheritInheritableThreadLocals(boolean);
+    method public java.lang.Thread.Builder.OfVirtual name(String);
+    method public java.lang.Thread.Builder.OfVirtual name(String, long);
+    method public java.lang.Thread.Builder.OfVirtual uncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler);
   }
 
   public enum Thread.State {
@@ -16103,6 +16137,8 @@ package java.util.concurrent {
     method public static java.util.concurrent.ExecutorService newSingleThreadExecutor(java.util.concurrent.ThreadFactory);
     method public static java.util.concurrent.ScheduledExecutorService newSingleThreadScheduledExecutor();
     method public static java.util.concurrent.ScheduledExecutorService newSingleThreadScheduledExecutor(java.util.concurrent.ThreadFactory);
+    method @FlaggedApi("com.android.libcore.virtual_thread_api_v1") public static java.util.concurrent.ExecutorService newThreadPerTaskExecutor(java.util.concurrent.ThreadFactory);
+    method @FlaggedApi("com.android.libcore.virtual_thread_api_v1") public static java.util.concurrent.ExecutorService newVirtualThreadPerTaskExecutor();
     method public static java.util.concurrent.ExecutorService newWorkStealingPool(int);
     method public static java.util.concurrent.ExecutorService newWorkStealingPool();
     method @Deprecated public static <T> java.util.concurrent.Callable<T> privilegedCallable(java.util.concurrent.Callable<T>);

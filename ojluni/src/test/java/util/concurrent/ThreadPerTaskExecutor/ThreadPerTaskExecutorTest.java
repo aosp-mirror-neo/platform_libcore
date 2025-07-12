@@ -71,12 +71,26 @@ public class ThreadPerTaskExecutorTest {
         //if (value == null || value.equals("platform"))
         list.add(Thread.ofPlatform().factory());
         //if (value == null || value.equals("virtual"))
-        // TODO: Enable when Virtual Thread API is functional.
-        // if (com.android.art.flags.Flags.virtualThreadImplV1()) {
-        //     list.add(Thread.ofVirtual().factory());
-        // }
-        //assertTrue(list.size() > 0, "No thread factories for tests");
+        if (isVirtualThreadEnabled()) {
+            list.add(Thread.ofVirtual().factory());
+        }
+        assertTrue(list.size() > 0, "No thread factories for tests");
         threadFactories = list;
+    }
+
+    private static boolean isVirtualThreadEnabled() {
+        try {
+            return com.android.art.flags.Flags.virtualThreadImplV1();
+        } catch (NoSuchMethodError e) {
+            System.logE("flag isn't found.", e);
+            // Continue running tests as if the flag value was true, because in this case
+            // it's likely that the APIs have been fully published and the flag has been removed.
+            // Ideally, we should use the exported / test version of java_aconfig_library to read
+            // the flag from the aconfig flag storage via frameworks, but ART test infra can't have
+            // direct dependency on frameworks. We will need to add an abstraction or indirect
+            // dependency to support both CTS infra and ART test infra.
+            return true;
+        }
     }
 
     @AfterTest

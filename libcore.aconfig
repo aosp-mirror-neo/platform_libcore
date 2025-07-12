@@ -155,3 +155,12 @@ flag {
     is_fixed_read_only: true
 }
 
+flag {
+    name: "virtual_thread_api_v1"
+    namespace: "core_libraries"
+    description: "Flag for the version 1 of Virtual Thread API."
+    bug: "346542404"
+    is_fixed_read_only: true
+    is_exported: true
+}
+
