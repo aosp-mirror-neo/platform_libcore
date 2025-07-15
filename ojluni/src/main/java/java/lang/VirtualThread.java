@@ -160,6 +160,10 @@ public final class VirtualThread extends BaseVirtualThread {
      */
     private final Object interruptLock = new Object();
 
+    // Android-added: Extra field needed for internal testing.
+    // It can be removed once the events are emitted in JVMTI.
+    private JvmtiEventsListener mJvmtiEventsListener;
+
     /**
      * Returns the continuation scope used for virtual threads.
      */
@@ -1151,25 +1155,64 @@ public final class VirtualThread extends BaseVirtualThread {
 
     // -- JVM TI support --
 
-    @IntrinsicCandidate
-    @JvmtiMountTransition
-    private void notifyJvmtiStart() {}
+    // BEGIN Android-changed: Add an event listener for internal testing.
+    // TODO: This java-level listener can be removed when JVMTI is supported.
+    public interface JvmtiEventsListener {
+        default void onJvmtiStart() {}
+        default void onJvmtiEnd() {}
+        default void onJvmtiMount(boolean hide) {}
+        default void onJvmtiUnmount(boolean hide) {}
+        default void onJvmtiHideFrames(boolean hide) {}
+    }
+
+    public JvmtiEventsListener getJvmtiEventListener() {
+        return mJvmtiEventsListener;
+    }
+
+    public void setJvmtiEventListener(JvmtiEventsListener listener) {
+        this.mJvmtiEventsListener = listener;
+    }
 
     @IntrinsicCandidate
     @JvmtiMountTransition
-    private void notifyJvmtiEnd() {}
+    private void notifyJvmtiStart() {
+        if (mJvmtiEventsListener != null) {
+            mJvmtiEventsListener.onJvmtiStart();
+        }
+    }
 
     @IntrinsicCandidate
     @JvmtiMountTransition
-    private void notifyJvmtiMount(boolean hide) {}
+    private void notifyJvmtiEnd() {
+        if (mJvmtiEventsListener != null) {
+            mJvmtiEventsListener.onJvmtiEnd();
+        }
+    }
 
     @IntrinsicCandidate
     @JvmtiMountTransition
-    private void notifyJvmtiUnmount(boolean hide) {}
+    private void notifyJvmtiMount(boolean hide) {
+        if (mJvmtiEventsListener != null) {
+            mJvmtiEventsListener.onJvmtiMount(hide);
+        }
+    }
 
     @IntrinsicCandidate
     @JvmtiMountTransition
-    private void notifyJvmtiHideFrames(boolean hide) {}
+    private void notifyJvmtiUnmount(boolean hide) {
+        if (mJvmtiEventsListener != null) {
+            mJvmtiEventsListener.onJvmtiUnmount(hide);
+        }
+    }
+
+    @IntrinsicCandidate
+    @JvmtiMountTransition
+    private void notifyJvmtiHideFrames(boolean hide) {
+        if (mJvmtiEventsListener != null) {
+            mJvmtiEventsListener.onJvmtiHideFrames(hide);
+        }
+    }
+    // END Android-changed: Add a JVMTI event listener for internal testing.
 
     // Android-removed: Removed unused methods.
     /*
