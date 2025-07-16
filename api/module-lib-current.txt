@@ -65,7 +65,7 @@ package android.system {
     field public static final int PR_CAP_AMBIENT;
     field public static final int PR_CAP_AMBIENT_RAISE;
     field public static final int RLIMIT_NOFILE;
-    field @FlaggedApi("com.android.libcore.openjdk_21_v1_apis") public static final int RLIMIT_RTPRIO;
+    field public static final int RLIMIT_RTPRIO;
     field public static final int RTMGRP_IPV4_IFADDR;
     field public static final int SPLICE_F_MORE;
     field public static final int SPLICE_F_MOVE;
@@ -788,15 +788,15 @@ package libcore.util {
     method public static void applyFreeFunction(long, long);
     method @NonNull public static libcore.util.NativeAllocationRegistry createMalloced(@NonNull ClassLoader, long, long);
     method @NonNull public static libcore.util.NativeAllocationRegistry createMalloced(@NonNull ClassLoader, long);
-    method @FlaggedApi("com.android.libcore.native_metrics") @NonNull public static libcore.util.NativeAllocationRegistry createMalloced(@NonNull Class, long, long);
-    method @FlaggedApi("com.android.libcore.native_metrics") @NonNull public static libcore.util.NativeAllocationRegistry createMalloced(@NonNull Class, long);
+    method @NonNull public static libcore.util.NativeAllocationRegistry createMalloced(@NonNull Class, long, long);
+    method @NonNull public static libcore.util.NativeAllocationRegistry createMalloced(@NonNull Class, long);
     method @NonNull public static libcore.util.NativeAllocationRegistry createNonmalloced(@NonNull ClassLoader, long, long);
-    method @FlaggedApi("com.android.libcore.native_metrics") @NonNull public static libcore.util.NativeAllocationRegistry createNonmalloced(@NonNull Class, long, long);
-    method @FlaggedApi("com.android.libcore.native_metrics") @NonNull public static java.util.Collection<libcore.util.NativeAllocationRegistry.Metrics> getMetrics();
+    method @NonNull public static libcore.util.NativeAllocationRegistry createNonmalloced(@NonNull Class, long, long);
+    method @NonNull public static java.util.Collection<libcore.util.NativeAllocationRegistry.Metrics> getMetrics();
     method @NonNull public Runnable registerNativeAllocation(@NonNull Object, long);
   }
 
-  @FlaggedApi("com.android.libcore.native_metrics") public static final class NativeAllocationRegistry.Metrics {
+  public static final class NativeAllocationRegistry.Metrics {
     method @NonNull public String getClassName();
     method public long getMallocedBytes();
     method public long getMallocedCount();

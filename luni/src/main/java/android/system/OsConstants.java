@@ -643,7 +643,6 @@ public final class OsConstants {
     @SystemApi(client = MODULE_LIBRARIES)
     public static final int RLIMIT_NOFILE;
     /** @hide */
-    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
     @SystemApi(client = MODULE_LIBRARIES)
     public static final int RLIMIT_RTPRIO;
     public static final int RT_SCOPE_HOST;

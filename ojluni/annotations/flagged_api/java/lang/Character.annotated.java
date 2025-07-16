@@ -98,22 +98,16 @@ public static boolean isDigit(char ch) { throw new RuntimeException("Stub!"); }
 
 public static boolean isDigit(int codePoint) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static boolean isEmoji(int codePoint) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static boolean isEmojiComponent(int codePoint) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static boolean isEmojiModifier(int codePoint) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static boolean isEmojiModifierBase(int codePoint) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static boolean isEmojiPresentation(int codePoint) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static boolean isExtendedPictographic(int codePoint) { throw new RuntimeException("Stub!"); }
 
 public static boolean isHighSurrogate(char ch) { throw new RuntimeException("Stub!"); }
@@ -425,11 +419,9 @@ static { ARABIC = null; }
 public static final java.lang.Character.UnicodeBlock ARABIC_EXTENDED_A;
 static { ARABIC_EXTENDED_A = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock ARABIC_EXTENDED_B;
 static { ARABIC_EXTENDED_B = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock ARABIC_EXTENDED_C;
 static { ARABIC_EXTENDED_C = null; }
 
@@ -574,7 +566,6 @@ static { CJK_UNIFIED_IDEOGRAPHS_EXTENSION_F = null; }
 public static final java.lang.Character.UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_G;
 static { CJK_UNIFIED_IDEOGRAPHS_EXTENSION_G = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_H;
 static { CJK_UNIFIED_IDEOGRAPHS_EXTENSION_H = null; }
 
@@ -620,7 +611,6 @@ static { CURRENCY_SYMBOLS = null; }
 public static final java.lang.Character.UnicodeBlock CYPRIOT_SYLLABARY;
 static { CYPRIOT_SYLLABARY = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock CYPRO_MINOAN;
 static { CYPRO_MINOAN = null; }
 
@@ -636,7 +626,6 @@ static { CYRILLIC_EXTENDED_B = null; }
 public static final java.lang.Character.UnicodeBlock CYRILLIC_EXTENDED_C;
 static { CYRILLIC_EXTENDED_C = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock CYRILLIC_EXTENDED_D;
 static { CYRILLIC_EXTENDED_D = null; }
 
@@ -652,7 +641,6 @@ static { DEVANAGARI = null; }
 public static final java.lang.Character.UnicodeBlock DEVANAGARI_EXTENDED;
 static { DEVANAGARI_EXTENDED = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock DEVANAGARI_EXTENDED_A;
 static { DEVANAGARI_EXTENDED_A = null; }
 
@@ -710,7 +698,6 @@ static { ETHIOPIC_EXTENDED = null; }
 public static final java.lang.Character.UnicodeBlock ETHIOPIC_EXTENDED_A;
 static { ETHIOPIC_EXTENDED_A = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock ETHIOPIC_EXTENDED_B;
 static { ETHIOPIC_EXTENDED_B = null; }
 
@@ -828,14 +815,12 @@ static { JAVANESE = null; }
 public static final java.lang.Character.UnicodeBlock KAITHI;
 static { KAITHI = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock KAKTOVIK_NUMERALS;
 static { KAKTOVIK_NUMERALS = null; }
 
 public static final java.lang.Character.UnicodeBlock KANA_EXTENDED_A;
 static { KANA_EXTENDED_A = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock KANA_EXTENDED_B;
 static { KANA_EXTENDED_B = null; }
 
@@ -857,7 +842,6 @@ static { KATAKANA = null; }
 public static final java.lang.Character.UnicodeBlock KATAKANA_PHONETIC_EXTENSIONS;
 static { KATAKANA_PHONETIC_EXTENSIONS = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock KAWI;
 static { KAWI = null; }
 
@@ -906,11 +890,9 @@ static { LATIN_EXTENDED_D = null; }
 public static final java.lang.Character.UnicodeBlock LATIN_EXTENDED_E;
 static { LATIN_EXTENDED_E = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock LATIN_EXTENDED_F;
 static { LATIN_EXTENDED_F = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock LATIN_EXTENDED_G;
 static { LATIN_EXTENDED_G = null; }
 
@@ -1052,7 +1034,6 @@ static { MYANMAR_EXTENDED_B = null; }
 public static final java.lang.Character.UnicodeBlock NABATAEAN;
 static { NABATAEAN = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock NAG_MUNDARI;
 static { NAG_MUNDARI = null; }
 
@@ -1104,7 +1085,6 @@ static { OLD_SOUTH_ARABIAN = null; }
 public static final java.lang.Character.UnicodeBlock OLD_TURKIC;
 static { OLD_TURKIC = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock OLD_UYGHUR;
 static { OLD_UYGHUR = null; }
 
@@ -1300,7 +1280,6 @@ static { TAMIL = null; }
 public static final java.lang.Character.UnicodeBlock TAMIL_SUPPLEMENT;
 static { TAMIL_SUPPLEMENT = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock TANGSA;
 static { TANGSA = null; }
 
@@ -1331,7 +1310,6 @@ static { TIFINAGH = null; }
 public static final java.lang.Character.UnicodeBlock TIRHUTA;
 static { TIRHUTA = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock TOTO;
 static { TOTO = null; }
 
@@ -1347,7 +1325,6 @@ static { UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS = null; }
 public static final java.lang.Character.UnicodeBlock UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED;
 static { UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED_A;
 static { UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED_A = null; }
 
@@ -1366,7 +1343,6 @@ static { VEDIC_EXTENSIONS = null; }
 public static final java.lang.Character.UnicodeBlock VERTICAL_FORMS;
 static { VERTICAL_FORMS = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock VITHKUQI;
 static { VITHKUQI = null; }
 
@@ -1391,7 +1367,6 @@ static { YI_SYLLABLES = null; }
 public static final java.lang.Character.UnicodeBlock ZANABAZAR_SQUARE;
 static { ZANABAZAR_SQUARE = null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static final java.lang.Character.UnicodeBlock ZNAMENNY_MUSICAL_NOTATION;
 static { ZNAMENNY_MUSICAL_NOTATION = null; }
 }
@@ -1426,7 +1401,6 @@ COMMON,
 COPTIC,
 CUNEIFORM,
 CYPRIOT,
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 CYPRO_MINOAN,
 CYRILLIC,
 DESERET,
@@ -1461,7 +1435,6 @@ JAVANESE,
 KAITHI,
 KANNADA,
 KATAKANA,
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 KAWI,
 KAYAH_LI,
 KHAROSHTHI,
@@ -1497,7 +1470,6 @@ MRO,
 MULTANI,
 MYANMAR,
 NABATAEAN,
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 NAG_MUNDARI,
 NANDINAGARI,
 NEWA,
@@ -1514,7 +1486,6 @@ OLD_PERSIAN,
 OLD_SOGDIAN,
 OLD_SOUTH_ARABIAN,
 OLD_TURKIC,
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 OLD_UYGHUR,
 OL_CHIKI,
 ORIYA,
@@ -1548,7 +1519,6 @@ TAI_THAM,
 TAI_VIET,
 TAKRI,
 TAMIL,
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 TANGSA,
 TANGUT,
 TELUGU,
@@ -1557,12 +1527,10 @@ THAI,
 TIBETAN,
 TIFINAGH,
 TIRHUTA,
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 TOTO,
 UGARITIC,
 UNKNOWN,
 VAI,
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 VITHKUQI,
 WANCHO,
 WARANG_CITI,

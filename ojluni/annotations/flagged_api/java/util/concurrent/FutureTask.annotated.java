@@ -47,7 +47,6 @@ public boolean cancel(boolean mayInterruptIfRunning) { throw new RuntimeExceptio
 
 protected void done() { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public java.lang.Throwable exceptionNow() { throw new RuntimeException("Stub!"); }
 
 public V get() throws java.util.concurrent.ExecutionException, java.lang.InterruptedException { throw new RuntimeException("Stub!"); }
@@ -58,7 +57,6 @@ public boolean isCancelled() { throw new RuntimeException("Stub!"); }
 
 public boolean isDone() { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public V resultNow() { throw new RuntimeException("Stub!"); }
 
 public void run() { throw new RuntimeException("Stub!"); }
@@ -69,7 +67,6 @@ protected void set(V v) { throw new RuntimeException("Stub!"); }
 
 protected void setException(java.lang.Throwable t) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public java.util.concurrent.Future.State state() { throw new RuntimeException("Stub!"); }
 
 public java.lang.String toString() { throw new RuntimeException("Stub!"); }

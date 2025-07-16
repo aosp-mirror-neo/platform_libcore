@@ -39,7 +39,6 @@ package java.util.concurrent;
 @SuppressWarnings({"unchecked", "deprecation", "all"})
 public class ForkJoinWorkerThread extends java.lang.Thread {
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 protected ForkJoinWorkerThread(java.lang.ThreadGroup group, java.util.concurrent.ForkJoinPool pool, boolean preserveThreadLocals) { throw new RuntimeException("Stub!"); }
 
 protected ForkJoinWorkerThread(java.util.concurrent.ForkJoinPool pool) { throw new RuntimeException("Stub!"); }
@@ -48,7 +47,6 @@ public java.util.concurrent.ForkJoinPool getPool() { throw new RuntimeException(
 
 public int getPoolIndex() { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public int getQueuedTaskCount() { throw new RuntimeException("Stub!"); }
 
 protected void onStart() { throw new RuntimeException("Stub!"); }

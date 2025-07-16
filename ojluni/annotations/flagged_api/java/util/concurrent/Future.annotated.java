@@ -41,7 +41,6 @@ public interface Future<V> {
 
 public boolean cancel(boolean mayInterruptIfRunning);
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public default java.lang.Throwable exceptionNow() { throw new RuntimeException("Stub!"); }
 
 public V get() throws java.util.concurrent.ExecutionException, java.lang.InterruptedException;
@@ -52,13 +51,10 @@ public boolean isCancelled();
 
 public boolean isDone();
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public default V resultNow() { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public default java.util.concurrent.Future.State state() { throw new RuntimeException("Stub!"); }
 @SuppressWarnings({"unchecked", "deprecation", "all"})
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public enum State {
 CANCELLED,
 FAILED,

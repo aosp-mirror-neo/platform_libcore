@@ -41,7 +41,6 @@ public java.util.stream.DoubleStream doubles(long streamSize) { throw new Runtim
 
 public java.util.stream.DoubleStream doubles(long streamSize, double randomNumberOrigin, double randomNumberBound) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static java.util.Random from(java.util.random.RandomGenerator generator) { throw new RuntimeException("Stub!"); }
 
 public java.util.stream.IntStream ints() { throw new RuntimeException("Stub!"); }

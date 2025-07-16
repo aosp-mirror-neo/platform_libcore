@@ -146,7 +146,6 @@ public class NativeAllocationRegistry {
      * @hide
      */
     @SystemApi(client = MODULE_LIBRARIES)
-    @FlaggedApi(com.android.libcore.Flags.FLAG_NATIVE_METRICS)
     public static @NonNull NativeAllocationRegistry createNonmalloced(
             @NonNull Class clazz, long freeFunction, long size) {
         return new NativeAllocationRegistry(
@@ -233,7 +232,6 @@ public class NativeAllocationRegistry {
      * @hide
      */
     @SystemApi(client = MODULE_LIBRARIES)
-    @FlaggedApi(com.android.libcore.Flags.FLAG_NATIVE_METRICS)
     public static @NonNull NativeAllocationRegistry createMalloced(
             @NonNull Class clazz, long freeFunction, long size) {
         return new NativeAllocationRegistry(
@@ -259,7 +257,6 @@ public class NativeAllocationRegistry {
      * @hide
      */
     @SystemApi(client = MODULE_LIBRARIES)
-    @FlaggedApi(com.android.libcore.Flags.FLAG_NATIVE_METRICS)
     public static @NonNull NativeAllocationRegistry createMalloced(
             @NonNull Class clazz, long freeFunction) {
         return new NativeAllocationRegistry(
@@ -364,7 +361,6 @@ public class NativeAllocationRegistry {
      * @hide
      */
     @SystemApi(client = MODULE_LIBRARIES)
-    @FlaggedApi(com.android.libcore.Flags.FLAG_NATIVE_METRICS)
     public static final class Metrics {
         private String className;
         private int mallocedCount;
@@ -445,7 +441,6 @@ public class NativeAllocationRegistry {
      * @hide
      */
     @SystemApi(client = MODULE_LIBRARIES)
-    @FlaggedApi(com.android.libcore.Flags.FLAG_NATIVE_METRICS)
     public static synchronized @NonNull Collection<Metrics> getMetrics() {
         List<Metrics> result = new ArrayList<>(numClasses + 1);
         for (NativeAllocationRegistry r : registries.keySet()) {

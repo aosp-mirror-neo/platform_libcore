@@ -27,10 +27,8 @@
 package java.lang;
 
 @SuppressWarnings({"unchecked", "deprecation", "all"})
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public final class MatchException extends java.lang.RuntimeException {
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public MatchException(java.lang.String message, java.lang.Throwable cause) { throw new RuntimeException("Stub!"); }
 }
 

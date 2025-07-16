@@ -81,7 +81,6 @@ public static java.util.concurrent.Executor delayedExecutor(long delay, java.uti
 
 public static java.util.concurrent.Executor delayedExecutor(long delay, java.util.concurrent.TimeUnit unit, java.util.concurrent.Executor executor) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public java.lang.Throwable exceptionNow() { throw new RuntimeException("Stub!"); }
 
 public java.util.concurrent.CompletableFuture<T> exceptionally(java.util.function.Function<java.lang.Throwable,? extends T> fn) { throw new RuntimeException("Stub!"); }
@@ -132,7 +131,6 @@ public void obtrudeValue(T value) { throw new RuntimeException("Stub!"); }
 
 public java.util.concurrent.CompletableFuture<T> orTimeout(long timeout, java.util.concurrent.TimeUnit unit) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public T resultNow() { throw new RuntimeException("Stub!"); }
 
 public java.util.concurrent.CompletableFuture<java.lang.Void> runAfterBoth(java.util.concurrent.CompletionStage<?> other, java.lang.Runnable action) { throw new RuntimeException("Stub!"); }
@@ -151,7 +149,6 @@ public static java.util.concurrent.CompletableFuture<java.lang.Void> runAsync(ja
 
 public static java.util.concurrent.CompletableFuture<java.lang.Void> runAsync(java.lang.Runnable runnable, java.util.concurrent.Executor executor) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public java.util.concurrent.Future.State state() { throw new RuntimeException("Stub!"); }
 
 public static <U> java.util.concurrent.CompletableFuture<U> supplyAsync(java.util.function.Supplier<U> supplier) { throw new RuntimeException("Stub!"); }

@@ -27,7 +27,6 @@
 package java.lang.runtime;
 
 @SuppressWarnings({"unchecked", "deprecation", "all"})
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public class SwitchBootstraps {
 
 SwitchBootstraps() { throw new RuntimeException("Stub!"); }
