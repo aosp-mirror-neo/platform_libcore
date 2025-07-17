@@ -47,7 +47,6 @@ public static <T> java.util.concurrent.ForkJoinTask<T> adapt(java.lang.Runnable 
 
 public static <T> java.util.concurrent.ForkJoinTask<T> adapt(java.util.concurrent.Callable<? extends T> callable) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static <T> java.util.concurrent.ForkJoinTask<T> adaptInterruptible(java.util.concurrent.Callable<? extends T> callable) { throw new RuntimeException("Stub!"); }
 
 public boolean cancel(boolean mayInterruptIfRunning) { throw new RuntimeException("Stub!"); }
@@ -58,7 +57,6 @@ public void complete(V value) { throw new RuntimeException("Stub!"); }
 
 public void completeExceptionally(java.lang.Throwable ex) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public java.lang.Throwable exceptionNow() { throw new RuntimeException("Stub!"); }
 
 protected abstract boolean exec();
@@ -115,22 +113,18 @@ public final void quietlyInvoke() { throw new RuntimeException("Stub!"); }
 
 public final void quietlyJoin() { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public final boolean quietlyJoin(long timeout, java.util.concurrent.TimeUnit unit) throws java.lang.InterruptedException { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public final boolean quietlyJoinUninterruptibly(long timeout, java.util.concurrent.TimeUnit unit) { throw new RuntimeException("Stub!"); }
 
 public void reinitialize() { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public V resultNow() { throw new RuntimeException("Stub!"); }
 
 public final short setForkJoinTaskTag(short newValue) { throw new RuntimeException("Stub!"); }
 
 protected abstract void setRawResult(V value);
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public java.util.concurrent.Future.State state() { throw new RuntimeException("Stub!"); }
 
 public boolean tryUnfork() { throw new RuntimeException("Stub!"); }

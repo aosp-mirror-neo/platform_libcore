@@ -67,7 +67,6 @@ public void put(E e) { throw new RuntimeException("Stub!"); }
 
 public int remainingCapacity() { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public E remove() { throw new RuntimeException("Stub!"); }
 
 public boolean remove(java.lang.Object o) { throw new RuntimeException("Stub!"); }

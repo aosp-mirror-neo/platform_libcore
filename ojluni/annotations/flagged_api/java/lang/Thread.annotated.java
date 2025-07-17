@@ -50,7 +50,6 @@ public Thread(java.lang.ThreadGroup group, java.lang.String name) { throw new Ru
 
 public static int activeCount() { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 @Deprecated
 public final void checkAccess() { throw new RuntimeException("Stub!"); }
 
@@ -68,7 +67,6 @@ public java.lang.ClassLoader getContextClassLoader() { throw new RuntimeExceptio
 
 public static java.lang.Thread.UncaughtExceptionHandler getDefaultUncaughtExceptionHandler() { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 @Deprecated
 public long getId() { throw new RuntimeException("Stub!"); }
 
@@ -96,7 +94,6 @@ public final boolean isDaemon() { throw new RuntimeException("Stub!"); }
 
 public native boolean isInterrupted();
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public final boolean isVirtual() { throw new RuntimeException("Stub!"); }
 
 public final void join() throws java.lang.InterruptedException { throw new RuntimeException("Stub!"); }
@@ -145,7 +142,6 @@ public static java.lang.Thread startVirtualThread(java.lang.Runnable task) { thr
 @Deprecated
 public final void stop() { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public final long threadId() { throw new RuntimeException("Stub!"); }
 
 public java.lang.String toString() { throw new RuntimeException("Stub!"); }

@@ -65,7 +65,6 @@ public void forEach(java.util.function.BiConsumer<? super K,? super V> action) {
 
 public void replaceAll(java.util.function.BiFunction<? super K,? super V,? extends V> function) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static <K, V> java.util.WeakHashMap<K,V> newWeakHashMap(int numMappings) { throw new RuntimeException("Stub!"); }
 }
 

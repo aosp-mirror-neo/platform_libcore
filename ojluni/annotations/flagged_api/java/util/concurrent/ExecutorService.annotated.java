@@ -41,7 +41,6 @@ public interface ExecutorService extends java.lang.AutoCloseable, java.util.conc
 
 public boolean awaitTermination(long timeout, java.util.concurrent.TimeUnit unit) throws java.lang.InterruptedException;
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public default void close() { throw new RuntimeException("Stub!"); }
 
 public <T> java.util.List<java.util.concurrent.Future<T>> invokeAll(java.util.Collection<? extends java.util.concurrent.Callable<T>> tasks) throws java.lang.InterruptedException;

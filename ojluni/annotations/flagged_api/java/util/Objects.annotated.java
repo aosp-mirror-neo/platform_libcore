@@ -67,7 +67,6 @@ public static <T> T requireNonNullElse(T obj, T defaultObj) { throw new RuntimeE
 
 public static <T> T requireNonNullElseGet(T obj, java.util.function.Supplier<? extends T> supplier) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static java.lang.String toIdentityString(java.lang.Object o) { throw new RuntimeException("Stub!"); }
 
 public static java.lang.String toString(java.lang.Object o) { throw new RuntimeException("Stub!"); }

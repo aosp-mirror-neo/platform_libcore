@@ -46,18 +46,14 @@ package java.util;
 public final class Locale implements java.lang.Cloneable, java.io.Serializable {
 
 @Deprecated
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public Locale(java.lang.String language) { throw new RuntimeException("Stub!"); }
 
 @Deprecated
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public Locale(java.lang.String language, java.lang.String country) { throw new RuntimeException("Stub!"); }
 
 @Deprecated
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public Locale(java.lang.String language, java.lang.String country, java.lang.String variant) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static java.util.stream.Stream<java.util.Locale> availableLocales() { throw new RuntimeException("Stub!"); }
 
 public java.lang.Object clone() { throw new RuntimeException("Stub!"); }
@@ -136,13 +132,10 @@ public static java.util.Locale lookup(java.util.List<java.util.Locale.LanguageRa
 
 public static java.lang.String lookupTag(java.util.List<java.util.Locale.LanguageRange> priorityList, java.util.Collection<java.lang.String> tags) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static java.util.Locale of(java.lang.String language) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static java.util.Locale of(java.lang.String language, java.lang.String country) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static java.util.Locale of(java.lang.String language, java.lang.String country, java.lang.String variant) { throw new RuntimeException("Stub!"); }
 
 public static synchronized void setDefault(java.util.Locale newLocale) { throw new RuntimeException("Stub!"); }

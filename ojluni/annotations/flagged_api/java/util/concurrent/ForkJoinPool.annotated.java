@@ -51,7 +51,6 @@ public boolean awaitQuiescence(long timeout, java.util.concurrent.TimeUnit unit)
 
 public boolean awaitTermination(long timeout, java.util.concurrent.TimeUnit unit) throws java.lang.InterruptedException { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public void close() { throw new RuntimeException("Stub!"); }
 
 public static java.util.concurrent.ForkJoinPool commonPool() { throw new RuntimeException("Stub!"); }
@@ -62,7 +61,6 @@ public void execute(java.lang.Runnable task) { throw new RuntimeException("Stub!
 
 public void execute(java.util.concurrent.ForkJoinTask<?> task) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public <T> java.util.concurrent.ForkJoinTask<T> externalSubmit(java.util.concurrent.ForkJoinTask<T> task) { throw new RuntimeException("Stub!"); }
 
 public int getActiveThreadCount() { throw new RuntimeException("Stub!"); }
@@ -107,7 +105,6 @@ public boolean isTerminated() { throw new RuntimeException("Stub!"); }
 
 public boolean isTerminating() { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public <T> java.util.concurrent.ForkJoinTask<T> lazySubmit(java.util.concurrent.ForkJoinTask<T> task) { throw new RuntimeException("Stub!"); }
 
 public static void managedBlock(java.util.concurrent.ForkJoinPool.ManagedBlocker blocker) throws java.lang.InterruptedException { throw new RuntimeException("Stub!"); }
@@ -118,7 +115,6 @@ protected <T> java.util.concurrent.RunnableFuture<T> newTaskFor(java.util.concur
 
 protected java.util.concurrent.ForkJoinTask<?> pollSubmission() { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public int setParallelism(int size) { throw new RuntimeException("Stub!"); }
 
 public void shutdown() { throw new RuntimeException("Stub!"); }

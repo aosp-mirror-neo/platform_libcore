@@ -45,7 +45,6 @@ public int compareTo(java.lang.Integer anotherInteger) { throw new RuntimeExcept
 
 public static int compareUnsigned(int x, int y) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static int compress(int i, int mask) { throw new RuntimeException("Stub!"); }
 
 public static java.lang.Integer decode(java.lang.String nm) throws java.lang.NumberFormatException { throw new RuntimeException("Stub!"); }
@@ -56,7 +55,6 @@ public double doubleValue() { throw new RuntimeException("Stub!"); }
 
 public boolean equals(java.lang.Object obj) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V1_APIS)
 public static int expand(int i, int mask) { throw new RuntimeException("Stub!"); }
 
 public float floatValue() { throw new RuntimeException("Stub!"); }

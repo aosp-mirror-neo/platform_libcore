@@ -27,13 +27,10 @@
 package java.lang.invoke;
 
 @SuppressWarnings({"unchecked", "deprecation", "all"})
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK21_STRINGCONCAT)
 public class StringConcatException extends java.lang.Exception {
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK21_STRINGCONCAT)
 public StringConcatException(java.lang.String msg) { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK21_STRINGCONCAT)
 public StringConcatException(java.lang.String msg, java.lang.Throwable cause) { throw new RuntimeException("Stub!"); }
 }
 
