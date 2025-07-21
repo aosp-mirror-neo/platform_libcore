@@ -1930,32 +1930,19 @@ public class Thread implements Runnable {
      * @see        ThreadGroup#getMaxPriority()
      */
     public final void setPriority(int newPriority) {
-        ThreadGroup g;
         checkAccess();
         if (newPriority > MAX_PRIORITY || newPriority < MIN_PRIORITY) {
             // Android-changed: Improve exception message when the new priority is out of bounds.
             throw new IllegalArgumentException("Priority out of range: " + newPriority);
         }
-        if((g = getThreadGroup()) != null) {
-            if (newPriority > g.getMaxPriority()) {
-                newPriority = g.getMaxPriority();
-            }
-            // Android-changed: Avoid native call if Thread is not yet started.
-            // Pass both priority and niceness, since S workaround requires priority, otherwise we
-            // need niceness.
-            // was: setPriority0(priority = newPriority);
-            synchronized(this) {
-                priority = newPriority;  // Ignored by us if already started.
-                niceness = nicenessForPriority(newPriority);
-                if (isAlive()) {
-                    setPriority0(newPriority, niceness);
-                }
-            }
+        if (!isVirtual()) {
+            priority(newPriority);
         }
     }
 
     void priority(int newPriority) {
-        ThreadGroup g = group;
+        // Android-changed:  Use getThreadGroup() to workaround exit() not being called.
+        ThreadGroup g = getThreadGroup();
         if (g != null) {
             int maxPriority = g.getMaxPriority();
             if (newPriority > maxPriority) {
