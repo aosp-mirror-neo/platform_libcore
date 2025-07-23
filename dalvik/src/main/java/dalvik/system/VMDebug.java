@@ -664,7 +664,7 @@ public final class VMDebug {
     public static native long[] countInstancesOfClasses(Class[] classes, boolean assignable);
 
     /* Map from the names of the runtime stats supported by getRuntimeStat() to their IDs */
-    private static final HashMap<String, Integer> runtimeStatsMap = new HashMap<>();
+    private static final HashMap<String, Integer> runtimeStatsMap = HashMap.newHashMap(11);
 
     static {
         runtimeStatsMap.put("art.gc.gc-count", 0);
