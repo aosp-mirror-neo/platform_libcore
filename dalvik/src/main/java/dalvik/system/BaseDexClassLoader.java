@@ -184,7 +184,7 @@ public class BaseDexClassLoader extends ClassLoader {
             return;
         }
         Map<String, String> dexFileMapping =
-                new HashMap<>(classPathAndClassLoaderContexts.length / 2);
+                HashMap.newHashMap(classPathAndClassLoaderContexts.length / 2);
         for (int i = 0; i < classPathAndClassLoaderContexts.length; i += 2) {
             dexFileMapping.put(classPathAndClassLoaderContexts[i],
                     classPathAndClassLoaderContexts[i + 1]);
