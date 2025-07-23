@@ -31,7 +31,7 @@ public final class Types {
     // Holds a mapping from Java type names to native type codes.
     private static final Map<Class<?>, String> PRIMITIVE_TO_SIGNATURE;
     static {
-        PRIMITIVE_TO_SIGNATURE = new HashMap<Class<?>, String>(9);
+        PRIMITIVE_TO_SIGNATURE = HashMap.newHashMap(9);
         PRIMITIVE_TO_SIGNATURE.put(byte.class, "B");
         PRIMITIVE_TO_SIGNATURE.put(char.class, "C");
         PRIMITIVE_TO_SIGNATURE.put(short.class, "S");
