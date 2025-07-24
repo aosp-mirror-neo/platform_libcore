@@ -18200,6 +18200,7 @@ package java.util.random {
     method public default java.util.stream.DoubleStream doubles(double, double);
     method public default java.util.stream.DoubleStream doubles(long);
     method public default java.util.stream.DoubleStream doubles(long, double, double);
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public default java.util.stream.DoubleStream equiDoubles(double, double, boolean, boolean);
     method public static java.util.random.RandomGenerator getDefault();
     method public default java.util.stream.IntStream ints();
     method public default java.util.stream.IntStream ints(int, int);
