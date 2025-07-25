@@ -211,6 +211,8 @@ public class Thread implements Runnable {
     private volatile int niceness;
 
     private int priority;  // Only for reading via reflection and for unstarted threads. Avoid.
+                           // Once there is no need for reflective access, and we no longer need
+                           // S compatibility, remove.
 
     // cachedPriorityForNiceness[n + PFN_INDEX_OFFSET] = 0 or Java priority for niceness n.
     private static final byte[] cachedPriorityForNiceness = new byte[40];
@@ -1990,9 +1992,8 @@ public class Thread implements Runnable {
      */
     public final int setPosixNicenessInternal(int newNiceness) {
         synchronized(this) {
-            this.niceness = newNiceness;
-            // Don't bother setting priority field here; it's only for backward compatibility, and
-            // historically we didn't set priority in this case.
+            niceness = newNiceness;
+            priority = cachingPriorityForNiceness(newNiceness);
             if (isAlive()) {
                 return setNiceness0(newNiceness);
             }
