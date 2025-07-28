@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021, 2024, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -26,15 +26,8 @@
 
 package java.util.random;
 
-
 @SuppressWarnings({"unchecked", "deprecation", "all"})
 public interface RandomGenerator {
-
-public static java.util.random.RandomGenerator of(java.lang.String name) { throw new RuntimeException("Stub!"); }
-
-public static java.util.random.RandomGenerator getDefault() { throw new RuntimeException("Stub!"); }
-
-public default boolean isDeprecated() { throw new RuntimeException("Stub!"); }
 
 public default java.util.stream.DoubleStream doubles() { throw new RuntimeException("Stub!"); }
 
@@ -44,6 +37,11 @@ public default java.util.stream.DoubleStream doubles(long streamSize) { throw ne
 
 public default java.util.stream.DoubleStream doubles(long streamSize, double randomNumberOrigin, double randomNumberBound) { throw new RuntimeException("Stub!"); }
 
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_25_V1_APIS)
+public default java.util.stream.DoubleStream equiDoubles(double left, double right, boolean isLeftIncluded, boolean isRightIncluded) { throw new RuntimeException("Stub!"); }
+
+public static java.util.random.RandomGenerator getDefault() { throw new RuntimeException("Stub!"); }
+
 public default java.util.stream.IntStream ints() { throw new RuntimeException("Stub!"); }
 
 public default java.util.stream.IntStream ints(int randomNumberOrigin, int randomNumberBound) { throw new RuntimeException("Stub!"); }
@@ -52,11 +50,13 @@ public default java.util.stream.IntStream ints(long streamSize) { throw new Runt
 
 public default java.util.stream.IntStream ints(long streamSize, int randomNumberOrigin, int randomNumberBound) { throw new RuntimeException("Stub!"); }
 
+public default boolean isDeprecated() { throw new RuntimeException("Stub!"); }
+
 public default java.util.stream.LongStream longs() { throw new RuntimeException("Stub!"); }
 
-public default java.util.stream.LongStream longs(long randomNumberOrigin, long randomNumberBound) { throw new RuntimeException("Stub!"); }
-
 public default java.util.stream.LongStream longs(long streamSize) { throw new RuntimeException("Stub!"); }
+
+public default java.util.stream.LongStream longs(long randomNumberOrigin, long randomNumberBound) { throw new RuntimeException("Stub!"); }
 
 public default java.util.stream.LongStream longs(long streamSize, long randomNumberOrigin, long randomNumberBound) { throw new RuntimeException("Stub!"); }
 
@@ -64,17 +64,23 @@ public default boolean nextBoolean() { throw new RuntimeException("Stub!"); }
 
 public default void nextBytes(byte[] bytes) { throw new RuntimeException("Stub!"); }
 
+public default double nextDouble() { throw new RuntimeException("Stub!"); }
+
+public default double nextDouble(double bound) { throw new RuntimeException("Stub!"); }
+
+public default double nextDouble(double origin, double bound) { throw new RuntimeException("Stub!"); }
+
+public default double nextExponential() { throw new RuntimeException("Stub!"); }
+
 public default float nextFloat() { throw new RuntimeException("Stub!"); }
 
 public default float nextFloat(float bound) { throw new RuntimeException("Stub!"); }
 
 public default float nextFloat(float origin, float bound) { throw new RuntimeException("Stub!"); }
 
-public default double nextDouble() { throw new RuntimeException("Stub!"); }
+public default double nextGaussian() { throw new RuntimeException("Stub!"); }
 
-public default double nextDouble(double bound) { throw new RuntimeException("Stub!"); }
-
-public default double nextDouble(double origin, double bound) { throw new RuntimeException("Stub!"); }
+public default double nextGaussian(double mean, double stddev) { throw new RuntimeException("Stub!"); }
 
 public default int nextInt() { throw new RuntimeException("Stub!"); }
 
@@ -88,24 +94,19 @@ public default long nextLong(long bound) { throw new RuntimeException("Stub!"); 
 
 public default long nextLong(long origin, long bound) { throw new RuntimeException("Stub!"); }
 
-public default double nextGaussian() { throw new RuntimeException("Stub!"); }
-
-public default double nextGaussian(double mean, double stddev) { throw new RuntimeException("Stub!"); }
-
-public default double nextExponential() { throw new RuntimeException("Stub!"); }
+public static java.util.random.RandomGenerator of(java.lang.String name) { throw new RuntimeException("Stub!"); }
 @SuppressWarnings({"unchecked", "deprecation", "all"})
-
 public static interface ArbitrarilyJumpableGenerator extends java.util.random.RandomGenerator.LeapableGenerator {
-
-public static java.util.random.RandomGenerator.ArbitrarilyJumpableGenerator of(java.lang.String name) { throw new RuntimeException("Stub!"); }
 
 public java.util.random.RandomGenerator.ArbitrarilyJumpableGenerator copy();
 
-public void jumpPowerOfTwo(int logDistance);
+public default java.util.random.RandomGenerator.ArbitrarilyJumpableGenerator copyAndJump(double distance) { throw new RuntimeException("Stub!"); }
+
+public default void jump() { throw new RuntimeException("Stub!"); }
 
 public void jump(double distance);
 
-public default void jump() { throw new RuntimeException("Stub!"); }
+public void jumpPowerOfTwo(int logDistance);
 
 public default java.util.stream.Stream<java.util.random.RandomGenerator.ArbitrarilyJumpableGenerator> jumps(double distance) { throw new RuntimeException("Stub!"); }
 
@@ -113,16 +114,15 @@ public default java.util.stream.Stream<java.util.random.RandomGenerator.Arbitrar
 
 public default void leap() { throw new RuntimeException("Stub!"); }
 
-public default java.util.random.RandomGenerator.ArbitrarilyJumpableGenerator copyAndJump(double distance) { throw new RuntimeException("Stub!"); }
+public static java.util.random.RandomGenerator.ArbitrarilyJumpableGenerator of(java.lang.String name) { throw new RuntimeException("Stub!"); }
 }
 
 @SuppressWarnings({"unchecked", "deprecation", "all"})
-
 public static interface JumpableGenerator extends java.util.random.RandomGenerator.StreamableGenerator {
 
-public static java.util.random.RandomGenerator.JumpableGenerator of(java.lang.String name) { throw new RuntimeException("Stub!"); }
-
 public java.util.random.RandomGenerator.JumpableGenerator copy();
+
+public default java.util.random.RandomGenerator copyAndJump() { throw new RuntimeException("Stub!"); }
 
 public void jump();
 
@@ -132,20 +132,19 @@ public default java.util.stream.Stream<java.util.random.RandomGenerator> jumps()
 
 public default java.util.stream.Stream<java.util.random.RandomGenerator> jumps(long streamSize) { throw new RuntimeException("Stub!"); }
 
+public static java.util.random.RandomGenerator.JumpableGenerator of(java.lang.String name) { throw new RuntimeException("Stub!"); }
+
 public default java.util.stream.Stream<java.util.random.RandomGenerator> rngs() { throw new RuntimeException("Stub!"); }
 
 public default java.util.stream.Stream<java.util.random.RandomGenerator> rngs(long streamSize) { throw new RuntimeException("Stub!"); }
-
-public default java.util.random.RandomGenerator copyAndJump() { throw new RuntimeException("Stub!"); }
 }
 
 @SuppressWarnings({"unchecked", "deprecation", "all"})
-
 public static interface LeapableGenerator extends java.util.random.RandomGenerator.JumpableGenerator {
 
-public static java.util.random.RandomGenerator.LeapableGenerator of(java.lang.String name) { throw new RuntimeException("Stub!"); }
-
 public java.util.random.RandomGenerator.LeapableGenerator copy();
+
+public default java.util.random.RandomGenerator.JumpableGenerator copyAndLeap() { throw new RuntimeException("Stub!"); }
 
 public void leap();
 
@@ -155,14 +154,17 @@ public default java.util.stream.Stream<java.util.random.RandomGenerator.Jumpable
 
 public default java.util.stream.Stream<java.util.random.RandomGenerator.JumpableGenerator> leaps(long streamSize) { throw new RuntimeException("Stub!"); }
 
-public default java.util.random.RandomGenerator.JumpableGenerator copyAndLeap() { throw new RuntimeException("Stub!"); }
+public static java.util.random.RandomGenerator.LeapableGenerator of(java.lang.String name) { throw new RuntimeException("Stub!"); }
 }
 
 @SuppressWarnings({"unchecked", "deprecation", "all"})
-
 public static interface SplittableGenerator extends java.util.random.RandomGenerator.StreamableGenerator {
 
 public static java.util.random.RandomGenerator.SplittableGenerator of(java.lang.String name) { throw new RuntimeException("Stub!"); }
+
+public default java.util.stream.Stream<java.util.random.RandomGenerator> rngs() { throw new RuntimeException("Stub!"); }
+
+public default java.util.stream.Stream<java.util.random.RandomGenerator> rngs(long streamSize) { throw new RuntimeException("Stub!"); }
 
 public java.util.random.RandomGenerator.SplittableGenerator split();
 
@@ -170,19 +172,14 @@ public java.util.random.RandomGenerator.SplittableGenerator split(java.util.rand
 
 public default java.util.stream.Stream<java.util.random.RandomGenerator.SplittableGenerator> splits() { throw new RuntimeException("Stub!"); }
 
-public java.util.stream.Stream<java.util.random.RandomGenerator.SplittableGenerator> splits(long streamSize);
-
 public java.util.stream.Stream<java.util.random.RandomGenerator.SplittableGenerator> splits(java.util.random.RandomGenerator.SplittableGenerator source);
 
+public java.util.stream.Stream<java.util.random.RandomGenerator.SplittableGenerator> splits(long streamSize);
+
 public java.util.stream.Stream<java.util.random.RandomGenerator.SplittableGenerator> splits(long streamSize, java.util.random.RandomGenerator.SplittableGenerator source);
-
-public default java.util.stream.Stream<java.util.random.RandomGenerator> rngs() { throw new RuntimeException("Stub!"); }
-
-public default java.util.stream.Stream<java.util.random.RandomGenerator> rngs(long streamSize) { throw new RuntimeException("Stub!"); }
 }
 
 @SuppressWarnings({"unchecked", "deprecation", "all"})
-
 public static interface StreamableGenerator extends java.util.random.RandomGenerator {
 
 public static java.util.random.RandomGenerator.StreamableGenerator of(java.lang.String name) { throw new RuntimeException("Stub!"); }
