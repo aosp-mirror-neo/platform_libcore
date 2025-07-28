@@ -230,7 +230,9 @@ public final class Objects {
     @ForceInline
     public static <T> T requireNonNull(T obj) {
         if (obj == null)
-            throw new NullPointerException();
+            // Android-changed: outlined throw (b/434769547)
+            // throw new NullPointerException();
+            throwNullPointerException();
         return obj;
     }
 
@@ -256,7 +258,9 @@ public final class Objects {
     @ForceInline
     public static <T> T requireNonNull(T obj, String message) {
         if (obj == null)
-            throw new NullPointerException(message);
+            // Android-changed: outlined throw (b/434769547)
+            // throw new NullPointerException(message);
+            throwNullPointerException(message);
         return obj;
     }
 
@@ -356,8 +360,10 @@ public final class Objects {
      */
     public static <T> T requireNonNull(T obj, Supplier<String> messageSupplier) {
         if (obj == null)
-            throw new NullPointerException(messageSupplier == null ?
-                                           null : messageSupplier.get());
+            // Android-changed: outlined throw (b/434769547)
+            // throw new NullPointerException(messageSupplier == null ?
+            //                                null : messageSupplier.get());
+            throwNullPointerException(messageSupplier);
         return obj;
     }
 
@@ -512,4 +518,18 @@ public final class Objects {
     long checkFromIndexSize(long fromIndex, long size, long length) {
         return Preconditions.checkFromIndexSize(fromIndex, size, length, null);
     }
+
+    // BEGIN Android-added: outlined throws (b/434769547)
+    private static void throwNullPointerException() {
+        throw new NullPointerException();
+    }
+
+    private static void throwNullPointerException(String message) {
+        throw new NullPointerException(message);
+    }
+
+    private static void throwNullPointerException(Supplier<String> messageSupplier) {
+        throw new NullPointerException(messageSupplier == null ? null : messageSupplier.get());
+    }
+    // END Android-added: outlined throws (b/434769547)
 }
