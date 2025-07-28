@@ -1212,7 +1212,7 @@ ojluni/src/main/java/java/util/prefs/Preferences.java,jdk8u/jdk8u121-b13,jdk/src
 ojluni/src/main/java/java/util/prefs/PreferencesFactory.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/java/util/prefs/PreferencesFactory.java
 ojluni/src/main/java/java/util/prefs/XmlSupport.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/java/util/prefs/XmlSupport.java
 ojluni/src/main/java/java/util/prefs/package-info.java,jdk21u/jdk-21.0.6-ga,src/java.prefs/share/classes/java/util/prefs/package-info.java
-ojluni/src/main/java/java/util/random/RandomGenerator.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/util/random/RandomGenerator.java
+ojluni/src/main/java/java/util/random/RandomGenerator.java,jdk/jdk-25+26,src/java.base/share/classes/java/util/random/RandomGenerator.java
 ojluni/src/main/java/java/util/random/RandomGeneratorFactory.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/util/random/RandomGeneratorFactory.java
 ojluni/src/main/java/java/util/random/package-info.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/util/random/package-info.java
 ojluni/src/main/java/java/util/regex/ASCII.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/util/regex/ASCII.java
@@ -2627,6 +2627,7 @@ ojluni/src/test/java/util/Properties/testData2,jdk21u/jdk-21.0.6-ga,test/jdk/jav
 ojluni/src/test/java/util/Properties/testData2.dos,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/Properties/testData2.dos
 ojluni/src/test/java/util/Properties/testData3.dos,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/Properties/testData3.dos
 ojluni/src/test/java/util/Random/DistinctSeeds.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/Random/DistinctSeeds.java
+ojluni/src/test/java/util/Random/EquiDoublesTest.java,jdk/jdk-25+26,test/jdk/java/util/Random/EquiDoublesTest.java
 ojluni/src/test/java/util/Random/NextBytes.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/Random/NextBytes.java
 ojluni/src/test/java/util/Random/NextIntPowerOfTwoMod.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/Random/NextIntPowerOfTwoMod.java
 ojluni/src/test/java/util/Random/RandomCanaryPi.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/Random/RandomCanaryPi.java
