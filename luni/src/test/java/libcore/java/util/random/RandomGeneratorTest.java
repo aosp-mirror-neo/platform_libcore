@@ -18,6 +18,10 @@ package libcore.java.util.random;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
+import static java.lang.Double.NEGATIVE_INFINITY;
+import static java.lang.Double.POSITIVE_INFINITY;
+import static java.lang.Double.NaN;
+
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,4 +70,46 @@ public class RandomGeneratorTest {
             () -> RandomGenerator.StreamableGenerator.of(null));
     }
 
+    @Test
+    public void equiDoubles_with_infinite_boundaries_throws_IAE() {
+        RandomGenerator randomGenerator = RandomGenerator.getDefault();
+        double testBound = 1516.1156165165165;
+
+        assertThrows(IllegalArgumentException.class,
+                () -> randomGenerator.equiDoubles(
+                        NEGATIVE_INFINITY,
+                        testBound,
+                        true,
+                        false));
+        assertThrows(IllegalArgumentException.class,
+                () -> randomGenerator.equiDoubles(
+                        testBound,
+                        POSITIVE_INFINITY,
+                        true,
+                        true));
+        assertThrows(IllegalArgumentException.class,
+                () -> randomGenerator.equiDoubles(
+                        NEGATIVE_INFINITY,
+                        POSITIVE_INFINITY,
+                        true,
+                        true));
+        assertThrows(IllegalArgumentException.class,
+                () -> randomGenerator.equiDoubles(
+                        POSITIVE_INFINITY,
+                        NEGATIVE_INFINITY,
+                        true,
+                        true));
+    }
+
+    @Test
+    public void equiDoubles_with_NaN_boundaries_throws_IAE() {
+        RandomGenerator randomGenerator = RandomGenerator.getDefault();
+
+        assertThrows(IllegalArgumentException.class,
+                () -> randomGenerator.equiDoubles(
+                        NaN,
+                        NaN,
+                        true,
+                        true));
+    }
 }
