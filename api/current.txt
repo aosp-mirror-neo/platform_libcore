@@ -4707,6 +4707,13 @@ package java.lang {
     field public static final Class<java.lang.Void> TYPE;
   }
 
+  @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public final class WrongThreadException extends java.lang.RuntimeException {
+    ctor public WrongThreadException();
+    ctor public WrongThreadException(String);
+    ctor public WrongThreadException(String, Throwable);
+    ctor public WrongThreadException(Throwable);
+  }
+
 }
 
 package java.lang.annotation {

@@ -259,6 +259,7 @@ filegroup {
         "ojluni/src/main/java/java/lang/VerifyError.java",
         "ojluni/src/main/java/java/lang/VirtualMachineError.java",
         "ojluni/src/main/java/java/lang/Void.java",
+        "ojluni/src/main/java/java/lang/WrongThreadException.java",
         "ojluni/src/main/java/java/lang/invoke/LambdaConversionException.java",
         "ojluni/src/main/java/java/lang/invoke/CallSite.java",
         "ojluni/src/main/java/java/lang/invoke/ConstantCallSite.java",
@@ -1518,7 +1519,6 @@ filegroup {
         "ojluni/src/main/java/java/lang/StringUTF16.java",
         "ojluni/src/main/java/java/lang/ThreadBuilders.java",
         "ojluni/src/main/java/java/lang/VirtualThread.java",
-        "ojluni/src/main/java/java/lang/WrongThreadException.java",
         // Hide the java.lang.constant APIs until master switches away from Android UDC. b/270028670
         "ojluni/src/main/java/java/lang/invoke/ConstantBootstraps.java",
         "ojluni/src/main/java/java/lang/constant/AsTypeMethodHandleDesc.java",
