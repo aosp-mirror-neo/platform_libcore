@@ -73,5 +73,17 @@ public final class FileLockTest {
                 assertTrue(strLock.contains("invalid"));
             }
         }
+
+        try(FileInputStream fis = new FileInputStream(tmp)) {
+            try(FileChannel fc = fis.getChannel()) {
+                FileLock lock = fc.lock(0, 42, true);
+                String strLock = lock.toString();
+                assertFalse(strLock.contains("invalid"));
+
+                lock.close();
+                strLock = lock.toString();
+                assertTrue(strLock.contains("invalid"));
+            }
+        }
     }
 }
