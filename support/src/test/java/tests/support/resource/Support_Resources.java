@@ -81,6 +81,13 @@ public class Support_Resources {
     }
 
     public static File createTempFolder() {
+        // Attempt to fix this test flakiness. http://b/435916460
+        // If this `tmpdir.mkdirs()` call fix the test flakiness, the root cause is likely
+        // hidden in other tests which removes the tmpdir by mistake.
+        File tmpdir = new File(System.getProperty("java.io.tmpdir", "."));
+        if (!tmpdir.exists()) {
+            tmpdir.mkdirs();
+        }
 
         File folder = null;
         try {
