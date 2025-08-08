@@ -284,14 +284,27 @@ public final class CloseGuard {
         // stack trace creation when explicit callsite is passed in for better performance.
         Tracker tracker = currentTracker;
         if (callsite == null || tracker != null) {
-            String message = "Explicit termination method '" + closer + "' not called";
-            Throwable stack = new Throwable(message);
+            Throwable stack = new CloseGuardException(closer);
             closerNameOrAllocationInfo = stack;
             if (tracker != null) {
                 tracker.open(stack);
             }
         } else {
             closerNameOrAllocationInfo = callsite;
+        }
+    }
+
+    private static final class CloseGuardException extends Exception {
+        public CloseGuardException(String message) {
+            super(message);
+        }
+
+        @Override
+        public String getMessage() {
+            // Defer the cost of the String message until printing this exception.
+            // See http://b/398168714#comment8
+            String closer = super.getMessage();
+            return "Explicit termination method '" + closer + "' not called";
         }
     }
 
