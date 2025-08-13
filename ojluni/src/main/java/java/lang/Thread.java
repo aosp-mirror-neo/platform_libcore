@@ -197,22 +197,16 @@ public class Thread implements Runnable {
 
     private volatile String name;
 
-    // Android-changed: Cache Posix niceness in addition to Java thread priority.
-    // The setpriority() call sets both. We have Android-specific means to set the latter.
-    // They differ in two ways:
-    //  1. They use a different scale: 19 .. -20 vs 1 .. 10. Not all Linux niceness values can
-    //    be set via setPriority().
-    //  2. Priority values are inherited by child threads. Niceness values are reset as implied
-    //    by the current priority value in Java-created children.
-    // Whenever we set the actual OS-level priority. it is set to the current niceness value.
-    // The thread itself can restore the OS priority without synchronization by
-    //  1. reading niceness.
+    // Android-changed: Cache Posix niceness instead of managed thread priority.
+    // Set before we actually change the priority. Thus the thread itself can restore the OS
+    // priority without synchronization by
+    //  1. reading niceness
     //  2. Calling Posix setpriority on the result
     //  3. re-reading niceness and repeating if it changed in the interim.
     //  If niceness was changed by another thread before the last step, we restore that value.
     //  If it is changed after that, the Java.setPriority() call will do the right thing.
-    // For this to work, we need to ensure, among other things, that a Posix setpriority call and
-    // a subsequent read of niceness are not reordered. Such guarantees are generally unclear; we
+    // For this to work, we need to ensure, among other things, that a setpriority call and a
+    // subsequent read of niceness are not reordered. Such guarantees are generally unclear; we
     // assume that consistently treating niceness as Java `volatile` / C++ `seq_cst` suffices.
     private volatile int niceness;
 
@@ -864,11 +858,8 @@ public class Thread implements Runnable {
 
         this.group = g;
         this.daemon = parent.isDaemon();
+        this.niceness = parent.getPosixNicenessInternal();
         this.priority = parent.priority;
-        // niceness is not inherited from the parent, but is used to set the actual OS priority.
-        // Reset it to correspond to priority.
-        this.niceness = nicenessForPriority(this.priority);
-
         // Android-changed: Moved into init2(Thread, boolean) helper method.
         /*
         if (security == null || isCCLOverridden(parent.getClass()))
@@ -1106,7 +1097,7 @@ public class Thread implements Runnable {
 
     // BEGIN Android-added: Private constructor - used by the runtime.
     /** @hide */
-    Thread(ThreadGroup group, String name, int priority, boolean daemon) {
+    Thread(ThreadGroup group, String name, int niceness, boolean daemon) {
         this.group = group;
         this.group.addUnstarted();
         // Must be tolerant of threads without a name.
@@ -1119,8 +1110,8 @@ public class Thread implements Runnable {
         // undesirable to clobber their natively set name.
         this.name = name;
 
-        this.priority = priority;
-        this.niceness = nicenessForPriority(priority);
+        this.niceness = niceness;
+        this.priority = cachingPriorityForNiceness(niceness);
         this.daemon = daemon;
         init2(currentThread(), true);
         this.stackSize = 0;
@@ -1985,9 +1976,8 @@ public class Thread implements Runnable {
      */
     public final int setPosixNicenessInternal(int newNiceness) {
         synchronized(this) {
-            this.niceness = newNiceness;
-            // We do not set the priority field here, since the effect should not be inherited
-            // by children.
+            niceness = newNiceness;
+            priority = cachingPriorityForNiceness(newNiceness);
             if (isAlive()) {
                 return setNiceness0(newNiceness);
             }
@@ -2020,9 +2010,8 @@ public class Thread implements Runnable {
         if (isVirtual()) {
             return Thread.NORM_PRIORITY;
         } else {
-            // We return the inheritable priority, even if it does not match niceness.
-            // Either option can be confusing, and this matches historical behavior.
-            return priority;
+            // Android-changed: Convert from stored niceness.
+            return cachingPriorityForNiceness(niceness);
         }
     }
 
