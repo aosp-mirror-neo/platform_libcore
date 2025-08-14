@@ -126,7 +126,7 @@ public final class Daemons {
                 // We don't set the priority before the Thread.start() call above because
                 // Thread.start() will call SetNativePriority and overwrite the desired native
                 // priority. We (may) use a native priority that doesn't have a corresponding
-                // java.lang.Thread-level priority (native priorities are more coarse-grained.)
+                // java.lang.Thread-level priority (Java priorities are more coarse-grained.)
                 Thread.currentThread().setPosixNicenessInternal(
                     VMRuntime.getRuntime().getSystemDaemonNiceness());
             }
@@ -135,8 +135,7 @@ public final class Daemons {
                 runInternal();
                 // This thread is about to exit, and we may have to wait for it to do so.
                 // Terminate the underlying system thread as quickly as possible.
-                // Mirroring setSystemDaemonThreadPriority, we only touch the native priority,
-                // bypassing the rest of setPriority().
+                // Mirroring the above, we only touch niceness. not Java priority.
                 Thread.currentThread().setPosixNicenessInternal(MIN_NICENESS);
             } catch (Throwable ex) {
                 // Usually caught in runInternal. May not o.w. get reported, e.g. in zygote.
