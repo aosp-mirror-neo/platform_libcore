@@ -1154,7 +1154,7 @@ public final class VMRuntime {
      * class loader hierarchy (including each ClassLoader's classpath) used to load a dex file.
      *
      * @param encodedClassLoaderContext the class loader context to analyze
-     * @throws NullPointerException if {@code encodedClassLoaderContext is null.
+     * @throws NullPointerException if {@code encodedClassLoaderContext} is null.
      * @return {@code true} if {@code encodedClassLoaderContext} is a non-null valid encoded class
      *         loader context.
      *
