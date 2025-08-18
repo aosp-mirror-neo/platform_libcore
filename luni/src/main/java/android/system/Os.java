@@ -330,7 +330,7 @@ public final class Os {
 
     /**
      * Gets {@link OsConstants#SO_LINGER} option for the socket referred to by the file descriptor {@code fd}.
-     * When enabled, a {@link close(FileDescriptor) or {@link shutdown(FileDescriptor, int)} will
+     * When enabled, a {@link close(FileDescriptor)} or {@link shutdown(FileDescriptor, int)} will
      * not return until all queued messages for the socket have been successfully sent or the
      * linger timeout has been reached. Otherwise, the call returns immediately and the closing is
      * done in the background.
