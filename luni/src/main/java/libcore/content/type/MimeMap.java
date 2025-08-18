@@ -169,7 +169,7 @@ public final class MimeMap {
     /**
      * Returns whether given case insensetive MIME type is mapped to a file extension.
      *
-     * @param mimeType A MIME type (i.e. {@code "text/plain")
+     * @param mimeType A MIME type (i.e. {@code "text/plain"})
      * @return Whether the given case insensitive MIME type is
      *         {@link #guessMimeTypeFromExtension(String) mapped} to a file extension.
      *
