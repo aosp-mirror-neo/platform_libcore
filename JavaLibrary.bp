@@ -331,6 +331,7 @@ java_system_modules {
         "//frameworks/libs/modules-utils/java",
         "//libcore:__subpackages__",
         "//tools/platform-compat/java/android/compat/annotation",
+        "//packages/modules/Virtualization/libs/framework-virtualization",
     ],
 
     libs: ["core-all"],
