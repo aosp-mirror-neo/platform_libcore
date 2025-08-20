@@ -31,8 +31,12 @@ import java.lang.foreign.MemorySegment.Scope;
 public final class ArenaImpl implements Arena {
 
     private final MemorySessionImpl session;
+    private final boolean shouldReserveMemory;
     ArenaImpl(MemorySessionImpl session) {
         this.session = session;
+        // Android-changed: No reserving of memory in Android.
+        // shouldReserveMemory = session instanceof ImplicitSession;
+        shouldReserveMemory = false;
     }
 
     @Override
@@ -45,8 +49,12 @@ public final class ArenaImpl implements Arena {
         session.close();
     }
 
+    public NativeMemorySegmentImpl allocateNoInit(long byteSize, long byteAlignment) {
+        return SegmentFactories.allocateNativeSegment(byteSize, byteAlignment, session, shouldReserveMemory, false);
+    }
+
     @Override
     public NativeMemorySegmentImpl allocate(long byteSize, long byteAlignment) {
-        return SegmentFactories.allocateNativeSegment(byteSize, byteAlignment, session, false, true);
+        return SegmentFactories.allocateNativeSegment(byteSize, byteAlignment, session, shouldReserveMemory, true);
     }
 }

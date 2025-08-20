@@ -25,8 +25,6 @@
 
 package jdk.internal.foreign;
 
-
-
 import jdk.internal.vm.annotation.ForceInline;
 
 /**
@@ -62,5 +60,35 @@ non-sealed class GlobalSession extends MemorySessionImpl {
     public void justClose() {
         throw nonCloseable();
     }
+    //BEGIN Android-removed: Not used in Android.
+    /*
+    /**
+     * This is a global session that wraps a heap object. Possible objects are: Java arrays, buffers and
+     * class loaders. Objects of two heap sessions are compared by identity. That is, if the wrapped object is the same,
+     * then the resulting heap sessions are also considered equals. We do not compare the objects using
+     * {@link Object#equals(Object)}, as that would be problematic when comparing buffers, whose equality and
+     * hash codes are content-dependent.
+     * /
+    static class HeapSession extends GlobalSession {
 
+        final Object ref;
+
+        public HeapSession(Object ref) {
+            super();
+            this.ref = Objects.requireNonNull(ref);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof HeapSession session &&
+                    ref == session.ref;
+        }
+
+        @Override
+        public int hashCode() {
+            return System.identityHashCode(ref);
+        }
+    }
+    */
+    // END Android-removed: Not used in Android.
 }

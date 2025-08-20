@@ -30,7 +30,6 @@ import java.lang.foreign.MemorySegment;
 import jdk.internal.misc.Unsafe;
 import jdk.internal.misc.VM;
 import jdk.internal.vm.annotation.ForceInline;
-import jdk.internal.vm.annotation.IntrinsicCandidate;
 
 /**
  * This class is used to retrieve concrete memory segment implementations, while making sure that classes
@@ -47,6 +46,7 @@ public class SegmentFactories {
 
     // Unsafe native segment factories. These are used by the implementation code, to skip the sanity checks
     // associated with MemorySegment::ofAddress.
+
     @ForceInline
     public static NativeMemorySegmentImpl makeNativeSegmentUnchecked(long min, long byteSize,
                                                                      MemorySessionImpl sessionImpl,
@@ -60,12 +60,119 @@ public class SegmentFactories {
         return new NativeMemorySegmentImpl(min, byteSize, readOnly, sessionImpl);
     }
 
+    // BEGIN Android-removed: Not used in Android.
+    /*
+    @ForceInline
+    public static NativeMemorySegmentImpl makeNativeSegmentUnchecked(long min, long byteSize, MemorySessionImpl sessionImpl) {
+        ensureInitialized();
+        sessionImpl.checkValidState();
+        return new NativeMemorySegmentImpl(min, byteSize, false, sessionImpl);
+    }
+    */
+    // END Android-removed: Not used in Android.
 
     @ForceInline
     public static NativeMemorySegmentImpl makeNativeSegmentUnchecked(long min, long byteSize) {
         ensureInitialized();
         return new NativeMemorySegmentImpl(min, byteSize, false, MemorySessionImpl.GLOBAL_SESSION);
     }
+    // BEGIN Android-removed: Not used in Android.
+    /*
+    public static OfByte fromArray(byte[] arr) {
+        ensureInitialized();
+        Objects.requireNonNull(arr);
+        long byteSize = (long)arr.length * Utils.BaseAndScale.BYTE.scale();
+        return new OfByte(Utils.BaseAndScale.BYTE.base(), arr, byteSize, false,
+                MemorySessionImpl.createHeap(arr));
+    }
+
+    public static OfShort fromArray(short[] arr) {
+        ensureInitialized();
+        Objects.requireNonNull(arr);
+        long byteSize = (long)arr.length * Utils.BaseAndScale.SHORT.scale();
+        return new OfShort(Utils.BaseAndScale.SHORT.base(), arr, byteSize, false,
+                MemorySessionImpl.createHeap(arr));
+    }
+
+    public static OfInt fromArray(int[] arr) {
+        ensureInitialized();
+        Objects.requireNonNull(arr);
+        long byteSize = (long)arr.length * Utils.BaseAndScale.INT.scale();
+        return new OfInt(Utils.BaseAndScale.INT.base(), arr, byteSize, false,
+                MemorySessionImpl.createHeap(arr));
+    }
+
+    public static OfChar fromArray(char[] arr) {
+        ensureInitialized();
+        Objects.requireNonNull(arr);
+        long byteSize = (long)arr.length * Utils.BaseAndScale.CHAR.scale();
+        return new OfChar(Utils.BaseAndScale.CHAR.base(), arr, byteSize, false,
+                MemorySessionImpl.createHeap(arr));
+    }
+
+    public static OfFloat fromArray(float[] arr) {
+        ensureInitialized();
+        Objects.requireNonNull(arr);
+        long byteSize = (long)arr.length * Utils.BaseAndScale.FLOAT.scale();
+        return new OfFloat(Utils.BaseAndScale.FLOAT.base(), arr, byteSize, false,
+                MemorySessionImpl.createHeap(arr));
+    }
+
+    public static OfDouble fromArray(double[] arr) {
+        ensureInitialized();
+        Objects.requireNonNull(arr);
+        long byteSize = (long)arr.length * Utils.BaseAndScale.DOUBLE.scale();
+        return new OfDouble(Utils.BaseAndScale.DOUBLE.base(), arr, byteSize, false,
+                MemorySessionImpl.createHeap(arr));
+    }
+
+    public static OfLong fromArray(long[] arr) {
+        ensureInitialized();
+        Objects.requireNonNull(arr);
+        long byteSize = (long)arr.length * Utils.BaseAndScale.LONG.scale();
+        return new OfLong(Utils.BaseAndScale.LONG.base(), arr, byteSize, false,
+                MemorySessionImpl.createHeap(arr));
+    }
+
+    // Buffer conversion factories
+
+    public static OfByte arrayOfByteSegment(Object base, long offset, long length,
+                                            boolean readOnly, MemorySessionImpl bufferScope) {
+        return new OfByte(offset, base, length, readOnly, bufferScope);
+    }
+
+    public static OfShort arrayOfShortSegment(Object base, long offset, long length,
+                                              boolean readOnly, MemorySessionImpl bufferScope) {
+        return new OfShort(offset, base, length, readOnly, bufferScope);
+    }
+
+    public static OfChar arrayOfCharSegment(Object base, long offset, long length,
+                                            boolean readOnly, MemorySessionImpl bufferScope) {
+        return new OfChar(offset, base, length, readOnly, bufferScope);
+    }
+
+    public static OfInt arrayOfIntSegment(Object base, long offset, long length,
+                                          boolean readOnly, MemorySessionImpl bufferScope) {
+        return new OfInt(offset, base, length, readOnly, bufferScope);
+    }
+
+    public static OfFloat arrayOfFloatSegment(Object base, long offset, long length,
+                                              boolean readOnly, MemorySessionImpl bufferScope) {
+        return new OfFloat(offset, base, length, readOnly, bufferScope);
+    }
+
+    public static OfLong arrayOfLongSegment(Object base, long offset, long length,
+                                            boolean readOnly, MemorySessionImpl bufferScope) {
+        return new OfLong(offset, base, length, readOnly, bufferScope);
+    }
+
+    public static OfDouble arrayOfDoubleSegment(Object base, long offset, long length,
+                                                boolean readOnly, MemorySessionImpl bufferScope) {
+        return new OfDouble(offset, base, length, readOnly, bufferScope);
+    }
+    */
+    // END Android-removed: Not used in Android.
+
     public static NativeMemorySegmentImpl allocateNativeSegment(long byteSize, long byteAlignment, MemorySessionImpl sessionImpl,
                                                                 boolean shouldReserve, boolean init) {
         long address = SegmentFactories.allocateNativeInternal(byteSize, byteAlignment, sessionImpl, shouldReserve, init);
@@ -140,7 +247,7 @@ public class SegmentFactories {
         for (long i = 0; i < byteSize; i += Long.BYTES) {
             // Android-changed: Introduced putLongAligned locally
             // UNSAFE.putLongUnaligned(null, address + i, 0);
-            putLongUnaligned( address + i, 0);
+            putLongUnaligned(address + i, 0);
         }
     }
 
@@ -151,14 +258,41 @@ public class SegmentFactories {
             throw new OutOfMemoryError();
         }
     }
+    // BEGIN Android-removed: Not used in Android.
+    /*
+    public static MappedMemorySegmentImpl mapSegment(long size, UnmapperProxy unmapper, boolean readOnly, MemorySessionImpl sessionImpl) {
+        ensureInitialized();
+        if (unmapper != null) {
+            MappedMemorySegmentImpl segment =
+                    new MappedMemorySegmentImpl(unmapper.address(), unmapper, size,
+                            readOnly, sessionImpl);
+            MemorySessionImpl.ResourceList.ResourceCleanup resource =
+                    new MemorySessionImpl.ResourceList.ResourceCleanup() {
+                        @Override
+                        public void cleanup() {
+                            unmapper.unmap();
+                        }
+                    };
+            sessionImpl.addOrCleanupIfFail(resource);
+            return segment;
+        } else {
+            return new MappedMemorySegmentImpl(0, null, 0, readOnly, sessionImpl);
+        }
+    }
+     */
+    // END Android-removed: Not used in Android.
 
+    // The method below needs to be called before any concrete subclass of MemorySegment
+    // is instantiated. This is to make sure that we cannot have an initialization deadlock
+    // where one thread attempts to initialize e.g. MemorySegment (and then NativeMemorySegmentImpl, via
+    // the MemorySegment.NULL field) while another thread is attempting to initialize
+    // NativeMemorySegmentImpl (and then MemorySegment, the super-interface).
     @ForceInline
     private static void ensureInitialized() {
         MemorySegment segment = MemorySegment.NULL;
     }
 
     // BEGIN Android-added: Copied over from Unsafe without Object argument (see b/438953179)
-    @IntrinsicCandidate
     private static void putLongUnaligned(long offset, long x) {
         if ((offset & 7) == 0) {
             UNSAFE.putLong(offset, x);
@@ -189,24 +323,24 @@ public class SegmentFactories {
     // provided by their caller.  The ordering in which these parts
     // are written is the native endianness of this platform.
     public static void putLongParts( long offset, byte i0, byte i1, byte i2, byte i3, byte i4, byte i5, byte i6, byte i7) {
-        UNSAFE.putByte( offset + 0, i0);
-        UNSAFE.putByte( offset + 1, i1);
-        UNSAFE.putByte( offset + 2, i2);
-        UNSAFE.putByte( offset + 3, i3);
-        UNSAFE.putByte( offset + 4, i4);
-        UNSAFE.putByte( offset + 5, i5);
-        UNSAFE.putByte( offset + 6, i6);
-        UNSAFE.putByte( offset + 7, i7);
+        UNSAFE.putByte(offset + 0, i0);
+        UNSAFE.putByte(offset + 1, i1);
+        UNSAFE.putByte(offset + 2, i2);
+        UNSAFE.putByte(offset + 3, i3);
+        UNSAFE.putByte(offset + 4, i4);
+        UNSAFE.putByte(offset + 5, i5);
+        UNSAFE.putByte(offset + 6, i6);
+        UNSAFE.putByte(offset + 7, i7);
     }
     public static void putLongParts(long offset, short i0, short i1, short i2, short i3) {
-        UNSAFE.putShort( offset + 0, i0);
-        UNSAFE.putShort( offset + 2, i1);
-        UNSAFE.putShort( offset + 4, i2);
-        UNSAFE.putShort( offset + 6, i3);
+        UNSAFE.putShort(offset + 0, i0);
+        UNSAFE.putShort(offset + 2, i1);
+        UNSAFE.putShort(offset + 4, i2);
+        UNSAFE.putShort(offset + 6, i3);
     }
     public static void putLongParts(long offset, int i0, int i1) {
-        UNSAFE.putInt( offset + 0, i0);
-        UNSAFE.putInt( offset + 4, i1);
+        UNSAFE.putInt(offset + 0, i0);
+        UNSAFE.putInt(offset + 4, i1);
     }
     // END Android-added: Copied over from Unsafe without Object argument (see b/438953179)
 }

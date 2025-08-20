@@ -26,6 +26,7 @@
 package java.lang.foreign;
 
 import jdk.internal.foreign.MemorySessionImpl;
+import jdk.internal.ref.CleanerFactory;
 
 import java.lang.foreign.MemorySegment.Scope;
 import java.util.function.Consumer;
@@ -212,7 +213,27 @@ import java.util.function.Consumer;
  * @since 22
  * @hide
  */
+// Android-changed : SegmentAllocator not implemented yet
 public interface Arena extends /*SegmentAllocator,*/ AutoCloseable {
+
+    // BEGIN Android-removed: Not used in Android.
+    /*
+    /**
+     * Creates a new arena that is managed, automatically, by the garbage collector.
+     * Segments allocated with the returned arena can be
+     * {@linkplain MemorySegment#isAccessibleBy(Thread) accessed} by any thread.
+     * Calling {@link #close()} on the returned arena will result in an {@link UnsupportedOperationException}.
+     * <p>
+     * Memory segments {@linkplain #allocate(long, long) allocated} by the returned arena
+     * are zero-initialized.
+     *
+     * @return a new arena that is managed, automatically, by the garbage collector
+     * /
+    static Arena ofAuto() {
+        return MemorySessionImpl.createImplicit(CleanerFactory.cleaner()).asArena();
+    }
+    */
+
 
     /**
      * {@return the global arena} Segments allocated with the global arena can be
@@ -222,7 +243,6 @@ public interface Arena extends /*SegmentAllocator,*/ AutoCloseable {
      * <p>
      * Memory segments {@linkplain #allocate(long, long) allocated} by the returned arena
      * are zero-initialized.
-     *
      */
     static Arena global() {
         class Holder {
@@ -230,7 +250,32 @@ public interface Arena extends /*SegmentAllocator,*/ AutoCloseable {
         }
         return Holder.GLOBAL;
     }
+    // BEGIN Android-removed: Not used in Android.
+    /*
+    /**
+     * {@return a new confined arena} Segments allocated with the confined arena can
+     *          only be {@linkplain MemorySegment#isAccessibleBy(Thread) accessed} by the
+     *          thread that created the arena, the arena's <em>owner thread</em>.
+     * <p>
+     * Memory segments {@linkplain #allocate(long, long) allocated} by the returned arena
+     * are zero-initialized.
+     * /
+    static Arena ofConfined() {
+        return MemorySessionImpl.createConfined(Thread.currentThread()).asArena();
+    }
 
+    /**
+     * {@return a new shared arena} Segments allocated with the shared arena can be
+     *          {@linkplain MemorySegment#isAccessibleBy(Thread) accessed} by any thread.
+     * <p>
+     * Memory segments {@linkplain #allocate(long, long) allocated} by the returned arena
+     * are zero-initialized.
+     * /
+    static Arena ofShared() {
+        return MemorySessionImpl.createShared().asArena();
+    }
+    */
+    // END Android-removed: Not used in Android.
     /**
      * Returns a native memory segment with the given size (in bytes) and alignment
      * constraint (in bytes).
@@ -260,7 +305,9 @@ public interface Arena extends /*SegmentAllocator,*/ AutoCloseable {
      * @throws WrongThreadException if this arena is confined, and this method is called
      *         from a thread other than the arena's owner thread
      */
-
+    // Android-changed: not overriding SegmentAllocator
+    // because it is not implemented yet
+    // @Override
     MemorySegment allocate(long byteSize, long byteAlignment);
 
     /**
