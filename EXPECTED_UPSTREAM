@@ -173,7 +173,7 @@ ojluni/src/main/java/java/lang/LiveStackFrame.java,jdk21u/jdk-21.0.6-ga,src/java
 ojluni/src/main/java/java/lang/LiveStackFrameInfo.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/LiveStackFrameInfo.java
 ojluni/src/main/java/java/lang/Long.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/Long.java
 ojluni/src/main/java/java/lang/MatchException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/MatchException.java
-ojluni/src/main/java/java/lang/Math.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/Math.java
+ojluni/src/main/java/java/lang/Math.java,jdk/jdk-25+26,src/java.base/share/classes/java/lang/Math.java
 ojluni/src/main/java/java/lang/NegativeArraySizeException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/NegativeArraySizeException.java
 ojluni/src/main/java/java/lang/NoClassDefFoundError.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/NoClassDefFoundError.java
 ojluni/src/main/java/java/lang/NoSuchFieldError.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/NoSuchFieldError.java
@@ -206,7 +206,7 @@ ojluni/src/main/java/java/lang/StackOverflowError.java,jdk21u/jdk-21.0.6-ga,src/
 ojluni/src/main/java/java/lang/StackStreamFactory.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/StackStreamFactory.java
 ojluni/src/main/java/java/lang/StackTraceElement.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/lang/StackTraceElement.java
 ojluni/src/main/java/java/lang/StackWalker.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/StackWalker.java
-ojluni/src/main/java/java/lang/StrictMath.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/StrictMath.java
+ojluni/src/main/java/java/lang/StrictMath.java,jdk/jdk-25+26,src/java.base/share/classes/java/lang/StrictMath.java
 ojluni/src/main/java/java/lang/String.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/String.java
 ojluni/src/main/java/java/lang/StringBuffer.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/lang/StringBuffer.java
 ojluni/src/main/java/java/lang/StringBuilder.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/java/lang/StringBuilder.java
@@ -2001,6 +2001,7 @@ ojluni/src/test/java/lang/Long/Unsigned.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/
 ojluni/src/test/java/lang/Math/Clamp.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/Math/Clamp.java
 ojluni/src/test/java/lang/Math/DivModTests.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/Math/DivModTests.java
 ojluni/src/test/java/lang/Math/ExactArithTests.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/Math/ExactArithTests.java
+ojluni/src/test/java/lang/Math/IntegralPowTest.java,jdk/jdk-25+26,test/jdk/java/lang/Math/IntegralPowTest.java
 ojluni/src/test/java/lang/Math/MultiplicationTests.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/Math/MultiplicationTests.java
 ojluni/src/test/java/lang/StackWalker/AcrossThreads.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/StackWalker/AcrossThreads.java
 ojluni/src/test/java/lang/StackWalker/Basic.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/StackWalker/Basic.java
