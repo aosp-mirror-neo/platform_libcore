@@ -261,6 +261,8 @@ ojluni/src/main/java/java/lang/constant/MethodTypeDescImpl.java,jdk17u/jdk-17.0.
 ojluni/src/main/java/java/lang/constant/PrimitiveClassDescImpl.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/constant/PrimitiveClassDescImpl.java
 ojluni/src/main/java/java/lang/constant/ReferenceClassDescImpl.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/constant/ReferenceClassDescImpl.java
 ojluni/src/main/java/java/lang/constant/package-info.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/constant/package-info.java
+ojluni/src/main/java/java/lang/foreign/Arena.java,jdk/jdk-25+26,src/java.base/share/classes/java/lang/foreign/Arena.java
+ojluni/src/main/java/java/lang/foreign/MemorySegment.java,jdk/jdk-25+26,src/java.base/share/classes/java/lang/foreign/MemorySegment.java
 ojluni/src/main/java/java/lang/invoke/CallSite.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/java/lang/invoke/CallSite.java
 ojluni/src/main/java/java/lang/invoke/ConstantBootstraps.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/invoke/ConstantBootstraps.java
 ojluni/src/main/java/java/lang/invoke/ConstantCallSite.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/java/lang/invoke/ConstantCallSite.java
@@ -1425,6 +1427,7 @@ ojluni/src/main/java/javax/sql/StatementEventListener.java,jdk7u/jdk7u40-b60,jdk
 ojluni/src/main/java/jdk/internal/HotSpotIntrinsicCandidate.java,jdk11u/jdk-11.0.26-ga,src/java.base/share/classes/jdk/internal/HotSpotIntrinsicCandidate.java
 ojluni/src/main/java/jdk/internal/ValueBased.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/ValueBased.java
 ojluni/src/main/java/jdk/internal/access/JavaIOFileDescriptorAccess.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/access/JavaIOFileDescriptorAccess.java
+ojluni/src/main/java/jdk/internal/access/JavaNioAccess.java,jdk/jdk-25+26,src/java.base/share/classes/jdk/internal/access/JavaNioAccess.java
 ojluni/src/main/java/jdk/internal/access/JavaObjectInputStreamAccess.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/jdk/internal/access/JavaObjectInputStreamAccess.java
 ojluni/src/main/java/jdk/internal/access/JavaUtilCollectionAccess.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/access/JavaUtilCollectionAccess.java
 ojluni/src/main/java/jdk/internal/access/SharedSecrets.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/jdk/internal/access/SharedSecrets.java
@@ -1434,6 +1437,13 @@ ojluni/src/main/java/jdk/internal/event/VirtualThreadEndEvent.java,jdk21u/jdk-21
 ojluni/src/main/java/jdk/internal/event/VirtualThreadPinnedEvent.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/event/VirtualThreadPinnedEvent.java
 ojluni/src/main/java/jdk/internal/event/VirtualThreadStartEvent.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/event/VirtualThreadStartEvent.java
 ojluni/src/main/java/jdk/internal/event/VirtualThreadSubmitFailedEvent.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/event/VirtualThreadSubmitFailedEvent.java
+ojluni/src/main/java/jdk/internal/foreign/AbstractMemorySegmentImpl.java,jdk/jdk-25+26,src/java.base/share/classes/jdk/internal/foreign/AbstractMemorySegmentImpl.java
+ojluni/src/main/java/jdk/internal/foreign/ArenaImpl.java,jdk/jdk-25+26,src/java.base/share/classes/jdk/internal/foreign/ArenaImpl.java
+ojluni/src/main/java/jdk/internal/foreign/GlobalSession.java,jdk/jdk-25+26,src/java.base/share/classes/jdk/internal/foreign/GlobalSession.java
+ojluni/src/main/java/jdk/internal/foreign/MemorySessionImpl.java,jdk/jdk-25+26,src/java.base/share/classes/jdk/internal/foreign/MemorySessionImpl.java
+ojluni/src/main/java/jdk/internal/foreign/NativeMemorySegmentImpl.java,jdk/jdk-25+26,src/java.base/share/classes/jdk/internal/foreign/NativeMemorySegmentImpl.java
+ojluni/src/main/java/jdk/internal/foreign/SegmentFactories.java,jdk/jdk-25+26,src/java.base/share/classes/jdk/internal/foreign/SegmentFactories.java
+ojluni/src/main/java/jdk/internal/foreign/Utils.java,jdk/jdk-25+26,src/java.base/share/classes/jdk/internal/foreign/Utils.java
 ojluni/src/main/java/jdk/internal/invoke/MhUtil.java,jdk/jdk-25+26,src/java.base/share/classes/jdk/internal/invoke/MhUtil.java
 ojluni/src/main/java/jdk/internal/math/DoubleConsts.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/math/DoubleConsts.java
 ojluni/src/main/java/jdk/internal/math/DoubleToDecimal.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/jdk/internal/math/DoubleToDecimal.java
