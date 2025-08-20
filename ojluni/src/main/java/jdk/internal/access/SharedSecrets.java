@@ -83,9 +83,9 @@ public class SharedSecrets {
     private static JavaNetHttpCookieAccess javaNetHttpCookieAccess;
     private static JavaNetUriAccess javaNetUriAccess;
     private static JavaNetURLAccess javaNetURLAccess;
-    private static JavaNioAccess javaNioAccess;
     */
     // END Android-removed: Pruned unused access interfaces.
+    private static JavaNioAccess javaNioAccess;
     private static JavaUtilCollectionAccess javaUtilCollectionAccess;
     // BEGIN Android-removed: Pruned unused access interfaces.
     /*
@@ -218,6 +218,8 @@ public class SharedSecrets {
         }
         return access;
     }
+    */
+    // END Android-removed: Pruned unused access interfaces.
     public static void setJavaNioAccess(JavaNioAccess jna) {
         javaNioAccess = jna;
     }
@@ -231,6 +233,8 @@ public class SharedSecrets {
         }
         return access;
     }
+    // BEGIN Android-removed: Pruned unused access interfaces.
+    /*
     public static void setJavaIOAccess(JavaIOAccess jia) {
         javaIOAccess = jia;
     }

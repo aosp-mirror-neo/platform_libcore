@@ -31,6 +31,8 @@ import jdk.internal.vm.annotation.IntrinsicCandidate;
 
 import java.io.FileDescriptor;
 import java.util.Spliterator;
+import jdk.internal.access.SharedSecrets;
+import jdk.internal.access.JavaNioAccess;
 
 import jdk.internal.misc.Unsafe;
 
@@ -814,12 +816,12 @@ public abstract class Buffer {
         return _elementSizeShift;
     }
 
-    // Android-removed: Remove unused SharedSecrets.
-    /*
     static {
         // setup access to this package in SharedSecrets
         SharedSecrets.setJavaNioAccess(
             new JavaNioAccess() {
+                // Android-removed: Remove unused methods in JavaNioAccess.
+                /*
                 @Override
                 public BufferPool getDirectBufferPool() {
                     return Bits.BUFFER_POOL;
@@ -905,13 +907,11 @@ public abstract class Buffer {
                 public void unreserveMemory(long size, long cap) {
                     Bits.unreserveMemory(size, cap);
                 }
-
+                */
                 @Override
                 public int pageSize() {
                     return Bits.pageSize();
                 }
             });
     }
-    */
-
 }
