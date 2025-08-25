@@ -159,24 +159,28 @@ public abstract class NetworkSecurityPolicy {
     /**
      * Unknown reason for why Certificate Transparency validation was required.
      */
+    @libcore.api.IntraCoreApi
     public static final int CERTIFICATE_TRANSPARENCY_REASON_UNKNOWN = 0;
 
     /**
      * Certificate Transparency validation was required because it is enabled by default and the
      * app satisfies the selection criteria (i.e., its TargetSdkVersion is at least 37).
      */
+    @libcore.api.IntraCoreApi
     public static final int CERTIFICATE_TRANSPARENCY_REASON_SDK_TARGET_DEFAULT_ENABLED = 1;
 
     /**
      * Certificate Transparency validation was required because the app opted-in for all its
      * connections.
      */
+    @libcore.api.IntraCoreApi
     public static final int CERTIFICATE_TRANSPARENCY_REASON_APP_OPT_IN = 2;
 
     /**
      * Certificate Transparency validation was required because the app opted-in for this specific
      * domain (via its Network Security Config).
      */
+    @libcore.api.IntraCoreApi
     public static final int CERTIFICATE_TRANSPARENCY_REASON_DOMAIN_OPT_IN = 3;
 
     /**
@@ -190,6 +194,7 @@ public abstract class NetworkSecurityPolicy {
      * @hide
      */
     @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.IntraCoreApi
     @CertificateTransparencyReason
     public int getCertificateTransparencyVerificationReason(@NonNull String hostname) {
         return CERTIFICATE_TRANSPARENCY_REASON_UNKNOWN;
