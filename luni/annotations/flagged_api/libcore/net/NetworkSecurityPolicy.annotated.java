@@ -25,6 +25,9 @@ public NetworkSecurityPolicy() { throw new RuntimeException("Stub!"); }
 @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_REASON_CT_ENABLED_API)
 public int getCertificateTransparencyVerificationReason(String hostname) { throw new RuntimeException("Stub!"); }
 
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
+public int getDomainEncryptionMode(String hostname) { throw new RuntimeException("Stub!"); }
+
 public static libcore.net.NetworkSecurityPolicy getInstance() { throw new RuntimeException("Stub!"); }
 
 public abstract boolean isCertificateTransparencyVerificationRequired(String hostname);
@@ -46,5 +49,19 @@ public static final int CERTIFICATE_TRANSPARENCY_REASON_SDK_TARGET_DEFAULT_ENABL
 
 @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_REASON_CT_ENABLED_API)
 public static final int CERTIFICATE_TRANSPARENCY_REASON_UNKNOWN = 0;
-}
 
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
+public static final int DOMAIN_ENCRYPTION_DISABLED = 1;
+
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
+public static final int DOMAIN_ENCRYPTION_FAIL_CLOSED = 4;
+
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
+public static final int DOMAIN_ENCRYPTION_OPPORTUNISTIC = 2;
+
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
+public static final int DOMAIN_ENCRYPTION_SETTING_UNKNOWN = 0;
+
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
+public static final int DOMAIN_ENCRYPTION_STRICT = 3;
+}

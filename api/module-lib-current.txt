@@ -685,6 +685,7 @@ package libcore.net {
   public abstract class NetworkSecurityPolicy {
     ctor public NetworkSecurityPolicy();
     method @FlaggedApi("com.android.libcore.network_security_policy_reason_ct_enabled_api") public int getCertificateTransparencyVerificationReason(@NonNull String);
+    method @FlaggedApi("com.android.libcore.network_security_policy_ech_api") public int getDomainEncryptionMode(@NonNull String);
     method public static libcore.net.NetworkSecurityPolicy getInstance();
     method public abstract boolean isCertificateTransparencyVerificationRequired(String);
     method public abstract boolean isCleartextTrafficPermitted();
@@ -694,6 +695,11 @@ package libcore.net {
     field @FlaggedApi("com.android.libcore.network_security_policy_reason_ct_enabled_api") public static final int CERTIFICATE_TRANSPARENCY_REASON_DOMAIN_OPT_IN = 3; // 0x3
     field @FlaggedApi("com.android.libcore.network_security_policy_reason_ct_enabled_api") public static final int CERTIFICATE_TRANSPARENCY_REASON_SDK_TARGET_DEFAULT_ENABLED = 1; // 0x1
     field @FlaggedApi("com.android.libcore.network_security_policy_reason_ct_enabled_api") public static final int CERTIFICATE_TRANSPARENCY_REASON_UNKNOWN = 0; // 0x0
+    field @FlaggedApi("com.android.libcore.network_security_policy_ech_api") public static final int DOMAIN_ENCRYPTION_DISABLED = 1; // 0x1
+    field @FlaggedApi("com.android.libcore.network_security_policy_ech_api") public static final int DOMAIN_ENCRYPTION_FAIL_CLOSED = 4; // 0x4
+    field @FlaggedApi("com.android.libcore.network_security_policy_ech_api") public static final int DOMAIN_ENCRYPTION_OPPORTUNISTIC = 2; // 0x2
+    field @FlaggedApi("com.android.libcore.network_security_policy_ech_api") public static final int DOMAIN_ENCRYPTION_SETTING_UNKNOWN = 0; // 0x0
+    field @FlaggedApi("com.android.libcore.network_security_policy_ech_api") public static final int DOMAIN_ENCRYPTION_STRICT = 3; // 0x3
   }
 
 }
