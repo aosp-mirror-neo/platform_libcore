@@ -26,11 +26,10 @@
 
 package jdk.internal.foreign;
 
-import java.util.Optional;
-
 import jdk.internal.misc.Unsafe;
 import jdk.internal.vm.annotation.ForceInline;
 
+import java.util.Optional;
 /**
  * Implementation for native memory segments. A native memory segment is essentially a wrapper around
  * a native long address.
@@ -59,6 +58,30 @@ public /*sealed*/ final class NativeMemorySegmentImpl extends AbstractMemorySegm
         return Optional.empty();
     }
 
+    // BEGIN Android-removed: Not used in Android.
+    /*
+    public final long maxByteAlignment() {
+        return address() == 0
+                ? 1L << 62
+                : Long.lowestOneBit(address());
+    }
+
+    @ForceInline
+    @Override
+    NativeMemorySegmentImpl dup(long offset, long size, boolean readOnly, MemorySessionImpl scope) {
+        return new NativeMemorySegmentImpl(min + offset, size, readOnly, scope);
+    }
+
+    @Override
+    ByteBuffer makeByteBuffer() {
+        return NIO_ACCESS.newDirectByteBuffer(min, (int) this.length, null, this);
+    }
+
+    @Override
+    public boolean isNative() {
+        return true;
+    }
+    */
 
     @Override
     public long unsafeGetOffset() {
@@ -69,4 +92,11 @@ public /*sealed*/ final class NativeMemorySegmentImpl extends AbstractMemorySegm
     public Object unsafeGetBase() {
         return null;
     }
+    // BEGIN Android-removed: Not used in Android.
+    /*
+    @Override
+    public long maxAlignMask() {
+        return 0;
+    }
+    */
 }
