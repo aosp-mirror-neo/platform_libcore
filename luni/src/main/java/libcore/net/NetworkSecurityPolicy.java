@@ -190,7 +190,6 @@ public abstract class NetworkSecurityPolicy {
      * @hide
      */
     @SystemApi(client = MODULE_LIBRARIES)
-    @libcore.api.IntraCoreApi
     @CertificateTransparencyReason
     public int getCertificateTransparencyVerificationReason(@NonNull String hostname) {
         return CERTIFICATE_TRANSPARENCY_REASON_UNKNOWN;
