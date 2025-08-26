@@ -50,6 +50,7 @@ import jdk.internal.vm.annotation.Stable;
  * shared sessions use a more sophisticated synchronization mechanism, which guarantees that no concurrent
  * access is possible when a session is being closed (see {@link ScopedMemoryAccess}).
  */
+// Android-changed: commented out classes not implemented yet
 public abstract sealed class MemorySessionImpl
         implements Scope
         permits /*ConfinedSession,*/ GlobalSession/*, SharedSession*/ {
@@ -64,6 +65,15 @@ public abstract sealed class MemorySessionImpl
     static final int CLOSED = -1;
     static final int NONCLOSEABLE = 1;
 
+    // BEGIN Android-removed: Not used in Android.
+    /*
+    static final VarHandle STATE = MhUtil.findVarHandle(MethodHandles.lookup(), "state", int.class);
+    static final VarHandle ACQUIRE_COUNT = MhUtil.findVarHandle(MethodHandles.lookup(), "acquireCount", int.class);
+
+    static final int MAX_FORKS = Integer.MAX_VALUE;
+    */
+    // END Android-removed: Not used in Android.
+
     static final ScopedMemoryAccess.ScopedAccessError ALREADY_CLOSED = new ScopedMemoryAccess.ScopedAccessError(MemorySessionImpl::alreadyClosed);
     static final ScopedMemoryAccess.ScopedAccessError WRONG_THREAD = new ScopedMemoryAccess.ScopedAccessError(MemorySessionImpl::wrongThread);
     // This is the session of all zero-length memory segments
@@ -75,6 +85,8 @@ public abstract sealed class MemorySessionImpl
     @Stable
     int state;
 
+    int acquireCount;
+
     public ArenaImpl asArena() {
         return new ArenaImpl(this);
     }
@@ -82,6 +94,20 @@ public abstract sealed class MemorySessionImpl
     @ForceInline
     public static MemorySessionImpl toMemorySession(Arena arena) {
         return (MemorySessionImpl) arena.scope();
+    }
+
+    // BEGIN Android-removed: Not used in Android.
+    /*
+    public final boolean isCloseableBy(Thread thread) {
+        Objects.requireNonNull(thread);
+        return isCloseable() &&
+                (owner == null || owner == thread);
+    }
+    */
+    // END Android-removed: Not used in Android.
+    public void addCloseAction(Runnable runnable) {
+        Objects.requireNonNull(runnable);
+        addInternal(ResourceList.ResourceCleanup.ofRunnable(runnable));
     }
 
     /**
@@ -102,6 +128,7 @@ public abstract sealed class MemorySessionImpl
             throw ex;
         }
     }
+
     void addInternal(ResourceList.ResourceCleanup resource) {
         checkValidState();
         // Note: from here on we no longer check the session state. Two cases are possible: either the resource cleanup
@@ -112,19 +139,66 @@ public abstract sealed class MemorySessionImpl
         // called immediately after).
         resourceList.add(resource);
     }
-    public void addCloseAction(Runnable runnable) {
-        Objects.requireNonNull(runnable);
-        addInternal(ResourceList.ResourceCleanup.ofRunnable(runnable));
-    }
 
     protected MemorySessionImpl(Thread owner, ResourceList resourceList) {
         this.owner = owner;
         this.resourceList = resourceList;
     }
 
+    // BEGIN Android-removed: Not used in Android.
+    /*
+    public static MemorySessionImpl createConfined(Thread thread) {
+        return new ConfinedSession(thread);
+    }
+
+    public static MemorySessionImpl createShared() {
+        return new SharedSession();
+    }
+
+    public static MemorySessionImpl createImplicit(Cleaner cleaner) {
+        return new ImplicitSession(cleaner);
+    }
+
+    public static MemorySessionImpl createHeap(Object ref) {
+        return new HeapSession(ref);
+    }
+    */
+    // END Android-removed: Not used in Android.
+
     public abstract void release0();
 
     public abstract void acquire0();
+
+    // BEGIN Android-removed: Not used in Android.
+    /*
+    public void whileAlive(Runnable action) {
+        Objects.requireNonNull(action);
+        acquire0();
+        try {
+            action.run();
+        } finally {
+            release0();
+        }
+    }
+
+    public final Thread ownerThread() {
+        return owner;
+    }
+
+    public final boolean isAccessibleBy(Thread thread) {
+        Objects.requireNonNull(thread);
+        return owner == null || owner == thread;
+    }
+    */
+    // END Android-removed: Not used in Android.
+
+    /**
+     * Returns true, if this session is still open. This method may be called in any thread.
+     * @return {@code true} if this session is not closed yet.
+     */
+    public boolean isAlive() {
+        return state >= OPEN;
+    }
 
     /**
      * This is a faster version of {@link #checkValidState()}, which is called upon memory access, and which
@@ -145,14 +219,6 @@ public abstract sealed class MemorySessionImpl
     }
 
     /**
-     * Returns true, if this session is still open. This method may be called in any thread.
-     * @return {@code true} if this session is not closed yet.
-     */
-    public boolean isAlive() {
-        return state >= OPEN;
-    }
-
-    /**
      * Checks that this session is still alive (see {@link #isAlive()}).
      * @throws IllegalStateException if this session is already closed or if this is
      * a confined session and this method is called outside the owner thread.
@@ -164,6 +230,14 @@ public abstract sealed class MemorySessionImpl
             throw error.newRuntimeException();
         }
     }
+
+    // BEGIN Android-removed: Not used in Android.
+    /*
+    public static void checkValidState(MemorySegment segment) {
+        ((AbstractMemorySegmentImpl)segment).sessionImpl().checkValidState();
+    }
+    */
+    // END Android-removed: Not used in Android.
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
@@ -256,6 +330,19 @@ public abstract sealed class MemorySessionImpl
     }
 
     // helper functions to centralize error handling
+
+    // BEGIN Android-removed: Not used in Android.
+    /*
+    static IllegalStateException tooManyAcquires() {
+        return new IllegalStateException("Session acquire limit exceeded");
+    }
+
+    static IllegalStateException alreadyAcquired(int acquires) {
+        return new IllegalStateException(String.format("Session is acquired by %d clients", acquires));
+    }
+    */
+    // END Android-removed: Not used in Android.
+
     static IllegalStateException alreadyClosed() {
         return new IllegalStateException("Already closed");
     }
