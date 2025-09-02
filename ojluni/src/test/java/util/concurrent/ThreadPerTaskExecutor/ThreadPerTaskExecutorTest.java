@@ -71,10 +71,9 @@ public class ThreadPerTaskExecutorTest {
         //if (value == null || value.equals("platform"))
         list.add(Thread.ofPlatform().factory());
         //if (value == null || value.equals("virtual"))
-        // TODO(vichang): enable once segfaults are fixed.
-        // if (isVirtualThreadEnabled()) {
-        //     list.add(Thread.ofVirtual().factory());
-        // }
+        if (isVirtualThreadEnabled()) {
+            list.add(Thread.ofVirtual().factory());
+        }
         assertTrue(list.size() > 0, "No thread factories for tests");
         threadFactories = list;
     }
