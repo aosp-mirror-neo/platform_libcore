@@ -196,6 +196,64 @@ public abstract class NetworkSecurityPolicy {
     }
 
     /**
+     * @hide
+     */
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef(prefix = {"DOMAIN_ENCRYPTION_"}, value = {
+        DOMAIN_ENCRYPTION_SETTING_UNKNOWN,
+        DOMAIN_ENCRYPTION_DISABLED,
+        DOMAIN_ENCRYPTION_OPPORTUNISTIC,
+        DOMAIN_ENCRYPTION_STRICT,
+        DOMAIN_ENCRYPTION_FAIL_CLOSED
+    })
+    public @interface DomainEncryptionMode {}
+
+    /**
+     * Unknown setting for domain encryption in the app.
+     *
+     * <p>This is the default value returned by {@link #getDomainEncryptionMode(String)} when not
+     * overridden. Network libraries should avoid performing any domain encryption and perform a
+     * standard TLS handshake, equivalent to {@link #DOMAIN_ENCRYPTION_DISABLED}.
+     */
+    public static final int DOMAIN_ENCRYPTION_SETTING_UNKNOWN = 0;
+
+    /**
+     * Domain encryption is disabled for the app. ECH and GREASE should not be used.
+     */
+    public static final int DOMAIN_ENCRYPTION_DISABLED = 1;
+
+    /**
+     * Domain encryption is in opportunistic mode for the app. ECH will only be enabled when there
+     * is server support, and GREASE will not be used.
+     */
+    public static final int DOMAIN_ENCRYPTION_OPPORTUNISTIC = 2;
+
+    /**
+     * Domain encryption is in strict mode for the app. ECH will be enabled when there is server
+     * support, otherwise GREASE will be used.
+     */
+    public static final int DOMAIN_ENCRYPTION_STRICT = 3;
+
+    /**
+     * Domain encryption should fail closed (i.e. if encryption cannot be enabled for any reason,
+     * the connection will fail).
+     */
+    public static final int DOMAIN_ENCRYPTION_FAIL_CLOSED = 4;
+
+    /**
+     * Returns the domain encryption mode (including ECH).
+     *
+     * <p>This method should be overridden by any subclass to return the exact mode.
+     *
+     * @hide
+     */
+    @SystemApi(client = MODULE_LIBRARIES)
+    @DomainEncryptionMode
+    public int getDomainEncryptionMode(@NonNull String hostname) {
+        return DOMAIN_ENCRYPTION_SETTING_UNKNOWN;
+    }
+
+    /**
      * Default network security policy that allows cleartext traffic and does not require
      * certificate transparency verification.
      *
