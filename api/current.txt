@@ -3774,8 +3774,6 @@ package java.lang {
     method public static double nextUp(double);
     method public static float nextUp(float);
     method public static double pow(double, double);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static int powExact(int, int);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static long powExact(long, int);
     method public static double random();
     method public static double rint(double);
     method public static int round(float);
@@ -3796,12 +3794,7 @@ package java.lang {
     method public static double toRadians(double);
     method public static double ulp(double);
     method public static float ulp(float);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static int unsignedMultiplyExact(int, int);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static long unsignedMultiplyExact(long, int);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static long unsignedMultiplyExact(long, long);
     method public static long unsignedMultiplyHigh(long, long);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static int unsignedPowExact(int, int);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static long unsignedPowExact(long, int);
     field public static final double E = 2.718281828459045;
     field public static final double PI = 3.141592653589793;
     field public static final double TAU = 6.283185307179586;
@@ -4223,8 +4216,6 @@ package java.lang {
     method public static double nextUp(double);
     method public static float nextUp(float);
     method public static double pow(double, double);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static int powExact(int, int);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static long powExact(long, int);
     method public static double random();
     method public static double rint(double);
     method public static int round(float);
@@ -4245,12 +4236,7 @@ package java.lang {
     method public static double toRadians(double);
     method public static double ulp(double);
     method public static float ulp(float);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static int unsignedMultiplyExact(int, int);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static long unsignedMultiplyExact(long, int);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static long unsignedMultiplyExact(long, long);
     method public static long unsignedMultiplyHigh(long, long);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static int unsignedPowExact(int, int);
-    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static long unsignedPowExact(long, int);
     field public static final double E = 2.718281828459045;
     field public static final double PI = 3.141592653589793;
     field public static final double TAU = 6.283185307179586;
