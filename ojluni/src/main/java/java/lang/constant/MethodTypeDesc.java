@@ -36,10 +36,14 @@ import java.util.stream.Stream;
  *
  * @since 12
  */
-public sealed interface MethodTypeDesc
+// Android-changed: remove sealed marker (there is no metalava support b/355648520).
+// public sealed interface MethodTypeDesc
+//         extends ConstantDesc,
+//                 TypeDescriptor.OfMethod<ClassDesc, MethodTypeDesc>
+//         permits MethodTypeDescImpl {
+public interface MethodTypeDesc
         extends ConstantDesc,
-                TypeDescriptor.OfMethod<ClassDesc, MethodTypeDesc>
-        permits MethodTypeDescImpl {
+                TypeDescriptor.OfMethod<ClassDesc, MethodTypeDesc> {
     /**
      * Creates a {@linkplain MethodTypeDesc} given a method descriptor string.
      *

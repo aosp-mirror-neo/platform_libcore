@@ -1473,6 +1473,22 @@ filegroup {
         "ojluni/src/lambda/java/java/lang/invoke/MethodType.java",
         "ojluni/src/lambda/java/java/lang/invoke/StringConcatException.java",
         "ojluni/src/lambda/java/java/lang/runtime/SwitchBootstraps.java",
+        // Hide the java.lang.constant APIs until master switches away from Android UDC. b/270028670
+        "ojluni/src/lambda/java/java/lang/constant/AsTypeMethodHandleDesc.java",
+        "ojluni/src/lambda/java/java/lang/constant/ClassDesc.java",
+        "ojluni/src/lambda/java/java/lang/constant/Constable.java",
+        "ojluni/src/lambda/java/java/lang/constant/ConstantDesc.java",
+        "ojluni/src/lambda/java/java/lang/constant/ConstantDescs.java",
+        "ojluni/src/lambda/java/java/lang/constant/DirectMethodHandleDesc.java",
+        "ojluni/src/lambda/java/java/lang/constant/DirectMethodHandleDescImpl.java",
+        "ojluni/src/lambda/java/java/lang/constant/DynamicCallSiteDesc.java",
+        "ojluni/src/lambda/java/java/lang/constant/DynamicConstantDesc.java",
+        "ojluni/src/lambda/java/java/lang/constant/MethodHandleDesc.java",
+        "ojluni/src/lambda/java/java/lang/constant/MethodTypeDesc.java",
+        "ojluni/src/lambda/java/java/lang/constant/MethodTypeDescImpl.java",
+        "ojluni/src/lambda/java/java/lang/constant/PrimitiveClassDescImpl.java",
+        "ojluni/src/lambda/java/java/lang/constant/ReferenceClassDescImpl.java",
+        "ojluni/src/lambda/java/java/lang/invoke/ConstantBootstraps.java",
     ],
 }
 
