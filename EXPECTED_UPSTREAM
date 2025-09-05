@@ -1344,7 +1344,7 @@ ojluni/src/main/java/javax/crypto/spec/SecretKeySpec.java,jdk8u/jdk8u121-b13,jdk
 ojluni/src/main/java/javax/net/ServerSocketFactory.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/javax/net/ServerSocketFactory.java
 ojluni/src/main/java/javax/net/SocketFactory.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/javax/net/SocketFactory.java
 ojluni/src/main/java/javax/net/ssl/CertPathTrustManagerParameters.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/javax/net/ssl/CertPathTrustManagerParameters.java
-ojluni/src/main/java/javax/net/ssl/ExtendedSSLSession.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/javax/net/ssl/ExtendedSSLSession.java
+ojluni/src/main/java/javax/net/ssl/ExtendedSSLSession.java,jdk/jdk-25+26,src/java.base/share/classes/javax/net/ssl/ExtendedSSLSession.java
 ojluni/src/main/java/javax/net/ssl/HandshakeCompletedEvent.java,jdk8u/jdk8u121-b13,jdk/src/share/classes/javax/net/ssl/HandshakeCompletedEvent.java
 ojluni/src/main/java/javax/net/ssl/HandshakeCompletedListener.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/javax/net/ssl/HandshakeCompletedListener.java
 ojluni/src/main/java/javax/net/ssl/HostnameVerifier.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/javax/net/ssl/HostnameVerifier.java

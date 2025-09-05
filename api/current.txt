@@ -19672,6 +19672,7 @@ package javax.net.ssl {
     method public abstract String[] getLocalSupportedSignatureAlgorithms();
     method public abstract String[] getPeerSupportedSignatureAlgorithms();
     method public java.util.List<javax.net.ssl.SNIServerName> getRequestedServerNames();
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public java.util.List<byte[]> getStatusResponses();
   }
 
   public class HandshakeCompletedEvent extends java.util.EventObject {
