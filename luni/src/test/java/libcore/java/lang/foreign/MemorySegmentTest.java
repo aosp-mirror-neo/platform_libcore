@@ -24,12 +24,16 @@ import org.junit.runners.JUnit4;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 
+import libcore.test.annotation.NonCts;
+import libcore.test.reasons.NonCtsReasons;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
+@NonCts(bug = 443192271, reason = NonCtsReasons.INTERNAL_APIS)
 public class MemorySegmentTest {
     private static final long BYTE_SIZE = 100;
     private static final long BYTE_ALIGNMENT = 1;

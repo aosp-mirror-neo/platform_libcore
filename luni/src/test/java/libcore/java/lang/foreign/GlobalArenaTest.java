@@ -25,6 +25,9 @@ import java.lang.foreign.MemorySegment;
 import java.util.List;
 import java.util.stream.Stream;
 
+import libcore.test.annotation.NonCts;
+import libcore.test.reasons.NonCtsReasons;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
@@ -32,6 +35,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
+@NonCts(bug = 443192271, reason = NonCtsReasons.INTERNAL_APIS)
 public class GlobalArenaTest {
     private static final long BYTE_SIZE = 100;
     private static final long BYTE_ALIGNMENT = 1;
