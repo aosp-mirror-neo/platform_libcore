@@ -224,12 +224,8 @@ class LinuxDosFileAttributeView
 
                 // convert to String and parse
                 byte[] buf = new byte[len];
-                // Android-changed: We don't have Unsafe.copyMemory yet, so we use putByte.
-                // unsafe.copyMemory(null, buffer.address(), buf,
-                //     Unsafe.ARRAY_BYTE_BASE_OFFSET, len);
-                for (int i = 0; i < len; i++) {
-                    buf[i] = unsafe.getByte(buffer.address() + i);
-                }
+                unsafe.copyMemory(null, buffer.address(), buf,
+                    Unsafe.ARRAY_BYTE_BASE_OFFSET, len);
                 String value = Util.toString(buf);
 
                 // should be something like 0x20

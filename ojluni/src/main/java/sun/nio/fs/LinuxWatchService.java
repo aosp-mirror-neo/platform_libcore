@@ -371,13 +371,8 @@ class LinuxWatchService
                             }
                             if (actual > 0) {
                                 byte[] buf = new byte[actual];
-                                // BEGIN Android-changed: Use Unsafe.getByte not Unsafe.copyMemory.
-                                // unsafe.copyMemory(null, event + OFFSETOF_NAME,
-                                //    buf, Unsafe.ARRAY_BYTE_BASE_OFFSET, actual);
-                                for(int i = 0; i < actual; i++) {
-                                    buf[i] = unsafe.getByte(event + OFFSETOF_NAME + i);
-                                }
-                                // END Android-changed: Use Unsafe.getByte not Unsafe.copyMemory.
+                                unsafe.copyMemory(null, event + OFFSETOF_NAME,
+                                    buf, Unsafe.ARRAY_BYTE_BASE_OFFSET, actual);
                                 name = new UnixPath(fs, buf);
                             }
                         }
