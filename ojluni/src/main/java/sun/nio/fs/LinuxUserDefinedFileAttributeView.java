@@ -70,12 +70,8 @@ class LinuxUserDefinedFileAttributeView
             if (unsafe.getByte(address + pos) == 0) {
                 int len = pos - start;
                 byte[] value = new byte[len];
-                // Android-changed: We don't have Unsafe.copyMemory yet, so we use getByte.
-                // unsafe.copyMemory(null, address+start, value,
-                //     Unsafe.ARRAY_BYTE_BASE_OFFSET, len);
-                for (int i = 0; i < len; i++) {
-                    value[i] = unsafe.getByte(address + start + i);
-                }
+                unsafe.copyMemory(null, address+start, value,
+                    Unsafe.ARRAY_BYTE_BASE_OFFSET, len);
                 String s = Util.toString(value);
                 if (s.startsWith(USER_NAMESPACE)) {
                     s = s.substring(USER_NAMESPACE.length());
@@ -202,12 +198,8 @@ class LinuxUserDefinedFileAttributeView
 
                 // copy from buffer into backing array if necessary
                 if (nb != null) {
-                    // Android-changed: We don't have Unsafe.copyMemory yet, so we use getByte.
-                    // int off = dst.arrayOffset() + pos + Unsafe.ARRAY_BYTE_BASE_OFFSET;
-                    // unsafe.copyMemory(null, address, dst.array(), off, n);
-                    for (int i = 0; i < n; i++) {
-                        dst.put(unsafe.getByte(address + i));
-                    }
+                    int off = dst.arrayOffset() + pos + Unsafe.ARRAY_BYTE_BASE_OFFSET;
+                    unsafe.copyMemory(null, address, dst.array(), off, n);
                 }
                 dst.position(pos + n);
                 return n;
@@ -247,23 +239,15 @@ class LinuxUserDefinedFileAttributeView
 
             if (src.hasArray()) {
                 // copy from backing array into buffer
-                // Android-changed: We don't have Unsafe.copyMemory yet, so we use putByte.
-                // int off = src.arrayOffset() + pos + Unsafe.ARRAY_BYTE_BASE_OFFSET;
-                // unsafe.copyMemory(src.array(), off, null, address, rem);
-                for (int i = 0; i < rem; i++) {
-                    unsafe.putByte(address + i, src.get());
-                }
+                int off = src.arrayOffset() + pos + Unsafe.ARRAY_BYTE_BASE_OFFSET;
+                unsafe.copyMemory(src.array(), off, null, address, rem);
             } else {
                 // backing array not accessible so transfer via temporary array
                 byte[] tmp = new byte[rem];
                 src.get(tmp);
                 src.position(pos);  // reset position as write may fail
-                // Android-changed: We don't have Unsafe.copyMemory yet, so we use putByte.
-                // unsafe.copyMemory(tmp, Unsafe.ARRAY_BYTE_BASE_OFFSET, null,
-                //       address, rem);
-                for (int i = 0; i < rem; i++) {
-                    unsafe.putByte(address + i, tmp[i]);
-                }
+                unsafe.copyMemory(tmp, Unsafe.ARRAY_BYTE_BASE_OFFSET, null,
+                    address, rem);
             }
         }
 
@@ -357,12 +341,8 @@ class LinuxUserDefinedFileAttributeView
                     // as the address of the name.
                     int len = pos - start;
                     byte[] name = new byte[len];
-                    // Android-changed: We don't have Unsafe.copyMemory yet, so we use getByte.
-                    // unsafe.copyMemory(null, address+start, name,
-                    //    Unsafe.ARRAY_BYTE_BASE_OFFSET, len);
-                    for (int i = 0; i < len; i++) {
-                        name[i] = unsafe.getByte(address + start + i);
-                    }
+                    unsafe.copyMemory(null, address+start, name,
+                        Unsafe.ARRAY_BYTE_BASE_OFFSET, len);
                     try {
                         copyExtendedAttribute(ofd, name, nfd);
                     } catch (UnixException ignore) {
