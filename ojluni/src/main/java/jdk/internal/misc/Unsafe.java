@@ -4374,39 +4374,5 @@ public final class Unsafe {
     @FastNative
     public native boolean compareAndSwapObject(Object obj, long offset,
             Object expectedValue, Object newValue);
-
-    /**
-     * Lazy set an int field.
-     *
-     * @param obj non-{@code null}; object containing the field
-     * @param offset offset to the field within {@code obj}
-     * @param newValue the value to store
-     */
-    @FastNative
-    public native void putOrderedInt(Object obj, long offset, int newValue);
-
-    /**
-     * Lazy set a long field.
-     *
-     * @param obj non-{@code null}; object containing the field
-     * @param offset offset to the field within {@code obj}
-     * @param newValue the value to store
-     */
-    @FastNative
-    public native void putOrderedLong(Object obj, long offset, long newValue);
-
-    /**
-     * Lazy set an object field.
-     *
-     * @param obj non-{@code null}; object containing the field
-     * @param offset offset to the field within {@code obj}
-     * @param newValue the value to store
-     */
-    @FastNative
-    public native void putOrderedObject(Object obj, long offset,
-            Object newValue);
-
     // END Android-added: Methods added for the Android platform.
-
-
 }
