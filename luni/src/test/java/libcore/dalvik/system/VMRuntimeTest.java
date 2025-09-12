@@ -160,7 +160,7 @@ public final class VMRuntimeTest {
 
     @Test
     public void testIsArtTestRwFlagEnabled() {
-        Assume.assumeTrue(VMRuntime.isArtTestRwFlagEnabled());
+        assertTrue(VMRuntime.isArtTestRwFlagEnabled());
     }
 
 
