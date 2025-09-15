@@ -37,10 +37,13 @@ import static java.lang.constant.DirectMethodHandleDesc.Kind.CONSTRUCTOR;
  *
  * @since 12
  */
-public sealed interface MethodHandleDesc
-        extends ConstantDesc
-        permits AsTypeMethodHandleDesc,
-                DirectMethodHandleDesc {
+// Android-changed: remove sealed marker (there is no metalava support b/355648520).
+// public sealed interface MethodHandleDesc
+//         extends ConstantDesc
+//         permits AsTypeMethodHandleDesc,
+//                 DirectMethodHandleDesc {
+public interface MethodHandleDesc
+        extends ConstantDesc {
 
     /**
      * Creates a {@linkplain MethodHandleDesc} corresponding to an invocation of a

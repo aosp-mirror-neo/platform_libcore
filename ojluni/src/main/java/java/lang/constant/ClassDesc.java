@@ -54,11 +54,15 @@ import static java.util.stream.Collectors.joining;
  *
  * @since 12
  */
-public sealed interface ClassDesc
+// Android-changed: remove sealed marker (there is no metalava support b/355648520).
+// public sealed interface ClassDesc
+//         extends ConstantDesc,
+//                 TypeDescriptor.OfField<ClassDesc>
+//         permits PrimitiveClassDescImpl,
+//                 ReferenceClassDescImpl {
+public interface ClassDesc
         extends ConstantDesc,
-                TypeDescriptor.OfField<ClassDesc>
-        permits PrimitiveClassDescImpl,
-                ReferenceClassDescImpl {
+                TypeDescriptor.OfField<ClassDesc> {
 
     /**
      * Returns a {@linkplain ClassDesc} for a class or interface type,

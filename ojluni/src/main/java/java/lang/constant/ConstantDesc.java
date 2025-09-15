@@ -75,16 +75,18 @@ import java.lang.invoke.VarHandle.VarHandleDesc;
  *
  * @since 12
  */
-public sealed interface ConstantDesc
-        permits ClassDesc,
-                MethodHandleDesc,
-                MethodTypeDesc,
-                Double,
-                DynamicConstantDesc,
-                Float,
-                Integer,
-                Long,
-                String {
+// Android-changed: remove sealed marker (there is no metalava support b/355648520).
+// public sealed interface ConstantDesc
+//         permits ClassDesc,
+//                 MethodHandleDesc,
+//                 MethodTypeDesc,
+//                 Double,
+//                 DynamicConstantDesc,
+//                 Float,
+//                 Integer,
+//                 Long,
+//                 String {
+public interface ConstantDesc {
 
     /**
      * Resolves this descriptor reflectively, emulating the resolution behavior

@@ -56,7 +56,9 @@ import static java.util.stream.Collectors.joining;
  *
  * @since 12
  */
-public abstract non-sealed class DynamicConstantDesc<T>
+// Android-changed: remove sealed marker (there is no metalava support b/355648520).
+// public abstract non-sealed class DynamicConstantDesc<T>
+public abstract class DynamicConstantDesc<T>
         implements ConstantDesc {
 
     private final DirectMethodHandleDesc bootstrapMethod;
