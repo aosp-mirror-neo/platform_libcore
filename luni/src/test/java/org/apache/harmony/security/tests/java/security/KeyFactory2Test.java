@@ -36,6 +36,8 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 import libcore.java.security.StandardNames;
 
@@ -46,6 +48,10 @@ public class KeyFactory2Test extends junit.framework.TestCase {
     private String[] keyfactAlgs = null;
 
     private String providerName = null;
+
+    // XDH, EdDSA, ML-DSA, SLH-DSA are fully tested in Conscrypt
+    private static final Set<String> SKIPPED_KEYFACTORY_ALGORITHMS = new HashSet<>(Arrays.asList(
+            "XDH", "EdDSA", "ML-DSA", "ML-DSA-65", "ML-DSA-87", "SLH-DSA-SHA2-128S"));
 
     static class KeepAlive extends Thread {
         int sleepTime, iterations;
@@ -330,10 +336,7 @@ public class KeyFactory2Test extends junit.framework.TestCase {
             String algorithm = (String) e.nextElement();
             if (algorithm.startsWith(KEYFACTORY_ID) && !algorithm.contains(" ")) {
                 String keyFactoryName = algorithm.substring(KEYFACTORY_ID.length());
-                if ("XDH".equals(keyFactoryName)) {
-                    // Skip Elliptic curve DH as the KeySpec classes needed for this
-                    // test aren't yet available on Android. XDH is fully tested in Conscrypt
-                    // tests. b/179675498
+                if (SKIPPED_KEYFACTORY_ALGORITHMS.contains(keyFactoryName)) {
                     continue;
                 }
                 algs.addElement(keyFactoryName);
