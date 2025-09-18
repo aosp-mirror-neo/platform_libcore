@@ -53,9 +53,7 @@ cc_defaults {
 cc_library_shared {
     name: "libjavacore",
     visibility: [
-        "//art/build/apex",
-        "//art/runtime",
-        "//art/tools/ahat",
+        "//art:__subpackages__",
     ],
     apex_available: [
         "com.android.art",
@@ -84,9 +82,7 @@ cc_library_shared {
 cc_library_shared {
     name: "libandroidio",
     visibility: [
-        "//art/build/apex",
-        "//art/build/sdk",
-        "//art/tools/ahat",
+        "//art:__subpackages__",
         "//external/conscrypt",
     ],
     apex_available: [
@@ -185,8 +181,7 @@ cc_library_shared {
 cc_library_shared {
     name: "libopenjdkd",
     visibility: [
-        "//art/build/apex",
-        "//art/tools/ahat",
+        "//art:__subpackages__",
     ],
     apex_available: [
         "com.android.art.debug",
