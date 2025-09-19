@@ -20,8 +20,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.platform.test.annotations.RequiresFlagsEnabled;
-import android.platform.test.flag.junit.CheckFlagsRule;
-import android.platform.test.flag.junit.DeviceFlagsValueProvider;
 
 import java.lang.reflect.Array;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,7 +27,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import dalvik.system.VMRuntime;
 
 import org.junit.Assume;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -39,10 +36,6 @@ import org.junit.runners.JUnit4;
  */
 @RunWith(JUnit4.class)
 public final class VMRuntimeTest {
-
-    @Rule
-    public final CheckFlagsRule mCheckFlagsRule =
-            DeviceFlagsValueProvider.createCheckFlagsRule();
 
     private void doTestNewNonMovableArray(Class<?> componentType, int step, int maxLength) {
         // Can't create negative sized arrays.

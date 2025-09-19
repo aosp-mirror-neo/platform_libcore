@@ -660,7 +660,6 @@ java_library_static {
         "test-rules/src/main/**/*.java",
     ],
     static_libs: [
-        "flag-junit",
         "junit",
         "platform-test-annotations",
     ],
