@@ -66,8 +66,8 @@ public class Main {
         public static final String NAME = "dump";
 
         @Parameter(names = {"-cp", "--classpath"}, description = "file path to a .jmod or .jar file"
-                + " or one of the following java version: oj, 8, 9, 11, 17, 21")
-        public String classpathFile = "21";
+                + " or one of the following java version: oj, 8, 9, 11, 17, 21, 25")
+        public String classpathFile = "25";
 
         @Parameter(required = true, arity = 1,
                 description = "<class>. The fully qualified name of the class in the classpath. "
@@ -101,12 +101,12 @@ public class Main {
         public static final String NAME = "api-diff";
 
         @Parameter(names = {"-b", "--base"}, description = "file path to a .jmod or .jar file or "
-                + "one of the following java version: oj, 8, 9, 11, 17, 21")
+                + "one of the following java version: oj, 8, 9, 11, 17, 21, 25")
         public String baseClasspath = "11";
 
         @Parameter(names = {"-n", "--new"}, description = "file path to a .jmod or .jar file or "
-                + "one of the following java version: oj, 8, 9, 11, 17, 21")
-        public String newClasspath = "21";
+                + "one of the following java version: oj, 8, 9, 11, 17, 21, 25")
+        public String newClasspath = "25";
 
         @Parameter(required = true, arity = 1,
                 description = "<class>. The fully qualified name of the class in the classpath. "
@@ -341,15 +341,15 @@ public class Main {
         public static final String NAME = "show-deps";
 
         @Parameter(names = {"-cp"}, description = "file path to a .jmod or .jar file or "
-            + "one of the following java version: oj, 8, 9, 11, 17, 21")
-        public String classpath = "21";
+            + "one of the following java version: oj, 8, 9, 11, 17, 21, 25")
+        public String classpath = "25";
 
         /**
          * @see DependencyAnalyzer.ExcludeClasspathFilter
          */
         @Parameter(names = {"-x", "--exclude-deps-in-classpath"}, description = "a file path to a "
-                + ".jmod or .jar file or one of the following java version: oj, 8, 9, 11, 17, 21. "
-                + "The classes, methods and fields that exist in this classpath are "
+                + ".jmod or .jar file or one of the following java version: oj, 8, 9, 11, 17, 21, "
+                + " 25. The classes, methods and fields that exist in this classpath are "
                 + "excluded from the output list of dependencies.")
         public String excludeClasspath = "oj";
 
@@ -491,16 +491,16 @@ public class Main {
         public static final String NAME = "list-no-deps";
 
         @Parameter(names = {"-t", "--target"}, description = "file path to a .jmod or .jar file or "
-                + "one of the following OpenJDK version: 9, 11, 17, 21")
-        public String classpath = "21";
+                + "one of the following OpenJDK version: 9, 11, 17, 21, 25")
+        public String classpath = "25";
 
         @Parameter(names = "-h", help = true, description = "Shows this help message")
         public boolean help = false;
 
         private void run() throws UncheckedIOException {
-            if (!List.of("9", "11", "17", "21").contains(classpath)) {
-                throw new IllegalArgumentException("Only 9, 11, 17, 21 java version is supported. "
-                        + "This java version isn't supported: " + classpath);
+            if (!List.of("9", "11", "17", "21", "25").contains(classpath)) {
+                throw new IllegalArgumentException("Only 9, 11, 17, 21, 25 java version is "
+                        + "supported. This java version isn't supported: " + classpath);
             }
             int targetVersion = Integer.parseInt(classpath);
 
@@ -570,13 +570,13 @@ public class Main {
 
         @Parameter(names = {"-b", "--base"},
                 description = "file path to a .jmod or .jar file or"
-                        + "one of the following OpenJDK version: 8, 9, 11, 17, 21")
+                        + "one of the following OpenJDK version: 8, 9, 11, 17, 21, 25")
         public String base = "oj";
 
         @Parameter(names = {"-t", "--target"},
                 description = "file path to a .jmod or .jar file or"
-                        + "one of the following OpenJDK version: 8, 9, 11, 17, 21")
-        public String classpath = "21";
+                        + "one of the following OpenJDK version: 8, 9, 11, 17, 21, 25")
+        public String classpath = "25";
 
         @Parameter(names = {"-d"},
                 description = "Disable the API filters read from " + UnsupportedNewApis.FILE_NAME)
