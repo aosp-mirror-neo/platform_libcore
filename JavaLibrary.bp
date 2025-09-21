@@ -341,10 +341,7 @@ java_system_modules {
 java_library {
     name: "core-oj",
     visibility: [
-        "//art/build/apex",
-        "//art/build/sdk",
-        "//art/tools/ahat",
-        "//art/tools/fuzzer",
+        "//art:__subpackages__",
         "//external/wycheproof",
         "//libcore/benchmarks",
         "//packages/modules/ArtPrebuilt",
@@ -417,10 +414,7 @@ java_library {
 java_library {
     name: "core-libart",
     visibility: [
-        "//art/build/apex",
-        "//art/build/sdk",
-        "//art/tools/ahat",
-        "//art/tools/fuzzer",
+        "//art:__subpackages__",
         "//external/wycheproof",
         "//libcore/benchmarks",
         "//packages/modules/ArtPrebuilt",
