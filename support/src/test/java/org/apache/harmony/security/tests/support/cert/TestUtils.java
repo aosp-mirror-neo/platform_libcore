@@ -322,7 +322,6 @@ public class TestUtils {
      * Certificate encoding was created by hands according to X.509 Certificate
      * ASN.1 notation. The certificate encoding has the following encoded
      * field values:<br>
-     * - version: 1<br>
      * - serialNumber: 5<br>
      * - issuer: CN=Z<br>
      * - notBefore: 13 Dec 1999 14:15:16<br>
@@ -334,23 +333,22 @@ public class TestUtils {
     public static byte[] getX509Certificate_v1() {
         return new byte[] {
         // Certificate: SEQUENCE
-            0x30, 0x6B,
+            0x30, 0x62,
 
             //
             // TBSCertificate: SEQUENCE {
             //
-            0x30, 0x5C,
+            0x30, 0x54,
 
             // version: [0] EXPLICIT Version DEFAULT v1
-            (byte) 0xA0, 0x03, 0x02, 0x01, 0x00,
 
             // serialNumber: CertificateSerialNumber
             0x02, 0x01, 0x05,
 
             // signature: AlgorithmIdentifier
-            0x30, 0x07, // SEQUENCE
+            0x30, 0x06,
             0x06, 0x02, 0x03, 0x05,//OID
-            0x01, 0x01, 0x07, //ANY
+            0x05, 0x00,
 
             //issuer: Name
             0x30, 0x0C, 0x31, 0x0A, 0x30, 0x08, 0x06, 0x03, 0x55, 0x04, 0x03,
@@ -371,10 +369,10 @@ public class TestUtils {
             //SubjectPublicKeyInfo  ::=  SEQUENCE  {
             //    algorithm            AlgorithmIdentifier,
             //    subjectPublicKey     BIT STRING  }
-            0x30, 0x0D, // SEQUENCE
-            0x30, 0x07, // SEQUENCE
+            0x30, 0x0C,
+            0x30, 0x06,
             0x06, 0x02, 0x03, 0x05,//OID
-            0x01, 0x01, 0x07, //ANY
+            0x05, 0x00,
             0x03, 0x02, 0x00, 0x01, // subjectPublicKey
 
             // issuerUniqueID - missed
@@ -386,9 +384,9 @@ public class TestUtils {
             //
             // signatureAlgorithm: AlgorithmIdentifier
             //
-            0x30, 0x07, // SEQUENCE
+            0x30, 0x06,
             0x06, 0x02, 0x03, 0x05,//OID
-            0x01, 0x01, 0x07, //ANY
+            0x05, 0x00,
 
             //
             // signature: BIT STRING
@@ -416,23 +414,23 @@ public class TestUtils {
     public static byte[] getX509Certificate_v3() {
         return new byte[] {
         // Certificate: SEQUENCE
-            0x30, 0x7D,
+            0x30, 0x77,
 
             //
             // TBSCertificate: SEQUENCE {
             //
-            0x30, 0x6E,
+            0x30, 0x69,
 
             // version: [0] EXPLICIT Version DEFAULT v1
-            (byte) 0xA0, 0x03, 0x02, 0x01, 0x02,
+            (byte) 0xA0, 0x03, 0x02, 0x01, 0x02, // v3 is '2', not default, so this is correct
 
             // serialNumber: CertificateSerialNumber
             0x02, 0x01, 0x05,
 
             // signature: AlgorithmIdentifier
-            0x30, 0x07, // SEQUENCE
+            0x30, 0x06,
             0x06, 0x02, 0x03, 0x05,//OID
-            0x01, 0x01, 0x07, //ANY
+            0x05, 0x00,
 
             //issuer: Name
             0x30, 0x0C, 0x31, 0x0A, 0x30, 0x08, 0x06, 0x03, 0x55, 0x04, 0x03,
@@ -453,27 +451,26 @@ public class TestUtils {
             //SubjectPublicKeyInfo  ::=  SEQUENCE  {
             //    algorithm            AlgorithmIdentifier,
             //    subjectPublicKey     BIT STRING  }
-            0x30, 0x0D, // SEQUENCE
-            0x30, 0x07, // SEQUENCE
+            0x30, 0x0C,
+            0x30, 0x06,
             0x06, 0x02, 0x03, 0x05,//OID
-            0x01, 0x01, 0x07, //ANY
+            0x05, 0x00,
             0x03, 0x02, 0x00, 0x01, // subjectPublicKey
 
             // issuerUniqueID - missed
             // subjectUniqueID - missed
             // extensions : [3]  EXPLICIT Extensions OPTIONAL
-            (byte) 0xA3, 0x10,
+            (byte) 0xA3, 0x0D,
             // Extensions  ::=  SEQUENCE SIZE (1..MAX) OF Extension
-            0x30, 0x0E,
+            0x30, 0x0B,
             // Extension  ::=  SEQUENCE  {
             // extnID      OBJECT IDENTIFIER,
             // critical    BOOLEAN DEFAULT FALSE,
             // extnValue   OCTET STRING  }
 
             // 1) AuthorityKeyIdentifier extension (see HARMONY-3384)
-            0x30, 0x0C,
+            0x30, 0x09,
             0x06, 0x03, 0x55, 0x1D, 0x23, // OID = 2.5.29.35
-            0x01, 0x01, 0x00, // critical = FALSE
             0x04, 0x02, 0x30, 0x00, // extnValue: MUST be empty sequence
             // missed: keyIdentifier
             // missed: authorityCertIssuer
@@ -484,9 +481,9 @@ public class TestUtils {
             //
             // signatureAlgorithm: AlgorithmIdentifier
             //
-            0x30, 0x07, // SEQUENCE
+            0x30, 0x06, // SEQUENCE (Length updated from 0x07)
             0x06, 0x02, 0x03, 0x05,//OID
-            0x01, 0x01, 0x07, //ANY
+            0x05, 0x00, // Parameters changed from ANY (0x01,0x01,0x07) to NULL
 
             //
             // signature: BIT STRING
