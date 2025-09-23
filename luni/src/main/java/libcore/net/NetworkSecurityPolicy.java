@@ -220,29 +220,34 @@ public abstract class NetworkSecurityPolicy {
      * overridden. Network libraries should avoid performing any domain encryption and perform a
      * standard TLS handshake, equivalent to {@link #DOMAIN_ENCRYPTION_DISABLED}.
      */
+    @libcore.api.IntraCoreApi
     public static final int DOMAIN_ENCRYPTION_SETTING_UNKNOWN = 0;
 
     /**
      * Domain encryption is disabled for the app. ECH and GREASE should not be used.
      */
+    @libcore.api.IntraCoreApi
     public static final int DOMAIN_ENCRYPTION_DISABLED = 1;
 
     /**
      * Domain encryption is in opportunistic mode for the app. ECH will only be enabled when there
      * is server support, and GREASE will not be used.
      */
+    @libcore.api.IntraCoreApi
     public static final int DOMAIN_ENCRYPTION_OPPORTUNISTIC = 2;
 
     /**
      * Domain encryption is in strict mode for the app. ECH will be enabled when there is server
      * support, otherwise GREASE will be used.
      */
+    @libcore.api.IntraCoreApi
     public static final int DOMAIN_ENCRYPTION_STRICT = 3;
 
     /**
      * Domain encryption should fail closed (i.e. if encryption cannot be enabled for any reason,
      * the connection will fail).
      */
+    @libcore.api.IntraCoreApi
     public static final int DOMAIN_ENCRYPTION_FAIL_CLOSED = 4;
 
     /**
@@ -254,6 +259,7 @@ public abstract class NetworkSecurityPolicy {
      */
     @SystemApi(client = MODULE_LIBRARIES)
     @DomainEncryptionMode
+    @libcore.api.IntraCoreApi
     public int getDomainEncryptionMode(@NonNull String hostname) {
         return DOMAIN_ENCRYPTION_SETTING_UNKNOWN;
     }
