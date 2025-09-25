@@ -27,6 +27,9 @@ package java.lang.constant;
 import java.lang.invoke.TypeDescriptor;
 import java.util.List;
 
+/**
+ * @hide
+ */
 public interface MethodTypeDesc
         extends ConstantDesc,
                 TypeDescriptor.OfMethod<ClassDesc, MethodTypeDesc> {

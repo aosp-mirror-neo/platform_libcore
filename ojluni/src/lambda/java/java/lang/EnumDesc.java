@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (C) 2014 The Android Open Source Project
+ * Copyright (c) 2003, 2020, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -22,32 +23,27 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package java.lang.constant;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
 
-import static java.lang.constant.ConstantDescs.BSM_INVOKE;
-import static java.lang.constant.ConstantDescs.CD_MethodHandle;
+package java.lang;
 
 /**
+ * EnumDesc is a hidden inner class of non-hidden Enum class.
+ * To avoid duplicate definition error of Enum class when building
+ * "core-current-stubs-for-system-modules", the EnumDesc.class will be later jarjar-ed
+ * with core-lambda-jarjar-rules.txt into an inner class, i.e. java.lang.Enum$EnumDesc.
  * @hide
  */
-final class AsTypeMethodHandleDesc extends DynamicConstantDesc<MethodHandle>
-        implements MethodHandleDesc {
+@SuppressWarnings({"unchecked", "deprecation", "all"})
+public final class EnumDesc<E extends java.lang.Enum<E>> {
 
-    AsTypeMethodHandleDesc(MethodHandleDesc underlying, MethodTypeDesc type) {
-        super(BSM_INVOKE, ConstantDescs.DEFAULT_NAME, CD_MethodHandle,
-              ConstantDescs.MHD_METHODHANDLE_ASTYPE, underlying, type);
-    }
+EnumDesc() { throw new RuntimeException("Stub!"); }
 
-    @Override
-    public MethodTypeDesc invocationType() { return null; }
+public static <E extends java.lang.Enum<E>> java.lang.EnumDesc<E> of(java.lang.constant.ClassDesc enumClass, java.lang.String constantName) { throw new RuntimeException("Stub!"); }
 
-    @Override
-    public MethodHandle resolveConstantDesc(MethodHandles.Lookup lookup)
-            throws ReflectiveOperationException { return null; }
+public E resolveConstantDesc(java.lang.invoke.MethodHandles.Lookup lookup) throws java.lang.ReflectiveOperationException { throw new RuntimeException("Stub!"); }
 
-    @Override
-    public String toString() { return null; }
+public java.lang.String toString() { throw new RuntimeException("Stub!"); }
 }
+
+

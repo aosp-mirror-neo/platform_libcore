@@ -82,6 +82,14 @@ filegroup {
     srcs: [":openjdk_java_files"],
 }
 
+filegroup {
+    name: "core_lambda_jarjar_rules_files",
+    srcs: ["core-lambda-jarjar-rules.txt"],
+    visibility: [
+        "//libcore:__subpackages__",
+    ],
+}
+
 // http://b/129765390, http://b/188966706
 // Rewrite links to "platform" or "technotes" folders which are siblings
 // (and thus outside of) {@docRoot}.
@@ -545,6 +553,7 @@ java_defaults {
     sdk_version: "none",
     system_modules: "core-all-system-modules",
     patch_module: "java.base",
+    jarjar_rules: ":core_lambda_jarjar_rules_files",
 
     installable: false,
     include_srcs: true,
@@ -1132,6 +1141,22 @@ java_system_modules {
     visibility: ["//visibility:private"],
 }
 
+// Compiled lambda sources separately to avoid statically linking the lambda classes into
+// "libcore-bootstrap-lib-for-flags-lib", because statically linking them is not necessary,
+// and could cause the build error described in b/448068365.
+java_library {
+    name: "libcore-bootstrap-lambda-lib-for-flags-lib",
+    srcs: [":openjdk_lambda_stub_files"],
+    jarjar_rules: ":core_lambda_jarjar_rules_files",
+    sdk_version: "none",
+    patch_module: "java.base",
+    system_modules: "libcore-bootstrap-core-current-from-text-system-modules",
+    installable: false,
+    visibility: [
+        "//libcore:__subpackages__",
+    ],
+}
+
 java_library {
     name: "libcore-bootstrap-lib-for-flags-lib",
     srcs: [
@@ -1139,8 +1164,6 @@ java_library {
         ":app-compat-annotations-source",
         // Needs @AssumeFalseForR8 and AconfigFlagAccessor from this source
         ":framework-api-annotations",
-        // Needs LambdaMetafactory due to lambda usage in the lib
-        ":openjdk_lambda_stub_files",
     ],
     sdk_version: "none",
     patch_module: "java.base",
@@ -1172,6 +1195,8 @@ java_aconfig_library {
     // An alternative is to generate the .java source files of this lib without running javac,
     // but it wasn't possible using java_aconfig_library when this comment is written.
     system_modules: "libcore-bootstrap-lib-for-flags-lib-system-modules",
+    // Needs LambdaMetafactory due to lambda usage in the aconfig lib
+    libs: ["libcore-bootstrap-lambda-lib-for-flags-lib"],
     sdk_version: "none",
     patch_module: "java.base",
     installable: false,
@@ -1182,6 +1207,8 @@ java_aconfig_library {
     name: "art-aconfig-flags-java-lib-for-core-all-only",
     aconfig_declarations: "art-aconfig-flags",
     system_modules: "libcore-bootstrap-lib-for-flags-lib-system-modules",
+    // Needs LambdaMetafactory due to lambda usage in the aconfig lib
+    libs: ["libcore-bootstrap-lambda-lib-for-flags-lib"],
     sdk_version: "none",
     patch_module: "java.base",
     installable: false,

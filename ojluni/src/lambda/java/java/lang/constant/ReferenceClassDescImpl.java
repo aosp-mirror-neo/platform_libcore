@@ -26,6 +26,9 @@ package java.lang.constant;
 
 import java.lang.invoke.MethodHandles;
 
+/**
+ * @hide
+ */
 final class ReferenceClassDescImpl implements ClassDesc {
 
     ReferenceClassDescImpl(String descriptor) { }

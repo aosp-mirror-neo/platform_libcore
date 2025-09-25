@@ -26,6 +26,9 @@ package java.lang.constant;
 
 import java.util.Optional;
 
+/**
+ * @hide
+ */
 public interface Constable {
     Optional<? extends ConstantDesc> describeConstable();
 }

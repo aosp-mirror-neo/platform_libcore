@@ -26,6 +26,9 @@ package java.lang.constant;
 
 import java.lang.invoke.MethodHandles;
 
+/**
+ * @hide
+ */
 public interface ConstantDesc {
 
     Object resolveConstantDesc(MethodHandles.Lookup lookup) throws ReflectiveOperationException;

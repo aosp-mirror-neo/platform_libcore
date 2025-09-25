@@ -146,6 +146,7 @@ java_library {
     system_modules: "art-module-intra-core-api-stubs-bootstrap-system-modules",
     sdk_version: "none",
     patch_module: "java.base",
+    jarjar_rules: ":core_lambda_jarjar_rules_files",
 
     // This jar is packaged as part of the SDK, use -target 8 so that it works
     // with old JDKs.
