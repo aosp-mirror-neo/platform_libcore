@@ -27,7 +27,7 @@ import libcore.api.IntraCoreApi;
  * <p>Only historically fixed API levels should be included or abstract concepts like "CURRENT"
  * should be added. Do not predict API levels.
  *
- * {@hide}
+ * @hide
  */
 @IntraCoreApi
 public class VersionCodes {
