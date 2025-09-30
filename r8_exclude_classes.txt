@@ -16,6 +16,7 @@ java.lang.invoke.ByteArrayViewVarHandle
 java.lang.invoke.ByteBufferViewVarHandle
 java.lang.invoke.CallSite
 java.lang.invoke.FieldVarHandle
+java.lang.invoke.MemorySegmentVarHandle
 java.lang.invoke.MethodHandle
 java.lang.invoke.MethodHandleImpl
 java.lang.invoke.MethodHandles$Lookup

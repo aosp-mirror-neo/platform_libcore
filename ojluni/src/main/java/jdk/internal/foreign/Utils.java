@@ -26,6 +26,7 @@
 package jdk.internal.foreign;
 
 import jdk.internal.vm.annotation.ForceInline;
+import sun.invoke.util.Wrapper;
 
 /**
  * This class contains misc helper functions to support creation of memory segments.
@@ -289,6 +290,7 @@ public final class Utils {
         }
         return MemoryLayout.structLayout(layouts.toArray(MemoryLayout[]::new));
     }
+    */
 
     public static int byteWidthOfPrimitive(Class<?> primitive) {
         return Wrapper.forPrimitiveType(primitive).bitWidth() / 8;
@@ -298,6 +300,7 @@ public final class Utils {
         return (value & (value - 1)) == 0L;
     }
 
+    /*
     public static <L extends MemoryLayout> L wrapOverflow(Supplier<L> layoutSupplier) {
         try {
             return layoutSupplier.get();

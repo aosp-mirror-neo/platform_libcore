@@ -594,8 +594,6 @@ public sealed interface MemorySegment permits AbstractMemorySegmentImpl {
      */
     long byteSize();
 
-    // BEGIN Android-removed: Not used in Android.
-    /*
     /**
      * {@return the <a href="#segment-alignment">maximum byte alignment</a>
      * associated with this memory segment}
@@ -615,9 +613,11 @@ public sealed interface MemorySegment permits AbstractMemorySegmentImpl {
      * }
      *
      * @since 23
-     * /
+     */
     long maxByteAlignment();
 
+    // BEGIN Android-removed: Not used in Android.
+    /*
     /**
      * Returns a slice of this memory segment, at the given offset. The returned
      * segment's address is the address of this segment plus the given offset;
@@ -863,11 +863,13 @@ public sealed interface MemorySegment permits AbstractMemorySegmentImpl {
     MemorySegment reinterpret(long newSize,
                               Arena arena,
                               Consumer<MemorySegment> cleanup);
+    */
+    // END Android-removed: Not used in Android.
 
     /**
      * {@return {@code true}, if this segment is read-only}
      * @see #asReadOnly()
-     * /
+     */
     boolean isReadOnly();
 
     /**
@@ -877,7 +879,7 @@ public sealed interface MemorySegment permits AbstractMemorySegmentImpl {
      * contents of the returned segment will cause runtime exceptions.
      *
      * @see #isReadOnly()
-     * /
+     */
     MemorySegment asReadOnly();
 
     /**
@@ -886,9 +888,11 @@ public sealed interface MemorySegment permits AbstractMemorySegmentImpl {
      * A native segment is created e.g. using the {@link Arena#allocate(long, long)}
      * (and related) factory, or by {@linkplain #ofBuffer(Buffer) wrapping} a
      * {@linkplain ByteBuffer#allocateDirect(int) direct buffer}.
-     * /
+     */
     boolean isNative();
 
+    // BEGIN Android-removed: Not used in Android.
+    /*
     /**
      * {@return {@code true} if this segment is a mapped segment}
      *
@@ -1836,7 +1840,7 @@ public sealed interface MemorySegment permits AbstractMemorySegmentImpl {
      *         in the provided layout
      * @throws IndexOutOfBoundsException if {@code offset > byteSize() - layout.byteSize()}
      *         or {@code offset < 0}
-     * /
+     */
     int get(ValueLayout.OfInt layout, long offset);
 
     /**
@@ -1857,7 +1861,7 @@ public sealed interface MemorySegment permits AbstractMemorySegmentImpl {
      *         or {@code offset < 0}
      * @throws IllegalArgumentException if this segment is
      *         {@linkplain #isReadOnly() read-only}
-     * /
+     */
     void set(ValueLayout.OfInt layout, long offset, int value);
 
     /**

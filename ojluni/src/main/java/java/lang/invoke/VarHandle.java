@@ -33,6 +33,7 @@ import java.lang.constant.ConstantDesc;
 import java.lang.constant.ConstantDescs;
 import java.lang.constant.DirectMethodHandleDesc;
 import java.lang.constant.DynamicConstantDesc;
+import java.lang.foreign.MemorySegment;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -2234,6 +2235,29 @@ public abstract class VarHandle {
         } else {
             this.accessModesBitMask = unalignedAccessModesBitMask(varType);
         }
+    }
+
+    /**
+     * Constructor for VarHandle for MemorySegment
+     *
+     * @param varType the variable type of variables to be referenced
+     * @param coordinateType0 the first coordinate
+     * @param coordinateType1 the second coordinate
+     * @hide
+     */
+    VarHandle(Class<?> varType,
+              Class<?> coordinateType0, Class<?> coordinateType1) {
+        if (coordinateType0 != MemorySegment.class) {
+            throw new InternalError(
+                    "Coordinate type must be MemorySegment but it is: " + coordinateType0);
+        }
+        this.varType = Objects.requireNonNull(varType);
+        this.coordinateType0 = Objects.requireNonNull(coordinateType0);
+        this.coordinateType1 = Objects.requireNonNull(coordinateType1);
+
+        // TODO: b/446845636 - Use unalignedAccessModeBitMask
+        // if byteAlignment is smaller than vartype's natural alignment
+        this.accessModesBitMask = alignedAccessModesBitMask(varType, false);
     }
     // END Android-added: package private constructors.
 

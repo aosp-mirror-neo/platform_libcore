@@ -58,8 +58,7 @@ public /*sealed*/ final class NativeMemorySegmentImpl extends AbstractMemorySegm
         return Optional.empty();
     }
 
-    // BEGIN Android-removed: Not used in Android.
-    /*
+
     public final long maxByteAlignment() {
         return address() == 0
                 ? 1L << 62
@@ -72,16 +71,19 @@ public /*sealed*/ final class NativeMemorySegmentImpl extends AbstractMemorySegm
         return new NativeMemorySegmentImpl(min + offset, size, readOnly, scope);
     }
 
+    // BEGIN Android-removed : Not used in Android
+    /*
     @Override
     ByteBuffer makeByteBuffer() {
         return NIO_ACCESS.newDirectByteBuffer(min, (int) this.length, null, this);
     }
+    */
 
     @Override
     public boolean isNative() {
         return true;
     }
-    */
+
 
     @Override
     public long unsafeGetOffset() {

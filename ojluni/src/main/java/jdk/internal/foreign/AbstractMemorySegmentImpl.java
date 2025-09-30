@@ -26,6 +26,7 @@
 package jdk.internal.foreign;
 
 import java.lang.foreign.MemorySegment;
+import java.lang.foreign.ValueLayout;
 import java.util.Objects;
 
 import jdk.internal.access.JavaNioAccess;
@@ -60,11 +61,14 @@ public abstract sealed class AbstractMemorySegmentImpl
         this.scope = scope;
     }
 
-    // BEGIN Android-removed: Not used in Android.
-    /*
+
     abstract AbstractMemorySegmentImpl dup(long offset, long size, boolean readOnly, MemorySessionImpl scope);
 
+    // BEGIN Android-removed: Not used in Android.
+    /*
     abstract ByteBuffer makeByteBuffer();
+    */
+    // END Android-removed: Not used in Android.
 
     @Override
     public AbstractMemorySegmentImpl asReadOnly() {
@@ -76,6 +80,8 @@ public abstract sealed class AbstractMemorySegmentImpl
         return readOnly;
     }
 
+    // BEGIN Android-removed: Not used in Android.
+    /*
     @Override
     public AbstractMemorySegmentImpl asSlice(long offset, long newSize) {
         checkBounds(offset, newSize);
@@ -418,12 +424,16 @@ public abstract sealed class AbstractMemorySegmentImpl
     public final MemorySessionImpl sessionImpl() {
         return scope;
     }
+    */
+    // END Android-removed: Not used in Android.
 
     private IndexOutOfBoundsException outOfBoundException(long offset, long length) {
         return new IndexOutOfBoundsException(String.format("Out of bound access on segment %s; new offset = %d; new length = %d",
                         this, offset, length));
     }
 
+    // BEGIN Android-removed: Not used in Android.
+    /*
     static class SegmentSplitter implements Spliterator<MemorySegment> {
         AbstractMemorySegmentImpl segment;
         long elemCount;
@@ -729,6 +739,8 @@ public abstract sealed class AbstractMemorySegmentImpl
     public void set(ValueLayout.OfShort layout, long offset, short value) {
         layout.varHandle().set((MemorySegment)this, offset, value);
     }
+    */
+    // END Android-removed: Not used in Android.
 
     @ForceInline
     @Override
@@ -742,6 +754,8 @@ public abstract sealed class AbstractMemorySegmentImpl
         layout.varHandle().set((MemorySegment)this, offset, value);
     }
 
+    // BEGIN Android-removed: Not used in Android.
+    /*
     @ForceInline
     @Override
     public float get(ValueLayout.OfFloat layout, long offset) {
