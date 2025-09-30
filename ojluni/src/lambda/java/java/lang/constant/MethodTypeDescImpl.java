@@ -30,6 +30,9 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * @hide
+ */
 final class MethodTypeDescImpl implements MethodTypeDesc {
 
     MethodTypeDescImpl(ClassDesc returnType, ClassDesc[] argTypes) { }

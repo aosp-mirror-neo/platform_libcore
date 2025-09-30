@@ -353,7 +353,6 @@ public abstract class Enum<E extends Enum<E>>
         throw new InvalidObjectException("can't deserialize enum");
     }
 
-    // Android-changed: Hide EnumDesc API until master switches away from Android U dev. b/270028670
     /**
      * A <a href="{@docRoot}/java.base/java/lang/constant/package-summary.html#nominal">nominal descriptor</a> for an
      * {@code enum} constant.

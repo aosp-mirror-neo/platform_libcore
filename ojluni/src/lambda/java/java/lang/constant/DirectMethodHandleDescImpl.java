@@ -27,6 +27,9 @@ package java.lang.constant;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 
+/**
+ * @hide
+ */
 final class DirectMethodHandleDescImpl implements DirectMethodHandleDesc {
 
     private final Kind kind;

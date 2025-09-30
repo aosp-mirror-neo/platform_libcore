@@ -27,6 +27,9 @@ package java.lang.constant;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
+/**
+ * @hide
+ */
 public abstract class DynamicConstantDesc<T>
         implements ConstantDesc {
 

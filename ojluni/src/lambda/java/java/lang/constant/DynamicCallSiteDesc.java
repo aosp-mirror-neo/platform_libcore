@@ -27,6 +27,9 @@ package java.lang.constant;
 import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandles;
 
+/**
+ * @hide
+ */
 public class DynamicCallSiteDesc {
 
     private DynamicCallSiteDesc(DirectMethodHandleDesc bootstrapMethod,

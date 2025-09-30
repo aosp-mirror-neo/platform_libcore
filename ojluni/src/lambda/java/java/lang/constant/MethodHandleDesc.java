@@ -24,6 +24,9 @@
  */
 package java.lang.constant;
 
+/**
+ * @hide
+ */
 public interface MethodHandleDesc
         extends ConstantDesc {
 

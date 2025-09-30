@@ -26,6 +26,9 @@ package java.lang.constant;
 
 import static java.lang.constant.DirectMethodHandleDesc.*;
 
+/**
+ * @hide
+ */
 public final class ConstantDescs {
     // No instances
     private ConstantDescs() { }

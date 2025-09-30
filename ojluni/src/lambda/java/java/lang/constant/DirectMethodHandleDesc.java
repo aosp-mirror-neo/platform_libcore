@@ -29,8 +29,6 @@ import java.lang.invoke.MethodHandleInfo;
 import java.util.OptionalInt;
 import java.util.stream.Stream;
 
-import jdk.internal.vm.annotation.Stable;
-
 import static java.lang.invoke.MethodHandleInfo.REF_getField;
 import static java.lang.invoke.MethodHandleInfo.REF_getStatic;
 import static java.lang.invoke.MethodHandleInfo.REF_invokeInterface;
@@ -41,6 +39,9 @@ import static java.lang.invoke.MethodHandleInfo.REF_newInvokeSpecial;
 import static java.lang.invoke.MethodHandleInfo.REF_putField;
 import static java.lang.invoke.MethodHandleInfo.REF_putStatic;
 
+/**
+ * @hide
+ */
 public interface DirectMethodHandleDesc
         extends MethodHandleDesc {
     enum Kind {
@@ -82,7 +83,7 @@ public interface DirectMethodHandleDesc
             return (refKind * 2) + (isInterface ? 1 : 0);
         }
 
-        private static final @Stable Kind[] TABLE;
+        private static final Kind[] TABLE;
 
         static {
             // Pack the static table.

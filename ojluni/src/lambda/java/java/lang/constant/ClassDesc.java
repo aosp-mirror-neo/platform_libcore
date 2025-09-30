@@ -27,6 +27,9 @@ package java.lang.constant;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.TypeDescriptor;
 
+/**
+ * @hide
+ */
 public interface ClassDesc
         extends ConstantDesc,
                 TypeDescriptor.OfField<ClassDesc> {

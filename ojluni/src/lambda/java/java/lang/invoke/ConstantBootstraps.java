@@ -24,13 +24,9 @@
  */
 package java.lang.invoke;
 
-import sun.invoke.util.Wrapper;
-
-import static java.lang.invoke.MethodHandleNatives.mapLookupExceptionToError;
-import static java.util.Objects.requireNonNull;
-
-import java.lang.reflect.Modifier;
-
+/**
+ * @hide
+ */
 public final class ConstantBootstraps {
     private ConstantBootstraps() {throw new AssertionError();}
 
