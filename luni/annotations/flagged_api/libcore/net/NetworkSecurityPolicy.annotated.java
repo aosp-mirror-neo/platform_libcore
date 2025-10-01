@@ -51,17 +51,17 @@ public static final int CERTIFICATE_TRANSPARENCY_REASON_SDK_TARGET_DEFAULT_ENABL
 public static final int CERTIFICATE_TRANSPARENCY_REASON_UNKNOWN = 0;
 
 @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
-public static final int DOMAIN_ENCRYPTION_DISABLED = 1;
+public static final int DOMAIN_ENCRYPTION_MODE_DISABLED = 1;
 
 @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
-public static final int DOMAIN_ENCRYPTION_FAIL_CLOSED = 4;
+public static final int DOMAIN_ENCRYPTION_MODE_FAIL_CLOSED = 4;
 
 @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
-public static final int DOMAIN_ENCRYPTION_OPPORTUNISTIC = 2;
+public static final int DOMAIN_ENCRYPTION_MODE_OPPORTUNISTIC = 2;
 
 @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
-public static final int DOMAIN_ENCRYPTION_SETTING_UNKNOWN = 0;
+public static final int DOMAIN_ENCRYPTION_MODE_STRICT = 3;
 
 @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
-public static final int DOMAIN_ENCRYPTION_STRICT = 3;
+public static final int DOMAIN_ENCRYPTION_MODE_UNKNOWN = 0;
 }

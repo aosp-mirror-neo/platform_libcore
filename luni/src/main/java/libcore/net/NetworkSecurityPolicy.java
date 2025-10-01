@@ -205,11 +205,11 @@ public abstract class NetworkSecurityPolicy {
      */
     @Retention(RetentionPolicy.SOURCE)
     @IntDef(prefix = {"DOMAIN_ENCRYPTION_"}, value = {
-        DOMAIN_ENCRYPTION_SETTING_UNKNOWN,
-        DOMAIN_ENCRYPTION_DISABLED,
-        DOMAIN_ENCRYPTION_OPPORTUNISTIC,
-        DOMAIN_ENCRYPTION_STRICT,
-        DOMAIN_ENCRYPTION_FAIL_CLOSED
+        DOMAIN_ENCRYPTION_MODE_UNKNOWN,
+        DOMAIN_ENCRYPTION_MODE_DISABLED,
+        DOMAIN_ENCRYPTION_MODE_OPPORTUNISTIC,
+        DOMAIN_ENCRYPTION_MODE_STRICT,
+        DOMAIN_ENCRYPTION_MODE_FAIL_CLOSED
     })
     public @interface DomainEncryptionMode {}
 
@@ -218,37 +218,37 @@ public abstract class NetworkSecurityPolicy {
      *
      * <p>This is the default value returned by {@link #getDomainEncryptionMode(String)} when not
      * overridden. Network libraries should avoid performing any domain encryption and perform a
-     * standard TLS handshake, equivalent to {@link #DOMAIN_ENCRYPTION_DISABLED}.
+     * standard TLS handshake, equivalent to {@link #DOMAIN_ENCRYPTION_MODE_DISABLED}.
      */
     @libcore.api.IntraCoreApi
-    public static final int DOMAIN_ENCRYPTION_SETTING_UNKNOWN = 0;
+    public static final int DOMAIN_ENCRYPTION_MODE_UNKNOWN = 0;
 
     /**
      * Domain encryption is disabled for the app. ECH and GREASE should not be used.
      */
     @libcore.api.IntraCoreApi
-    public static final int DOMAIN_ENCRYPTION_DISABLED = 1;
+    public static final int DOMAIN_ENCRYPTION_MODE_DISABLED = 1;
 
     /**
      * Domain encryption is in opportunistic mode for the app. ECH will only be enabled when there
      * is server support, and GREASE will not be used.
      */
     @libcore.api.IntraCoreApi
-    public static final int DOMAIN_ENCRYPTION_OPPORTUNISTIC = 2;
+    public static final int DOMAIN_ENCRYPTION_MODE_OPPORTUNISTIC = 2;
 
     /**
      * Domain encryption is in strict mode for the app. ECH will be enabled when there is server
      * support, otherwise GREASE will be used.
      */
     @libcore.api.IntraCoreApi
-    public static final int DOMAIN_ENCRYPTION_STRICT = 3;
+    public static final int DOMAIN_ENCRYPTION_MODE_STRICT = 3;
 
     /**
      * Domain encryption should fail closed (i.e. if encryption cannot be enabled for any reason,
      * the connection will fail).
      */
     @libcore.api.IntraCoreApi
-    public static final int DOMAIN_ENCRYPTION_FAIL_CLOSED = 4;
+    public static final int DOMAIN_ENCRYPTION_MODE_FAIL_CLOSED = 4;
 
     /**
      * Returns the domain encryption mode (including ECH).
@@ -261,7 +261,7 @@ public abstract class NetworkSecurityPolicy {
     @DomainEncryptionMode
     @libcore.api.IntraCoreApi
     public int getDomainEncryptionMode(@NonNull String hostname) {
-        return DOMAIN_ENCRYPTION_SETTING_UNKNOWN;
+        return DOMAIN_ENCRYPTION_MODE_UNKNOWN;
     }
 
     /**
