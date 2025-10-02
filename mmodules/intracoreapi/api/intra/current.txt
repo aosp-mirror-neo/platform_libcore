@@ -138,9 +138,9 @@ package libcore.net {
     field @FlaggedApi("com.android.libcore.network_security_policy_reason_ct_enabled_api") @libcore.api.IntraCoreApi public static final int CERTIFICATE_TRANSPARENCY_REASON_SDK_TARGET_DEFAULT_ENABLED = 1; // 0x1
     field @FlaggedApi("com.android.libcore.network_security_policy_reason_ct_enabled_api") @libcore.api.IntraCoreApi public static final int CERTIFICATE_TRANSPARENCY_REASON_UNKNOWN = 0; // 0x0
     field @FlaggedApi("com.android.libcore.network_security_policy_ech_api") @libcore.api.IntraCoreApi public static final int DOMAIN_ENCRYPTION_MODE_DISABLED = 1; // 0x1
-    field @FlaggedApi("com.android.libcore.network_security_policy_ech_api") @libcore.api.IntraCoreApi public static final int DOMAIN_ENCRYPTION_MODE_FAIL_CLOSED = 4; // 0x4
+    field @FlaggedApi("com.android.libcore.network_security_policy_ech_api") @libcore.api.IntraCoreApi public static final int DOMAIN_ENCRYPTION_MODE_ENABLED = 3; // 0x3
     field @FlaggedApi("com.android.libcore.network_security_policy_ech_api") @libcore.api.IntraCoreApi public static final int DOMAIN_ENCRYPTION_MODE_OPPORTUNISTIC = 2; // 0x2
-    field @FlaggedApi("com.android.libcore.network_security_policy_ech_api") @libcore.api.IntraCoreApi public static final int DOMAIN_ENCRYPTION_MODE_STRICT = 3; // 0x3
+    field @FlaggedApi("com.android.libcore.network_security_policy_ech_api") @libcore.api.IntraCoreApi public static final int DOMAIN_ENCRYPTION_MODE_REQUIRED = 4; // 0x4
     field @FlaggedApi("com.android.libcore.network_security_policy_ech_api") @libcore.api.IntraCoreApi public static final int DOMAIN_ENCRYPTION_MODE_UNKNOWN = 0; // 0x0
   }
 

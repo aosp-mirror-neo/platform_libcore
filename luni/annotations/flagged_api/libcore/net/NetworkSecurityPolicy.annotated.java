@@ -54,13 +54,13 @@ public static final int CERTIFICATE_TRANSPARENCY_REASON_UNKNOWN = 0;
 public static final int DOMAIN_ENCRYPTION_MODE_DISABLED = 1;
 
 @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
-public static final int DOMAIN_ENCRYPTION_MODE_FAIL_CLOSED = 4;
+public static final int DOMAIN_ENCRYPTION_MODE_REQUIRED = 4;
 
 @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
 public static final int DOMAIN_ENCRYPTION_MODE_OPPORTUNISTIC = 2;
 
 @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
-public static final int DOMAIN_ENCRYPTION_MODE_STRICT = 3;
+public static final int DOMAIN_ENCRYPTION_MODE_ENABLED = 3;
 
 @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NETWORK_SECURITY_POLICY_ECH_API)
 public static final int DOMAIN_ENCRYPTION_MODE_UNKNOWN = 0;
