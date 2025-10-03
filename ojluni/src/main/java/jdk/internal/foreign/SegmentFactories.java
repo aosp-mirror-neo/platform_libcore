@@ -245,9 +245,7 @@ public class SegmentFactories {
 
     private static void initNativeMemory(long address, long byteSize) {
         for (long i = 0; i < byteSize; i += Long.BYTES) {
-            // Android-changed: Introduced putLongAligned locally
-            // UNSAFE.putLongUnaligned(null, address + i, 0);
-            putLongUnaligned(address + i, 0);
+            UNSAFE.putLongUnaligned(null, address + i, 0);
         }
     }
 
@@ -291,56 +289,4 @@ public class SegmentFactories {
     private static void ensureInitialized() {
         MemorySegment segment = MemorySegment.NULL;
     }
-
-    // BEGIN Android-added: Copied over from Unsafe without Object argument (see b/438953179)
-    private static void putLongUnaligned(long offset, long x) {
-        if ((offset & 7) == 0) {
-            UNSAFE.putLong(offset, x);
-        } else if ((offset & 3) == 0) {
-            putLongParts(offset,
-                    (int)(x >> 0),
-                    (int)(x >>> 32));
-        } else if ((offset & 1) == 0) {
-            putLongParts( offset,
-                    (short)(x >>> 0),
-                    (short)(x >>> 16),
-                    (short)(x >>> 32),
-                    (short)(x >>> 48));
-        } else {
-            putLongParts(offset,
-                    (byte)(x >>> 0),
-                    (byte)(x >>> 8),
-                    (byte)(x >>> 16),
-                    (byte)(x >>> 24),
-                    (byte)(x >>> 32),
-                    (byte)(x >>> 40),
-                    (byte)(x >>> 48),
-                    (byte)(x >>> 56));
-        }
-    }
-
-    // These methods write integers to memory from smaller parts
-    // provided by their caller.  The ordering in which these parts
-    // are written is the native endianness of this platform.
-    public static void putLongParts( long offset, byte i0, byte i1, byte i2, byte i3, byte i4, byte i5, byte i6, byte i7) {
-        UNSAFE.putByte(offset + 0, i0);
-        UNSAFE.putByte(offset + 1, i1);
-        UNSAFE.putByte(offset + 2, i2);
-        UNSAFE.putByte(offset + 3, i3);
-        UNSAFE.putByte(offset + 4, i4);
-        UNSAFE.putByte(offset + 5, i5);
-        UNSAFE.putByte(offset + 6, i6);
-        UNSAFE.putByte(offset + 7, i7);
-    }
-    public static void putLongParts(long offset, short i0, short i1, short i2, short i3) {
-        UNSAFE.putShort(offset + 0, i0);
-        UNSAFE.putShort(offset + 2, i1);
-        UNSAFE.putShort(offset + 4, i2);
-        UNSAFE.putShort(offset + 6, i3);
-    }
-    public static void putLongParts(long offset, int i0, int i1) {
-        UNSAFE.putInt(offset + 0, i0);
-        UNSAFE.putInt(offset + 4, i1);
-    }
-    // END Android-added: Copied over from Unsafe without Object argument (see b/438953179)
 }

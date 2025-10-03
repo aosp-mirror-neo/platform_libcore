@@ -4009,6 +4009,8 @@ public final class Unsafe {
     public final char getCharUnaligned(Object o, long offset, boolean bigEndian) {
         return convEndian(bigEndian, getCharUnaligned(o, offset));
     }
+    */
+    // END Android-removed: Not used in Android.
 
     /**
      * Stores a value at some byte offset into a given Java object.
@@ -4037,7 +4039,7 @@ public final class Unsafe {
      * @throws RuntimeException No defined exceptions are thrown, not even
      *         {@link NullPointerException}
      * @since 9
-     * /
+     */
     @IntrinsicCandidate
     public final void putLongUnaligned(Object o, long offset, long x) {
         if ((offset & 7) == 0) {
@@ -4170,8 +4172,6 @@ public final class Unsafe {
                      | (toUnsignedInt(i1) << pickPos(8, 8)));
     }
 
-    // BEGIN Android-removed: Not used in Android.
-    /*
     private static byte  pick(byte  le, byte  be) { return BIG_ENDIAN ? be : le; }
     private static short pick(short le, short be) { return BIG_ENDIAN ? be : le; }
     private static int   pick(int   le, int   be) { return BIG_ENDIAN ? be : le; }
@@ -4199,6 +4199,9 @@ public final class Unsafe {
         putInt(o, offset + 0, pick(i0, i1));
         putInt(o, offset + 4, pick(i1, i0));
     }
+
+    // BEGIN Android-removed: Not used in Android.
+    /*
     private void putIntParts(Object o, long offset, short i0, short i1) {
         putShort(o, offset + 0, pick(i0, i1));
         putShort(o, offset + 2, pick(i1, i0));
