@@ -19,10 +19,14 @@ package libcore.java.lang.foreign;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
 import java.lang.foreign.ValueLayout;
 import java.nio.ByteOrder;
 import java.util.Optional;
 
+@RunWith(JUnit4.class)
 public class ValueLayoutTest {
 
     @Test
