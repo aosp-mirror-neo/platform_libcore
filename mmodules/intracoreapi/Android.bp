@@ -60,6 +60,7 @@ java_sdk_library {
     visibility: [
         "//build/soong/java/core-libraries",
         "//libcore/mmodules/core_platform_api",
+        "//frameworks/base/packages/NetworkSecurityConfig/tests",
     ],
     srcs: [
         ":art_module_api_files",
