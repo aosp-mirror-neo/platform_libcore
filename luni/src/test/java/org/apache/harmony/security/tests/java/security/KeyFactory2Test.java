@@ -51,7 +51,7 @@ public class KeyFactory2Test extends junit.framework.TestCase {
 
     // XDH, EdDSA, ML-DSA, SLH-DSA are fully tested in Conscrypt
     private static final Set<String> SKIPPED_KEYFACTORY_ALGORITHMS = new HashSet<>(Arrays.asList(
-            "XDH", "EdDSA", "ML-DSA", "ML-DSA-65", "ML-DSA-87", "SLH-DSA-SHA2-128S"));
+            "XDH", "EdDSA", "ML-DSA", "ML-DSA-65", "ML-DSA-87", "SLH-DSA-SHA2-128S", "XWING"));
 
     static class KeepAlive extends Thread {
         int sleepTime, iterations;
@@ -241,6 +241,7 @@ public class KeyFactory2Test extends junit.framework.TestCase {
             // We don't use getInstance
             SecureRandom random = new SecureRandom();
             keyGen.initialize(StandardNames.getMinimumKeySize(keyfactAlgs[i]), random);
+
             KeepAlive keepalive = createKeepAlive(keyfactAlgs[i]);
             KeyPair keys = keyGen.generateKeyPair();
             if (keepalive != null) {
