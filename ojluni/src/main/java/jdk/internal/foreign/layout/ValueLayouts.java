@@ -53,7 +53,12 @@ public final class ValueLayouts {
     // Suppresses default constructor, ensuring non-instantiability.
     private ValueLayouts() {}
 
-    abstract static sealed class AbstractValueLayout<V extends AbstractValueLayout<V> & ValueLayout> extends AbstractLayout<V> {
+    // Android-added : changed to public so we can pass it to MemorySegmentVarHandle
+    // but not exposed as an API
+    /**
+     * @hide
+     */
+    public abstract static sealed class AbstractValueLayout<V extends AbstractValueLayout<V> & ValueLayout> extends AbstractLayout<V> {
 
         static final int ADDRESS_SIZE_BYTES = Unsafe.ADDRESS_SIZE;
 
@@ -153,7 +158,7 @@ public final class ValueLayouts {
         public final VarHandle varHandle() {
             // Android-changed : Using a custom MemorysegmentVarhandle
             // instead of JDK SegmentVarhandle
-            return MemorySegmentVarHandle.create(carrier, order(), byteAlignment());
+            return MemorySegmentVarHandle.create(this);
         }
     }
 
