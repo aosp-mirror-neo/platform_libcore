@@ -43,6 +43,8 @@ import java.util.Arrays;
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
+import jdk.internal.misc.Unsafe;
+
 /**
  * An array of object references in which elements may be updated
  * atomically.  See the {@link VarHandle} specification for
@@ -330,22 +332,15 @@ public class AtomicReferenceArray<E> implements java.io.Serializable {
             throw new java.io.InvalidObjectException("Not array type");
         if (a.getClass() != Object[].class)
             a = Arrays.copyOf((Object[])a, Array.getLength(a), Object[].class);
-        @SuppressWarnings("removal")
-        Field arrayField = java.security.AccessController.doPrivileged(
-            (java.security.PrivilegedAction<Field>) () -> {
-                try {
-                    Field f = AtomicReferenceArray.class
-                        .getDeclaredField("array");
-                    f.setAccessible(true);
-                    return f;
-                } catch (ReflectiveOperationException e) {
-                    throw new Error(e);
-                }});
-        try {
-            arrayField.set(this, a);
-        } catch (IllegalAccessException e) {
-            throw new Error(e);
-        }
+
+        // BEGIN Android-changed: imported from JDK 25
+        final Unsafe U = Unsafe.getUnsafe();
+        U.putReference(
+                this,
+                U.objectFieldOffset(AtomicReferenceArray.class, "array"),
+                a
+        );
+        // END Android-changed: imported from JDK 25
     }
 
     // jdk9
