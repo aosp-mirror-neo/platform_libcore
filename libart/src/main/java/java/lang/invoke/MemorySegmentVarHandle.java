@@ -17,6 +17,7 @@
 package java.lang.invoke;
 
 import java.lang.foreign.MemorySegment;
+import jdk.internal.foreign.layout.ValueLayouts.AbstractValueLayout;
 import java.nio.ByteOrder;
 
 /**
@@ -27,16 +28,17 @@ public final class MemorySegmentVarHandle extends VarHandle {
     private final long byteAlignment;
     private final boolean nativeByteOrder;
 
-    private MemorySegmentVarHandle(Class<?> varType, ByteOrder byteOrder, long byteAlignment) {
-        super(varType, MemorySegment.class, long.class);
-        this.byteAlignment = byteAlignment;
-        this.nativeByteOrder = byteOrder.equals(ByteOrder.nativeOrder());
+    private MemorySegmentVarHandle(AbstractValueLayout layout) {
+        super(layout.carrier(),
+              MemorySegment.class,
+              long.class,
+              layout.byteAlignment() >= layout.byteSize());
+        this.byteAlignment = layout.byteAlignment();
+        this.nativeByteOrder = layout.order().equals(ByteOrder.nativeOrder());
     }
 
-    public static MemorySegmentVarHandle create(Class<?> varType,
-                                                ByteOrder byteOrder,
-                                                long byteAlignment) {
-        return new MemorySegmentVarHandle(varType, byteOrder, byteAlignment);
+    public static MemorySegmentVarHandle create(AbstractValueLayout layout) {
+        return new MemorySegmentVarHandle(layout);
     }
 
 }

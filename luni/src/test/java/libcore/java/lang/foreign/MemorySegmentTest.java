@@ -225,6 +225,14 @@ public class MemorySegmentTest {
         assertThrows(IllegalArgumentException.class, () -> segment.set(layout, 0, 42));
     }
 
+    @Test
+    public void set_get_forUnalignedAccess() {
+        JAVA_INT.withByteAlignment(1).varHandle().set(segment, 0, 42);
+        int result = (int) JAVA_INT.withByteAlignment(1).varHandle().get(segment, 0);
+
+        assertEquals(42, result);
+    }
+
     // End of Access Tests
 
     @Test
