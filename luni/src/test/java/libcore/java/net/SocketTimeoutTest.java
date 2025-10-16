@@ -16,7 +16,9 @@
 
 package libcore.java.net;
 
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -33,13 +35,15 @@ import java.util.concurrent.TimeUnit;
 
 import libcore.util.EmptyArray;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Assume;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
  * Tests socket timeout behavior for various different socket types.
  */
+@RunWith(JUnit4.class)
 public class SocketTimeoutTest {
 
     private static final int TIMEOUT_MILLIS = 500;
@@ -70,6 +74,15 @@ public class SocketTimeoutTest {
                         Math.abs(((float) timeElapsed / TIMEOUT_MILLIS) - 1)
                                 < 0.2f); // Allow some error.
             } catch (ConnectException connectException) {
+                // If the test environment does not have connectivity, the connect() will fail with
+                // ENETUNREACH straight away, rather than timing out. In this
+                // case, we should not fail the test.
+                String msg = connectException.getMessage();
+                boolean isNetworkUnreachable = (msg != null) && msg.contains("ENETUNREACH");
+                Assume.assumeFalse(
+                        "Connection failed due to unavailable connectivity in the test environment",
+                        isNetworkUnreachable);
+
                 throw new ConnectException(
                     "Connection failed while expecting a timeout for an unreachable address. " +
                     "This could be due to unavailable connectivity in the test environment.",
