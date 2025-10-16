@@ -47,6 +47,7 @@ import sun.util.locale.BaseLocale;
  * @hide
  */
 @SystemApi(client = MODULE_LIBRARIES)
+@libcore.api.IntraCoreApi
 public final class ZygoteHooks {
     private static long token;
     private static Method enableMemoryMappedDataMethod;
@@ -281,6 +282,15 @@ public final class ZygoteHooks {
      * @hide
      */
     public static boolean inZygote() {
+      return inZygoteProcess;
+    }
+
+    /**
+     * Are we still in a zygote? @IntraCoreApi version
+     * @hide
+     */
+    @libcore.api.IntraCoreApi
+    public static boolean isInZygote() {
       return inZygoteProcess;
     }
 
