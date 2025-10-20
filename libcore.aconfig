@@ -164,3 +164,20 @@ flag {
     is_exported: true
 }
 
+flag {
+    namespace: "network_security"
+    name: "network_security_policy_reason_ct_enabled_api"
+    is_exported: true
+    description: "Flag to gate the new getCertificateTransparencyVerificationReason method in NetworkSecurityPolicy"
+    bug: "425786616"
+    is_fixed_read_only: true
+}
+
+flag {
+    namespace: "network_security"
+    name: "network_security_policy_ech_api"
+    is_exported: true
+    description: "Flag to gate the new APIs in NetworkSecurityPolicy related to ECH"
+    bug: "419020719"
+    is_fixed_read_only: true
+}

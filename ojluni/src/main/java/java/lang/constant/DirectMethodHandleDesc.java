@@ -48,9 +48,12 @@ import static java.lang.invoke.MethodHandleInfo.REF_putStatic;
  *
  * @since 12
  */
-public sealed interface DirectMethodHandleDesc
-        extends MethodHandleDesc
-        permits DirectMethodHandleDescImpl {
+// Android-changed: remove sealed marker (there is no metalava support b/355648520).
+// public sealed interface DirectMethodHandleDesc
+//         extends MethodHandleDesc
+//         permits DirectMethodHandleDescImpl {
+public interface DirectMethodHandleDesc
+        extends MethodHandleDesc {
     /**
      * Kinds of method handles that can be described with {@linkplain DirectMethodHandleDesc}.
      *

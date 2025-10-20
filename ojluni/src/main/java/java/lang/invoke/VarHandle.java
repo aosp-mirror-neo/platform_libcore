@@ -25,17 +25,15 @@
 
 package java.lang.invoke;
 
-import dalvik.system.VMRuntime;
 import jdk.internal.vm.annotation.IntrinsicCandidate;
 import java.lang.constant.ClassDesc;
-import java.lang.constant.Constable;
 import java.lang.constant.ConstantDesc;
 import java.lang.constant.ConstantDescs;
 import java.lang.constant.DirectMethodHandleDesc;
 import java.lang.constant.DynamicConstantDesc;
+import java.lang.foreign.MemorySegment;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -2235,6 +2233,33 @@ public abstract class VarHandle {
             this.accessModesBitMask = unalignedAccessModesBitMask(varType);
         }
     }
+
+    /**
+     * Constructor for VarHandle for MemorySegment
+     *
+     * @param varType the variable type of variables to be referenced
+     * @param coordinateType0 the first coordinate
+     * @param coordinateType1 the second coordinate
+     * @hide
+     */
+    VarHandle(Class<?> varType,
+              Class<?> coordinateType0, Class<?> coordinateType1, boolean isAccessAligned) {
+        if (coordinateType0 != MemorySegment.class) {
+            throw new InternalError(
+                    "Coordinate type must be MemorySegment but it is: " + coordinateType0);
+        }
+        this.varType = Objects.requireNonNull(varType);
+        this.coordinateType0 = Objects.requireNonNull(coordinateType0);
+        this.coordinateType1 = Objects.requireNonNull(coordinateType1);
+
+        if (isAccessAligned) {
+            this.accessModesBitMask = alignedAccessModesBitMask(varType, false);
+        } else {
+            // An unaligned var handle only supports the get and set access modes
+            // regardless of varType
+            this.accessModesBitMask = UNALIGNED_MEMORY_SEGMENT_ACCESS_MODES_BIT_MASK;
+        }
+    }
     // END Android-added: package private constructors.
 
     // BEGIN Android-added: helper state for VarHandle properties.
@@ -2256,6 +2281,12 @@ public abstract class VarHandle {
      * effects.
      */
     private final static int WRITE_ACCESS_MODES_BIT_MASK = 1 << 1 | 1 << 3 | 1 << 5 | 1 << 7;
+
+    /** BitMask of only get and set access modes which are the only
+     * access modes supported for a MemorySegmentVarHandle
+     * if the access is unaligned
+     */
+    private final static int UNALIGNED_MEMORY_SEGMENT_ACCESS_MODES_BIT_MASK = 1 << 0 | 1 << 1;
 
     /** BitMask of access modes that are applicable to types
      * supporting for atomic updates.  This includes access modes that

@@ -794,6 +794,7 @@ public final class StandardNames {
         MINIMUM_KEY_SIZE.put("DSA", 512);
         MINIMUM_KEY_SIZE.put("DH", 256);
         MINIMUM_KEY_SIZE.put("EC", 256);
+        MINIMUM_KEY_SIZE.put("XWING", 32);
     }
 
     public static Class<? extends KeySpec> getPrivateKeySpecClass(String algName) {

@@ -37,6 +37,7 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import libcore.libcore.util.SerializationTester;
 import libcore.net.InetAddressUtils;
+import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -323,24 +324,26 @@ public class InetAddressTest {
     public void test_getByName_invalid(String invalid) throws Exception {
         try {
             InetAddress.getByName(invalid);
-            String msg = "Invalid IP address incorrectly recognized as valid: \"" + invalid + "\"";
             if (InetAddressUtils.parseNumericAddressNoThrowStripOptionalBrackets(invalid) == null) {
-                msg += " (it was probably unexpectedly resolved by this network's DNS)";
+                // This is not a numeric address, so it must have been resolved by DNS.
+                // We can't control the test environment's DNS, so we just skip the test.
+                String msg = invalid + " was unexpectedly resolved by this network's DNS";
+                System.logI("Skipping test_getByName_invalid: " + msg);
+                Assume.assumeTrue(msg, false);
             }
-            msg += ".";
-            fail(msg);
+            fail("Invalid IP address incorrectly recognized as valid: \"" + invalid + "\".");
         } catch (UnknownHostException expected) {
         }
 
 
         try {
             InetAddress.getByNameOnNet(invalid, 0 /* NETID_UNSET */);
-            String msg = "Invalid IP address incorrectly recognized as valid: \"" + invalid + "\"";
             if (InetAddressUtils.parseNumericAddressNoThrowStripOptionalBrackets(invalid) == null) {
-                msg += " (it was probably unexpectedly resolved by this network's DNS)";
+                String msg = invalid + " was unexpectedly resolved by this network's DNS";
+                System.logI("Skipping test_getByName_invalid: " + msg);
+                Assume.assumeTrue(msg, false);
             }
-            msg += ".";
-            fail(msg);
+            fail("Invalid IP address incorrectly recognized as valid: \"" + invalid + "\".");
         } catch (UnknownHostException expected) {
         }
 

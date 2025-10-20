@@ -15,13 +15,16 @@
  */
 package libcore.dalvik.system;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import dalvik.system.CloseGuard;
+import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-
-import dalvik.system.CloseGuard;
 
 /**
  * Tests {@link CloseGuard}.
@@ -222,4 +225,51 @@ public class CloseGuardTest {
         reporter.report("message", new RuntimeException());
     }
 
+    @Test
+    public void testWarnIfOpen_usesCloseGuardException() {
+        // This test verifies that when a resource is not closed, the warning mechanism
+        // uses the custom CloseGuardException which formats the message lazily.
+
+        // Setup a custom reporter to capture the reported exception.
+        final AtomicReference<Throwable> capturedThrowable = new AtomicReference<>();
+        CloseGuard.Reporter oldReporter = CloseGuard.getReporter();
+        CloseGuard.Reporter testReporter =
+                new CloseGuard.Reporter() {
+                    @Override
+                    public void report(String message, Throwable allocationSite) {
+                        capturedThrowable.set(allocationSite);
+                    }
+
+                    @Override
+                    public void report(String message) {
+                        // Not expected in this flow.
+                    }
+                };
+
+        try {
+            CloseGuard.setReporter(testReporter);
+            CloseGuard.setEnabled(true);
+
+            // Create a CloseGuard, open it, but don't close it.
+            CloseGuard guard = CloseGuard.get();
+            final String closerName = "testCloser";
+            guard.open(closerName);
+
+            // Trigger the warning.
+            guard.warnIfOpen();
+
+            // Assert the captured exception has the correct message format.
+            Throwable thrown = capturedThrowable.get();
+            assertNotNull("Reporter should have been called with a throwable", thrown);
+
+            // The actual class is private, so we can't do an instanceof check easily.
+            // Instead, we verify the message, which is the primary behavior of the class.
+            String expectedMessage = "Explicit termination method '" + closerName + "' not called";
+            assertEquals(expectedMessage, thrown.getMessage());
+
+        } finally {
+            // Cleanup: restore the original state.
+            CloseGuard.setReporter(oldReporter);
+        }
+    }
 }

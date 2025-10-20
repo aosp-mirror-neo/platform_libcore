@@ -60,12 +60,25 @@ java_sdk_library {
     visibility: [
         "//build/soong/java/core-libraries",
         "//libcore/mmodules/core_platform_api",
+        "//frameworks/base/packages/NetworkSecurityConfig/tests",
     ],
     srcs: [
         ":art_module_api_files",
+        ":app-compat-annotations-source",
     ],
     stub_only_libs: [
         "stub-annotations",
+    ],
+    libs: [
+        // Put framework-api-annotations into libs to avoid exposing the definition of framework's
+        // annotations from libcore (wrong place) instead of framework (correct place).
+        "libcore-bootstrap-lib-for-flags-lib",
+        "art-aconfig-flags-java-lib-for-core-all-only",
+        "libcore-aconfig-flags-lib-for-core-all-only",
+    ],
+    aconfig_declarations: [
+        "art-aconfig-flags-java-lib-for-core-all-only",
+        "libcore-aconfig-flags-lib-for-core-all-only",
     ],
     api_dir: "api/intra",
     api_only: true,
@@ -73,10 +86,6 @@ java_sdk_library {
     droiddoc_options: [
         "--hide-annotation libcore.api.Hide",
         "--show-single-annotation libcore.api.IntraCoreApi",
-        // Exclude FlaggedApi as Metalava cannot resolve the flags reference
-        // because this is not given the flags library on the classpath as
-        // doing so creates a cycle.
-        "--exclude-annotation android.annotation.FlaggedApi",
     ],
 
     public: {
@@ -84,7 +93,10 @@ java_sdk_library {
         api_surface: "intra-core",
     },
 
-    merge_inclusion_annotations_dirs: ["ojluni-annotated-mmodule-stubs"],
+    merge_inclusion_annotations_dirs: [
+        "luni-annotated-flagged-stubs",
+        "ojluni-annotated-mmodule-stubs",
+    ],
 
     sdk_version: "none",
     system_modules: "none",
@@ -135,6 +147,7 @@ java_library {
     system_modules: "art-module-intra-core-api-stubs-bootstrap-system-modules",
     sdk_version: "none",
     patch_module: "java.base",
+    jarjar_rules: ":core_lambda_jarjar_rules_files",
 
     // This jar is packaged as part of the SDK, use -target 8 so that it works
     // with old JDKs.

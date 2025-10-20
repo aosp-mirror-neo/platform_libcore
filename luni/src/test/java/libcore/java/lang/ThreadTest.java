@@ -366,17 +366,19 @@ public final class ThreadTest {
      * declared on a class loaded from pre-built test resources.
      */
     @Test
+    @NonCts(bug = 146565491, reason = NonCtsReasons.NON_BREAKING_BEHAVIOR_FIX)
     public void getStackTrace_noDebugInfo() throws Exception {
         StackTraceElement ste = getStackTraceElement("noDebugInfo");
 
         // Verify that this StackTraceElement appears as we expect it to
         // e.g. when an exception is printed.
-        assertEquals("java.lang.ThreadTestHelper.noDebugInfo(Unknown Source:3)", ste.toString());
+        assertEquals(
+            "java.lang.ThreadTestHelper.noDebugInfo(ThreadTestHelper.java:3)", ste.toString());
 
-        // Since we don't have any debug info for this method, the Runtime
-        // doesn't symbolicate this with a file name (even though the
-        // enclosing class may have the file name specified).
-        assertEquals(null, ste.getFileName());
+        // Verify that the Runtime will symbolicate this frame with the
+        // correct file name. On earlier versions this used to return null.
+        // See also b/146565491.
+        assertEquals("ThreadTestHelper.java", ste.getFileName());
 
         // In the test resource we emit 3 nops before generating a stack
         // trace; each nop advances the dex PC by 1 because a nop is a

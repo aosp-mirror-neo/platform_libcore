@@ -1194,4 +1194,14 @@ public final class VMRuntime {
      * @hide
      */
     public static native long getFullGcCount();
+
+    /**
+     * @hide
+     */
+    public static native boolean isReadOnlyDynamicCodeLoadThrowExceptionEnabled();
+
+    /**
+     * @hide
+     */
+    public static native boolean isReadOnlyDynamicCodeLoadWwLogEnabled();
 }

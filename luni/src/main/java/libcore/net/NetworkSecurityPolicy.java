@@ -18,8 +18,14 @@ package libcore.net;
 
 import static android.annotation.SystemApi.Client.MODULE_LIBRARIES;
 
+import libcore.util.NonNull;
+
+import android.annotation.IntDef;
 import android.annotation.SystemApi;
 import android.compat.annotation.UnsupportedAppUsage;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * Network security policy for this process/application.
@@ -137,6 +143,126 @@ public abstract class NetworkSecurityPolicy {
     @SystemApi(client = MODULE_LIBRARIES)
     @libcore.api.IntraCoreApi
     public abstract boolean isCertificateTransparencyVerificationRequired(String hostname);
+
+    /**
+     * @hide
+     */
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef(prefix = {"CERTIFICATE_TRANSPARENCY_REASON_"}, value = {
+        CERTIFICATE_TRANSPARENCY_REASON_UNKNOWN,
+        CERTIFICATE_TRANSPARENCY_REASON_SDK_TARGET_DEFAULT_ENABLED,
+        CERTIFICATE_TRANSPARENCY_REASON_APP_OPT_IN,
+        CERTIFICATE_TRANSPARENCY_REASON_DOMAIN_OPT_IN
+    })
+    public @interface CertificateTransparencyReason {}
+
+    /**
+     * Unknown reason for why Certificate Transparency validation was required.
+     */
+    @libcore.api.IntraCoreApi
+    public static final int CERTIFICATE_TRANSPARENCY_REASON_UNKNOWN = 0;
+
+    /**
+     * Certificate Transparency validation was required because it is enabled by default and the
+     * app satisfies the selection criteria (i.e., its TargetSdkVersion is at least 37).
+     */
+    @libcore.api.IntraCoreApi
+    public static final int CERTIFICATE_TRANSPARENCY_REASON_SDK_TARGET_DEFAULT_ENABLED = 1;
+
+    /**
+     * Certificate Transparency validation was required because the app opted-in for all its
+     * connections.
+     */
+    @libcore.api.IntraCoreApi
+    public static final int CERTIFICATE_TRANSPARENCY_REASON_APP_OPT_IN = 2;
+
+    /**
+     * Certificate Transparency validation was required because the app opted-in for this specific
+     * domain (via its Network Security Config).
+     */
+    @libcore.api.IntraCoreApi
+    public static final int CERTIFICATE_TRANSPARENCY_REASON_DOMAIN_OPT_IN = 3;
+
+    /**
+     * Returns the reason why Certificate Transparency was required.
+     *
+     * <p>If the verification was not required (i.e., isCertificateTransparencyVerificationRequired
+     * returns false), return CERTIFICATE_TRANSPARENCY_REASON_UNKNOWN.
+     *
+     * <p>This method should be overridden by any subclass to return the exact reason.
+     *
+     * @hide
+     */
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.IntraCoreApi
+    @CertificateTransparencyReason
+    public int getCertificateTransparencyVerificationReason(@NonNull String hostname) {
+        return CERTIFICATE_TRANSPARENCY_REASON_UNKNOWN;
+    }
+
+    /**
+     * @hide
+     */
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef(prefix = {"DOMAIN_ENCRYPTION_"}, value = {
+        DOMAIN_ENCRYPTION_MODE_UNKNOWN,
+        DOMAIN_ENCRYPTION_MODE_DISABLED,
+        DOMAIN_ENCRYPTION_MODE_OPPORTUNISTIC,
+        DOMAIN_ENCRYPTION_MODE_ENABLED,
+        DOMAIN_ENCRYPTION_MODE_REQUIRED
+    })
+    public @interface DomainEncryptionMode {}
+
+    /**
+     * Unknown setting for domain encryption in the app.
+     *
+     * <p>This is the default value returned by {@link #getDomainEncryptionMode(String)} when not
+     * overridden. Network libraries should avoid performing any domain encryption and perform a
+     * standard TLS handshake, equivalent to {@link #DOMAIN_ENCRYPTION_MODE_DISABLED}.
+     */
+    @libcore.api.IntraCoreApi
+    public static final int DOMAIN_ENCRYPTION_MODE_UNKNOWN = 0;
+
+    /**
+     * Domain encryption is disabled for the app. ECH and GREASE should not be used.
+     */
+    @libcore.api.IntraCoreApi
+    public static final int DOMAIN_ENCRYPTION_MODE_DISABLED = 1;
+
+    /**
+     * Domain encryption is in opportunistic mode for the app. ECH will only be enabled when there
+     * is server support, and GREASE will not be used.
+     */
+    @libcore.api.IntraCoreApi
+    public static final int DOMAIN_ENCRYPTION_MODE_OPPORTUNISTIC = 2;
+
+    /**
+     * Domain encryption is in fully enabled mode for the app. ECH will be enabled when there is
+     * server support, otherwise GREASE will be used.
+     */
+    @libcore.api.IntraCoreApi
+    public static final int DOMAIN_ENCRYPTION_MODE_ENABLED = 3;
+
+    /**
+     * Domain encryption is required for the app and should fail closed (i.e. if encryption cannot
+     * be enabled for any reason, the connection will fail).
+     */
+    @libcore.api.IntraCoreApi
+    public static final int DOMAIN_ENCRYPTION_MODE_REQUIRED = 4;
+
+    /**
+     * Returns the domain encryption mode (including ECH).
+     *
+     * <p>This method should be overridden by any subclass to return the exact mode.
+     *
+     * @hide
+     */
+    @SystemApi(client = MODULE_LIBRARIES)
+    @DomainEncryptionMode
+    @libcore.api.IntraCoreApi
+    public int getDomainEncryptionMode(@NonNull String hostname) {
+        return DOMAIN_ENCRYPTION_MODE_UNKNOWN;
+    }
 
     /**
      * Default network security policy that allows cleartext traffic and does not require
