@@ -358,16 +358,6 @@ public class Timer {
      * scheduling multiple repeating timer tasks that must remain synchronized
      * with respect to one another.
      *
-     * @param task   task to be scheduled.
-     * @param delay  delay in milliseconds before task is to be executed.
-     * @param period time in milliseconds between successive task executions.
-     * @throws IllegalArgumentException if {@code delay < 0}, or
-     *         {@code delay + System.currentTimeMillis() < 0}, or
-     *         {@code period <= 0}
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} is null
-     *
      * <p>Since API level 31: If the app is frozen by the Android cached apps
      * freezer before the fixed rate task is done or canceled, the task may run
      * many times immediately when the app unfreezes, just as if a single
@@ -377,6 +367,16 @@ public class Timer {
      * <p>Since API level 36: If any execution of this task takes longer than
      * its period, then the subsequent execution will be scheduled for the most
      * recent missed period.
+     *
+     * @param task   task to be scheduled.
+     * @param delay  delay in milliseconds before task is to be executed.
+     * @param period time in milliseconds between successive task executions.
+     * @throws IllegalArgumentException if {@code delay < 0}, or
+     *         {@code delay + System.currentTimeMillis() < 0}, or
+     *         {@code period <= 0}
+     * @throws IllegalStateException if task was already scheduled or
+     *         cancelled, timer was cancelled, or timer thread terminated.
+     * @throws NullPointerException if {@code task} is null
      */
     public void scheduleAtFixedRate(TimerTask task, long delay, long period) {
         if (delay < 0)
