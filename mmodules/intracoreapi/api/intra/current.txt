@@ -179,10 +179,3 @@ package sun.security.x509 {
 
 }
 
-package dalvik.system {
-
-  @libcore.api.IntraCoreApi public final class ZygoteHooks {
-    method @libcore.api.IntraCoreApi public static boolean isInZygote();
-  }
-
-}
