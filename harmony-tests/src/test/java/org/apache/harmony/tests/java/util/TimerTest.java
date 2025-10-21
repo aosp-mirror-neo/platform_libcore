@@ -789,7 +789,20 @@ public class TimerTest {
                 t.scheduleAtFixedRate(testTask, 100, 100);
                 fail("scheduleAtFixedRate after Timer.cancel() should throw exception");
             } catch (IllegalStateException expected) {
+                // Intentionally left blank: no action needed.
             }
+
+            // Ensure a Timer throws an IllegalStateException if task already scheduled
+            t = new Timer();
+            testTask = new TimerTestTask();
+            t.schedule(testTask, 100); // Schedule it once
+            try {
+                t.scheduleAtFixedRate(testTask, 100, 100); // Try to schedule it again
+                fail("Scheduling a task twice should throw IllegalStateException");
+            } catch (IllegalStateException expected) {
+                // Intentionally left blank: no action needed.
+            }
+            t.cancel();
 
             // Ensure a Timer throws an IllegalArgumentException if delay is
             // negative
@@ -799,6 +812,18 @@ public class TimerTest {
                 t.scheduleAtFixedRate(testTask, -100, 100);
                 fail("scheduleAtFixedRate with negative delay should throw IllegalArgumentException");
             } catch (IllegalArgumentException expected) {
+                // Intentionally left blank: no action needed.
+            }
+            t.cancel();
+
+            // Ensure a Timer throws an IllegalArgumentException if delay + currentTime overflows
+            t = new Timer();
+            testTask = new TimerTestTask();
+            try {
+                t.scheduleAtFixedRate(testTask, Long.MAX_VALUE, 100);
+                fail("scheduleAtFixedRate with overflowing delay should throw IllegalArgumentException");
+            } catch (IllegalArgumentException expected) {
+                // Intentionally left blank: no action needed.
             }
             t.cancel();
 
@@ -810,6 +835,28 @@ public class TimerTest {
                 t.scheduleAtFixedRate(testTask, 100, -100);
                 fail("scheduleAtFixedRate with negative period should throw IllegalArgumentException");
             } catch (IllegalArgumentException expected) {
+                // Intentionally left blank: no action needed.
+            }
+            t.cancel();
+
+            // Ensure a Timer throws an IllegalArgumentException if period is zero
+            t = new Timer();
+            testTask = new TimerTestTask();
+            try {
+                t.scheduleAtFixedRate(testTask, 100, 0);
+                fail("scheduleAtFixedRate with 0 period should throw IllegalArgumentException");
+            } catch (IllegalArgumentException expected) {
+                // Intentionally left blank: no action needed.
+            }
+            t.cancel();
+
+            // Ensure a Timer throws a NullPointerException if the task is null
+            t = new Timer();
+            try {
+                t.scheduleAtFixedRate(null, 10, 10);
+                fail("Scheduling a null task should throw NullPointerException");
+            } catch (NullPointerException expected) {
+                // Intentionally left blank: no action needed.
             }
             t.cancel();
 
