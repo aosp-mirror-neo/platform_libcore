@@ -30,11 +30,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.lang.ref.Cleaner.Cleanable;
 import jdk.internal.ref.CleanerFactory;
 
-import android.compat.annotation.ChangeId;
-import android.compat.annotation.EnabledAfter;
-import android.compat.Compatibility;
-
-import dalvik.annotation.compat.VersionCodes;
 
 /**
  * A facility for threads to schedule tasks for future execution in a
@@ -96,27 +91,6 @@ import dalvik.annotation.compat.VersionCodes;
  */
 
 public class Timer {
-    /**
-     * For fixed rate tasks, prevent multiple tasks from running back-to-back to
-     * account for missed periods.
-     * On Android, it's often the case that app processes will miss multiple
-     * scheduled periods because the CPU often enters suspended states, or
-     * because app processes may be moved to the Cached Apps Freezer.
-     * This flag prevents apps from thrashing upon exiting suspend or frozen
-     * states to needlessly "catch up" to lost time.
-     *
-     * @hide
-     */
-    @ChangeId
-    @EnabledAfter(targetSdkVersion = VersionCodes.VANILLA_ICE_CREAM)
-    public static final long SKIP_MULTIPLE_MISSED_PERIODIC_TASKS = 351566728L;
-
-    /** @hide */
-    public static boolean skipMultipleMissedPeriodicTasks() {
-        return Compatibility.isChangeEnabled(
-            SKIP_MULTIPLE_MISSED_PERIODIC_TASKS)
-            || com.android.libcore.Flags.scheduleAtFixedRateNewBehavior();
-    }
 
     /**
      * The timer task queue.  This data structure is shared with the timer
@@ -334,7 +308,6 @@ public class Timer {
         sched(task, firstTime.getTime(), -period);
     }
 
-    // Android-changed: document go/scheduleAtFixedRate-behavior-change
     /**
      * Schedules the specified task for repeated <i>fixed-rate execution</i>,
      * beginning after the specified delay.  Subsequent executions take place
@@ -357,16 +330,6 @@ public class Timer {
      * ten seconds.  Finally, fixed-rate execution is appropriate for
      * scheduling multiple repeating timer tasks that must remain synchronized
      * with respect to one another.
-     *
-     * <p>Since API level 31: If the app is frozen by the Android cached apps
-     * freezer before the fixed rate task is done or canceled, the task may run
-     * many times immediately when the app unfreezes, just as if a single
-     * execution of the command had taken the duration of the frozen period to
-     * execute.
-     *
-     * <p>Since API level 36: If any execution of this task takes longer than
-     * its period, then the subsequent execution will be scheduled for the most
-     * recent missed period.
      *
      * @param task   task to be scheduled.
      * @param delay  delay in milliseconds before task is to be executed.
@@ -619,8 +582,7 @@ class TimerThread extends Thread {
                                 queue.rescheduleMin(now - p);
                             } else { // Fixed rate
                                 long newTime = execTime + p;
-                                if (Timer.skipMultipleMissedPeriodicTasks()
-                                        && (newTime < now - p)) {
+                                if (newTime < now - p) {
                                     newTime = now + ((now - execTime + p) % p);
                                 }
                                 queue.rescheduleMin(newTime);

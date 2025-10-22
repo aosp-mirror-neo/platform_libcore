@@ -36,10 +36,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
 
-import libcore.junit.util.compat.CoreCompatChangeRule;
-import libcore.junit.util.compat.CoreCompatChangeRule.DisableCompatChanges;
-import libcore.junit.util.compat.CoreCompatChangeRule.EnableCompatChanges;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -54,10 +50,6 @@ import org.junit.runners.JUnit4;
 // Changed assert* imports.
 @RunWith(JUnit4.class)
 public class TimerTest {
-
-    // Android-changed: b/351566728 need this to support added test cases.
-    @Rule
-    public final TestRule compatChangeRule = new CoreCompatChangeRule();
 
     int timerCounter = 0;
 
@@ -871,54 +863,8 @@ public class TimerTest {
     }
 
     // Android-changed: b/351566728 added this test case to test new behavior.
-    @DisableCompatChanges({Timer.SKIP_MULTIPLE_MISSED_PERIODIC_TASKS})
-    @Test
-    public void test_scheduleAtFixedRateLjava_util_TimerTaskJJ_SkipMultipleMissedFixedRateTasks_oldBehavior() throws Exception {
-        assumeFalse(Timer.skipMultipleMissedPeriodicTasks());
-        Timer t = null;
-        final ConcurrentLinkedQueue<Long> executionTimes =
-                new ConcurrentLinkedQueue<>();
-        try {
-            final CountDownLatch latch = new CountDownLatch(10);
-
-            class SlowThenFastTask extends TimerTask {
-                boolean firstRun = true;
-
-                public void run() {
-                    if (firstRun) {
-                        firstRun = false;
-                        try {
-                            // Sleep through four periods
-                            Thread.sleep(400);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    executionTimes.add(System.currentTimeMillis());
-                    latch.countDown();
-                }
-            }
-
-            t = new Timer();
-            SlowThenFastTask slowThenFastTask = new SlowThenFastTask();
-
-            t.scheduleAtFixedRate(slowThenFastTask, 100, 100);
-            assertTrue("Fixed rate tasks didn't run 10 times within 10 periods;"
-                + " times: " + executionTimes,
-                latch.await(1_100, TimeUnit.MILLISECONDS));
-            t.cancel();
-        } finally {
-            if (t != null) {
-                t.cancel();
-            }
-        }
-    }
-
-    // Android-changed: b/351566728 added this test case to test new behavior.
-    @EnableCompatChanges({Timer.SKIP_MULTIPLE_MISSED_PERIODIC_TASKS})
     @Test
     public void test_scheduleAtFixedRateLjava_util_TimerTaskJJ_SkipMultipleMissedFixedRateTasks_newBehavior() throws Exception {
-        assumeTrue(Timer.skipMultipleMissedPeriodicTasks());
         Timer t = null;
         final ConcurrentLinkedQueue<Long> executionTimes =
                 new ConcurrentLinkedQueue<>();

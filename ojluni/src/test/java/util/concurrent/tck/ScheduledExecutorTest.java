@@ -71,10 +71,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-import libcore.junit.util.compat.CoreCompatChangeRule;
-import libcore.junit.util.compat.CoreCompatChangeRule.DisableCompatChanges;
-import libcore.junit.util.compat.CoreCompatChangeRule.EnableCompatChanges;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -92,10 +88,6 @@ public class ScheduledExecutorTest extends JSR166TestCase {
     // public static Test suite() {
     //     return new TestSuite(ScheduledExecutorTest.class);
     // }
-
-    // Android-changed: b/288912692 need this to support added test cases.
-    @Rule
-    public final TestRule compatChangeRule = new CoreCompatChangeRule();
 
     /**
      * execute successfully executes a runnable
@@ -240,17 +232,13 @@ public class ScheduledExecutorTest extends JSR166TestCase {
      * scheduleAtFixedRate executes series of tasks at given rate.
      * The first task intentionally sleeps for 3 periods.
      * Expect to catch up to only 1 missed execution.
-     * This is a variation on {@link testFixedRateSequence} but with
-     * {@link ScheduledThreadPoolExecutor.STPE_SKIP_MULTIPLE_MISSED_PERIODIC_TASKS}
-     * enabled.
+     * This is a variation on {@link testFixedRateSequence} but with the b/288912692
+     * behavior change applied.
      */
     // Android-changed: b/288912692 added this test case to test new behavior.
-    @EnableCompatChanges({ScheduledThreadPoolExecutor.STPE_SKIP_MULTIPLE_MISSED_PERIODIC_TASKS})
     @Test
     public void testFixedRateSequenceSkipMultipleMissedFixedRateTasksEnabled()
             throws InterruptedException {
-        assumeTrue(ScheduledThreadPoolExecutor.skipMultipleMissedPeriodicTasks());
-
         final ScheduledThreadPoolExecutor p = new ScheduledThreadPoolExecutor(1);
         final ConcurrentLinkedQueue<Long> executionTimes =
                 new ConcurrentLinkedQueue<>();
@@ -282,60 +270,6 @@ public class ScheduledExecutorTest extends JSR166TestCase {
                 final long elapsedMillis = millisElapsedSince(startTime);
                 assertTrue(elapsedMillis >= totalDelayMillis);
                 if (elapsedMillis <= (cycles + slept - 1) * delay) {
-                    return;
-                }
-                // else retry with longer delay
-            }
-            fail("unexpected execution rate; times: " + executionTimes);
-        }
-    }
-
-    /**
-     * scheduleAtFixedRate executes series of tasks at given rate.
-     * The first task intentionally sleeps for 3 periods.
-     * We expect to catch up to all 3 missed execution.
-     * This is a variation on {@link testFixedRateSequence} but with
-     * {@link ScheduledThreadPoolExecutor.STPE_SKIP_MULTIPLE_MISSED_PERIODIC_TASKS} disabled.
-     */
-    // Android-changed: b/288912692 added this test case to test new behavior.
-    @DisableCompatChanges({ScheduledThreadPoolExecutor.STPE_SKIP_MULTIPLE_MISSED_PERIODIC_TASKS})
-    @Test
-    public void testFixedRateSequenceSkipMultipleMissedFixedRateTasksDisabled()
-            throws InterruptedException {
-        assumeFalse(ScheduledThreadPoolExecutor.skipMultipleMissedPeriodicTasks());
-
-        final ScheduledThreadPoolExecutor p = new ScheduledThreadPoolExecutor(1);
-        final ConcurrentLinkedQueue<Long> executionTimes =
-                new ConcurrentLinkedQueue<>();
-        try (PoolCleaner cleaner = cleaner(p)) {
-            for (int delay = 1; delay <= 1_000; delay *= 3) {
-                final long startTime = System.nanoTime();
-                final int cycles = 8;
-                // Sleep for 3 periods before running the first task, causing us
-                // to miss 3 executions.
-                final int slept = 3;
-                final CountDownLatch done = new CountDownLatch(cycles);
-                final int thisDelay = delay;
-                final Runnable task = new CheckedRunnable() {
-                    private boolean isFirstRun = true;
-                    public void realRun() throws InterruptedException {
-                        if (isFirstRun) {
-                            isFirstRun = false;
-                            Thread.sleep(thisDelay * ((long) slept));
-                        }
-                        executionTimes.add(System.nanoTime());
-                        done.countDown();
-                    }
-                };
-                final ScheduledFuture periodicTask =
-                    p.scheduleAtFixedRate(task, 0, delay, MILLISECONDS);
-                final int totalDelayMillis = (cycles - 1) * delay;
-                await(done, totalDelayMillis + LONG_DELAY_MS);
-                periodicTask.cancel(true);
-                final long elapsedMillis = millisElapsedSince(startTime);
-                assertTrue(elapsedMillis >= totalDelayMillis);
-                // Expect to have caught up to all missed executions.
-                if (elapsedMillis <= cycles * delay) {
                     return;
                 }
                 // else retry with longer delay
