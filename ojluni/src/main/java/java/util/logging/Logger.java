@@ -1688,8 +1688,13 @@ public class Logger {
     public void setLevel(Level newLevel) throws SecurityException {
         checkPermission();
         synchronized (treeLock) {
-            levelObject = newLevel;
-            updateEffectiveLevel();
+            // Android-changed: Avoid update if level is unchanged
+            // levelObject = newLevel;
+            // updateEffectiveLevel()
+            if (levelObject != newLevel) {
+                levelObject = newLevel;
+                updateEffectiveLevel();
+            }
         }
     }
 
@@ -2028,6 +2033,12 @@ public class Logger {
         if (parent == null) {
             throw new NullPointerException();
         }
+
+        // Android-added: Avoid unnecessary work if parent is unchanged
+        if (parent == this.parent) {
+            return;
+        }
+        // Android-added: end
 
         // check permission for all loggers, including anonymous loggers
         if (manager == null) {
