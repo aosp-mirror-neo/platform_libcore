@@ -149,10 +149,9 @@ latch));
         }
         final CountDownLatch y1 = new OneShotLatch();
         final CountDownLatch y2 = new FixedDelayLatch();
-        final CountDownLatch y3;
         // Android-changed: handle go/scheduleAtFixedRate-behavior-change
         // We expect to see exactly one immediate "catch up" execution.
-        y3 = new OneShotLatch();
+        final CountDownLatch y3 = new OneShotLatch();
 
         final long start = System.currentTimeMillis();
         final Date past = new Date(start - (10 * DELAY_MS + DELAY_MS / 2));
