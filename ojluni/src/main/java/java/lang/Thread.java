@@ -1462,9 +1462,10 @@ public class Thread implements Runnable {
         if (!isVirtual() && !(VMRuntime.getSdkVersion() >= VersionCodes.C
                 && Compatibility.isChangeEnabled(Thread.OVERRIDDEN_THREAD_START_METHOD))) {
             synchronized (this) {
-                if (started) {
-                    throw new IllegalThreadStateException();
-                }
+                // Disable this check due to app compat http://b/455404369
+                // if (started) {
+                //    throw new IllegalThreadStateException();
+                // }
 
                 // bind thread to container
                 if (this.container != null)
