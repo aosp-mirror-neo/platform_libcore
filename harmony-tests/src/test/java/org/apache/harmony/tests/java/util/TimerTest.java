@@ -21,8 +21,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeFalse;
-import static org.junit.Assume.assumeTrue;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Date;
@@ -34,17 +32,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
-import junit.framework.TestCase;
-
-import libcore.junit.util.compat.CoreCompatChangeRule;
-import libcore.junit.util.compat.CoreCompatChangeRule.DisableCompatChanges;
-import libcore.junit.util.compat.CoreCompatChangeRule.EnableCompatChanges;
-
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -54,10 +44,6 @@ import org.junit.runners.JUnit4;
 // Changed assert* imports.
 @RunWith(JUnit4.class)
 public class TimerTest {
-
-    // Android-changed: b/351566728 need this to support added test cases.
-    @Rule
-    public final TestRule compatChangeRule = new CoreCompatChangeRule();
 
     int timerCounter = 0;
 
@@ -789,7 +775,20 @@ public class TimerTest {
                 t.scheduleAtFixedRate(testTask, 100, 100);
                 fail("scheduleAtFixedRate after Timer.cancel() should throw exception");
             } catch (IllegalStateException expected) {
+                // Intentionally left blank: no action needed.
             }
+
+            // Ensure a Timer throws an IllegalStateException if task already scheduled
+            t = new Timer();
+            testTask = new TimerTestTask();
+            t.schedule(testTask, 100); // Schedule it once
+            try {
+                t.scheduleAtFixedRate(testTask, 100, 100); // Try to schedule it again
+                fail("Scheduling a task twice should throw IllegalStateException");
+            } catch (IllegalStateException expected) {
+                // Intentionally left blank: no action needed.
+            }
+            t.cancel();
 
             // Ensure a Timer throws an IllegalArgumentException if delay is
             // negative
@@ -799,6 +798,18 @@ public class TimerTest {
                 t.scheduleAtFixedRate(testTask, -100, 100);
                 fail("scheduleAtFixedRate with negative delay should throw IllegalArgumentException");
             } catch (IllegalArgumentException expected) {
+                // Intentionally left blank: no action needed.
+            }
+            t.cancel();
+
+            // Ensure a Timer throws an IllegalArgumentException if delay + currentTime overflows
+            t = new Timer();
+            testTask = new TimerTestTask();
+            try {
+                t.scheduleAtFixedRate(testTask, Long.MAX_VALUE, 100);
+                fail("scheduleAtFixedRate with overflowing delay should throw IllegalArgumentException");
+            } catch (IllegalArgumentException expected) {
+                // Intentionally left blank: no action needed.
             }
             t.cancel();
 
@@ -810,6 +821,28 @@ public class TimerTest {
                 t.scheduleAtFixedRate(testTask, 100, -100);
                 fail("scheduleAtFixedRate with negative period should throw IllegalArgumentException");
             } catch (IllegalArgumentException expected) {
+                // Intentionally left blank: no action needed.
+            }
+            t.cancel();
+
+            // Ensure a Timer throws an IllegalArgumentException if period is zero
+            t = new Timer();
+            testTask = new TimerTestTask();
+            try {
+                t.scheduleAtFixedRate(testTask, 100, 0);
+                fail("scheduleAtFixedRate with 0 period should throw IllegalArgumentException");
+            } catch (IllegalArgumentException expected) {
+                // Intentionally left blank: no action needed.
+            }
+            t.cancel();
+
+            // Ensure a Timer throws a NullPointerException if the task is null
+            t = new Timer();
+            try {
+                t.scheduleAtFixedRate(null, 10, 10);
+                fail("Scheduling a null task should throw NullPointerException");
+            } catch (NullPointerException expected) {
+                // Intentionally left blank: no action needed.
             }
             t.cancel();
 
@@ -871,54 +904,8 @@ public class TimerTest {
     }
 
     // Android-changed: b/351566728 added this test case to test new behavior.
-    @DisableCompatChanges({Timer.SKIP_MULTIPLE_MISSED_PERIODIC_TASKS})
-    @Test
-    public void test_scheduleAtFixedRateLjava_util_TimerTaskJJ_SkipMultipleMissedFixedRateTasks_oldBehavior() throws Exception {
-        assumeFalse(Timer.skipMultipleMissedPeriodicTasks());
-        Timer t = null;
-        final ConcurrentLinkedQueue<Long> executionTimes =
-                new ConcurrentLinkedQueue<>();
-        try {
-            final CountDownLatch latch = new CountDownLatch(10);
-
-            class SlowThenFastTask extends TimerTask {
-                boolean firstRun = true;
-
-                public void run() {
-                    if (firstRun) {
-                        firstRun = false;
-                        try {
-                            // Sleep through four periods
-                            Thread.sleep(400);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    executionTimes.add(System.currentTimeMillis());
-                    latch.countDown();
-                }
-            }
-
-            t = new Timer();
-            SlowThenFastTask slowThenFastTask = new SlowThenFastTask();
-
-            t.scheduleAtFixedRate(slowThenFastTask, 100, 100);
-            assertTrue("Fixed rate tasks didn't run 10 times within 10 periods;"
-                + " times: " + executionTimes,
-                latch.await(1_100, TimeUnit.MILLISECONDS));
-            t.cancel();
-        } finally {
-            if (t != null) {
-                t.cancel();
-            }
-        }
-    }
-
-    // Android-changed: b/351566728 added this test case to test new behavior.
-    @EnableCompatChanges({Timer.SKIP_MULTIPLE_MISSED_PERIODIC_TASKS})
     @Test
     public void test_scheduleAtFixedRateLjava_util_TimerTaskJJ_SkipMultipleMissedFixedRateTasks_newBehavior() throws Exception {
-        assumeTrue(Timer.skipMultipleMissedPeriodicTasks());
         Timer t = null;
         final ConcurrentLinkedQueue<Long> executionTimes =
                 new ConcurrentLinkedQueue<>();
