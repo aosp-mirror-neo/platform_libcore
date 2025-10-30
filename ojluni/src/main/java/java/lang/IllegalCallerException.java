@@ -31,8 +31,6 @@ package java.lang;
  * @since 9
  * @see StackWalker#getCallerClass
  */
- // Android-changed: hide while StackWalker is not available
- /** @hide */
 public class IllegalCallerException extends RuntimeException {
     /**
      * Constructs an IllegalCallerException with no detail message.

@@ -3512,6 +3512,13 @@ package java.lang {
     ctor public IllegalArgumentException(Throwable);
   }
 
+  @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public class IllegalCallerException extends java.lang.RuntimeException {
+    ctor public IllegalCallerException();
+    ctor public IllegalCallerException(String);
+    ctor public IllegalCallerException(String, Throwable);
+    ctor public IllegalCallerException(Throwable);
+  }
+
   public class IllegalMonitorStateException extends java.lang.RuntimeException {
     ctor public IllegalMonitorStateException();
     ctor public IllegalMonitorStateException(String);
