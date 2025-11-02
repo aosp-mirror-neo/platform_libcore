@@ -114,13 +114,9 @@ public static void dumpLowOverheadTrace(@NonNull VMDebug.TraceDestination traceF
 @android.annotation.FlaggedApi(com.android.art.flags.Flags.FLAG_ALWAYS_ENABLE_PROFILE_CODE)
 public static void startLowOverheadTraceForLongRunningMethods(long traceDuration);
 
-@android.annotation.FlaggedApi(com.android.art.flags.Flags.FLAG_EXECUTABLE_METHOD_FILE_OFFSETS)
 public static class ExecutableMethodFileOffsets {
-  @android.annotation.FlaggedApi(com.android.art.flags.Flags.FLAG_EXECUTABLE_METHOD_FILE_OFFSETS)
   public @NonNull String getContainerPath();
-  @android.annotation.FlaggedApi(com.android.art.flags.Flags.FLAG_EXECUTABLE_METHOD_FILE_OFFSETS)
   public long getContainerOffset();
-  @android.annotation.FlaggedApi(com.android.art.flags.Flags.FLAG_EXECUTABLE_METHOD_FILE_OFFSETS)
   public long getMethodOffset();
 }
 
