@@ -64,4 +64,61 @@ public class IllegalCallerExceptionTest {
         assertEquals(cause, exception.getCause());
     }
 
+    @Test
+    public void constructor_String_null() {
+        // Scenario: Call the constructor with a null message.
+        // The Javadoc specifies that the message can be null.
+        IllegalCallerException exception = new IllegalCallerException((String) null);
+
+        // Verification: The message and cause should be null.
+        assertNull(exception.getMessage());
+        assertNull(exception.getCause());
+    }
+
+    @Test
+    public void constructor_String_Throwable_nullMessage() {
+        // Scenario: Call the constructor with a null message and a valid cause.
+        // The Javadoc specifies that the message can be null.
+        Exception cause = new Exception();
+        IllegalCallerException exception = new IllegalCallerException(null, cause);
+
+        // Verification: The message should be null and the cause should be correctly set.
+        assertNull(exception.getMessage());
+        assertEquals(cause, exception.getCause());
+    }
+
+    @Test
+    public void constructor_String_Throwable_nullCause() {
+        // Scenario: Call the constructor with a valid message and a null cause.
+        // The Javadoc specifies that the cause can be null.
+        String message = "message";
+        IllegalCallerException exception = new IllegalCallerException(message, null);
+
+        // Verification: The message should be set and the cause should be null.
+        assertEquals(message, exception.getMessage());
+        assertNull(exception.getCause());
+    }
+
+    @Test
+    public void constructor_String_Throwable_nullMessageAndCause() {
+        // Scenario: Call the constructor with both a null message and a null cause.
+        IllegalCallerException exception = new IllegalCallerException(null, null);
+
+        // Verification: Both the message and the cause should be null.
+        assertNull(exception.getMessage());
+        assertNull(exception.getCause());
+    }
+
+    @Test
+    public void constructor_Throwable_null() {
+        // Scenario: Call the constructor with a null cause.
+        // The Javadoc specifies that the cause can be null.
+        IllegalCallerException exception = new IllegalCallerException((Throwable) null);
+
+        // Verification: The cause should be null. The message will also be null,
+        // consistent with the behavior of new RuntimeException((Throwable) null).
+        assertNull(exception.getCause());
+        assertNull(exception.getMessage());
+    }
+
 }
