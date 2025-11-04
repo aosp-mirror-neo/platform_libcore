@@ -18,6 +18,7 @@ package dalvik.system;
 
 import static android.annotation.SystemApi.Client.MODULE_LIBRARIES;
 
+import android.annotation.FlaggedApi;
 import android.annotation.SystemApi;
 import android.icu.util.ULocale;
 
@@ -47,6 +48,7 @@ import sun.util.locale.BaseLocale;
  * @hide
  */
 @SystemApi(client = MODULE_LIBRARIES)
+@libcore.api.IntraCoreApi
 public final class ZygoteHooks {
     private static long token;
     private static Method enableMemoryMappedDataMethod;
@@ -283,6 +285,17 @@ public final class ZygoteHooks {
     public static boolean inZygote() {
       return inZygoteProcess;
     }
+
+    /**
+     * Are we still in a zygote? @IntraCoreApi version
+     * @hide
+     */
+    @libcore.api.IntraCoreApi
+    @FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_25_V1_APIS)
+    public static boolean isInZygote() {
+      return inZygoteProcess;
+    }
+
 
     // Hook for SystemServer specific early initialization post-forking.
     private static native void nativePostForkSystemServer(int runtimeFlags);
