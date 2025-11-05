@@ -179,3 +179,11 @@ package sun.security.x509 {
 
 }
 
+package dalvik.system {
+
+  @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_25_V1_APIS)
+  @libcore.api.IntraCoreApi public final class ZygoteHooks {
+    method @libcore.api.IntraCoreApi public static boolean isInZygote();
+  }
+
+}
