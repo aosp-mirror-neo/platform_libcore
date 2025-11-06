@@ -75,6 +75,7 @@ declare -A PATH_TO_CONFIG=(
     [support/src/test/java/org]=tools/checkstyle/asf-copyright.xml
     [support/src/test/java/tests]=tools/checkstyle/not-gpl.xml
     [test-rules]=tools/checkstyle/aosp-copyright.xml
+    [test-utils]=tools/checkstyle/aosp-copyright.xml
     [tools]=tools/checkstyle/aosp-copyright.xml
     [xml]=tools/checkstyle/not-gpl.xml
 )

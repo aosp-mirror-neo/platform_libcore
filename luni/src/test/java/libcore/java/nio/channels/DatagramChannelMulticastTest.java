@@ -40,6 +40,7 @@ import java.net.ProtocolFamily;
 import java.net.StandardProtocolFamily;
 
 import libcore.io.IoBridge;
+import libcore.test.util.MulticastUtil;
 
 import static android.system.OsConstants.POLLIN;
 
@@ -91,32 +92,15 @@ public class DatagramChannelMulticastTest extends TestCase {
         assertTrue(loopbackInterface.isLoopback());
         assertFalse(loopbackInterface.supportsMulticast());
 
-        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+        var multicastInfo = MulticastUtil.getMulticastCapabilities();
 
-        // Determine if the device is marked to support multicast or not. If this propery is not
-        // set we assume the device has an interface capable of supporting multicast.
-        supportsMulticast = Boolean.parseBoolean(
-                System.getProperty("android.cts.device.multicast", "true"));
+        supportsMulticast = multicastInfo.supportsMulticast();
         if (!supportsMulticast) {
             return;
         }
 
-        while (interfaces.hasMoreElements()
-                && (ipv4NetworkInterface == null || ipv6NetworkInterface == null)) {
-            NetworkInterface nextInterface = interfaces.nextElement();
-            if (willWorkForMulticast(nextInterface)) {
-                Enumeration<InetAddress> addresses = nextInterface.getInetAddresses();
-                while (addresses.hasMoreElements()) {
-                    final InetAddress nextAddress = addresses.nextElement();
-                    if (nextAddress instanceof Inet6Address && ipv6NetworkInterface == null) {
-                        ipv6NetworkInterface = nextInterface;
-                    } else if (nextAddress instanceof Inet4Address
-                            && ipv4NetworkInterface == null) {
-                        ipv4NetworkInterface = nextInterface;
-                    }
-                }
-            }
-        }
+        ipv4NetworkInterface = multicastInfo.ipv4NetworkInterface();
+        ipv6NetworkInterface = multicastInfo.ipv6NetworkInterface();
 
         if (ipv4NetworkInterface == null) {
             fail("Test environment must have at least one network interface capable of IPv4"
@@ -1278,14 +1262,6 @@ public class DatagramChannelMulticastTest extends TestCase {
             Thread.sleep(Math.min(20L, remainingMillis + 1));
         }
         return result;
-    }
-
-    private static boolean willWorkForMulticast(NetworkInterface iface) throws IOException {
-        return iface.isUp()
-                // Typically loopback interfaces do not support multicast, but they are ruled out
-                // explicitly here anyway.
-                && !iface.isLoopback() && iface.supportsMulticast()
-                && iface.getInetAddresses().hasMoreElements();
     }
 
     private static void createChannelAndSendMulticastMessage(
