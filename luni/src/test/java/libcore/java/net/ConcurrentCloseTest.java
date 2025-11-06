@@ -16,6 +16,10 @@
 
 package libcore.java.net;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -35,14 +39,21 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.junit.Assume;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
 /**
  * Test that Socket.close called on another thread interrupts a thread that's blocked doing
  * network I/O.
  */
-public class ConcurrentCloseTest extends junit.framework.TestCase {
+@RunWith(JUnit4.class)
+public class ConcurrentCloseTest {
     private static final InetSocketAddress UNREACHABLE_ADDRESS
             = new InetSocketAddress("192.0.2.0", 80); // RFC 5737
 
+    @Test
     public void test_accept() throws Exception {
         ServerSocket ss = new ServerSocket(0);
         Killer<ServerSocket> killer = new Killer<>(ss).startAndWaitForStarted();
@@ -56,6 +67,7 @@ public class ConcurrentCloseTest extends junit.framework.TestCase {
         }
     }
 
+    @Test
     public void test_connect() throws Exception {
         Socket s = new Socket();
         Killer<Socket> killer = new Killer<>(s).startAndWaitForStarted();
@@ -65,10 +77,12 @@ public class ConcurrentCloseTest extends junit.framework.TestCase {
             s.connect(UNREACHABLE_ADDRESS);
             fail("connect returned: " + s + "!");
         } catch (SocketException expected) {
+            checkIfNetworkUnavailable(expected);
             assertEquals("Socket closed", expected.getMessage());
         }
     }
 
+    @Test
     public void test_connect_timeout() throws Exception {
         Socket s = new Socket();
         Killer<Socket> killer = new Killer<>(s).startAndWaitForStarted();
@@ -78,10 +92,12 @@ public class ConcurrentCloseTest extends junit.framework.TestCase {
             s.connect(UNREACHABLE_ADDRESS, 3600 * 1000);
             fail("connect returned: " + s + "!");
         } catch (SocketException expected) {
+            checkIfNetworkUnavailable(expected);
             assertEquals("Socket closed", expected.getMessage());
         }
     }
 
+    @Test
     public void test_connect_nonBlocking() throws Exception {
         SocketChannel s = SocketChannel.open();
         Killer<Socket> killer = new Killer<>(s.socket()).startAndWaitForStarted();
@@ -95,6 +111,7 @@ public class ConcurrentCloseTest extends junit.framework.TestCase {
             }
             fail("connect returned: " + s + "!");
         } catch (SocketException expected) {
+            checkIfNetworkUnavailable(expected);
             assertEquals("Socket closed", expected.getMessage());
         } catch (AsynchronousCloseException alsoOkay) {
             // See below.
@@ -104,6 +121,7 @@ public class ConcurrentCloseTest extends junit.framework.TestCase {
         }
     }
 
+    @Test
     public void test_read() throws Exception {
         SilentServer ss = new SilentServer();
         Socket s = new Socket();
@@ -120,6 +138,7 @@ public class ConcurrentCloseTest extends junit.framework.TestCase {
         ss.close();
     }
 
+    @Test
     public void test_read_multiple() throws Throwable {
         SilentServer ss = new SilentServer();
         final Socket s = new Socket();
@@ -167,6 +186,7 @@ public class ConcurrentCloseTest extends junit.framework.TestCase {
         ss.close();
     }
 
+    @Test
     public void test_recv() throws Exception {
         DatagramSocket s = new DatagramSocket();
         byte[] buf = new byte[200];
@@ -182,6 +202,7 @@ public class ConcurrentCloseTest extends junit.framework.TestCase {
         }
     }
 
+    @Test
     public void test_write() throws Exception {
         final SilentServer ss = new SilentServer(128); // Minimal receive buffer size.
 
@@ -308,5 +329,15 @@ public class ConcurrentCloseTest extends junit.framework.TestCase {
             final long killed = killedTs.get();
             return (killed > 0 && now - killed > minThresholdNs);
         }
+    }
+
+    private void checkIfNetworkUnavailable(SocketException ex) {
+        // If the test environment does not have connectivity, the connect() will fail with
+        // ENETUNREACH straight away. In this case, we should not fail the test.
+        String msg = ex.getMessage();
+        boolean isNetworkUnreachable = (msg != null) && msg.contains("ENETUNREACH");
+        Assume.assumeFalse(
+                "Connection failed due to unavailable connectivity in the test environment",
+                isNetworkUnreachable);
     }
 }
