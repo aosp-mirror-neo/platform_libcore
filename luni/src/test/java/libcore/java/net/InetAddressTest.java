@@ -248,7 +248,7 @@ public class InetAddressTest {
                 + "9fe3ebdb0200034900076164647265737349000666616d696c794c0008686f737"
                 + "44e616d657400124c6a6176612f6c616e672f537472696e673b78704a7d9d6300"
                 + "00000274000e7777772e676f6f676c652e636f6d";
-        InetAddress inetAddress = InetAddress.getByName("www.google.com");
+        InetAddress inetAddress = getAddressByName("www.google.com");
         new SerializationTester<InetAddress>(inetAddress, s) {
             @Override protected void verify(InetAddress deserialized) throws Exception {
                 deserialized.isReachable(500);
@@ -265,7 +265,7 @@ public class InetAddressTest {
 
     @Test
     public void test_isReachable_neverThrows() throws Exception {
-        InetAddress inetAddress = InetAddress.getByName("www.google.com");
+        InetAddress inetAddress = getAddressByName("www.google.com");
 
         final NetworkInterface netIf = NetworkInterface.getByName("fake0");
         if (netIf == null) {
@@ -600,6 +600,24 @@ public class InetAddressTest {
         // Note: Inet6Address / Inet4Address equals() does not check host name.
         assertEquals("ip6-localhost", getHostStringWithoutReverseDns(Inet6Address.LOOPBACK));
         assertEquals("localhost", getHostStringWithoutReverseDns(Inet4Address.LOOPBACK));
+    }
+
+    private InetAddress getAddressByName(String name) {
+        boolean cacheCleared = false;
+
+        while (true) {
+            try {
+                return InetAddress.getByName(name);
+            } catch(UnknownHostException ex) {
+                Assume.assumeFalse("Unable to resolve '" + name + "' possibly due to DNS issues: " +
+                        ex + ". Skipping the test.", cacheCleared);
+
+                // A failure in the lookup can occur if the cache contains a negative result. Just
+                // to make sure that the address cannot be resolved, clear the cache and retry.
+                cacheCleared = true;
+                InetAddress.clearDnsCache();
+            }
+        }
     }
 
     private static void checkInetAddress(
