@@ -75,6 +75,10 @@ package dalvik.system {
     method @libcore.api.IntraCoreApi public Object newNonMovableArray(Class<?>, int);
   }
 
+  @libcore.api.IntraCoreApi public final class ZygoteHooks {
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") @libcore.api.IntraCoreApi public static boolean isInZygote();
+  }
+
 }
 
 package java.net {
@@ -175,15 +179,6 @@ package sun.security.x509 {
     method @libcore.api.IntraCoreApi public void derEncode(java.io.OutputStream) throws java.io.IOException;
     method @libcore.api.IntraCoreApi public static sun.security.x509.AlgorithmId get(String) throws java.security.NoSuchAlgorithmException;
     method @libcore.api.IntraCoreApi public String getName();
-  }
-
-}
-
-package dalvik.system {
-
-  @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_25_V1_APIS)
-  @libcore.api.IntraCoreApi public final class ZygoteHooks {
-    method @libcore.api.IntraCoreApi public static boolean isInZygote();
   }
 
 }
