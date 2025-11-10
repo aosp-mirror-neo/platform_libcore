@@ -1131,6 +1131,7 @@ java_library {
         "//art/build/flags",
         "//libcore:__subpackages__",
         "//external/conscrypt:__subpackages__",
+        "//external/icu:__subpackages__",
     ],
 }
 
