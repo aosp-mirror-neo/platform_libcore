@@ -58,6 +58,18 @@ public class NetworkSecurityPolicyTest extends TestCase {
         }
     }
 
+    public void testGetCertificateTransparencyVerificationReason() {
+        NetworkSecurityPolicy.setInstance(new TestNetworkSecurityPolicy(false));
+        assertEquals(NetworkSecurityPolicy.CERTIFICATE_TRANSPARENCY_REASON_UNKNOWN,
+                NetworkSecurityPolicy.getInstance().getCertificateTransparencyVerificationReason(""));
+    }
+
+    public void testGetDomainEncryptionMode() {
+        NetworkSecurityPolicy.setInstance(new TestNetworkSecurityPolicy(false));
+        assertEquals(NetworkSecurityPolicy.DOMAIN_ENCRYPTION_MODE_UNKNOWN,
+                NetworkSecurityPolicy.getInstance().getDomainEncryptionMode(""));
+    }
+
     public void testCleartextTrafficPolicySetterAndGetter() {
         NetworkSecurityPolicy.setInstance(new TestNetworkSecurityPolicy(false));
         assertEquals(false, NetworkSecurityPolicy.getInstance().isCleartextTrafficPermitted());

@@ -188,5 +188,3 @@ public abstract java.nio.DoubleBuffer asDoubleBuffer();
 
 public void setAccessible(boolean value) { throw new RuntimeException("Stub!"); }
 }
-}
-

@@ -75,6 +75,10 @@ package dalvik.system {
     method @libcore.api.IntraCoreApi public Object newNonMovableArray(Class<?>, int);
   }
 
+  @libcore.api.IntraCoreApi public final class ZygoteHooks {
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") @libcore.api.IntraCoreApi public static boolean isInZygote();
+  }
+
 }
 
 package java.net {

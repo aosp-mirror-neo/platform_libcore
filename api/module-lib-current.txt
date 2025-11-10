@@ -317,10 +317,10 @@ package dalvik.system {
     field public static final int TRACE_COUNT_ALLOCS = 1; // 0x1
   }
 
-  @FlaggedApi("com.android.art.flags.executable_method_file_offsets") public static class VMDebug.ExecutableMethodFileOffsets {
-    method @FlaggedApi("com.android.art.flags.executable_method_file_offsets") public long getContainerOffset();
-    method @FlaggedApi("com.android.art.flags.executable_method_file_offsets") @NonNull public String getContainerPath();
-    method @FlaggedApi("com.android.art.flags.executable_method_file_offsets") public long getMethodOffset();
+  public static class VMDebug.ExecutableMethodFileOffsets {
+    method public long getContainerOffset();
+    method @NonNull public String getContainerPath();
+    method public long getMethodOffset();
   }
 
   @FlaggedApi("com.android.art.flags.always_enable_profile_code") public static class VMDebug.TraceDestination {

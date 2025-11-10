@@ -696,7 +696,7 @@ public class ThreadTest extends junit.framework.TestCase {
     public void test_joinJI() throws Exception {
         // Test for method void java.lang.Thread.join(long, int)
         SimpleThread simple;
-        st = new Thread(simple = new SimpleThread(1000), "Squawk1");
+        st = new Thread(simple = new SimpleThread(5000), "Squawk1");
         assertTrue("Thread is alive", !st.isAlive());
         synchronized (simple) {
             st.start();
