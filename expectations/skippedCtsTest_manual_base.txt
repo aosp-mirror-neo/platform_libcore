@@ -46,5 +46,15 @@
     "bug": 338503591,
     "description": "Test for internal APIs.",
     "name": "libcore.jdk.internal.misc.SharedSecretsTest#testGetJavaIOFileDescriptorAccess_notNull"
+  },
+  {
+    "bug": 455781668,
+    "description": "Test for removed flags",
+    "names": [
+      "org.apache.harmony.tests.java.util.TimerTest#test_scheduleAtFixedRateLjava_util_TimerTaskJJ_SkipMultipleMissedFixedRateTasks_oldBehavior",
+      "org.apache.harmony.tests.java.util.TimerTest#test_scheduleAtFixedRateLjava_util_TimerTaskJJ_SkipMultipleMissedFixedRateTasks_newBehavior",
+      "test.java.util.concurrent.tck.ScheduledExecutorTest#testFixedRateSequenceSkipMultipleMissedFixedRateTasksDisabled",
+      "test.java.util.concurrent.tck.ScheduledExecutorTest#testFixedRateSequenceSkipMultipleMissedFixedRateTasksEnabled"
+    ]
   }
 ]
