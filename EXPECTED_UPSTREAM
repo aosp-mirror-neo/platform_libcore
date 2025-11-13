@@ -728,7 +728,7 @@ ojluni/src/main/java/java/security/spec/InvalidKeySpecException.java,jdk21u/jdk-
 ojluni/src/main/java/java/security/spec/InvalidParameterSpecException.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/security/spec/InvalidParameterSpecException.java
 ojluni/src/main/java/java/security/spec/KeySpec.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/security/spec/KeySpec.java
 ojluni/src/main/java/java/security/spec/MGF1ParameterSpec.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/security/spec/MGF1ParameterSpec.java
-ojluni/src/main/java/java/security/spec/NamedParameterSpec.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/security/spec/NamedParameterSpec.java
+ojluni/src/main/java/java/security/spec/NamedParameterSpec.java,jdk/jdk-25+26,src/java.base/share/classes/java/security/spec/NamedParameterSpec.java
 ojluni/src/main/java/java/security/spec/PKCS8EncodedKeySpec.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/security/spec/PKCS8EncodedKeySpec.java
 ojluni/src/main/java/java/security/spec/PSSParameterSpec.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/security/spec/PSSParameterSpec.java
 ojluni/src/main/java/java/security/spec/RSAKeyGenParameterSpec.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/security/spec/RSAKeyGenParameterSpec.java
@@ -2223,6 +2223,7 @@ ojluni/src/test/java/security/cert/CertPathEncodingTest.java,jdk21u/jdk-21.0.6-g
 ojluni/src/test/java/security/cert/GetInstance.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/security/cert/GetInstance.java
 ojluni/src/test/java/security/cert/URICertStoreParameters/TestBasic.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/security/cert/URICertStoreParameters/TestBasic.java
 ojluni/src/test/java/security/cert/X509CertSelectorTest.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/security/cert/X509CertSelectorTest.java
+ojluni/src/test/java/security/spec/TestNamedParameterSpec.java,jdk/jdk-25+26,test/jdk/java/security/spec/TestNamedParameterSpec.java
 ojluni/src/test/java/text/AttributedCharacterIterator/Attribute/ReadResolve.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/text/AttributedCharacterIterator/Attribute/ReadResolve.java
 ojluni/src/test/java/text/AttributedString/AttributedStringTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/text/AttributedString/AttributedStringTest.java
 ojluni/src/test/java/text/AttributedString/TestAttributedStringCtor.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/text/AttributedString/TestAttributedStringCtor.java
