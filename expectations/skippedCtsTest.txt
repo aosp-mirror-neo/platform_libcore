@@ -18,8 +18,17 @@
   {
     "description": "Test for internal APIs.",
     "names": [
+      "libcore.java.util.concurrent.ForkJoinPoolTest#testThreadContainerTracking",
+      "libcore.java.util.concurrent.ThreadPoolExecutorTest#testThreadContainerTracking",
       "libcore.libcore.icu.DecimalFormatDataTest",
       "libcore.libcore.icu.SimpleDateFormatDataTest"
+    ]
+  },
+  {
+    "bug": 146565491,
+    "description": "The test asserts buggy or non-breaking behaviors, but the behavior has been fixed in a new mainline module version.",
+    "names": [
+      "libcore.java.lang.ThreadTest#getStackTrace_noDebugInfo"
     ]
   },
   {
@@ -184,6 +193,23 @@
     "description": "The test asserts buggy or non-breaking behaviors, but the behavior has been fixed in a new mainline module version.",
     "names": [
       "test.java.util.Timer.Args#main"
+    ]
+  },
+  {
+    "bug": 443192271,
+    "description": "Test for internal APIs.",
+    "names": [
+      "libcore.java.lang.foreign.GlobalArenaTest"
+    ]
+  },
+  {
+    "bug": 455781668,
+    "description": "Test for removed flags",
+    "names": [
+      "org.apache.harmony.tests.java.util.TimerTest#test_scheduleAtFixedRateLjava_util_TimerTaskJJ_SkipMultipleMissedFixedRateTasks_newBehavior",
+      "org.apache.harmony.tests.java.util.TimerTest#test_scheduleAtFixedRateLjava_util_TimerTaskJJ_SkipMultipleMissedFixedRateTasks_oldBehavior",
+      "test.java.util.concurrent.tck.ScheduledExecutorTest#testFixedRateSequenceSkipMultipleMissedFixedRateTasksDisabled",
+      "test.java.util.concurrent.tck.ScheduledExecutorTest#testFixedRateSequenceSkipMultipleMissedFixedRateTasksEnabled"
     ]
   }
 ]
