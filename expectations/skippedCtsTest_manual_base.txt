@@ -56,5 +56,10 @@
       "test.java.util.concurrent.tck.ScheduledExecutorTest#testFixedRateSequenceSkipMultipleMissedFixedRateTasksDisabled",
       "test.java.util.concurrent.tck.ScheduledExecutorTest#testFixedRateSequenceSkipMultipleMissedFixedRateTasksEnabled"
     ]
+  },
+  {
+    "bug": 460288532,
+    "description": "Deleted test.",
+    "name": "com.android.org.conscrypt.DuckTypedHpkeSpiTest#vectors"
   }
 ]
