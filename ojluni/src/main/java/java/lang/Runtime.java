@@ -939,14 +939,15 @@ public class Runtime {
         }
         if (!file.toPath().getFileSystem().isReadOnly() && file.canWrite()) {
             System.logW("Attempt to load writable file: " + filename
-                    + ". This will throw on a future Android version");
-            if (VMRuntime.getSdkVersion() >= VersionCodes.C) {
-                if (VMRuntime.isReadOnlyDynamicCodeLoadWwLogEnabled()) {
-                    LibcoreStatsLog.writeRuntimeUnsafeDclReported(
+                    + ". This will throw on a future Android version"
+            + ". Current sdk version: " + VMRuntime.getSdkVersion());
+            if (VMRuntime.isReadOnlyDynamicCodeLoadWwLogEnabled()) {
+                LibcoreStatsLog.writeRuntimeUnsafeDclReported(
                         Os.getuid(),
                         fromClass.getPackageName(),
                         file.getName());
-                }
+            }
+            if (VMRuntime.getSdkVersion() >= VersionCodes.C) {
                 if (VMRuntime.isReadOnlyDynamicCodeLoadThrowExceptionEnabled()) {
                     throw new UnsatisfiedLinkError(
                       "Attempt to load writable file: " + filename);
