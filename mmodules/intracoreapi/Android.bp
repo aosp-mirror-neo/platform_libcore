@@ -102,6 +102,9 @@ java_sdk_library {
     system_modules: "none",
     patch_module: "java.base",
 
+    // Needed as the source uses `sealed` keyword.
+    java_version: "17",
+
     // Don't copy any output files to the dist.
     no_dist: true,
 

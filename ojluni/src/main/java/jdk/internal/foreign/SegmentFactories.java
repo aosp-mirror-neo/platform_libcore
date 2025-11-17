@@ -38,9 +38,11 @@ import jdk.internal.vm.annotation.ForceInline;
  */
 public class SegmentFactories {
 
+    // Android-changed: assume that guaranteed alignment is 8 bytes on all platforms.
     // The maximum alignment supported by malloc - typically 16 bytes on
     // 64-bit platforms and 8 bytes on 32-bit platforms.
-    private static final long MAX_MALLOC_ALIGN = Unsafe.ADDRESS_SIZE == 4 ? 8 : 16;
+    // private static final long MAX_MALLOC_ALIGN = Unsafe.ADDRESS_SIZE == 4 ? 8 : 16;
+    private static final long MAX_MALLOC_ALIGN = 8;
 
     private static final Unsafe UNSAFE = Unsafe.getUnsafe();
 

@@ -222,8 +222,6 @@ public final class VMRuntime {
     // Allocations since last call to native layer. See notifyNativeAllocation().
     private final AtomicInteger allocationCount = new AtomicInteger(0);
 
-    private long[] disabledCompatChanges = new long[0];
-
     private static final List<Runnable> postCleanupCallbacks = new ArrayList<>();
 
     /**
@@ -404,8 +402,7 @@ public final class VMRuntime {
      */
     @SystemApi(client = MODULE_LIBRARIES)
     public synchronized void setDisabledCompatChanges(long[] disabledCompatChanges) {
-        this.disabledCompatChanges = disabledCompatChanges;
-        setDisabledCompatChangesNative(this.disabledCompatChanges);
+        setDisabledCompatChangesNative(disabledCompatChanges);
     }
 
     @FastNative

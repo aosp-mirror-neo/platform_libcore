@@ -671,6 +671,24 @@ java_library_static {
     system_modules: "core-all-system-modules",
 }
 
+// Builds libcore test rules
+java_library_static {
+    name: "core-test-utils",
+    visibility: [
+        "//art/build/sdk",
+        "//cts/tests/core/runner-axt",
+        "//cts/tests/tests/util",
+        "//libcore/ojluni/src/test",
+    ],
+    hostdex: true,
+    srcs: [
+        "test-utils/src/main/**/*.java",
+    ],
+
+    sdk_version: "none",
+    system_modules: "core-all-system-modules",
+}
+
 // Builds platform_compat test rules
 java_library_static {
     name: "core-compat-test-rules",
@@ -908,6 +926,7 @@ java_test {
         "core-java-17-language-tests",
         "core-java-21-language-tests",
         "core-test-rules",
+        "core-test-utils",
         "core-tests-support",
         "junit-params",
         "libcore-crypto-tests",
@@ -1112,6 +1131,7 @@ java_library {
         "//art/build/flags",
         "//libcore:__subpackages__",
         "//external/conscrypt:__subpackages__",
+        "//external/icu:__subpackages__",
     ],
 }
 

@@ -16,32 +16,45 @@
 
 package libcore.java.net;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketTimeoutException;
-import libcore.junit.junit3.TestCaseWithRules;
 import libcore.junit.util.ResourceLeakageDetector;
-import org.junit.Rule;
-import org.junit.rules.TestRule;
+import libcore.test.util.MulticastUtil;
 
-public final class MulticastSocketTest extends TestCaseWithRules {
+import org.junit.Assume;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+@RunWith(JUnit4.class)
+public final class MulticastSocketTest {
     @Rule
     public TestRule guardRule = ResourceLeakageDetector.getRule();
 
     private static final int SO_TIMEOUT = 1000;
 
+    @Test
     public void testGroupReceiveIPv4() throws Exception {
         testGroupReceive(InetAddress.getByName("239.1.1.1"));
     }
 
+    @Test
     public void testGroupReceiveIPv6() throws Exception {
         testGroupReceive(InetAddress.getByName("ff05::1:1"));
     }
 
     private void testGroupReceive(InetAddress mcGroup) throws IOException {
+        assumeMulticastCapabilities();
+
         final String message = "hello";
 
         try (MulticastSocket mcSock = new MulticastSocket();
@@ -79,5 +92,16 @@ public final class MulticastSocketTest extends TestCaseWithRules {
                 fail();
             }
         }
+    }
+
+    private void assumeMulticastCapabilities() throws IOException {
+        var multicastInfo = MulticastUtil.getMulticastCapabilities();
+
+        Assume.assumeTrue("Device does not support multicast. Skipping test.",
+                multicastInfo.supportsMulticast());
+        Assume.assumeTrue("No IPv4 multicast interface found. Skipping test.",
+                multicastInfo.ipv4NetworkInterface() != null);
+        Assume.assumeTrue("No IPv6 multicast interface found. Skipping test.",
+                multicastInfo.ipv6NetworkInterface() != null);
     }
 }
