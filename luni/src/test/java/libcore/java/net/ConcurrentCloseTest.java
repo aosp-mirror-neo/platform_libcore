@@ -335,7 +335,8 @@ public class ConcurrentCloseTest {
         // If the test environment does not have connectivity, the connect() will fail with
         // ENETUNREACH straight away. In this case, we should not fail the test.
         String msg = ex.getMessage();
-        boolean isNetworkUnreachable = (msg != null) && msg.contains("ENETUNREACH");
+        boolean isNetworkUnreachable = (msg != null) &&
+            (msg.contains("ENETUNREACH") || msg.contains("Network is unreachable"));
         Assume.assumeFalse(
                 "Connection failed due to unavailable connectivity in the test environment",
                 isNetworkUnreachable);
