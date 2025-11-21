@@ -18,6 +18,8 @@
   {
     "description": "Test for internal APIs.",
     "names": [
+      "com.android.org.conscrypt.java.security.KeyPairGeneratorTest#test_getInstance",
+      "com.android.org.conscrypt.java.security.SignatureTest#test_getInstance",
       "libcore.java.util.concurrent.ForkJoinPoolTest#testThreadContainerTracking",
       "libcore.java.util.concurrent.ThreadPoolExecutorTest#testThreadContainerTracking",
       "libcore.libcore.icu.DecimalFormatDataTest",
@@ -210,6 +212,13 @@
       "org.apache.harmony.tests.java.util.TimerTest#test_scheduleAtFixedRateLjava_util_TimerTaskJJ_SkipMultipleMissedFixedRateTasks_oldBehavior",
       "test.java.util.concurrent.tck.ScheduledExecutorTest#testFixedRateSequenceSkipMultipleMissedFixedRateTasksDisabled",
       "test.java.util.concurrent.tck.ScheduledExecutorTest#testFixedRateSequenceSkipMultipleMissedFixedRateTasksEnabled"
+    ]
+  },
+  {
+    "bug": 460288532,
+    "description": "Deleted test.",
+    "names": [
+      "com.android.org.conscrypt.DuckTypedHpkeSpiTest#vectors"
     ]
   }
 ]
