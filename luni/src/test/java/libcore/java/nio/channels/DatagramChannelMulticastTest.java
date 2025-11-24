@@ -16,8 +16,16 @@
 
 package libcore.java.nio.channels;
 
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
+import static android.system.OsConstants.POLLIN;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -42,13 +50,20 @@ import java.net.StandardProtocolFamily;
 import libcore.io.IoBridge;
 import libcore.test.util.MulticastUtil;
 
-import static android.system.OsConstants.POLLIN;
+import junit.framework.AssertionFailedError;
+
+import org.junit.Assume;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
  * Tests associated with multicast behavior of DatagramChannel.
  * These tests require IPv6 multicasting enabled network.
  */
-public class DatagramChannelMulticastTest extends TestCase {
+@RunWith(JUnit4.class)
+public class DatagramChannelMulticastTest {
 
     private static InetAddress lookup(String s) {
         try {
@@ -81,10 +96,8 @@ public class DatagramChannelMulticastTest extends TestCase {
     private NetworkInterface ipv6NetworkInterface;
     private NetworkInterface loopbackInterface;
 
-    private boolean supportsMulticast;
-
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         // The loopback interface isn't actually useful for sending/receiving multicast messages
         // but it can be used as a fake for tests where that does not matter.
         loopbackInterface = NetworkInterface.getByInetAddress(InetAddress.getLoopbackAddress());
@@ -94,24 +107,21 @@ public class DatagramChannelMulticastTest extends TestCase {
 
         var multicastInfo = MulticastUtil.getMulticastCapabilities();
 
-        supportsMulticast = multicastInfo.supportsMulticast();
-        if (!supportsMulticast) {
-            return;
-        }
+
+        Assume.assumeTrue("Device does not support multicast. Skipping tests.",
+                multicastInfo.supportsMulticast());
+        Assume.assumeTrue("Test environment must have at least one network interface " +
+                "capable of IPv4 multicast.",
+                multicastInfo.ipv4NetworkInterface() != null);
+        Assume.assumeTrue("Test environment must have at least one network interface " +
+                "capable of IPv6 multicast.",
+                multicastInfo.ipv6NetworkInterface() != null);
 
         ipv4NetworkInterface = multicastInfo.ipv4NetworkInterface();
         ipv6NetworkInterface = multicastInfo.ipv6NetworkInterface();
-
-        if (ipv4NetworkInterface == null) {
-            fail("Test environment must have at least one network interface capable of IPv4"
-                    + " multicast");
-        }
-        if (ipv6NetworkInterface == null) {
-            fail("Test environment must have at least one network interface capable of IPv6"
-                    + " multicast");
-        }
     }
 
+    @Test
     public void test_open() throws IOException {
         DatagramChannel dc = DatagramChannel.open();
 
@@ -123,6 +133,7 @@ public class DatagramChannelMulticastTest extends TestCase {
         assertFalse(dc.isConnected());
     }
 
+    @Test
     public void test_bind_null() throws Exception {
         DatagramChannel dc = createReceiverChannel();
         assertNotNull(dc.getLocalAddress());
@@ -139,10 +150,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         assertFalse(dc.isConnected());
     }
 
+    @Test
     public void test_joinAnySource_afterClose() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         dc.close();
         try {
@@ -152,10 +161,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         }
     }
 
+    @Test
     public void test_joinAnySource_nullGroupAddress() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         try {
             dc.join(null, ipv4NetworkInterface);
@@ -165,10 +172,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinAnySource_nullNetworkInterface() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         try {
             dc.join(GOOD_MULTICAST_IPv4, null);
@@ -178,10 +183,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinAnySource_nonMulticastGroupAddress_IPv4() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         try {
             dc.join(UNICAST_IPv4_1, ipv4NetworkInterface);
@@ -191,10 +194,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinAnySource_nonMulticastGroupAddress_IPv6() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         try {
             dc.join(UNICAST_IPv6_1, ipv6NetworkInterface);
@@ -204,19 +205,18 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinAnySource_IPv4() throws Exception {
         check_joinAnySource(GOOD_MULTICAST_IPv4, BAD_MULTICAST_IPv4, ipv4NetworkInterface, StandardProtocolFamily.INET);
     }
 
+    @Test
     public void test_joinAnySource_IPv6() throws Exception {
         check_joinAnySource(GOOD_MULTICAST_IPv6, BAD_MULTICAST_IPv6, ipv6NetworkInterface, StandardProtocolFamily.INET6);
     }
 
     private void check_joinAnySource(InetAddress group, InetAddress group2,
             NetworkInterface networkInterface, ProtocolFamily protocolFamily) throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         // Set up a receiver join the group on ipv4NetworkInterface
         DatagramChannel receiverChannel = createReceiverChannel(protocolFamily);
         InetSocketAddress localAddress = (InetSocketAddress) receiverChannel.getLocalAddress();
@@ -240,10 +240,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         receiverChannel.close();
     }
 
+    @Test
     public void test_joinAnySource_processLimit() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         for (byte i = 1; i <= 25; i++) {
             InetAddress groupAddress = Inet4Address.getByName("239.255.0." + i);
@@ -261,10 +259,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinAnySource_blockLimit() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey key = dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface);
         for (byte i = 1; i <= 15; i++) {
@@ -284,10 +280,8 @@ public class DatagramChannelMulticastTest extends TestCase {
     }
 
     /** Confirms that calling join() does not cause an implicit bind() to take place. */
+    @Test
     public void test_joinAnySource_doesNotCauseBind() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = DatagramChannel.open();
         dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface);
         assertNull(dc.getLocalAddress());
@@ -295,10 +289,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinAnySource_networkInterfaces() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         // Check that we can join on specific interfaces and that we only receive if data is
         // received on that interface. This test is only really useful on devices with multiple
         // non-loopback interfaces.
@@ -362,10 +354,8 @@ public class DatagramChannelMulticastTest extends TestCase {
     }
 
     /** Confirms that the scope of each membership is network interface-level. */
+    @Test
     public void test_join_canMixTypesOnDifferentInterfaces() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = DatagramChannel.open();
         MembershipKey membershipKey1 = dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface);
         MembershipKey membershipKey2 = dc.join(GOOD_MULTICAST_IPv4, loopbackInterface, UNICAST_IPv4_1);
@@ -388,11 +378,13 @@ public class DatagramChannelMulticastTest extends TestCase {
         return dc;
     }
 
+    @Test
     public void test_joinAnySource_multiple_joins_IPv4()
             throws Exception {
         check_joinAnySource_multiple_joins(GOOD_MULTICAST_IPv4, ipv4NetworkInterface);
     }
 
+    @Test
     public void test_joinAnySource_multiple_joins_IPv6()
             throws Exception {
         check_joinAnySource_multiple_joins(GOOD_MULTICAST_IPv6, ipv6NetworkInterface);
@@ -400,9 +392,6 @@ public class DatagramChannelMulticastTest extends TestCase {
 
     private void check_joinAnySource_multiple_joins(InetAddress group,
             NetworkInterface networkInterface) throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
 
         MembershipKey membershipKey1 = dc.join(group, networkInterface);
@@ -416,19 +405,18 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinAnySource_multicastLoopOption_IPv4() throws Exception {
         check_joinAnySource_multicastLoopOption(GOOD_MULTICAST_IPv4, ipv4NetworkInterface, StandardProtocolFamily.INET);
     }
 
+    @Test
     public void test_multicastLoopOption_IPv6() throws Exception {
         check_joinAnySource_multicastLoopOption(GOOD_MULTICAST_IPv6, ipv6NetworkInterface, StandardProtocolFamily.INET6);
     }
 
     private void check_joinAnySource_multicastLoopOption(InetAddress group,
             NetworkInterface networkInterface, ProtocolFamily protocolFamily) throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         final String message = "Hello, world!";
 
         DatagramChannel dc = createReceiverChannel(protocolFamily);
@@ -474,9 +462,6 @@ public class DatagramChannelMulticastTest extends TestCase {
 
     private void checkMembershipKeyAccessors(InetAddress group,
             NetworkInterface networkInterface) throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
 
         MembershipKey key = dc.join(group, networkInterface);
@@ -488,19 +473,18 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_dropAnySource_twice_IPv4() throws Exception {
         check_dropAnySource_twice(GOOD_MULTICAST_IPv4, ipv4NetworkInterface);
     }
 
+    @Test
     public void test_dropAnySource_twice_IPv6() throws Exception {
         check_dropAnySource_twice(GOOD_MULTICAST_IPv6, ipv6NetworkInterface);
     }
 
     private void check_dropAnySource_twice(InetAddress group,
             NetworkInterface networkInterface) throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(group, networkInterface);
 
@@ -514,10 +498,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_close_invalidatesMembershipKey() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface);
 
@@ -528,10 +510,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         assertFalse(membershipKey.isValid());
     }
 
+    @Test
     public void test_block_null() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface);
         try {
@@ -543,10 +523,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_block_mixedAddressTypes_IPv4() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface);
         try {
@@ -558,10 +536,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_block_mixedAddressTypes_IPv6() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(GOOD_MULTICAST_IPv6, ipv6NetworkInterface);
         try {
@@ -573,10 +549,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_block_cannotBlockWithSourceSpecificMembership() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface, UNICAST_IPv4_1);
         try {
@@ -588,10 +562,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_block_multipleBlocksIgnored() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface);
         membershipKey.block(UNICAST_IPv4_1);
@@ -602,10 +574,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_block_wildcardAddress() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface);
         try {
@@ -617,10 +587,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_unblock_multipleUnblocksFail() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface);
 
@@ -644,10 +612,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_unblock_null() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface);
         membershipKey.block(UNICAST_IPv4_1);
@@ -664,10 +630,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_unblock_mixedAddressTypes_IPv4() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface);
         try {
@@ -682,10 +646,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_unblock_mixedAddressTypes_IPv6() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(GOOD_MULTICAST_IPv6, ipv6NetworkInterface);
         try {
@@ -701,10 +663,8 @@ public class DatagramChannelMulticastTest extends TestCase {
     }
 
     /** Checks that block() works when the receiver is bound to the multicast group address */
+    @Test
     public void test_block_filtersAsExpected_groupBind_ipv4() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         InetAddress ipv4LocalAddress = getLocalIpv4Address(ipv4NetworkInterface);
         check_block_filtersAsExpected(
                 ipv4LocalAddress /* senderBindAddress */,
@@ -714,10 +674,8 @@ public class DatagramChannelMulticastTest extends TestCase {
     }
 
     /** Checks that block() works when the receiver is bound to the multicast group address */
+    @Test
     public void test_block_filtersAsExpected_groupBind_ipv6() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         InetAddress ipv6LocalAddress = getLocalIpv6Address(ipv6NetworkInterface);
         check_block_filtersAsExpected(
                 ipv6LocalAddress /* senderBindAddress */,
@@ -727,10 +685,8 @@ public class DatagramChannelMulticastTest extends TestCase {
     }
 
     /** Checks that block() works when the receiver is bound to the "any" address */
+    @Test
     public void test_block_filtersAsExpected_anyBind_ipv4() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         InetAddress ipv4LocalAddress = getLocalIpv4Address(ipv4NetworkInterface);
         check_block_filtersAsExpected(
                 ipv4LocalAddress /* senderBindAddress */,
@@ -740,10 +696,8 @@ public class DatagramChannelMulticastTest extends TestCase {
     }
 
     /** Checks that block() works when the receiver is bound to the "any" address */
+    @Test
     public void test_block_filtersAsExpected_anyBind_ipv6() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         InetAddress ipv6LocalAddress = getLocalIpv6Address(ipv6NetworkInterface);
         check_block_filtersAsExpected(
                 ipv6LocalAddress /* senderBindAddress */,
@@ -815,10 +769,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         receivingChannel.close();
     }
 
+    @Test
     public void test_joinSourceSpecific_nullGroupAddress() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         try {
             dc.join(null, ipv4NetworkInterface, UNICAST_IPv4_1);
@@ -828,10 +780,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinSourceSpecific_afterClose() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         dc.close();
         try {
@@ -841,10 +791,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         }
     }
 
+    @Test
     public void test_joinSourceSpecific_nullNetworkInterface() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         try {
             dc.join(GOOD_MULTICAST_IPv4, null, UNICAST_IPv4_1);
@@ -854,10 +802,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinSourceSpecific_nonMulticastGroupAddress_IPv4() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         try {
             dc.join(UNICAST_IPv4_1, ipv4NetworkInterface, UNICAST_IPv4_1);
@@ -867,10 +813,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinSourceSpecific_nonMulticastGroupAddress_IPv6() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         try {
             dc.join(UNICAST_IPv6_1, ipv6NetworkInterface, UNICAST_IPv6_1);
@@ -880,10 +824,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinSourceSpecific_nullSourceAddress_IPv4() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         try {
             dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface, null);
@@ -893,10 +835,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinSourceSpecific_nullSourceAddress_IPv6() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         try {
             dc.join(GOOD_MULTICAST_IPv6, ipv6NetworkInterface, null);
@@ -906,10 +846,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinSourceSpecific_mixedAddressTypes() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         try {
             dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface, UNICAST_IPv6_1);
@@ -924,10 +862,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinSourceSpecific_nonUnicastSourceAddress_IPv4() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         try {
             dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface, BAD_MULTICAST_IPv4);
@@ -937,10 +873,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinSourceSpecific_nonUniicastSourceAddress_IPv6() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         try {
             dc.join(GOOD_MULTICAST_IPv6, ipv6NetworkInterface, BAD_MULTICAST_IPv6);
@@ -950,10 +884,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_joinSourceSpecific_multipleSourceAddressLimit() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         for (byte i = 1; i <= 20; i++) {
             InetAddress sourceAddress = Inet4Address.getByAddress(new byte[] { 10, 0, 0, i});
@@ -974,10 +906,8 @@ public class DatagramChannelMulticastTest extends TestCase {
      * Checks that a source-specific join() works when the receiver is bound to the multicast group
      * address
      */
+    @Test
     public void test_joinSourceSpecific_null() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         InetAddress ipv4LocalAddress = getLocalIpv4Address(ipv4NetworkInterface);
         check_joinSourceSpecific(
                 ipv4LocalAddress /* senderBindAddress */,
@@ -991,10 +921,8 @@ public class DatagramChannelMulticastTest extends TestCase {
      * Checks that a source-specific join() works when the receiver is bound to the multicast group
      * address
      */
+    @Test
     public void test_joinSourceSpecific_groupBind_ipv4() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         InetAddress ipv4LocalAddress = getLocalIpv4Address(ipv4NetworkInterface);
         check_joinSourceSpecific(
                 ipv4LocalAddress /* senderBindAddress */,
@@ -1008,10 +936,8 @@ public class DatagramChannelMulticastTest extends TestCase {
      * Checks that a source-specific join() works when the receiver is bound to the multicast group
      * address
      */
+    @Test
     public void test_joinSourceSpecific_groupBind_ipv6() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         InetAddress ipv6LocalAddress = getLocalIpv6Address(ipv6NetworkInterface);
         check_joinSourceSpecific(
                 ipv6LocalAddress /* senderBindAddress */,
@@ -1022,10 +948,8 @@ public class DatagramChannelMulticastTest extends TestCase {
     }
 
     /** Checks that a source-specific join() works when the receiver is bound to the "any" address */
+    @Test
     public void test_joinSourceSpecific_anyBind_ipv4() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         InetAddress ipv4LocalAddress = getLocalIpv4Address(ipv4NetworkInterface);
         check_joinSourceSpecific(
                 ipv4LocalAddress /* senderBindAddress */,
@@ -1036,10 +960,8 @@ public class DatagramChannelMulticastTest extends TestCase {
     }
 
     /** Checks that a source-specific join() works when the receiver is bound to the "any" address */
+    @Test
     public void test_joinSourceSpecific_anyBind_ipv6() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         InetAddress ipv6LocalAddress = getLocalIpv6Address(ipv6NetworkInterface);
         check_joinSourceSpecific(
                 ipv6LocalAddress /* senderBindAddress */,
@@ -1103,12 +1025,14 @@ public class DatagramChannelMulticastTest extends TestCase {
         sendingChannel.close();
     }
 
+    @Test
     public void test_dropSourceSpecific_twice_IPv4() throws Exception {
         check_dropSourceSpecific_twice(
                 GOOD_MULTICAST_IPv4 /* groupAddress */, UNICAST_IPv4_1 /* sourceAddress */,
                 ipv4NetworkInterface);
     }
 
+    @Test
     public void test_dropSourceSpecific_twice_IPv6() throws Exception {
         check_dropSourceSpecific_twice(
                 GOOD_MULTICAST_IPv6 /* groupAddress */, UNICAST_IPv6_1 /* sourceAddress */,
@@ -1118,9 +1042,6 @@ public class DatagramChannelMulticastTest extends TestCase {
     private void check_dropSourceSpecific_twice(InetAddress groupAddress, InetAddress sourceAddress,
             NetworkInterface networkInterface)
             throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(groupAddress, networkInterface, sourceAddress);
 
@@ -1134,6 +1055,7 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_dropSourceSpecific_sourceKeysAreIndependent_IPv4() throws Exception {
         check_dropSourceSpecific_sourceKeysAreIndependent(
                 GOOD_MULTICAST_IPv4 /* groupAddress */,
@@ -1142,6 +1064,7 @@ public class DatagramChannelMulticastTest extends TestCase {
                 ipv4NetworkInterface);
     }
 
+    @Test
     public void test_dropSourceSpecific_sourceKeysAreIndependent_IPv6() throws Exception {
         check_dropSourceSpecific_sourceKeysAreIndependent(
                 GOOD_MULTICAST_IPv6 /* groupAddress */,
@@ -1153,9 +1076,6 @@ public class DatagramChannelMulticastTest extends TestCase {
     private void check_dropSourceSpecific_sourceKeysAreIndependent(
             InetAddress groupAddress, InetAddress sourceAddress1, InetAddress sourceAddress2,
             NetworkInterface networkInterface) throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey1 = dc.join(groupAddress, networkInterface, sourceAddress1);
         MembershipKey membershipKey2 = dc.join(groupAddress, networkInterface, sourceAddress2);
@@ -1171,10 +1091,8 @@ public class DatagramChannelMulticastTest extends TestCase {
         dc.close();
     }
 
+    @Test
     public void test_drop_keyBehaviorAfterDrop() throws Exception {
-        if (!supportsMulticast) {
-            return;
-        }
         DatagramChannel dc = createReceiverChannel();
         MembershipKey membershipKey = dc.join(GOOD_MULTICAST_IPv4, ipv4NetworkInterface, UNICAST_IPv4_1);
         membershipKey.drop();
@@ -1312,22 +1230,24 @@ public class DatagramChannelMulticastTest extends TestCase {
         }
     }
 
-    private static InetAddress getLocalIpv4Address(NetworkInterface networkInterface) {
+    private InetAddress getLocalIpv4Address(NetworkInterface networkInterface) {
         for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
             if (interfaceAddress.getAddress() instanceof Inet4Address) {
                 return interfaceAddress.getAddress();
             }
         }
-        throw new AssertionFailedError("Unable to find local IPv4 address for " + networkInterface);
+        fail("Unable to find local IPv4 address for " + networkInterface);
+        return null;
     }
 
-    private static InetAddress getLocalIpv6Address(NetworkInterface networkInterface) {
+    private InetAddress getLocalIpv6Address(NetworkInterface networkInterface) {
         for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
             if (interfaceAddress.getAddress() instanceof Inet6Address) {
                 return interfaceAddress.getAddress();
             }
         }
-        throw new AssertionFailedError("Unable to find local IPv6 address for " + networkInterface);
+        fail("Unable to find local IPv6 address for " + networkInterface);
+        return null;
     }
 }
 

@@ -3,6 +3,10 @@
 # art/runtime/mirror that inherit art::mirror::Object.
 dalvik.system.ClassExt
 dalvik.system.EmulatedStackFrame
+dalvik.system.VirtualThreadContext
+dalvik.system.VirtualThreadFrame
+dalvik.system.VirtualThreadParkedStates
+dalvik.system.VirtualThreadParkingError
 java.lang.Class
 java.lang.ClassLoader
 java.lang.DexCache
