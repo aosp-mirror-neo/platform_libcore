@@ -549,6 +549,9 @@ public final class VirtualThread extends BaseVirtualThread {
         assert carrierThread == null;
         setState(TERMINATED);
 
+        // Android-added: Release the thin lock id.
+        getVirtualThreadContext().releaseThinLockId();
+
         // notify anyone waiting for this virtual thread to terminate
         CountDownLatch termination = this.termination;
         if (termination != null) {
