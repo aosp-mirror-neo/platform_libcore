@@ -787,20 +787,21 @@ public final class StandardNames {
     private static final Map<String, Integer> MINIMUM_KEY_SIZE;
     static {
         PRIVATE_KEY_SPEC_CLASSES = new HashMap<>();
-        PUBLIC_KEY_SPEC_CLASSES = new HashMap<>();
-        MINIMUM_KEY_SIZE = new HashMap<>();
         PRIVATE_KEY_SPEC_CLASSES.put("RSA", RSAPrivateCrtKeySpec.class);
-        PUBLIC_KEY_SPEC_CLASSES.put("RSA", RSAPublicKeySpec.class);
-        MINIMUM_KEY_SIZE.put("RSA", 512);
         PRIVATE_KEY_SPEC_CLASSES.put("DSA", DSAPrivateKeySpec.class);
-        PUBLIC_KEY_SPEC_CLASSES.put("DSA", DSAPublicKeySpec.class);
-        MINIMUM_KEY_SIZE.put("DSA", 512);
         PRIVATE_KEY_SPEC_CLASSES.put("DH", DHPrivateKeySpec.class);
-        PUBLIC_KEY_SPEC_CLASSES.put("DH", DHPublicKeySpec.class);
-        MINIMUM_KEY_SIZE.put("DH", 256);
         PRIVATE_KEY_SPEC_CLASSES.put("EC", ECPrivateKeySpec.class);
+        PUBLIC_KEY_SPEC_CLASSES = new HashMap<>();
+        PUBLIC_KEY_SPEC_CLASSES.put("RSA", RSAPublicKeySpec.class);
+        PUBLIC_KEY_SPEC_CLASSES.put("DSA", DSAPublicKeySpec.class);
+        PUBLIC_KEY_SPEC_CLASSES.put("DH", DHPublicKeySpec.class);
         PUBLIC_KEY_SPEC_CLASSES.put("EC", ECPublicKeySpec.class);
+        MINIMUM_KEY_SIZE = new HashMap<>();
+        MINIMUM_KEY_SIZE.put("RSA", 512);
+        MINIMUM_KEY_SIZE.put("DSA", 512);
+        MINIMUM_KEY_SIZE.put("DH", 256);
         MINIMUM_KEY_SIZE.put("EC", 256);
+        MINIMUM_KEY_SIZE.put("XWING", 32);
     }
 
     public static Class<? extends KeySpec> getPrivateKeySpecClass(String algName) {
