@@ -17,11 +17,20 @@
 
 package org.apache.harmony.tests.java.net;
 
+import static org.junit.Assert.assertEquals;
+
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import tests.support.Support_Configuration;
 
-public class InetAddressThreadTest extends junit.framework.TestCase {
+import org.junit.Assume;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+@RunWith(JUnit4.class)
+public class InetAddressThreadTest {
 
     private static boolean someoneDone[] = new boolean[2];
 
@@ -121,6 +130,7 @@ public class InetAddressThreadTest extends junit.framework.TestCase {
     /**
      * java.net.InetAddress#getHostName()
      */
+    @Test
     public void test_getHostName() throws Exception {
         // Test for method java.lang.String java.net.InetAddress.getHostName()
 
@@ -161,6 +171,9 @@ public class InetAddressThreadTest extends junit.framework.TestCase {
              * for details
              */
 //            assertTrue(threadedTestErrorString, threadedTestSucceeded);
+        } catch(UnknownHostException ex) {
+            Assume.assumeTrue("Unable to resolve host, possibly due to DNS issues: " +
+                        ex + ". Skipping the test.", false);
         } finally {
             // restore the old value of the property
             if (originalPropertyValue == null)
