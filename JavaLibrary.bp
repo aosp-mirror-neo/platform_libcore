@@ -1094,7 +1094,6 @@ droidstubs {
     system_modules: "none",
     api_levels_sdk_type: "module-lib",
     flags: [
-        "--exclude-documentation-from-stubs",
         "--show-for-stub-purposes-annotation android.annotation.SystemApi\\(client=android.annotation.SystemApi.Client.MODULE_LIBRARIES\\)",
     ],
 
