@@ -684,6 +684,9 @@ java_library_static {
     srcs: [
         "test-utils/src/main/**/*.java",
     ],
+    libs: [
+        "junit",
+    ],
 
     sdk_version: "none",
     system_modules: "core-all-system-modules",

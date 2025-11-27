@@ -17,6 +17,11 @@
 
 package libcore.java.net;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -34,6 +39,12 @@ import java.nio.channels.ServerSocketChannel;
 import java.security.Permission;
 import java.util.Properties;
 
+import org.junit.After;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+@RunWith(JUnit4.class)
 public class OldServerSocketTest extends OldSocketTestCase {
 
     boolean isCreateCalled = false;
@@ -41,6 +52,7 @@ public class OldServerSocketTest extends OldSocketTestCase {
     Socket sconn;
     Thread t;
 
+    @Test
     public void test_setPerformancePreference_Int_Int_Int() throws Exception {
         performancePreferenceTest(1, 0, 0);
         performancePreferenceTest(1, 1, 1);
@@ -84,6 +96,7 @@ public class OldServerSocketTest extends OldSocketTestCase {
         clientSocket.close();
     }
 
+    @Test
     public void test_ConstructorII() throws IOException {
         s = new ServerSocket(0, 1);
         s.setSoTimeout(2000);
@@ -124,12 +137,14 @@ public class OldServerSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_Constructor() throws IOException {
         ServerSocket ss = new ServerSocket();
         assertEquals(-1, ss.getLocalPort());
         ss.close();
     }
 
+    @Test
     public void test_ConstructorI() throws Exception {
         s = new ServerSocket(0);
         try {
@@ -158,6 +173,7 @@ public class OldServerSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_ConstructorIILjava_net_InetAddress() throws IOException {
         ServerSocket ss = new ServerSocket(0, 10, InetAddress.getLocalHost());
         try {
@@ -174,6 +190,7 @@ public class OldServerSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_LocalPort() throws IOException {
         ServerSocket ss1 = new ServerSocket(4242);
         assertEquals(ss1.getLocalPort(), 4242);
@@ -195,6 +212,7 @@ public class OldServerSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_ConstructorI_SocksSet() throws IOException {
         // Harmony-623 regression test
         ServerSocket ss = null;
@@ -211,6 +229,7 @@ public class OldServerSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_accept() throws IOException {
         ServerSocketChannel ssc = ServerSocketChannel.open();
         ServerSocket ss = ssc.socket();
@@ -226,6 +245,7 @@ public class OldServerSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getSoTimeout_setSoTimeout() throws Exception {
         // TODO: a useful test would check that setSoTimeout actually causes timeouts!
         ServerSocket s = new ServerSocket();
@@ -247,6 +267,7 @@ public class OldServerSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_toString() throws Exception {
         s = new ServerSocket(0);
         int portNumber = s.getLocalPort();
@@ -254,6 +275,7 @@ public class OldServerSocketTest extends OldSocketTestCase {
         s.close();
     }
 
+    @Test
     public void test_setReuseAddressZ() throws IOException {
         ServerSocket newSocket = new ServerSocket();
         newSocket.close();
@@ -264,6 +286,7 @@ public class OldServerSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getReuseAddress() throws IOException {
         ServerSocket newSocket = new ServerSocket();
         newSocket.close();
@@ -275,6 +298,7 @@ public class OldServerSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_setReceiveBufferSizeI() throws IOException {
         ServerSocket newSocket = new ServerSocket();
         newSocket.close();
@@ -286,6 +310,7 @@ public class OldServerSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getReceiveBufferSize() throws IOException {
         ServerSocket newSocket = new ServerSocket();
         newSocket.close();
@@ -297,7 +322,8 @@ public class OldServerSocketTest extends OldSocketTestCase {
         }
     }
 
-    protected void tearDown() {
+    @After
+    public void tearDown() {
         try {
             if (s != null)
                 s.close();

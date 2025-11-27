@@ -17,12 +17,13 @@
 
 package libcore.java.net;
 
-import libcore.junit.junit3.TestCaseWithRules;
+import static org.junit.Assert.fail;
+
 import libcore.junit.util.ResourceLeakageDetector;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 
-public abstract class OldSocketTestCase extends TestCaseWithRules {
+public abstract class OldSocketTestCase {
     @Rule
     public TestRule guardRule = ResourceLeakageDetector.getRule();
 
@@ -161,5 +162,4 @@ public abstract class OldSocketTestCase extends TestCaseWithRules {
         }
         return "Unknown socket option";
     }
-
 }

@@ -39,6 +39,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
+import libcore.test.util.SocketUtil;
+
 import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -77,7 +79,7 @@ public class ConcurrentCloseTest {
             s.connect(UNREACHABLE_ADDRESS);
             fail("connect returned: " + s + "!");
         } catch (SocketException expected) {
-            checkIfNetworkUnavailable(expected);
+            SocketUtil.checkIfNetworkUnavailable(expected);
             assertEquals("Socket closed", expected.getMessage());
         }
     }
@@ -92,7 +94,7 @@ public class ConcurrentCloseTest {
             s.connect(UNREACHABLE_ADDRESS, 3600 * 1000);
             fail("connect returned: " + s + "!");
         } catch (SocketException expected) {
-            checkIfNetworkUnavailable(expected);
+            SocketUtil.checkIfNetworkUnavailable(expected);
             assertEquals("Socket closed", expected.getMessage());
         }
     }
@@ -111,7 +113,7 @@ public class ConcurrentCloseTest {
             }
             fail("connect returned: " + s + "!");
         } catch (SocketException expected) {
-            checkIfNetworkUnavailable(expected);
+            SocketUtil.checkIfNetworkUnavailable(expected);
             assertEquals("Socket closed", expected.getMessage());
         } catch (AsynchronousCloseException alsoOkay) {
             // See below.
@@ -329,16 +331,5 @@ public class ConcurrentCloseTest {
             final long killed = killedTs.get();
             return (killed > 0 && now - killed > minThresholdNs);
         }
-    }
-
-    private void checkIfNetworkUnavailable(SocketException ex) {
-        // If the test environment does not have connectivity, the connect() will fail with
-        // ENETUNREACH straight away. In this case, we should not fail the test.
-        String msg = ex.getMessage();
-        boolean isNetworkUnreachable = (msg != null) &&
-            (msg.contains("ENETUNREACH") || msg.contains("Network is unreachable"));
-        Assume.assumeFalse(
-                "Connection failed due to unavailable connectivity in the test environment",
-                isNetworkUnreachable);
     }
 }
