@@ -17,6 +17,13 @@
 
 package libcore.java.net;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -42,8 +49,15 @@ import java.security.Permission;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 import libcore.junit.util.ResourceLeakageDetector.DisableResourceLeakageDetection;
+import libcore.test.util.SocketUtil;
 import tests.support.Support_Configuration;
 
+import org.junit.After;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+@RunWith(JUnit4.class)
 public class OldSocketTest extends OldSocketTestCase {
 
     private static final InetSocketAddress UNREACHABLE_ADDRESS
@@ -64,6 +78,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     };
 
+    @Test
     public void test_Constructor() {
         // create the socket and then validate some basic state
         s = new Socket();
@@ -77,6 +92,7 @@ public class OldSocketTest extends OldSocketTestCase {
 
     }
 
+    @Test
     public void test_ConstructorLjava_lang_StringI() throws IOException {
         // Test for method java.net.Socket(java.lang.String, int)
         int sport = startServer("Cons String,I");
@@ -119,6 +135,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_ConstructorLjava_lang_StringILjava_net_InetAddressI1() throws IOException {
         int sport = startServer("Cons String,I,InetAddress,I");
         s = new Socket(InetAddress.getLocalHost().getHostName(), sport,
@@ -126,6 +143,7 @@ public class OldSocketTest extends OldSocketTestCase {
         assertTrue("Failed to create socket", s.getPort() == sport);
     }
 
+    @Test
     public void test_ConstructorLjava_lang_StringILjava_net_InetAddressI2() throws IOException {
         int sport = startServer("Cons String,I,InetAddress,I");
         Socket s1 = new Socket(InetAddress.getLocalHost(), sport, null, 0);
@@ -146,6 +164,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_ConstructorLjava_lang_StringIZ() throws IOException {
         // Test for method java.net.Socket(java.lang.String, int, boolean)
         int sport = startServer("Cons String,I,Z");
@@ -156,6 +175,7 @@ public class OldSocketTest extends OldSocketTestCase {
         s = new Socket(InetAddress.getLocalHost().getHostName(), sport, false);
     }
 
+    @Test
     public void test_ConstructorLjava_net_InetAddressI() throws IOException {
         // Test for method java.net.Socket(java.net.InetAddress, int)
         int sport = startServer("Cons InetAddress,I");
@@ -163,6 +183,7 @@ public class OldSocketTest extends OldSocketTestCase {
         assertTrue("Failed to create socket", s.getPort() == sport);
     }
 
+    @Test
     public void test_ConstructorLjava_net_InetAddressILjava_net_InetAddressI()
             throws IOException {
         // Test for method java.net.Socket(java.net.InetAddress, int,
@@ -172,6 +193,7 @@ public class OldSocketTest extends OldSocketTestCase {
                 InetAddress.getLocalHost(), 0);
     }
 
+    @Test
     public void test_ConstructorLjava_net_InetAddressIZ() throws IOException {
         // Test for method java.net.Socket(java.net.InetAddress, int, boolean)
         int sport = startServer("Cons InetAddress,I,Z");
@@ -182,6 +204,7 @@ public class OldSocketTest extends OldSocketTestCase {
         s = new Socket(InetAddress.getLocalHost(), sport, false);
     }
 
+    @Test
     public void test_close() throws IOException {
         // Test for method void java.net.Socket.close()
         int sport = startServer("SServer close");
@@ -200,6 +223,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getInetAddress() throws IOException {
         // Test for method java.net.InetAddress java.net.Socket.getInetAddress()
         int sport = startServer("SServer getInetAddress");
@@ -209,6 +233,7 @@ public class OldSocketTest extends OldSocketTestCase {
 
     }
 
+    @Test
     public void test_getInputStream() throws IOException {
         // Simple fetch test
         ServerSocket server = new ServerSocket(0);
@@ -220,6 +245,7 @@ public class OldSocketTest extends OldSocketTestCase {
         server.close();
     }
 
+    @Test
     public void test_getKeepAlive() {
         try {
             int sport = startServer("SServer getKeepAlive");
@@ -251,6 +277,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getLocalAddress() throws IOException {
         // Test for method java.net.InetAddress
         // java.net.Socket.getLocalAddress()
@@ -269,6 +296,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getLocalPort() throws IOException {
         // Test for method int java.net.Socket.getLocalPort()
         int sport = startServer("SServer getLocalPort");
@@ -279,6 +307,7 @@ public class OldSocketTest extends OldSocketTestCase {
     }
 
     @SuppressWarnings("deprecation")
+    @Test
     public void test_getOutputStream() throws IOException {
         // Test for method java.io.OutputStream
         // java.net.Socket.getOutputStream()
@@ -310,6 +339,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getPort() throws IOException {
         // Test for method int java.net.Socket.getPort()
         int sport = startServer("SServer getPort");
@@ -317,6 +347,7 @@ public class OldSocketTest extends OldSocketTestCase {
         assertTrue("Returned incorrect port" + s.getPort(), s.getPort() == sport);
     }
 
+    @Test
     public void test_getSoLinger() {
         // Test for method int java.net.Socket.getSoLinger()
         int sport = startServer("SServer getSoLinger");
@@ -343,6 +374,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getReceiveBufferSize() {
         try {
             int sport = startServer("SServer getReceiveBufferSize");
@@ -368,6 +400,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getSendBufferSize() {
         int sport = startServer("SServer setSendBufferSize");
         try (Socket s = new Socket(InetAddress.getLocalHost().getHostName(), sport, null, 0)) {
@@ -391,6 +424,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getSoTimeout_setSoTimeout() throws Exception {
         // TODO: a useful test would check that setSoTimeout actually causes timeouts!
         Socket s = new Socket();
@@ -410,6 +444,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getTcpNoDelay() {
         // Test for method boolean java.net.Socket.getTcpNoDelay()
         int sport = startServer("SServer getTcpNoDelay");
@@ -437,6 +472,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_setKeepAliveZ() throws Exception {
         // There is not really a good test for this as it is there to detect
         // crashed machines. Just make sure we can set it
@@ -468,6 +504,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_setSocketImplFactoryLjava_net_SocketImplFactory() {
         // Test for method void
         // java.net.Socket.setSocketImplFactory(java.net.SocketImplFactory)
@@ -486,6 +523,7 @@ public class OldSocketTest extends OldSocketTestCase {
         };
     }
 
+    @Test
     public void test_setSendBufferSizeI() {
         try {
             int sport = startServer("SServer setSendBufferSizeI");
@@ -509,6 +547,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_setReceiveBufferSizeI() {
         try {
             int sport = startServer("SServer setReceiveBufferSizeI");
@@ -532,6 +571,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_setSoLingerZI() {
         // Test for method void java.net.Socket.setSoLinger(boolean, int)
         try {
@@ -557,6 +597,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_setTcpNoDelayZ() {
         // Test for method void java.net.Socket.setTcpNoDelay(boolean)
         try {
@@ -583,6 +624,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_toString() throws IOException {
         // Test for method java.lang.String java.net.Socket.toString()
         int sport = startServer("SServer toString");
@@ -593,6 +635,7 @@ public class OldSocketTest extends OldSocketTestCase {
     }
 
     // AndroidOnly: RI returns wrong value for EOF
+    @Test
     public void test_shutdownInput() throws Exception {
         InetAddress addr = InetAddress.getLocalHost();
         ServerSocket serverSocket = new ServerSocket(0, 5, addr);
@@ -629,6 +672,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_shutdownOutput() throws IOException {
         ServerSocket serverSocket = new ServerSocket(0, 5);
         Socket theSocket = new Socket(serverSocket.getInetAddress(), serverSocket.getLocalPort());
@@ -660,6 +704,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getLocalSocketAddress() throws IOException {
         // set up server connect and then validate that we get the right
         // response for the local address
@@ -698,6 +743,7 @@ public class OldSocketTest extends OldSocketTestCase {
         s.close();
     }
 
+    @Test
     public void test_getRemoteSocketAddress() throws IOException {
         // set up server connect and then validate that we get the right
         // response for the remote address
@@ -732,6 +778,7 @@ public class OldSocketTest extends OldSocketTestCase {
 
     }
 
+    @Test
     public void test_isBound() throws IOException {
         ServerSocket serverSocket = new ServerSocket(0, 5);
         Socket theSocket = new Socket(serverSocket.getInetAddress(), serverSocket.getLocalPort());
@@ -766,6 +813,7 @@ public class OldSocketTest extends OldSocketTestCase {
                 theSocket.isBound());
     }
 
+    @Test
     public void test_isConnected() throws IOException {
         ServerSocket serverSocket = new ServerSocket(0, 5);
         Socket theSocket = new Socket(serverSocket.getInetAddress(), serverSocket.getLocalPort());
@@ -788,6 +836,7 @@ public class OldSocketTest extends OldSocketTestCase {
         serverSocket.close();
     }
 
+    @Test
     public void test_isClosed() throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(0, 5)) {
             Socket theSocket = new Socket(serverSocket.getInetAddress(),
@@ -812,6 +861,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_bindLjava_net_SocketAddress() throws IOException {
 
         class mySocketAddress extends SocketAddress {
@@ -885,6 +935,7 @@ public class OldSocketTest extends OldSocketTestCase {
         theSocket.close();
     }
 
+    @Test
     public void test_bindLjava_net_SocketAddress_Proxy() throws IOException {
         //The Proxy will not impact on the bind operation.It can be assigned with any address.
         Proxy proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress("127.0.0.1", 0));
@@ -903,6 +954,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_connectLjava_net_SocketAddress() throws Exception {
         // needed for some tests
         class mySocketAddress extends SocketAddress {
@@ -1060,6 +1112,7 @@ public class OldSocketTest extends OldSocketTestCase {
         socket.close();
     }
 
+    @Test
     public void test_connectLjava_net_SocketAddressI() throws Exception {
 
         // needed for some tests
@@ -1149,6 +1202,7 @@ public class OldSocketTest extends OldSocketTestCase {
                 theSocket.connect(nonReachableAddress, 200);
                 fail("No interrupted exception when connecting to address nobody listening on with short timeout 200: ");
             } catch (ConnectException ce) {
+                SocketUtil.checkIfNetworkUnavailable(ce);
                 // some networks will quickly reset the TCP connection attempt to this fake IP
                 assertTrue(
                     "Wrong exception when connecting to address nobody listening on with short timeout 200: "
@@ -1170,6 +1224,7 @@ public class OldSocketTest extends OldSocketTestCase {
                 theSocket.connect(nonReachableAddress, 40);
                 fail("No interrupted exception when connecting to address nobody listening on with short timeout 40: ");
             } catch (ConnectException ce) {
+                SocketUtil.checkIfNetworkUnavailable(ce);
                 // some networks will quickly reset the TCP connection attempt to this fake IP
                 assertTrue(
                     "Wrong exception when connecting to address nobody listening on with short timeout 40: "
@@ -1270,6 +1325,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_connectLjava_net_SocketAddressI_setSOTimeout() throws Exception {
         final AtomicReference<Exception> exceptionRef = new AtomicReference<>();
 
@@ -1345,6 +1401,7 @@ public class OldSocketTest extends OldSocketTestCase {
     }
 
 
+    @Test
     public void test_isInputShutdown() throws IOException {
         Socket theSocket = new Socket();
         ServerSocket serverSocket = new ServerSocket(0, 5);
@@ -1375,6 +1432,7 @@ public class OldSocketTest extends OldSocketTestCase {
 
     }
 
+    @Test
     public void test_isOutputShutdown() throws IOException {
         Socket theSocket = new Socket();
         ServerSocket serverSocket = new ServerSocket(0, 5);
@@ -1405,6 +1463,7 @@ public class OldSocketTest extends OldSocketTestCase {
 
     }
 
+    @Test
     public void test_setReuseAddressZ() throws Exception {
 
         try {
@@ -1496,6 +1555,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getReuseAddress() {
         try (Socket theSocket = new Socket()) {
             theSocket.setReuseAddress(true);
@@ -1523,6 +1583,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_setOOBInlineZ() {
         // mostly tested in getOOBInline. Just set to make sure call works ok
         try (Socket theSocket = new Socket()) {
@@ -1545,6 +1606,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getOOBInline() {
 
         try {
@@ -1574,6 +1636,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_setTrafficClassI() {
         try (Socket theSocket = new Socket()) {
             int IPTOS_LOWCOST = 0x2;
@@ -1612,6 +1675,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getTrafficClass() {
         try (Socket theSocket = new Socket()) {
             /*
@@ -1626,6 +1690,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getChannel() throws Exception {
         assertNull(new Socket().getChannel());
 
@@ -1636,6 +1701,7 @@ public class OldSocketTest extends OldSocketTestCase {
         channel.close();
     }
 
+    @Test
     public void test_sendUrgentDataI() throws IOException {
 
         // Some platforms may not support urgent data in this case we will not
@@ -1868,6 +1934,7 @@ public class OldSocketTest extends OldSocketTestCase {
 
     // Calling sendUrgentData on a closed socket should not allocate a new impl and leak resources.
     // Bug: 31818400
+    @Test
     public void test_sendUrgentDataI_leaky() throws IOException {
         Socket theSocket = new Socket();
         theSocket.close();
@@ -1881,6 +1948,7 @@ public class OldSocketTest extends OldSocketTestCase {
 
     // Calling getTrafficClass on a closed socket should not allocate a new impl and leak resources.
     // Bug: 31818400
+    @Test
     public void test_getTrafficClass_leaky() throws IOException {
         Socket theSocket = new Socket();
         theSocket.close();
@@ -1904,12 +1972,14 @@ public class OldSocketTest extends OldSocketTestCase {
         return new String(myBytes, 0, totalBytesRead);
     }
 
+    @Test
     public void test_setPerformancePreference_Int_Int_Int() throws Exception {
         try (Socket theSocket = new Socket()) {
             theSocket.setPerformancePreferences(1, 1, 1);
         }
     }
 
+    @Test
     public void test_ConstructorLjava_net_Proxy_Exception() {
 
         SocketAddress addr1 = InetSocketAddress.createUnresolved("127.0.0.1",
@@ -1938,6 +2008,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_ConstructorLSocketImpl() {
         MockSocketImpl msi = new MockSocketImpl();
         try {
@@ -1947,6 +2018,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_connect_unknownhost() throws Exception {
         Socket socket = new Socket();
         InetSocketAddress socketAddress = new InetSocketAddress("unknownhost", 12345);
@@ -1958,6 +2030,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_connect_unresolved_unknown() throws Exception {
         Socket socket = new Socket();
         InetSocketAddress unresolved = InetSocketAddress.createUnresolved("unknownhost", 12345);
@@ -1969,6 +2042,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_connect_unresolved() throws Exception {
         Socket socket = new Socket();
         InetSocketAddress unresolvedSocketAddress = InetSocketAddress.createUnresolved(
@@ -1982,6 +2056,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_getOutputStream_shutdownOutput() throws Exception {
         // regression test for Harmony-873
         try (ServerSocket ss = new ServerSocket(0)) {
@@ -2012,6 +2087,7 @@ public class OldSocketTest extends OldSocketTestCase {
         }
     }
 
+    @Test
     public void test_shutdownInputOutput_twice() throws Exception {
         // regression test for Harmony-2944
         try (Socket s = new Socket("0.0.0.0", 0, false)) {
@@ -2035,20 +2111,11 @@ public class OldSocketTest extends OldSocketTestCase {
     }
 
     /**
-     * Sets up the fixture, for example, open a network connection. This method
-     * is called before a test is executed.
-     *
-     * @throws Exception
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /**
      * Tears down the fixture, for example, close a network connection. This
      * method is called after a test is executed.
      */
-    protected void tearDown() {
+    @After
+    public void tearDown() {
         try {
             if (s != null)
                 s.close();
