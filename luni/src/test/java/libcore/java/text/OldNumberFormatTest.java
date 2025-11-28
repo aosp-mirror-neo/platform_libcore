@@ -18,6 +18,9 @@ package libcore.java.text;
 
 import libcore.test.annotation.NonCts;
 import libcore.test.reasons.NonCtsReasons;
+import dalvik.annotation.compat.VersionCodes;
+import libcore.test.annotation.NonMts;
+import libcore.test.reasons.NonMtsReasons;
 
 import java.text.ChoiceFormat;
 import java.text.DecimalFormat;
@@ -212,6 +215,7 @@ public class OldNumberFormatTest extends TestCase {
         assertFalse("Object is equal null", nf1.equals(null));
     }
 
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_formatLdouble() {
         NumberFormat nf1 = NumberFormat.getInstance(Locale.US);
 
@@ -229,7 +233,7 @@ public class OldNumberFormatTest extends TestCase {
         // use de_CH instead
         // assertEquals("Wrong result for double : " + out, "1,234,567,890.012-",
         //         out.toString());
-        assertEquals("Wrong result for double : " + out, "-1’234’567’890.012", out.toString());
+        assertEquals("Wrong result for double : " + out, "-1'234'567'890.012", out.toString());
 
         out = nf1.format(1.0001);
         assertEquals("Wrong result for for double: " + out, "1", out.toString());
@@ -256,7 +260,7 @@ public class OldNumberFormatTest extends TestCase {
         // use de_CH instead
         // assertEquals("Wrong result for double : " + out, "-1 234 567 890", out
         //         .toString());
-        assertEquals("Wrong result for double : " + out, "-1’234’567’890", out.toString());
+        assertEquals("Wrong result for double : " + out, "-1'234'567'890", out.toString());
 
         // the Locale data of icu uses \uc2a0
         out = nf1.format(1);
@@ -361,9 +365,9 @@ public class OldNumberFormatTest extends TestCase {
         assertNotSame(null, format);
         assertTrue(format instanceof NumberFormat);
 
-        assertEquals("1’234’567’890.099", format.format(1234567890.0987654321));
+        assertEquals("1'234'567'890.099", format.format(1234567890.0987654321));
         assertEquals("#,##0.###", ((DecimalFormat) format).toPattern());
-        assertEquals("123’456’789", format.format(123456789));
+        assertEquals("123'456'789", format.format(123456789));
 
         try {
             NumberFormat.getInstance(null);
@@ -398,9 +402,9 @@ public class OldNumberFormatTest extends TestCase {
         assertNotSame("Instance is null", null, format);
         assertTrue("Object is not instance of NumberFormat", format instanceof NumberFormat);
 
-        assertEquals("-1’234’567’890.099", format.format(-1234567890.0987654321));
+        assertEquals("-1'234'567'890.099", format.format(-1234567890.0987654321));
         assertEquals("#,##0.###", ((DecimalFormat) format).toPattern());
-        assertEquals("123’456’789", format.format(123456789));
+        assertEquals("123'456'789", format.format(123456789));
 
         try {
             NumberFormat.getInstance(null);

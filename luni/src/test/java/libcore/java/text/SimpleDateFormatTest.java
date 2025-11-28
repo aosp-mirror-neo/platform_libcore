@@ -17,6 +17,9 @@
 package libcore.java.text;
 
 import android.icu.util.VersionInfo;
+import dalvik.annotation.compat.VersionCodes;
+import libcore.test.annotation.NonMts;
+import libcore.test.reasons.NonMtsReasons;
 import libcore.util.Nullable;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
@@ -459,11 +462,12 @@ public class SimpleDateFormatTest extends junit.framework.TestCase {
     }
 
     // http://b/17431155
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_sl_dates() throws Exception {
         DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, new Locale("sl"));
         assertEquals(TimeZone.getDefault(), df.getTimeZone());
         df.setTimeZone(UTC);
-        assertEquals("1. 1. 70", df.format(0L));
+        assertEquals("1. 1. 1970", df.format(0L));
     }
 
     public void testLenientParsingForZ() throws Exception {
