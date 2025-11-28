@@ -2358,6 +2358,12 @@ public class OsTest {
 
     @Test
     public void dladdr_shouldFindMktime() {
+        // With native bridge dlsym() from JNI library will return a pointer to the guest
+        // libc function, while Java implementation of dladdr will look for it in host
+        // libraries and won't find it. Since there is currently no way to call dlsym from
+        // Java - do not run this test with native bridge.
+        assumeTrue(!runningWithNativeBridge());
+
         StructDlInfo dladdr = Os.dladdr(findMktime());
 
         assertEquals(dladdr.dli_sname, "mktime", dladdr.dli_sname);
@@ -2369,6 +2375,9 @@ public class OsTest {
     static {
         System.loadLibrary("javacoretests");
     }
+
+    // Returns true if the test is running with native_bridge.
+    private static native boolean runningWithNativeBridge();
 
     // Returns address of libc's mktime symbol. Decided not to expose dlsym in androd.system.Os yet.
     private static native long findMktime();
