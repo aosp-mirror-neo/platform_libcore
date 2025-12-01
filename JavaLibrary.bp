@@ -684,6 +684,9 @@ java_library_static {
     srcs: [
         "test-utils/src/main/**/*.java",
     ],
+    libs: [
+        "junit",
+    ],
 
     sdk_version: "none",
     system_modules: "core-all-system-modules",
@@ -1094,7 +1097,6 @@ droidstubs {
     system_modules: "none",
     api_levels_sdk_type: "module-lib",
     flags: [
-        "--exclude-documentation-from-stubs",
         "--show-for-stub-purposes-annotation android.annotation.SystemApi\\(client=android.annotation.SystemApi.Client.MODULE_LIBRARIES\\)",
     ],
 

@@ -9732,6 +9732,8 @@ package java.security.spec {
     method @NonNull public String getName();
     field public static final java.security.spec.NamedParameterSpec ED25519;
     field public static final java.security.spec.NamedParameterSpec ED448;
+    field @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.security.spec.NamedParameterSpec ML_DSA_65;
+    field @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.security.spec.NamedParameterSpec ML_DSA_87;
     field public static final java.security.spec.NamedParameterSpec X25519;
     field public static final java.security.spec.NamedParameterSpec X448;
   }

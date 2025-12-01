@@ -19,7 +19,23 @@
 #include <nativehelper/JNIHelp.h>
 #include <nativehelper/jni_macros.h>
 
+#if defined(__BIONIC__)
+#include <sys/system_properties.h>
+#endif
+
 #include "android-base/logging.h"
+#include "android-base/macros.h"
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_libcore_android_system_OsTest_runningWithNativeBridge(JNIEnv*, jclass) {
+#if defined(__BIONIC__)
+  static const prop_info* pi =
+      __system_property_find("ro.dalvik.vm.isa." ABI_STRING);
+  return pi != nullptr;
+#else
+  return false;
+#endif  // defined(__BIONIC__)
+}
 
 extern "C"
 JNIEXPORT jlong JNICALL Java_libcore_android_system_OsTest_findMktime(JNIEnv*, jclass) {
