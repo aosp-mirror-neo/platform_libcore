@@ -947,16 +947,16 @@ class Field extends AccessibleObject implements Member {
      *
      * @hide
      */
-    public boolean isMonotonic() {
+    public boolean isUnmodifiable() {
         if (declaringClass == System.class) {
             String name = getName();
             return name.equals("in") || name.equals("out") || name.equals("err");
         }
 
-        return isMonotonic0();
+        return isUnmodifiable0();
     }
 
-    private native boolean isMonotonic0();
+    private native boolean isUnmodifiable0();
 
     /**
      * Returns the offset of the field within an instance, or for static fields, the class.

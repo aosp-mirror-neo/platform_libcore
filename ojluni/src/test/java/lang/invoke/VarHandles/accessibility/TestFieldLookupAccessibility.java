@@ -58,7 +58,10 @@ public class TestFieldLookupAccessibility {
     static {
         boolean isUnmodifiable;
         try {
-            isUnmodifiable = TestFieldLookupAccessibility.class.getDeclaredField("STATIC_FINALS_ARE_UNMODIFIABLE").isMonotonic();
+            isUnmodifiable =
+                    TestFieldLookupAccessibility.class
+                            .getDeclaredField("STATIC_FINALS_ARE_UNMODIFIABLE")
+                            .isUnmodifiable();
         } catch (Exception e) {
             // This means code runs in hotspot.
             isUnmodifiable = true;
