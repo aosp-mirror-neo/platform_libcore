@@ -25,6 +25,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
     private ThreadGroup rootThreadGroup;
     private ThreadGroup initialThreadGroup;
     private Thread.UncaughtExceptionHandler originalThreadDefaultUncaughtExceptionHandler;
+    private Thread.UncaughtExceptionHandler originalThreadUncaughtExceptionPreHandler;
 
     @Override
     protected void setUp() {
@@ -42,12 +43,15 @@ public class ThreadGroupTest extends junit.framework.TestCase {
         originalThreadDefaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         testThreadDefaultUncaughtExceptionHandler = new TestThreadDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(testThreadDefaultUncaughtExceptionHandler);
+        originalThreadUncaughtExceptionPreHandler = Thread.getUncaughtExceptionPreHandler();
+        Thread.setUncaughtExceptionPreHandler(null);
     }
 
     @Override
     protected void tearDown() {
         // Reset the uncaughtExceptionHandler to what it was when the test began.
         Thread.setDefaultUncaughtExceptionHandler(originalThreadDefaultUncaughtExceptionHandler);
+        Thread.setUncaughtExceptionPreHandler(originalThreadUncaughtExceptionPreHandler);
     }
 
     // Test for method java.lang.ThreadGroup(java.lang.String)
@@ -620,6 +624,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
                 throw testException;
             }
         };
+        assertEquals(thread.getUncaughtExceptionHandler(), testRoot);
         thread.start();
         waitForThreadToDieUninterrupted(thread);
         testThreadDefaultUncaughtExceptionHandler.assertWasNotCalled();
