@@ -937,13 +937,15 @@ public class Runtime {
         if (filename == null) {
             throw new NullPointerException("filename == null");
         }
-        if (!file.toPath().getFileSystem().isReadOnly() && file.canWrite()) {
+        int uid = Os.getuid();
+        if (uid != 0 && uid != 1000 && uid != 2000
+            && !file.toPath().getFileSystem().isReadOnly() && file.canWrite()) {
             System.logW("Attempt to load writable file: " + filename
                     + ". This will throw on a future Android version"
             + ". Current sdk version: " + VMRuntime.getSdkVersion());
             if (VMRuntime.isReadOnlyDynamicCodeLoadWwLogEnabled()) {
                 LibcoreStatsLog.writeRuntimeUnsafeDclReported(
-                        Os.getuid(),
+                        uid,
                         fromClass.getPackageName(),
                         file.getName());
             }
