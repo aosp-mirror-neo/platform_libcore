@@ -2860,7 +2860,7 @@ public final class Unsafe {
             v = getLongVolatile(o, offset);
         // Android-changed: weakCompareAndSetLong not available.
         // } while (!weakCompareAndSetLong(o, offset, v, v + delta));
-        } while (!compareAndSwapLong(o, offset, v, v + delta));
+        } while (!compareAndSetLong(o, offset, v, v + delta));
         return v;
     }
 
@@ -3105,7 +3105,7 @@ public final class Unsafe {
             v = getLongVolatile(o, offset);
         // Android-changed: weakCompareAndSetLongRelease not available.
         // } while (!weakCompareAndSetLongRelease(o, offset, v, newValue));
-        } while (!compareAndSwapLong(o, offset, v, newValue));
+        } while (!compareAndSetLong(o, offset, v, newValue));
         return v;
     }
 
@@ -4329,53 +4329,5 @@ public final class Unsafe {
     private static native int getArrayBaseOffsetForComponentType(Class component_class);
     @FastNative
     private static native int getArrayIndexScaleForComponentType(Class component_class);
-
-    /**
-     * Performs a compare-and-set operation on an {@code int}
-     * field within the given object.
-     *
-     * @param obj non-{@code null}; object containing the field
-     * @param offset offset to the field within {@code obj}
-     * @param expectedValue expected value of the field
-     * @param newValue new value to store in the field if the contents are
-     * as expected
-     * @return {@code true} if the new value was in fact stored, and
-     * {@code false} if not
-     */
-    @FastNative
-    public native boolean compareAndSwapInt(Object obj, long offset,
-            int expectedValue, int newValue);
-
-    /**
-     * Performs a compare-and-set operation on a {@code long}
-     * field within the given object.
-     *
-     * @param obj non-{@code null}; object containing the field
-     * @param offset offset to the field within {@code obj}
-     * @param expectedValue expected value of the field
-     * @param newValue new value to store in the field if the contents are
-     * as expected
-     * @return {@code true} if the new value was in fact stored, and
-     * {@code false} if not
-     */
-    @FastNative
-    public native boolean compareAndSwapLong(Object obj, long offset,
-            long expectedValue, long newValue);
-
-    /**
-     * Performs a compare-and-set operation on an {@code obj}
-     * field (that is, a reference field) within the given object.
-     *
-     * @param obj non-{@code null}; object containing the field
-     * @param offset offset to the field within {@code obj}
-     * @param expectedValue expected value of the field
-     * @param newValue new value to store in the field if the contents are
-     * as expected
-     * @return {@code true} if the new value was in fact stored, and
-     * {@code false} if not
-     */
-    @FastNative
-    public native boolean compareAndSwapObject(Object obj, long offset,
-            Object expectedValue, Object newValue);
     // END Android-added: Methods added for the Android platform.
 }
