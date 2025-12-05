@@ -18,8 +18,16 @@
 package org.apache.harmony.tests.java.lang;
 
 import java.util.Vector;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-public class ThreadGroupTest extends junit.framework.TestCase {
+import static org.junit.Assert.*;
+
+@RunWith(JUnit4.class)
+public class ThreadGroupTest {
 
     private TestThreadDefaultUncaughtExceptionHandler testThreadDefaultUncaughtExceptionHandler;
     private ThreadGroup rootThreadGroup;
@@ -27,8 +35,8 @@ public class ThreadGroupTest extends junit.framework.TestCase {
     private Thread.UncaughtExceptionHandler originalThreadDefaultUncaughtExceptionHandler;
     private Thread.UncaughtExceptionHandler originalThreadUncaughtExceptionPreHandler;
 
-    @Override
-    protected void setUp() {
+    @Before
+    public void setUp() {
         initialThreadGroup = Thread.currentThread().getThreadGroup();
         rootThreadGroup = initialThreadGroup;
         while (rootThreadGroup.getParent() != null) {
@@ -47,14 +55,16 @@ public class ThreadGroupTest extends junit.framework.TestCase {
         Thread.setUncaughtExceptionPreHandler(null);
     }
 
-    @Override
-    protected void tearDown() {
+    @After
+    public void tearDown() {
         // Reset the uncaughtExceptionHandler to what it was when the test began.
         Thread.setDefaultUncaughtExceptionHandler(originalThreadDefaultUncaughtExceptionHandler);
         Thread.setUncaughtExceptionPreHandler(originalThreadUncaughtExceptionPreHandler);
     }
 
     // Test for method java.lang.ThreadGroup(java.lang.String)
+
+    @Test
     public void test_ConstructorLjava_lang_String() {
         // Unfortunately we have to use other APIs as well as we test the constructor
         ThreadGroup initial = initialThreadGroup;
@@ -70,6 +80,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
     }
 
     // Test for method java.lang.ThreadGroup(java.lang.ThreadGroup, java.lang.String)
+    @Test
     public void test_ConstructorLjava_lang_ThreadGroupLjava_lang_String() {
         // Unfortunately we have to use other APIs as well as we test the constructor
         ThreadGroup newGroup = null;
@@ -102,6 +113,8 @@ public class ThreadGroupTest extends junit.framework.TestCase {
     }
 
     // Test for method int java.lang.ThreadGroup.activeCount()
+
+    @Test
     public void test_activeCount() {
         ThreadGroup tg = new ThreadGroup("activeCount");
         Thread t1 = new Thread(tg, new Runnable() {
@@ -127,6 +140,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
     }
 
     // Test for method void java.lang.ThreadGroup.destroy()
+    @Test
     public void test_destroy() {
         final ThreadGroup originalCurrent = initialThreadGroup;
         ThreadGroup testRoot = new ThreadGroup(originalCurrent, "Test group");
@@ -235,6 +249,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
 
     // Test for method java.lang.ThreadGroup.destroy()
     @SuppressWarnings("DeadThread")
+    @Test
     public void test_destroy_subtest0() {
         ThreadGroup group1 = new ThreadGroup("test_destroy_subtest0");
         group1.destroy();
@@ -246,6 +261,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
     }
 
     // Test for method int java.lang.ThreadGroup.getMaxPriority()
+    @Test
     public void test_getMaxPriority() {
         final ThreadGroup originalCurrent = initialThreadGroup;
         ThreadGroup testRoot = new ThreadGroup(originalCurrent, "Test group");
@@ -265,6 +281,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
     }
 
     // Test for method java.lang.String java.lang.ThreadGroup.getName()
+    @Test
     public void test_getName() {
         final ThreadGroup originalCurrent = initialThreadGroup;
         final String name = "Test group";
@@ -276,6 +293,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
     }
 
     // Test for method java.lang.ThreadGroup java.lang.ThreadGroup.getParent()
+    @Test
     public void test_getParent() {
         final ThreadGroup originalCurrent = initialThreadGroup;
         ThreadGroup testRoot = new ThreadGroup(originalCurrent, "Test group");
@@ -306,6 +324,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
     }
 
     // Test for method void java.lang.ThreadGroup.list()
+    @Test
     public void test_list() {
         final ThreadGroup originalCurrent = initialThreadGroup;
         final ThreadGroup testRoot = new ThreadGroup(originalCurrent, "Test group");
@@ -345,6 +364,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
     }
 
     // Test for method boolean java.lang.ThreadGroup.parentOf(java.lang.ThreadGroup)
+    @Test
     public void test_parentOfLjava_lang_ThreadGroup() {
         final ThreadGroup originalCurrent = initialThreadGroup;
         final ThreadGroup testRoot = new ThreadGroup(originalCurrent,
@@ -366,6 +386,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
 
     // Test for method boolean java.lang.ThreadGroup.isDaemon() and
     // void java.lang.ThreadGroup.setDaemon(boolean)
+    @Test
     public void test_setDaemon_isDaemon() {
         final ThreadGroup originalCurrent = initialThreadGroup;
         final ThreadGroup testRoot = new ThreadGroup(originalCurrent,
@@ -383,6 +404,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
     /*
      * java.lang.ThreadGroupt#setDaemon(boolean)
      */
+    @Test
     public void test_setDaemon_Parent_Child() {
         ThreadGroup ptg = new ThreadGroup("Parent");
         ThreadGroup ctg = new ThreadGroup(ptg, "Child");
@@ -401,6 +423,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
     }
 
     // Test for method void java.lang.ThreadGroup.setMaxPriority(int)
+    @Test
     public void test_setMaxPriorityI() {
         final ThreadGroup originalCurrent = initialThreadGroup;
         ThreadGroup testRoot = new ThreadGroup(originalCurrent, "Test group");
@@ -497,6 +520,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
      * java.lang.Throwable)
      * Tests if a Thread tells its ThreadGroup about ThreadDeath.
      */
+    @Test
     public void test_uncaughtException_threadDeath() {
         final boolean[] passed = new boolean[1];
 
@@ -534,6 +558,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
      * java.lang.Throwable)
      * Test if a Thread tells its ThreadGroup about a natural (non-exception) death.
      */
+    @Test
     public void test_uncaughtException_naturalDeath() {
         final boolean[] failed = new boolean[1];
 
@@ -561,6 +586,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
      * java.lang.Throwable)
      * Test if a Thread tells its ThreadGroup about an Exception
      */
+    @Test
     public void test_uncaughtException_runtimeException() {
         // Our own exception class
         class TestException extends RuntimeException {
@@ -601,6 +627,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
      * java.lang.Throwable)
      * Test if a handler doesn't pass on the exception to super.uncaughtException that's ok.
      */
+    @Test
     public void test_uncaughtException_exceptionHandledByHandler() {
         // Our own exception class
         class TestException extends RuntimeException {
@@ -636,6 +663,7 @@ public class ThreadGroupTest extends junit.framework.TestCase {
      * java.lang.Throwable)
      * Tests an exception thrown by the handler itself.
      */
+    @Test
     public void test_uncaughtException_exceptionInUncaughtException() {
         // Our own uncaught exception classes
         class UncaughtException extends RuntimeException {
