@@ -18,9 +18,12 @@
 package org.apache.harmony.tests.java.net;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.CountDownLatch;
 
 import tests.support.Support_Configuration;
 
@@ -32,11 +35,16 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class InetAddressThreadTest {
 
-    private static boolean someoneDone[] = new boolean[2];
+    private CountDownLatch startedLatch = new CountDownLatch(1);
 
-    protected static boolean threadedTestSucceeded;
+    private AtomicBoolean someoneDone[] = new AtomicBoolean[] {
+        new AtomicBoolean(false),
+        new AtomicBoolean(false),
+    };
 
-    protected static String threadedTestErrorString;
+    private AtomicBoolean threadedTestSucceeded = new AtomicBoolean(true);
+
+    private String threadedTestErrorString;
 
     /**
      * This class is used to test inet_ntoa, gethostbyaddr and gethostbyname
@@ -45,7 +53,7 @@ public class InetAddressThreadTest {
      * gethostbyaddr to be called. getHostAddress will cause inet_ntoa to be
      * called.
      */
-    static class threadsafeTestThread extends Thread {
+    class ThreadsafeTestThread extends Thread {
         private String lookupName;
 
         private InetAddress testAddress;
@@ -63,7 +71,7 @@ public class InetAddressThreadTest {
          */
         private static final int REP_NUM = 20000;
 
-        public threadsafeTestThread(String name, String lookupName,
+        public ThreadsafeTestThread(String name, String lookupName,
                 InetAddress testAddress, int type) {
             super(name);
             this.lookupName = lookupName;
@@ -77,11 +85,9 @@ public class InetAddressThreadTest {
                 String correctAddress = testAddress.getHostAddress();
                 long startTime = System.currentTimeMillis();
 
-                synchronized (someoneDone) {
-                }
-
+                startedLatch.await();
                 for (int i = 0; i < REP_NUM; i++) {
-                    if (someoneDone[testType]) {
+                    if (someoneDone[testType].get()) {
                         break;
                     } else if ((i % 25) == 0
                             && System.currentTimeMillis() - startTime > 240000) {
@@ -99,7 +105,7 @@ public class InetAddressThreadTest {
                     // the test works across different platforms that may or
                     // may not include a domain suffix on the hostname
                     if (!hostName.startsWith(correctName)) {
-                        threadedTestSucceeded = false;
+                        threadedTestSucceeded.set(false);
                         threadedTestErrorString = (testType == 0 ? "gethostbyname"
                                 : "gethostbyaddr")
                                 + ": getHostName() returned "
@@ -109,7 +115,7 @@ public class InetAddressThreadTest {
                     }
                     // IP addresses should match exactly
                     if (!correctAddress.equals(hostAddress)) {
-                        threadedTestSucceeded = false;
+                        threadedTestSucceeded.set(false);
                         threadedTestErrorString = (testType == 0 ? "gethostbyname"
                                 : "gethostbyaddr")
                                 + ": getHostName() returned "
@@ -119,9 +125,9 @@ public class InetAddressThreadTest {
                     }
 
                 }
-                someoneDone[testType] = true;
-            } catch (Exception e) {
-                threadedTestSucceeded = false;
+                someoneDone[testType].set(true);
+            } catch (Throwable e) {
+                threadedTestSucceeded.set(false);
                 threadedTestErrorString = e.toString();
             }
         }
@@ -145,32 +151,27 @@ public class InetAddressThreadTest {
             assertEquals("127.0.0.1", lookup1.getHostAddress());
             InetAddress lookup2 = InetAddress.getByName("localhost");
             assertEquals("127.0.0.1", lookup2.getHostAddress());
-            threadsafeTestThread thread1 = new threadsafeTestThread("1",
+            ThreadsafeTestThread thread1 = new ThreadsafeTestThread("1",
                     lookup1.getHostName(), lookup1, 0);
-            threadsafeTestThread thread2 = new threadsafeTestThread("2",
+            ThreadsafeTestThread thread2 = new ThreadsafeTestThread("2",
                     lookup2.getHostName(), lookup2, 0);
-            threadsafeTestThread thread3 = new threadsafeTestThread("3",
+            ThreadsafeTestThread thread3 = new ThreadsafeTestThread("3",
                     lookup1.getHostAddress(), lookup1, 1);
-            threadsafeTestThread thread4 = new threadsafeTestThread("4",
+            ThreadsafeTestThread thread4 = new ThreadsafeTestThread("4",
                     lookup2.getHostAddress(), lookup2, 1);
 
             // initialize the flags
-            threadedTestSucceeded = true;
-            synchronized (someoneDone) {
-                thread1.start();
-                thread2.start();
-                thread3.start();
-                thread4.start();
-            }
+            thread1.start();
+            thread2.start();
+            thread3.start();
+            thread4.start();
+            startedLatch.countDown();
+
             thread1.join();
             thread2.join();
             thread3.join();
             thread4.join();
-            /* FIXME: comment the assertion below because it is platform/configuration dependent
-             * Please refer to HARMONY-1664 (https://issues.apache.org/jira/browse/HARMONY-1664)
-             * for details
-             */
-//            assertTrue(threadedTestErrorString, threadedTestSucceeded);
+            assertTrue(threadedTestErrorString, threadedTestSucceeded.get());
         } catch(UnknownHostException ex) {
             Assume.assumeTrue("Unable to resolve host, possibly due to DNS issues: " +
                         ex + ". Skipping the test.", false);
