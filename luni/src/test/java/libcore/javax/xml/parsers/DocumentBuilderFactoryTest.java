@@ -15,16 +15,25 @@
  */
 package libcore.javax.xml.parsers;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
 import javax.xml.validation.ValidatorHandler;
-import junit.framework.TestCase;
 
-public class DocumentBuilderFactoryTest extends TestCase {
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
+public class DocumentBuilderFactoryTest {
+
+    @Test
     public void testGetSchema() {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -34,6 +43,7 @@ public class DocumentBuilderFactoryTest extends TestCase {
         } catch (UnsupportedOperationException expected) {}
     }
 
+    @Test
     public void testSetSchema() {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -49,9 +59,40 @@ public class DocumentBuilderFactoryTest extends TestCase {
         } catch (UnsupportedOperationException expected) {}
     }
 
+    @Test
     public void testNewInstance_StringClassLoader() {
         try {
             DocumentBuilderFactory.newInstance(null, null);
+        } catch (FactoryConfigurationError expected) {}
+    }
+
+    @Test
+    public void testNewDefaultInstance() {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newDefaultInstance();
+        assertEquals("org.apache.harmony.xml.parsers.DocumentBuilderFactoryImpl",
+                factory.getClass().getName());
+    }
+
+    @Test
+    public void testNewDefaultNSInstance() {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newDefaultNSInstance();
+        assertEquals("org.apache.harmony.xml.parsers.DocumentBuilderFactoryImpl",
+                factory.getClass().getName());
+        assertTrue(factory.isNamespaceAware());
+    }
+
+    @Test
+    public void testNewNSInstance() {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newNSInstance();
+        assertEquals("org.apache.harmony.xml.parsers.DocumentBuilderFactoryImpl",
+                factory.getClass().getName());
+        assertTrue(factory.isNamespaceAware());
+    }
+
+    @Test
+    public void testNewNSInstance_StringClassLoader() {
+        try {
+            DocumentBuilderFactory.newNSInstance(null, null);
         } catch (FactoryConfigurationError expected) {}
     }
 }
