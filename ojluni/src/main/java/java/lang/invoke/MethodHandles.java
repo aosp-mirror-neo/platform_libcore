@@ -1533,7 +1533,7 @@ assertEquals(""+l, (String) MH_this.invokeExact(subl)); // Listie method
                 }
             }
 
-            if (isSetterKind && field.isMonotonic()) {
+            if (isSetterKind && field.isUnmodifiable()) {
                 throw new IllegalAccessException("Field " + field + " can't be overwritten");
             }
 

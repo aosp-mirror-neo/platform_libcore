@@ -20,9 +20,11 @@ import static android.annotation.SystemApi.Client.MODULE_LIBRARIES;
 
 import android.annotation.SystemApi;
 import android.annotation.FlaggedApi;
+import android.compat.Compatibility;
 import android.compat.annotation.ChangeId;
 import android.compat.annotation.EnabledSince;
 import android.compat.annotation.Disabled;
+import android.compat.annotation.Overridable;
 import android.compat.annotation.UnsupportedAppUsage;
 
 import com.android.libcore.Flags;
@@ -105,6 +107,13 @@ public final class VMRuntime {
     @ChangeId
     @Disabled
     private static final long ALLOW_TEST_API_ACCESS = 166236554; // This is a bug id.
+
+    /**
+     * Throw UnsatisfiedLinkError when attempting to load a writable file.
+     */
+    @ChangeId
+    @EnabledSince(targetSdkVersion = VersionCodes.C)
+    private static final long THROW_ERROR_FOR_WRITABLE_DCL = 463348571;
 
     /**
      * Interface for logging hidden API usage events.
@@ -1201,4 +1210,11 @@ public final class VMRuntime {
      * @hide
      */
     public static native boolean isReadOnlyDynamicCodeLoadWwLogEnabled();
+
+    /**
+     * @hide
+     */
+    public static boolean isThrowErrorForWritableDclEnabled() {
+        return Compatibility.isChangeEnabled(THROW_ERROR_FOR_WRITABLE_DCL);
+    }
 }

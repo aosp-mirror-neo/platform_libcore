@@ -937,21 +937,25 @@ public class Runtime {
         if (filename == null) {
             throw new NullPointerException("filename == null");
         }
-        if (!file.toPath().getFileSystem().isReadOnly() && file.canWrite()) {
+        int uid = Os.getuid();
+        if (uid != 0 && uid != 1000 && uid != 2000
+            && !file.toPath().getFileSystem().isReadOnly() && file.canWrite()) {
             System.logW("Attempt to load writable file: " + filename
                     + ". This will throw on a future Android version"
             + ". Current sdk version: " + VMRuntime.getSdkVersion());
             if (VMRuntime.isReadOnlyDynamicCodeLoadWwLogEnabled()) {
                 LibcoreStatsLog.writeRuntimeUnsafeDclReported(
-                        Os.getuid(),
+                        uid,
                         fromClass.getPackageName(),
                         file.getName());
             }
-            if (VMRuntime.getSdkVersion() >= VersionCodes.C) {
-                if (VMRuntime.isReadOnlyDynamicCodeLoadThrowExceptionEnabled()) {
-                    throw new UnsatisfiedLinkError(
-                      "Attempt to load writable file: " + filename);
-                }
+            // TODO: before the read_only_dynamic_code_load_throw_exception flag is pushed to
+            // NextFood, we will need to add the if (VMRuntime.getSdkVersion() >= VersionCodes.C)
+            // check here.
+            if (VMRuntime.isReadOnlyDynamicCodeLoadThrowExceptionEnabled()
+                    && VMRuntime.isThrowErrorForWritableDclEnabled()) {
+                throw new UnsatisfiedLinkError(
+                  "Attempt to load writable file: " + filename);
             }
         }
 
