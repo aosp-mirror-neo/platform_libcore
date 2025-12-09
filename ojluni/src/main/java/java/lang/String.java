@@ -2040,11 +2040,20 @@ public final class String
         byte ov[] = other.value;
          */
         // Note: toffset, ooffset, or len might be near -1>>>1.
+        // BEGIN Android-changed: Use equivalent condition that does not require cast to `long`.
+        /*
         if ((ooffset < 0) || (toffset < 0) ||
              (toffset > (long)length() - len) ||
              (ooffset > (long)other.length() - len)) {
             return false;
         }
+        */
+        if ((ooffset < 0) || (toffset < 0) ||
+             (len > length() - toffset) ||
+             (len > other.length() - ooffset)) {
+            return false;
+        }
+        // END Android-changed: Use equivalent condition that does not require cast to `long`.
         // BEGIN Android-removed: Implement in terms of charAt().
         /*
         if (coder() == other.coder()) {
@@ -2139,11 +2148,20 @@ public final class String
             return regionMatches(toffset, other, ooffset, len);
         }
         // Note: toffset, ooffset, or len might be near -1>>>1.
+        // BEGIN Android-changed: Use equivalent condition that does not require cast to `long`.
+        /*
         if ((ooffset < 0) || (toffset < 0)
                 || (toffset > (long)length() - len)
                 || (ooffset > (long)other.length() - len)) {
             return false;
         }
+        */
+        if ((ooffset < 0) || (toffset < 0)
+                || (len > length() - toffset)
+                || (len > other.length() - ooffset)) {
+            return false;
+        }
+        // END Android-changed: Use equivalent condition that does not require cast to `long`.
         // BEGIN Android-changed: Implement in terms of charAt().
         /*
         byte tv[] = value;
