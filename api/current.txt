@@ -20710,9 +20710,13 @@ package javax.xml.parsers {
     method public boolean isNamespaceAware();
     method public boolean isValidating();
     method public boolean isXIncludeAware();
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static javax.xml.parsers.DocumentBuilderFactory newDefaultInstance();
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static javax.xml.parsers.DocumentBuilderFactory newDefaultNSInstance();
     method public abstract javax.xml.parsers.DocumentBuilder newDocumentBuilder() throws javax.xml.parsers.ParserConfigurationException;
     method public static javax.xml.parsers.DocumentBuilderFactory newInstance();
     method public static javax.xml.parsers.DocumentBuilderFactory newInstance(String, ClassLoader);
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static javax.xml.parsers.DocumentBuilderFactory newNSInstance();
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static javax.xml.parsers.DocumentBuilderFactory newNSInstance(String, ClassLoader);
     method public abstract void setAttribute(String, Object) throws java.lang.IllegalArgumentException;
     method public void setCoalescing(boolean);
     method public void setExpandEntityReferences(boolean);
