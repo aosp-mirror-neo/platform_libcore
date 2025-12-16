@@ -59,9 +59,9 @@ public abstract class Reference<T> {
      * GC, the slow path, which passes through JNI, must be taken.
      * After initialization, this is only accessed by native code. It is not
      * used with the concurrent copying collector. It is enabled with mutators
-     * suspended, but disabled asynchronously.
+     * suspended, but disabled asynchronously, and therefore is declared volatile.
      */
-    private static boolean slowPathEnabled = false;
+    private static volatile boolean slowPathEnabled = false;
 
     // Treated specially by GC. ART's ClassLinker::LinkFieldsHelper::LinkFields()
     // knows this is the alphabetically last non-static field.
