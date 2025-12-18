@@ -27,10 +27,7 @@
 #include "../../external/fdlibm/fdlibm.h"
 
 #include <nativehelper/JNIHelp.h>
-
-#define NATIVE_METHOD(className, functionName, signature) \
-{ #functionName, signature, (void*)(className ## _ ## functionName) }
-
+#include <nativehelper/jni_macros.h>
 
 JNIEXPORT jdouble JNICALL
 StrictMath_cos(jdouble d)
@@ -155,26 +152,26 @@ StrictMath_expm1(jdouble d)
 }
 
 static JNINativeMethod gMethods[] = {
-  NATIVE_METHOD(StrictMath, cos, "(D)D"),
-  NATIVE_METHOD(StrictMath, sin, "(D)D"),
-  NATIVE_METHOD(StrictMath, tan, "(D)D"),
-  NATIVE_METHOD(StrictMath, asin, "(D)D"),
-  NATIVE_METHOD(StrictMath, acos, "(D)D"),
-  NATIVE_METHOD(StrictMath, atan, "(D)D"),
-  NATIVE_METHOD(StrictMath, exp, "(D)D"),
-  NATIVE_METHOD(StrictMath, log, "(D)D"),
-  NATIVE_METHOD(StrictMath, log10, "(D)D"),
-  NATIVE_METHOD(StrictMath, sqrt, "(D)D"),
-  NATIVE_METHOD(StrictMath, cbrt, "(D)D"),
-  NATIVE_METHOD(StrictMath, atan2, "(DD)D"),
-  NATIVE_METHOD(StrictMath, pow, "(DD)D"),
-  NATIVE_METHOD(StrictMath, IEEEremainder, "(DD)D"),
-  NATIVE_METHOD(StrictMath, cosh, "(D)D"),
-  NATIVE_METHOD(StrictMath, sinh, "(D)D"),
-  NATIVE_METHOD(StrictMath, tanh, "(D)D"),
-  NATIVE_METHOD(StrictMath, hypot, "(DD)D"),
-  NATIVE_METHOD(StrictMath, log1p, "(D)D"),
-  NATIVE_METHOD(StrictMath, expm1, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, cos, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, sin, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, tan, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, asin, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, acos, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, atan, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, exp, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, log, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, log10, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, sqrt, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, cbrt, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, atan2, "(DD)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, pow, "(DD)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, IEEEremainder, "(DD)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, cosh, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, sinh, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, tanh, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, hypot, "(DD)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, log1p, "(D)D"),
+  CRITICAL_NATIVE_METHOD(StrictMath, expm1, "(D)D"),
 };
 
 void register_java_lang_StrictMath(JNIEnv* env) {
