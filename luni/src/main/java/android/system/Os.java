@@ -402,7 +402,6 @@ public final class Os {
      * @param cmd   encoded in it whether the argument is an "in" parameter or "out" parameter
      * @return      returns a nonnegative value on success
      * @throws ErrnoException A checked exception thrown when {@link Os} methods fail.
-     *                        {@see android.system.ErrnoException}
      *
      * @hide
      */
