@@ -126,13 +126,13 @@ public class DateTimeFormatterTest {
 
     @Test
     @NonMts(bug = 331729784, reason = NonMtsReasons.ICU_VERSION_DEPENDENCY,
-            disabledUntilSdk = VersionCodes.VANILLA_ICE_CREAM)
+            disabledUntilSdk = VersionCodes.C)
     public void test_format_locale_tok() {
         Assume.assumeTrue(VersionInfo.ICU_VERSION.getMajor() >= 74);
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
                 .withLocale(new Locale("tok"))
                 .withZone(ZoneOffset.UTC);
-        assertEquals("#00:00", dateTimeFormatter.format(TEST_INSTANT));
+        assertEquals("00:00", dateTimeFormatter.format(TEST_INSTANT));
     }
 }
