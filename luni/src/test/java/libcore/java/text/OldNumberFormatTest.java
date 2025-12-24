@@ -243,6 +243,7 @@ public class OldNumberFormatTest extends TestCase {
         // END Android-changed
     }
 
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_formatLlong() {
         NumberFormat nf1 = NumberFormat.getInstance(Locale.US);
 
@@ -357,6 +358,7 @@ public class OldNumberFormatTest extends TestCase {
                 "123,456,789", format.format(123456789));
     }
 
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_getInstanceLjava_util_Locale() {
         Locale de_CH = new Locale("de", "CH");
         Locale.setDefault(Locale.US);
@@ -395,6 +397,7 @@ public class OldNumberFormatTest extends TestCase {
                 "123,456,789", format.format(123456789));
     }
 
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_getNumberInstanceLjava_util_Locale() {
         Locale.setDefault(Locale.US);
         Locale deLocale = new Locale("de", "CH");
