@@ -168,7 +168,7 @@ public class TCKChronology {
         // on an old CLDR version (21) with some "invented" values (specifically Hijrah and ISO).
         return new Object[][] {
                     {"Hijrah", "Hijri Calendar (Umm al-Qura)"},
-                    {"ISO", "ISO-8601 Calendar"},
+                    {"ISO", "Gregorian Calendar (ISO 8601 Weeks)"},
                     {"Japanese", "Japanese Calendar"},
                     {"Minguo", "Minguo Calendar"},
                     {"ThaiBuddhist", "Buddhist Calendar"},
@@ -176,7 +176,7 @@ public class TCKChronology {
     }
 
     @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY,
-        disabledUntilSdk = VersionCodes.VANILLA_ICE_CREAM)
+        disabledUntilSdk = VersionCodes.C)
     @Test(dataProvider = "calendarDisplayName")
     public void test_getDisplayName(String chronoId, String calendarDisplayName) {
         Chronology chrono = Chronology.of(chronoId);

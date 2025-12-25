@@ -60,6 +60,9 @@ import java.util.Scanner;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
+import dalvik.annotation.compat.VersionCodes;
+import libcore.test.annotation.NonMts;
+import libcore.test.reasons.NonMtsReasons;
 
 public class ScannerTest extends TestCase {
 
@@ -1045,6 +1048,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#nextInt(int)
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_nextIntI() throws IOException {
         s = new Scanner("123 456");
         assertEquals(123, s.nextInt(10));
@@ -1091,7 +1095,7 @@ public class ScannerTest extends TestCase {
         /*
          * '’' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         try {
             s.nextInt(10);
@@ -1218,6 +1222,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#nextInt()
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_nextInt() throws IOException {
         s = new Scanner("123 456");
         assertEquals(123, s.nextInt());
@@ -1265,7 +1270,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         try {
             s.nextInt();
@@ -1628,6 +1633,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#nextBigInteger(int)
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_nextBigIntegerI() throws IOException {
         s = new Scanner("123 456");
         assertEquals(new BigInteger("123"), s.nextBigInteger(10));
@@ -1666,7 +1672,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         try {
             s.nextBigInteger(10);
@@ -1755,6 +1761,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#nextBigInteger()
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_nextBigInteger() throws IOException {
         s = new Scanner("123 456");
         assertEquals(new BigInteger("123"), s.nextBigInteger());
@@ -1794,7 +1801,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         try {
             s.nextBigInteger();
@@ -1885,6 +1892,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#nextShort(int)
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_nextShortI() throws IOException {
         s = new Scanner("123 456");
         assertEquals(123, s.nextShort(10));
@@ -1931,7 +1939,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         try {
             s.nextShort(10);
@@ -2020,6 +2028,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#nextShort()
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_nextShort() throws IOException {
         s = new Scanner("123 456");
         assertEquals(123, s.nextShort());
@@ -2067,7 +2076,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         try {
             s.nextShort();
@@ -2158,6 +2167,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#nextLong(int)
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_nextLongI() throws IOException {
         s = new Scanner("123 456");
         assertEquals(123, s.nextLong(10));
@@ -2204,7 +2214,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         try {
             s.nextLong(10);
@@ -2293,6 +2303,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#nextLong()
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_nextLong() throws IOException {
         s = new Scanner("123 456");
         assertEquals(123, s.nextLong());
@@ -2340,7 +2351,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         try {
             s.nextLong();
@@ -2899,6 +2910,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#hasNextBigInteger(int)
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_hasNextBigIntegerI() throws IOException {
         s = new Scanner("123 456");
         assertTrue(s.hasNextBigInteger(10));
@@ -2945,7 +2957,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         assertFalse(s.hasNextBigInteger(10));
         try {
@@ -3084,6 +3096,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#hasNextBigInteger()
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_hasNextBigInteger() throws IOException {
         s = new Scanner("123 456");
         assertTrue(s.hasNextBigInteger());
@@ -3131,7 +3144,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         assertFalse(s.hasNextBigInteger());
         try {
@@ -3239,6 +3252,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#hasNextInt(int)
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_hasNextIntI() throws IOException {
         s = new Scanner("123 456");
         assertEquals(123, s.nextInt(10));
@@ -3279,7 +3293,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456");
+        s = new Scanner("23'456");
         s.useLocale(Locale.GERMANY);
         assertFalse(s.hasNextInt(10));
         s.useLocale(new Locale("it", "CH"));
@@ -3435,6 +3449,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#hasNextInt()
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_hasNextInt() throws IOException {
         s = new Scanner("123 456");
         assertTrue(s.hasNextInt());
@@ -3476,7 +3491,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456");
+        s = new Scanner("23'456");
         s.useLocale(Locale.GERMANY);
         assertFalse(s.hasNextInt());
         s.useLocale(new Locale("it", "CH"));
@@ -3715,6 +3730,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#hasNextShort(int)
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_hasNextShortI() throws IOException {
         s = new Scanner("123 456");
         assertTrue(s.hasNextShort(10));
@@ -3770,7 +3786,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         assertFalse(s.hasNextShort(10));
         try {
@@ -3877,6 +3893,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#hasNextShort()
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_hasNextShort() throws IOException {
         s = new Scanner("123 456");
         assertTrue(s.hasNextShort());
@@ -3933,7 +3950,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         assertFalse(s.hasNextShort());
         try {
@@ -4075,6 +4092,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#hasNextLong(int)
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_hasNextLongI() throws IOException {
         s = new Scanner("123 456");
         assertTrue(s.hasNextLong(10));
@@ -4130,7 +4148,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         assertFalse(s.hasNextLong(10));
         try {
@@ -4271,6 +4289,7 @@ public class ScannerTest extends TestCase {
      * @throws IOException
      * @tests java.util.Scanner#hasNextLong()
      */
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_hasNextLong() throws IOException {
         s = new Scanner("123 456");
         assertTrue(s.hasNextLong());
@@ -4327,7 +4346,7 @@ public class ScannerTest extends TestCase {
         /*
          * ''' is used in many locales as group separator.
          */
-        s = new Scanner("23’456 23’456");
+        s = new Scanner("23'456 23'456");
         s.useLocale(Locale.GERMANY);
         assertFalse(s.hasNextLong());
         try {

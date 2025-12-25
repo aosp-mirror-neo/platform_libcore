@@ -34,6 +34,8 @@ import static org.testng.Assert.assertEquals;
 
 import android.icu.util.VersionInfo;
 
+import dalvik.annotation.compat.VersionCodes;
+
 import libcore.test.annotation.NonCts;
 import libcore.test.annotation.NonMts;
 import libcore.test.reasons.NonCtsReasons;
@@ -120,11 +122,11 @@ public class TestUnicodeExtension {
             // Expected formatted string
             {Locale.JAPAN, null, null, ISO, null,
             "2017\u5e748\u670810\u65e5\u6728\u66dc\u65e5 15\u664215\u520600\u79d2 " +
-            "\u30a2\u30e1\u30ea\u30ab\u592a\u5e73\u6d0b\u590f\u6642\u9593"
+            "\u7c73\u56fd\u592a\u5e73\u6d0b\u590f\u6642\u9593"
             },
             {Locale.JAPAN, JAPANESE, null, ISO, null,
             "2017\u5e748\u670810\u65e5\u6728\u66dc\u65e5 15\u664215\u520600\u79d2 " +
-            "\u30a2\u30e1\u30ea\u30ab\u592a\u5e73\u6d0b\u590f\u6642\u9593"
+            "\u7c73\u56fd\u592a\u5e73\u6d0b\u590f\u6642\u9593"
             },
             {Locale.JAPAN, JAPANESE, ASIATOKYO, ISO, ASIATOKYO,
             "2017\u5e748\u670811\u65e5\u91d1\u66dc\u65e5 7\u664215\u520600\u79d2 " +
@@ -212,11 +214,11 @@ public class TestUnicodeExtension {
             // Expected formatted string
             {Locale.JAPAN, null, null, null, null,
             "2017\u5e748\u670810\u65e5\u6728\u66dc\u65e5 15\u664215\u520600\u79d2 " +
-            "\u30a2\u30e1\u30ea\u30ab\u592a\u5e73\u6d0b\u590f\u6642\u9593"
+            "\u7c73\u56fd\u592a\u5e73\u6d0b\u590f\u6642\u9593"
             },
             {Locale.JAPAN, JAPANESE, null, JAPANESE, null,
             "\u5e73\u621029\u5e748\u670810\u65e5\u6728\u66dc\u65e5 15\u664215\u520600\u79d2 " +
-            "\u30a2\u30e1\u30ea\u30ab\u592a\u5e73\u6d0b\u590f\u6642\u9593"
+            "\u7c73\u56fd\u592a\u5e73\u6d0b\u590f\u6642\u9593"
             },
             {Locale.JAPAN, JAPANESE, ASIATOKYO, JAPANESE, ASIATOKYO,
             "\u5e73\u621029\u5e748\u670811\u65e5\u91d1\u66dc\u65e5 7\u664215\u520600\u79d2 " +
@@ -839,6 +841,8 @@ public class TestUnicodeExtension {
     }
 
     @NonCts(bug = 286802267, reason = NonCtsReasons.CLDR_DATA_DEPENDENCY)
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY,
+            disabledUntilSdk = VersionCodes.C)
     @Test(dataProvider="localizedBy")
     public void test_localizedBy(Locale locale, Chronology chrono, ZoneId zone,
                                 Chronology chronoExpected, ZoneId zoneExpected,
@@ -869,6 +873,8 @@ public class TestUnicodeExtension {
         }
     }
 
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY,
+            disabledUntilSdk = VersionCodes.C)
     @Test(dataProvider="withLocale")
     public void test_withLocale(Locale locale, Chronology chrono, ZoneId zone,
                                 Chronology chronoExpected, ZoneId zoneExpected,

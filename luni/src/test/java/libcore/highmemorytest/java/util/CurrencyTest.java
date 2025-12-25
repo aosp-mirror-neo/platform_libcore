@@ -22,6 +22,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import dalvik.annotation.compat.VersionCodes;
+import libcore.test.annotation.NonMts;
+import libcore.test.reasons.NonMtsReasons;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -43,6 +47,7 @@ public class CurrencyTest {
     @Parameterized.Parameter(0)
     public Locale locale;
 
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     @Test
     public void test_currencyCodeIcuConsistency() {
         String countryCode = locale.getCountry();
@@ -59,6 +64,13 @@ public class CurrencyTest {
         // Antillean Guilder) with XCG (Caribbean Guilder).
         if (("CW".equals(countryCode) || "SX".equals(countryCode)) &&
                 LocalDateTime.of(2025, 5, 1, 0, 0).atZone(ZoneId.of("GMT")).toInstant()
+                        .isAfter(Instant.now())) {
+            return;
+        }
+        // https://unicode-org.atlassian.net/browse/CLDR-19002
+        // Effective 2026-01-01, Bulgaria is replacing BGN (Bulgarian Lev) with EUR (Euro).
+        if ("BG".equals(countryCode) &&
+                LocalDateTime.of(2026, 1, 1, 0, 0).atZone(ZoneId.of("GMT")).toInstant()
                         .isAfter(Instant.now())) {
             return;
         }

@@ -125,7 +125,7 @@ public class TestNonIsoFormatter {
         return new Object[][] {
             // Chronology, Locale, Chronology Name
             // Android-changed: CLDR data has changed.
-            { ISO8601,  Locale.ENGLISH, "ISO-8601 Calendar" },
+            { ISO8601,  Locale.ENGLISH, "Gregorian Calendar (ISO 8601 Weeks)" },
             { BUDDHIST, Locale.ENGLISH, "Buddhist Calendar" },
             { HIJRAH,   Locale.ENGLISH, "Hijri Calendar (Umm al-Qura)" },
             { JAPANESE, Locale.ENGLISH, "Japanese Calendar" },
@@ -184,7 +184,7 @@ public class TestNonIsoFormatter {
     }
 
     @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY,
-        disabledUntilSdk = VersionCodes.VANILLA_ICE_CREAM)
+        disabledUntilSdk = VersionCodes.C)
     @Test(dataProvider="chrono_names")
     public void test_chronoNames(Chronology chrono, Locale locale, String expected) {
         DateTimeFormatter dtf = new DateTimeFormatterBuilder().appendChronologyText(TextStyle.SHORT)

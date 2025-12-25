@@ -167,7 +167,7 @@ public class TestEraDisplayName {
             { MinguoEra.ROC,        TextStyle.NARROW,   Locale.TAIWAN,  "\u6c11\u570b" },
 
             // HijrahEra
-            { HijrahEra.AH, TextStyle.FULL,     Locale.US,  "AH" },
+            { HijrahEra.AH, TextStyle.FULL,     Locale.US,  "Anno Hegirae" },
             { HijrahEra.AH, TextStyle.FULL,     EGYPT,      "\u0647\u0640" },
             { HijrahEra.AH, TextStyle.SHORT,    Locale.US,  "AH" },
             { HijrahEra.AH, TextStyle.SHORT,    EGYPT,      "\u0647\u0640" },
@@ -199,7 +199,7 @@ public class TestEraDisplayName {
 
     // Android-changed: The ICU data is different before ICU version 70. http://b/229960530
     @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY,
-            disabledUntilSdk = VersionCodes.TIRAMISU)
+            disabledUntilSdk = VersionCodes.C)
     @Test(dataProvider="eraDisplayName")
     public void test_eraDisplayName(Era era, TextStyle style, Locale locale, String expected) {
         assertEquals(era.getDisplayName(style, locale), expected);
