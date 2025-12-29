@@ -419,8 +419,7 @@ public final class Class<T>
 
     private transient int classSize;
 
-    @UnsupportedAppUsage(maxTargetSdk = 30, trackingBug = 170729553)
-    private transient int clinitThreadId;
+    private transient int clinitThreadIdOrHash;
 
     private transient java.lang.Class<?> componentType;
 
