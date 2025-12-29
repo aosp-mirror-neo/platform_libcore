@@ -432,7 +432,7 @@ public final class Class<T>
     @UnsupportedAppUsage
     private transient int dexClassDefIndex;
 
-    private transient volatile int dexTypeIndex;
+    private transient int dexTypeIndex;
 
     private transient dalvik.system.ClassExt extData;
 
