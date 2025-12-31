@@ -29,10 +29,12 @@ import java.security.AlgorithmConstraints;
 import java.util.Map;
 import java.util.List;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 /**
  * Encapsulates parameters for an SSL/TLS connection. The parameters
@@ -76,6 +78,7 @@ public class SSLParameters {
     private boolean preferLocalCipherSuites;
     // Android-added: Integrate ALPN-related methods from OpenJDK 9+181
     private String[] applicationProtocols = new String[0];
+    private String[] namedGroups = null;
 
     /**
      * Constructs SSLParameters.
@@ -540,4 +543,130 @@ public class SSLParameters {
         applicationProtocols = tempProtocols;
     }
     // END Android-added: Integrate ALPN-related methods from OpenJDK 9+181
+
+    /**
+     * Returns a prioritized array of key exchange named groups names that
+     * can be used over the SSL/TLS/DTLS protocols.
+     * <p>
+     * Note that the standard list of key exchange named groups are defined
+     * in the <a href=
+     * "{@docRoot}/../specs/security/standard-names.html#named-groups">
+     * Named Groups</a> section of the Java Security Standard Algorithm
+     * Names Specification.  Providers may support named groups not defined
+     * in this list or may not use the recommended name for a certain named
+     * group.
+     * <p>
+     * The set of named groups that will be used over the SSL/TLS/DTLS
+     * connections is determined by the returned array of this method and the
+     * underlying provider-specific default named groups.
+     * <p>
+     * If the returned array is {@code null}, then the underlying
+     * provider-specific default named groups will be used over the
+     * SSL/TLS/DTLS connections.
+     * <p>
+     * If the returned array is empty (zero-length), then the named group
+     * negotiation mechanism is turned off for SSL/TLS/DTLS protocols, and
+     * the connections may not be able to be established if the negotiation
+     * mechanism is required by a certain SSL/TLS/DTLS protocol.  This
+     * parameter will override the underlying provider-specific default
+     * name groups.
+     * <p>
+     * If the returned array is not {@code null} or empty (zero-length),
+     * then the named groups in the returned array will be used over
+     * the SSL/TLS/DTLS connections.  This parameter will override the
+     * underlying provider-specific default named groups.
+     * <p>
+     * This method returns the most recent value passed to
+     * {@link #setNamedGroups} if that method has been called and otherwise
+     * returns the default named groups for connection populated objects,
+     * or {@code null} for pre-populated objects.
+     *
+     * @apiNote
+     * Note that a provider may not have been updated to support this method
+     * and in that case may return {@code null} instead of the default
+     * named groups for connection populated objects.
+     *
+     * @implNote
+     * The SunJSSE provider supports this method.
+     *
+     * @implNote
+     * Note that applications may use the
+     * {@systemProperty jdk.tls.namedGroups} system property with the SunJSSE
+     * provider to override the provider-specific default named groups.
+     *
+     * @return an array of key exchange named group names {@code Strings} or
+     *         {@code null} if none have been set.  For non-null returns, this
+     *         method will return a new array each time it is invoked.  The
+     *         array is ordered based on named group preference, with the first
+     *         entry being the most preferred.  Providers should ignore unknown
+     *         named group names while establishing the SSL/TLS/DTLS
+     *         connections.
+     * @see #setNamedGroups
+     *
+     * @since 20
+     */
+    public String[] getNamedGroups() {
+        return clone(namedGroups);
+    }
+
+    /**
+     * Sets the prioritized array of key exchange named groups names that
+     * can be used over the SSL/TLS/DTLS protocols.
+     * <p>
+     * Note that the standard list of key exchange named groups are defined in
+     * the <a href=
+     * "{@docRoot}/../specs/security/standard-names.html#named-groups">
+     * Named Groups</a> section of the Java Security Standard Algorithm
+     * Names Specification.  Providers may support named groups not defined
+     * in this list or may not use the recommended name for a certain named
+     * group.
+     * <p>
+     * The set of named groups that will be used over the SSL/TLS/DTLS
+     * connections is determined by the input parameter {@code namedGroups}
+     * array and the underlying provider-specific default named groups.
+     * See {@link #getNamedGroups} for specific details on how the
+     * parameters are used in SSL/TLS/DTLS connections.
+     *
+     * @apiNote
+     * Note that a provider may not have been updated to support this method
+     * and in that case may ignore the named groups that are set.
+     *
+     * @implNote
+     * The SunJSSE provider supports this method.
+     *
+     * @param namedGroups an ordered array of key exchange named group names
+     *        with the first entry being the most preferred, or {@code null}.
+     *        This method will make a copy of this array. Providers should
+     *        ignore unknown named group scheme names while establishing the
+     *        SSL/TLS/DTLS connections.
+     * @throws IllegalArgumentException if any element in the
+     *        {@code namedGroups} array is a duplicate, {@code null} or
+     *        {@linkplain String#isBlank() blank}.
+     *
+     * @see #getNamedGroups
+     *
+     * @since 20
+     */
+    public void setNamedGroups(String[] namedGroups) {
+        String[] tempGroups = null;
+
+        if (namedGroups != null) {
+            tempGroups = namedGroups.clone();
+            Set<String> groupsSet = new HashSet<>();
+            for (String namedGroup : tempGroups) {
+                if (namedGroup == null || namedGroup.isBlank()) {
+                    throw new IllegalArgumentException(
+                        "An element of namedGroups is null or blank");
+                }
+
+                if (groupsSet.contains(namedGroup)) {
+                    throw new IllegalArgumentException(
+                        "Duplicate element of namedGroups: " + namedGroup);
+                }
+                groupsSet.add(namedGroup);
+            }
+        }
+
+        this.namedGroups = tempGroups;
+    }
 }

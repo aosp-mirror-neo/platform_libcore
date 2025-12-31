@@ -17,6 +17,7 @@
 package libcore.javax.net.ssl;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -78,5 +79,50 @@ public class SSLParametersTest {
     assertTrue(params.getUseCipherSuitesOrder());
     params.setUseCipherSuitesOrder(false);
     assertFalse(params.getUseCipherSuitesOrder());
+  }
+
+  @Test
+  public void test_getSetNamedGroups() {
+    SSLParameters params = new SSLParameters();
+
+    assertTrue(params.getNamedGroups() == null);
+
+    String[] groups = new String[] {"x25519", "secp256r1"};
+    params.setNamedGroups(groups);
+    assertTrue(Arrays.equals(new String[] {"x25519", "secp256r1"}, params.getNamedGroups()));
+
+    groups[0] = "modified";
+    assertTrue(Arrays.equals(new String[] {"x25519", "secp256r1"}, params.getNamedGroups()));
+
+    String[] returnedGroups = params.getNamedGroups();
+    returnedGroups[0] = "modified";
+    assertTrue(Arrays.equals(new String[] {"x25519", "secp256r1"}, params.getNamedGroups()));
+
+    params.setNamedGroups(null);
+    assertTrue(params.getNamedGroups() == null);
+
+    params.setNamedGroups(new String[0]);
+    assertTrue(params.getNamedGroups().length == 0);
+  }
+
+  @Test
+  public void test_setNamedGroups_invalidInputs() {
+    SSLParameters params = new SSLParameters();
+
+    assertThrows(IllegalArgumentException.class, () -> {
+      params.setNamedGroups(new String[] {"x25519", null});
+    });
+
+    assertThrows(IllegalArgumentException.class, () -> {
+      params.setNamedGroups(new String[] {" "});
+    });
+
+    assertThrows(IllegalArgumentException.class, () -> {
+      params.setNamedGroups(new String[] {"x25519", ""});
+    });
+
+    assertThrows(IllegalArgumentException.class, () -> {
+      params.setNamedGroups(new String[] {"x25519", "secp256r1", "x25519"});
+    });
   }
 }
