@@ -26,8 +26,8 @@ import libcore.util.Objects;
  * Corresponds to C's {@code struct linger} from
  * <a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys_socket.h.html">&lt;sys/socket.h&gt;</a>
  *
- * When enabled, a {@link Os.close(java.io.FileDescriptor)} or
- * {@link Os.shutdown(java.io.FileDescriptor, int)} will
+ * When enabled, a {@link Os#close(java.io.FileDescriptor)} or
+ * {@link Os#shutdown(java.io.FileDescriptor, int)} will
  * not return until all queued messages for the socket have been successfully sent or the
  * linger timeout has been reached. Otherwise, the call returns immediately and the closing is
  * done in the background.
@@ -35,7 +35,7 @@ import libcore.util.Objects;
  * See <a href="https://man7.org/linux/man-pages/man7/socket.7.html">socket(7)</a>
  * for linger struct description.
  *
- * @see Os#getsockoptLinger(java.io.FileDescriptor, int, int).
+ * @see Os#getsockoptLinger(java.io.FileDescriptor, int, int)
  * @see OsConstants#SO_LINGER
  *
  * @hide
