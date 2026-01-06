@@ -24,8 +24,8 @@ import libcore.util.Objects;
 
 /**
  * Corresponds to Linux' __user_cap_header_struct for capget and capset.
- * Used in {@link Os.capget(StructCapUserHeader)} and
- * {@link Os.capset(StructCapUserHeader, StructCapUserData[])}.
+ * Used in {@link Os#capget(StructCapUserHeader)} and
+ * {@link Os#capset(StructCapUserHeader, StructCapUserData[])}.
  *
  * Capabilities defined in <a href="https://man7.org/linux/man-pages/man7/capabilities.7.html">capabilities(7)</a>
  * @hide
