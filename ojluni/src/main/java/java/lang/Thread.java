@@ -1770,7 +1770,7 @@ public class Thread implements Runnable {
         return interrupted;
     }
     */
-    @FastNative
+    @CriticalNative
     public static native boolean interrupted();
 
     // Android-changed: Avoid instance method to clear interrupted status. See #interrupted()
