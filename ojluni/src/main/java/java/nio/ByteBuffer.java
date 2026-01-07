@@ -2237,9 +2237,18 @@ public abstract class ByteBuffer
      * @return  This buffer
      */
     public final ByteBuffer order(ByteOrder bo) {
-        bigEndian = (bo == ByteOrder.BIG_ENDIAN);
-        nativeByteOrder =
-            (bigEndian == (ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN));
+        // Android-changed: Avoid copy-on-write page faults if order is unchanged. b/461867255
+        // bigEndian = (bo == ByteOrder.BIG_ENDIAN);
+        // nativeByteOrder =
+        //     (bigEndian == (ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN));
+        final boolean be = (bo == ByteOrder.BIG_ENDIAN);
+        if (bigEndian != be) {
+            bigEndian = be;
+        }
+        final boolean nativeBe = (bigEndian == (ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN));
+        if (nativeByteOrder != nativeBe) {
+            nativeByteOrder = nativeBe;
+        }
         return this;
     }
 
