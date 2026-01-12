@@ -66,7 +66,6 @@ public void forEach(java.util.function.Consumer<? super T> action);
 
 public void forEachOrdered(java.util.function.Consumer<? super T> action);
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public default <R> java.util.stream.Stream<R> gather(java.util.stream.Gatherer<? super T,?,R> gatherer) { throw new RuntimeException("Stub!"); }
 
 public static <T> java.util.stream.Stream<T> generate(java.util.function.Supplier<? extends T> s) { throw new RuntimeException("Stub!"); }

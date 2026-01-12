@@ -111,7 +111,7 @@ package android.system {
     method public static void close(java.io.FileDescriptor) throws android.system.ErrnoException;
     method public static void connect(java.io.FileDescriptor, java.net.InetAddress, int) throws android.system.ErrnoException, java.net.SocketException;
     method public static void connect(@NonNull java.io.FileDescriptor, @NonNull java.net.SocketAddress) throws android.system.ErrnoException, java.net.SocketException;
-    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static android.system.StructDlInfo dladdr(long);
+    method public static android.system.StructDlInfo dladdr(long);
     method public static java.io.FileDescriptor dup(java.io.FileDescriptor) throws android.system.ErrnoException;
     method public static java.io.FileDescriptor dup2(java.io.FileDescriptor, int) throws android.system.ErrnoException;
     method public static String[] environ();
@@ -771,7 +771,7 @@ package android.system {
     field public final int cmsg_type;
   }
 
-  @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public final class StructDlInfo {
+  public final class StructDlInfo {
     ctor public StructDlInfo(String, long, String, long);
     field public final long dli_fbase;
     field public final String dli_fname;
@@ -7551,9 +7551,9 @@ package java.nio.file {
     method public static java.nio.file.FileSystem newFileSystem(java.net.URI, java.util.Map<java.lang.String,?>) throws java.io.IOException;
     method public static java.nio.file.FileSystem newFileSystem(java.net.URI, java.util.Map<java.lang.String,?>, ClassLoader) throws java.io.IOException;
     method public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path, ClassLoader) throws java.io.IOException;
-    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path, java.util.Map<java.lang.String,?>) throws java.io.IOException;
-    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path) throws java.io.IOException;
-    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path, java.util.Map<java.lang.String,?>, ClassLoader) throws java.io.IOException;
+    method public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path, java.util.Map<java.lang.String,?>) throws java.io.IOException;
+    method public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path) throws java.io.IOException;
+    method public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path, java.util.Map<java.lang.String,?>, ClassLoader) throws java.io.IOException;
   }
 
   public enum FileVisitOption {
@@ -7627,8 +7627,8 @@ package java.nio.file {
     method public static java.util.List<java.lang.String> readAllLines(java.nio.file.Path) throws java.io.IOException;
     method public static <A extends java.nio.file.attribute.BasicFileAttributes> A readAttributes(java.nio.file.Path, Class<A>, java.nio.file.LinkOption...) throws java.io.IOException;
     method public static java.util.Map<java.lang.String,java.lang.Object> readAttributes(java.nio.file.Path, String, java.nio.file.LinkOption...) throws java.io.IOException;
-    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static String readString(java.nio.file.Path) throws java.io.IOException;
-    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static String readString(java.nio.file.Path, java.nio.charset.Charset) throws java.io.IOException;
+    method public static String readString(java.nio.file.Path) throws java.io.IOException;
+    method public static String readString(java.nio.file.Path, java.nio.charset.Charset) throws java.io.IOException;
     method public static java.nio.file.Path readSymbolicLink(java.nio.file.Path) throws java.io.IOException;
     method public static java.nio.file.Path setAttribute(java.nio.file.Path, String, Object, java.nio.file.LinkOption...) throws java.io.IOException;
     method public static java.nio.file.Path setLastModifiedTime(java.nio.file.Path, java.nio.file.attribute.FileTime) throws java.io.IOException;
@@ -7642,8 +7642,8 @@ package java.nio.file {
     method public static java.nio.file.Path write(java.nio.file.Path, byte[], java.nio.file.OpenOption...) throws java.io.IOException;
     method public static java.nio.file.Path write(java.nio.file.Path, Iterable<? extends java.lang.CharSequence>, java.nio.charset.Charset, java.nio.file.OpenOption...) throws java.io.IOException;
     method public static java.nio.file.Path write(java.nio.file.Path, Iterable<? extends java.lang.CharSequence>, java.nio.file.OpenOption...) throws java.io.IOException;
-    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static java.nio.file.Path writeString(java.nio.file.Path, CharSequence, java.nio.file.OpenOption...) throws java.io.IOException;
-    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public static java.nio.file.Path writeString(java.nio.file.Path, CharSequence, java.nio.charset.Charset, java.nio.file.OpenOption...) throws java.io.IOException;
+    method public static java.nio.file.Path writeString(java.nio.file.Path, CharSequence, java.nio.file.OpenOption...) throws java.io.IOException;
+    method public static java.nio.file.Path writeString(java.nio.file.Path, CharSequence, java.nio.charset.Charset, java.nio.file.OpenOption...) throws java.io.IOException;
   }
 
   public class InvalidPathException extends java.lang.IllegalArgumentException {
@@ -11648,7 +11648,7 @@ package java.time {
     method public long getSeconds();
     method public java.util.List<java.time.temporal.TemporalUnit> getUnits();
     method public boolean isNegative();
-    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public boolean isPositive();
+    method public boolean isPositive();
     method public boolean isZero();
     method public java.time.Duration minus(java.time.Duration);
     method public java.time.Duration minus(long, java.time.temporal.TemporalUnit);
@@ -18554,7 +18554,7 @@ package java.util.stream {
     method public void accept(double, java.util.function.DoubleConsumer);
   }
 
-  @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public interface Gatherer<T, A, R> {
+  public interface Gatherer<T, A, R> {
     method public default <RR> java.util.stream.Gatherer<T,?,RR> andThen(java.util.stream.Gatherer<? super R,?,? extends RR>);
     method public default java.util.function.BinaryOperator<A> combiner();
     method public static <A> java.util.function.BinaryOperator<A> defaultCombiner();
@@ -18572,21 +18572,21 @@ package java.util.stream {
     method public static <T, A, R> java.util.stream.Gatherer<T,A,R> ofSequential(java.util.function.Supplier<A>, java.util.stream.Gatherer.Integrator<A,T,R>, java.util.function.BiConsumer<A,java.util.stream.Gatherer.Downstream<? super R>>);
   }
 
-  @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") @java.lang.FunctionalInterface public static interface Gatherer.Downstream<T> {
+  @java.lang.FunctionalInterface public static interface Gatherer.Downstream<T> {
     method public default boolean isRejecting();
     method public boolean push(T);
   }
 
-  @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") @java.lang.FunctionalInterface public static interface Gatherer.Integrator<A, T, R> {
+  @java.lang.FunctionalInterface public static interface Gatherer.Integrator<A, T, R> {
     method public boolean integrate(A, T, java.util.stream.Gatherer.Downstream<? super R>);
     method public static <A, T, R> java.util.stream.Gatherer.Integrator<A,T,R> of(java.util.stream.Gatherer.Integrator<A,T,R>);
     method public static <A, T, R> java.util.stream.Gatherer.Integrator.Greedy<A,T,R> ofGreedy(java.util.stream.Gatherer.Integrator.Greedy<A,T,R>);
   }
 
-  @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") @java.lang.FunctionalInterface public static interface Gatherer.Integrator.Greedy<A, T, R> extends java.util.stream.Gatherer.Integrator<A,T,R> {
+  @java.lang.FunctionalInterface public static interface Gatherer.Integrator.Greedy<A, T, R> extends java.util.stream.Gatherer.Integrator<A,T,R> {
   }
 
-  @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public final class Gatherers {
+  public final class Gatherers {
     method public static <T, R> java.util.stream.Gatherer<T,?,R> fold(java.util.function.Supplier<R>, java.util.function.BiFunction<? super R,? super T,? extends R>);
     method public static <T, R> java.util.stream.Gatherer<T,?,R> scan(java.util.function.Supplier<R>, java.util.function.BiFunction<? super R,? super T,? extends R>);
     method public static <TR> java.util.stream.Gatherer<TR,?,java.util.List<TR>> windowFixed(int);
@@ -18732,7 +18732,7 @@ package java.util.stream {
     method public java.util.stream.LongStream flatMapToLong(java.util.function.Function<? super T,? extends java.util.stream.LongStream>);
     method public void forEach(java.util.function.Consumer<? super T>);
     method public void forEachOrdered(java.util.function.Consumer<? super T>);
-    method @FlaggedApi("com.android.libcore.openjdk_21_v2_apis") public default <R> java.util.stream.Stream<R> gather(java.util.stream.Gatherer<? super T,?,R>);
+    method public default <R> java.util.stream.Stream<R> gather(java.util.stream.Gatherer<? super T,?,R>);
     method public static <T> java.util.stream.Stream<T> generate(java.util.function.Supplier<? extends T>);
     method public static <T> java.util.stream.Stream<T> iterate(T, java.util.function.UnaryOperator<T>);
     method public static <T> java.util.stream.Stream<T> iterate(T, java.util.function.Predicate<? super T>, java.util.function.UnaryOperator<T>);

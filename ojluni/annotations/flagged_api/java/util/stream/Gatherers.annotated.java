@@ -26,7 +26,6 @@
 package java.util.stream;
 
 @SuppressWarnings({"unchecked", "deprecation", "all"})
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public final class Gatherers {
 
 Gatherers() { throw new RuntimeException("Stub!"); }

@@ -39,15 +39,12 @@ public static java.nio.file.FileSystem newFileSystem(java.net.URI uri, java.util
 
 public static java.nio.file.FileSystem newFileSystem(java.net.URI uri, java.util.Map<java.lang.String,?> env, java.lang.ClassLoader loader) throws java.io.IOException { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path path) throws java.io.IOException { throw new RuntimeException("Stub!"); }
 
 public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path path, java.lang.ClassLoader loader) throws java.io.IOException { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path path, java.util.Map<java.lang.String,?> env) throws java.io.IOException { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path path, java.util.Map<java.lang.String,?> env, java.lang.ClassLoader loader) throws java.io.IOException { throw new RuntimeException("Stub!"); }
 }
 

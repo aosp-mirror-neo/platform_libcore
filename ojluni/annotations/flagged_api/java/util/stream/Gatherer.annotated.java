@@ -26,7 +26,6 @@
 package java.util.stream;
 
 @SuppressWarnings({"unchecked", "deprecation", "all"})
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public interface Gatherer<T, A, R> {
 
 public default <RR> java.util.stream.Gatherer<T,?,RR> andThen(java.util.stream.Gatherer<? super R,?,? extends RR> that) { throw new RuntimeException("Stub!"); }
@@ -60,7 +59,6 @@ public static <T, R> java.util.stream.Gatherer<T,java.lang.Void,R> ofSequential(
 public static <T, R> java.util.stream.Gatherer<T,java.lang.Void,R> ofSequential(java.util.stream.Gatherer.Integrator<java.lang.Void,T,R> integrator, java.util.function.BiConsumer<java.lang.Void,java.util.stream.Gatherer.Downstream<? super R>> finisher) { throw new RuntimeException("Stub!"); }
 @SuppressWarnings({"unchecked", "deprecation", "all"})
 @java.lang.FunctionalInterface
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public static interface Downstream<T> {
 
 public default boolean isRejecting() { throw new RuntimeException("Stub!"); }
@@ -70,7 +68,6 @@ public boolean push(T element);
 
 @SuppressWarnings({"unchecked", "deprecation", "all"})
 @java.lang.FunctionalInterface
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public static interface Integrator<A, T, R> {
 
 public boolean integrate(A state, T element, java.util.stream.Gatherer.Downstream<? super R> downstream);
@@ -80,7 +77,6 @@ public static <A, T, R> java.util.stream.Gatherer.Integrator<A,T,R> of(java.util
 public static <A, T, R> java.util.stream.Gatherer.Integrator.Greedy<A,T,R> ofGreedy(java.util.stream.Gatherer.Integrator.Greedy<A,T,R> greedy) { throw new RuntimeException("Stub!"); }
 @SuppressWarnings({"unchecked", "deprecation", "all"})
 @java.lang.FunctionalInterface
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public static interface Greedy<A, T, R> extends java.util.stream.Gatherer.Integrator<A,T,R> {
 }
 

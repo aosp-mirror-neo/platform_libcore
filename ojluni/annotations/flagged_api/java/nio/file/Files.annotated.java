@@ -135,10 +135,8 @@ public static <A extends java.nio.file.attribute.BasicFileAttributes> A readAttr
 
 public static java.util.Map<java.lang.String,java.lang.Object> readAttributes(java.nio.file.Path path, java.lang.String attributes, java.nio.file.LinkOption... options) throws java.io.IOException { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public static java.lang.String readString(java.nio.file.Path path) throws java.io.IOException { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public static java.lang.String readString(java.nio.file.Path path, java.nio.charset.Charset cs) throws java.io.IOException { throw new RuntimeException("Stub!"); }
 
 public static java.nio.file.Path readSymbolicLink(java.nio.file.Path link) throws java.io.IOException { throw new RuntimeException("Stub!"); }
@@ -167,10 +165,8 @@ public static java.nio.file.Path write(java.nio.file.Path path, java.lang.Iterab
 
 public static java.nio.file.Path write(java.nio.file.Path path, java.lang.Iterable<? extends java.lang.CharSequence> lines, java.nio.file.OpenOption... options) throws java.io.IOException { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public static java.nio.file.Path writeString(java.nio.file.Path path, java.lang.CharSequence csq, java.nio.charset.Charset cs, java.nio.file.OpenOption... options) throws java.io.IOException { throw new RuntimeException("Stub!"); }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public static java.nio.file.Path writeString(java.nio.file.Path path, java.lang.CharSequence csq, java.nio.file.OpenOption... options) throws java.io.IOException { throw new RuntimeException("Stub!"); }
 }
 
