@@ -37,6 +37,8 @@ import jdk.internal.util.ArraysSupport;
 import jdk.internal.vm.annotation.ForceInline;
 import jdk.internal.vm.annotation.IntrinsicCandidate;
 
+import jdk.internal.misc.Unsafe;
+
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.concurrent.ForkJoinPool;
@@ -85,6 +87,9 @@ public final class Arrays {
 
     // Suppresses default constructor, ensuring non-instantiability.
     private Arrays() {}
+
+    private static final Unsafe UNSAFE = Unsafe.getUnsafe();
+    private static final long BYTE_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(byte[].class);
 
     /*
      * Sorting methods. Note that all public "sort" methods take the
@@ -2807,18 +2812,33 @@ public final class Arrays {
         if (a2.length != length)
             return false;
 
-        // BEGIN Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
+        // BEGIN Android-changed: Vectorized equality check using existing Unsafe intrinsics instead
+        // of ArraySupport intrinsics, which are not implemented yet.
         // TODO(b/362153334) Assess whether it's worth writing intrinsics or not.
         // return ArraysSupport.mismatch(a, a2, length) < 0;
-        for (int idx = 0; idx < length; ++idx) {
-            if (a[idx] != a2[idx]) {
+        // 1. Vectorized loop: compare 8 bytes at a time
+        int i = 0;
+        int limit = length - 7; // Stop when we have fewer than 8 bytes left
+
+        for (; i < limit; i += 8) {
+            long offset = BYTE_ARRAY_BASE_OFFSET + i;
+            // ART compiles this to a raw native 64-bit load.
+            // On ARM64, this supports unaligned access natively.
+            long l1 = UNSAFE.getLong(a, offset);
+            long l2 = UNSAFE.getLong(a2, offset);
+            if (l1 != l2) {
+                return false;
+            }
+        }
+
+        // 2. Tail loop: compare remaining bytes (up to 7 bytes)
+        for (; i < length; i++) {
+            if (a[i] != a2[i]) {
                 return false;
             }
         }
         return true;
-        // END Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
+        // END Android-changed: Vectorized equality check
     }
 
     /**
