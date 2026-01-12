@@ -72,6 +72,6 @@ done
 echo "@FlaggedApi annotations are removed."
 
 echo "Start regenerating the API files, e.g. libcore/api/current.txt"
-m art.module.public.api.stubs.source-update-current-api art.module.public.api.stubs.source.module_lib-update-current-api
+m art.module.public.api.stubs.source-update-current-api art.module.public.api.stubs.source.module_lib-update-current-api art.module.toolchain.api-update-current-api
 
 
