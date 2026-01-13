@@ -96,7 +96,6 @@ public int hashCode() { throw new RuntimeException("Stub!"); }
 public boolean isNegative() { throw new RuntimeException("Stub!"); }
 
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public boolean isPositive() { throw new RuntimeException("Stub!"); }
 
 public boolean isZero() { throw new RuntimeException("Stub!"); }

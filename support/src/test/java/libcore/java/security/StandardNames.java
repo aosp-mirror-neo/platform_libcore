@@ -432,6 +432,9 @@ public final class StandardNames {
             provide("Signature", "SHA384withRSA/PSS");
             provide("Signature", "SHA512withRSA/PSS");
             provideOptional("Signature", "ED25519");
+            provideOptional("Signature", "ML-DSA");
+            provideOptional("Signature", "ML-DSA-65");
+            provideOptional("Signature", "ML-DSA-87");
 
             // different names: ARCFOUR vs ARC4
             unprovide("Cipher", "ARCFOUR");
@@ -612,6 +615,12 @@ public final class StandardNames {
                 provide("KeyStore", "AndroidKeyStore");
                 provideOptional("KeyFactory", "ED25519");
                 provideOptional("KeyPairGenerator", "ED25519");
+                provideOptional("KeyFactory", "ML-DSA");
+                provideOptional("KeyFactory", "ML-DSA-65");
+                provideOptional("KeyFactory", "ML-DSA-87");
+                provideOptional("KeyPairGenerator", "ML-DSA");
+                provideOptional("KeyPairGenerator", "ML-DSA-65");
+                provideOptional("KeyPairGenerator", "ML-DSA-87");
             }
 
             // TimaKeyStore provider

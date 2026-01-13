@@ -143,7 +143,6 @@ public final class Os {
      *
      * @return null if the underlying native {@code dladdr} call fails.
      */
-    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
     public static StructDlInfo dladdr(long addr) { return Libcore.os.dladdr(addr); }
 
     /**

@@ -21,7 +21,6 @@ import libcore.util.Objects;
 /**
  * Corresponds to C's {@code struct Dl_info}.
  */
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_21_V2_APIS)
 public final class StructDlInfo {
     /** Pathname of shared object that contains address */
     public final String dli_fname;
