@@ -1173,6 +1173,18 @@ java_library {
 }
 
 java_library {
+    name: "libcore-string-concat-stub",
+    srcs: [":openjdk_string_concat"],
+    sdk_version: "none",
+    patch_module: "java.base",
+    system_modules: "libcore-bootstrap-core-current-from-text-system-modules",
+    installable: false,
+    visibility: [
+        "//art/build/apex:__subpackages__",
+    ],
+}
+
+java_library {
     name: "libcore-bootstrap-lib-for-flags-lib",
     srcs: [
         // Needs @UnsupportedAppUsage definition from this source

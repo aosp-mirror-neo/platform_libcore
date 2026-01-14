@@ -1484,6 +1484,17 @@ filegroup {
 }
 
 filegroup {
+    name: "openjdk_string_concat",
+    visibility: [
+        "//libcore:__subpackages__",
+    ],
+    licenses: ["libcore_ojluni_src_main_license"],
+    srcs: [
+        "ojluni/src/lambda/java/java/lang/invoke/StringConcatFactory.java",
+    ],
+}
+
+filegroup {
     name: "openjdk_lambda_duplicate_stub_files",
     licenses: ["libcore_ojluni_src_main_license"],
     srcs: [
