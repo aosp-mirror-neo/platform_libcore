@@ -817,8 +817,9 @@ public final class VMRuntime {
      *
      * @hide
      */
+    @FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_25_V1_APIS)
     @SystemApi(client = MODULE_LIBRARIES)
-    public int getThreadNiceness(Thread t) {
+    public int getThreadNiceness(@NonNull Thread t) {
       return t.getPosixNicenessInternal();
     }
 
@@ -833,8 +834,9 @@ public final class VMRuntime {
      *
      * @hide
      */
+    @FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_25_V1_APIS)
     @SystemApi(client = MODULE_LIBRARIES)
-    public boolean setThreadNiceness(Thread t, int newNiceness) {
+    public boolean setThreadNiceness(@NonNull Thread t, int newNiceness) {
       if (newNiceness < -20 || newNiceness > 19) {
         return false;
       }
