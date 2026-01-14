@@ -88,8 +88,18 @@ public final class Arrays {
     // Suppresses default constructor, ensuring non-instantiability.
     private Arrays() {}
 
+    // BEGIN Android: Set up Unsafe for vectorization.
     private static final Unsafe UNSAFE = Unsafe.getUnsafe();
     private static final long BYTE_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(byte[].class);
+
+    // On arm32 we can't make unaligned memory accesses (using Unsafe or otherwise). If we do,
+    // we get SIGBUS with BUS_ADRALN.
+    //
+    // Unfortunately we can't check Unsafe.unalignedAccess() because it's not defined in libcore.
+    // Instead, we check if addressSize == 8 (i.e. 64-bit).
+    // On all supported 64-bit systems, unaligned access is permitted.
+    private static final boolean UNALIGNED_ACCESS = (UNSAFE.addressSize() == 8);
+    // END Android: Set up Unsafe for vectorization.
 
     /*
      * Sorting methods. Note that all public "sort" methods take the
@@ -2812,14 +2822,31 @@ public final class Arrays {
         if (a2.length != length)
             return false;
 
-        // BEGIN Android-changed: Vectorized equality check using existing Unsafe intrinsics instead
-        // of ArraySupport intrinsics, which are not implemented yet.
-        // TODO(b/362153334) Assess whether it's worth writing intrinsics or not.
+        // BEGIN Android-changed: Vectorized equality check
         // return ArraysSupport.mismatch(a, a2, length) < 0;
-        // 1. Vectorized loop: compare 8 bytes at a time
         int i = 0;
-        int limit = length - 7; // Stop when we have fewer than 8 bytes left
+        if (!UNALIGNED_ACCESS) {
+            // Round up to 8 byte alignment if necessary.
+            if (length >= 4) {
+                // On 32-bit Android, the array base offset is often 12 (4-byte aligned).
+                // We can align to 8 bytes by reading a single int (4 bytes).
+                if (UNSAFE.getInt(a, BYTE_ARRAY_BASE_OFFSET)
+                        != UNSAFE.getInt(a2, BYTE_ARRAY_BASE_OFFSET)) {
+                    return false;
+                }
+                i += Integer.BYTES;
+            } else {
+                for (; i < length; i++) {
+                    if (a[i] != a2[i]) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
 
+        // 1. Vectorized loop: compare 8 bytes at a time
+        int limit = length - 7; // Stop when we have fewer than 8 bytes left
         for (; i < limit; i += 8) {
             long offset = BYTE_ARRAY_BASE_OFFSET + i;
             // ART compiles this to a raw native 64-bit load.
