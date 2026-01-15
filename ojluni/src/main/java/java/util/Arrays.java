@@ -2824,14 +2824,17 @@ public final class Arrays {
 
         // BEGIN Android-changed: Vectorized equality check
         // return ArraysSupport.mismatch(a, a2, length) < 0;
+        Unsafe unsafe = UNSAFE;
+        final Class unused = unsafe.getClass(); // Hoist null check
         int i = 0;
+
         if (!UNALIGNED_ACCESS) {
             // Round up to 8 byte alignment if necessary.
             if (length >= 4) {
                 // On 32-bit Android, the array base offset is often 12 (4-byte aligned).
                 // We can align to 8 bytes by reading a single int (4 bytes).
-                if (UNSAFE.getInt(a, BYTE_ARRAY_BASE_OFFSET)
-                        != UNSAFE.getInt(a2, BYTE_ARRAY_BASE_OFFSET)) {
+                if (unsafe.getInt(a, BYTE_ARRAY_BASE_OFFSET)
+                        != unsafe.getInt(a2, BYTE_ARRAY_BASE_OFFSET)) {
                     return false;
                 }
                 i += Integer.BYTES;
@@ -2845,24 +2848,34 @@ public final class Arrays {
             }
         }
 
-        // 1. Vectorized loop: compare 8 bytes at a time
-        int limit = length - 7; // Stop when we have fewer than 8 bytes left
-        for (; i < limit; i += 8) {
+        // 1. Vectorized loop: compare 16 bytes at a time
+        final int VECTOR_WIDTH_BYTES = 2 * Long.BYTES;
+        int limit = length & ~(VECTOR_WIDTH_BYTES - 1);
+        for (; i < limit; i += VECTOR_WIDTH_BYTES) {
             long offset = BYTE_ARRAY_BASE_OFFSET + i;
-            // ART compiles this to a raw native 64-bit load.
-            // On ARM64, this supports unaligned access natively.
-            long l1 = UNSAFE.getLong(a, offset);
-            long l2 = UNSAFE.getLong(a2, offset);
-            if (l1 != l2) {
+            long l1 = unsafe.getLong(a, offset);
+            long l2 = unsafe.getLong(a, offset + Long.BYTES);
+            long l3 = unsafe.getLong(a2, offset);
+            long l4 = unsafe.getLong(a2, offset + Long.BYTES);
+            if (((l1 ^ l3) | (l2 ^ l4)) != 0) {
                 return false;
             }
         }
 
-        // 2. Tail loop: compare remaining bytes (up to 7 bytes)
-        for (; i < length; i++) {
-            if (a[i] != a2[i]) {
+        long offset = BYTE_ARRAY_BASE_OFFSET + limit;
+        long endOffset = BYTE_ARRAY_BASE_OFFSET + length - 1;
+        // Tail Loop: Remaining bytes.
+        // Iterating from the start and the end lets us do two comparisons per loop iteration.
+        while (offset <= endOffset) {
+            byte b1 = unsafe.getByte(a, offset);
+            byte b2 = unsafe.getByte(a, endOffset);
+            byte b3 = unsafe.getByte(a2, offset);
+            byte b4 = unsafe.getByte(a2, endOffset);
+            if (((b1 ^ b3) | (b2 ^ b4)) != 0) {
                 return false;
             }
+            endOffset--;
+            offset++;
         }
         return true;
         // END Android-changed: Vectorized equality check
