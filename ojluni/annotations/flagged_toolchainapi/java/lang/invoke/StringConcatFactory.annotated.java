@@ -27,13 +27,10 @@
 package java.lang.invoke;
 
 @SuppressWarnings({"unchecked", "deprecation", "all"})
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK21_STRINGCONCAT)
 public final class StringConcatFactory {
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK21_STRINGCONCAT)
 public static CallSite makeConcat(MethodHandles.Lookup lookup, String name, MethodType concatType) { return null; }
 
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK21_STRINGCONCAT)
 public static CallSite makeConcatWithConstants(MethodHandles.Lookup lookup, String name, MethodType concatType, String recipe, Object... constants) { return null; }
 }
 

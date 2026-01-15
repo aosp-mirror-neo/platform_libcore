@@ -31,7 +31,10 @@ fi
 
 FLAG_NAME=$1
 
-find ${ANDROID_BUILD_TOP}/libcore/ojluni/annotations/flagged_api/ -type f -name "*.java" -exec sed -i "/@\(android.annotation.\)\?FlaggedApi($FLAG_NAME)/d" {} +
+find ${ANDROID_BUILD_TOP}/libcore/dalvik/src/main/ -type f -name "*.java" -exec sed -i "/@\(android.annotation.\)\?FlaggedApi($FLAG_NAME)/d" {} +
+find ${ANDROID_BUILD_TOP}/libcore/libart/src/main/ -type f -name "*.java" -exec sed -i "/@\(android.annotation.\)\?FlaggedApi($FLAG_NAME)/d" {} +
 find ${ANDROID_BUILD_TOP}/libcore/luni/src/main/java/ -type f -name "*.java" -exec sed -i "/@\(android.annotation.\)\?FlaggedApi($FLAG_NAME)/d" {} +
+find ${ANDROID_BUILD_TOP}/libcore/ojluni/annotations/flagged_api/ -type f -name "*.java" -exec sed -i "/@\(android.annotation.\)\?FlaggedApi($FLAG_NAME)/d" {} +
+find ${ANDROID_BUILD_TOP}/libcore/ojluni/annotations/flagged_toolchainapi/ -type f -name "*.java" -exec sed -i "/@\(android.annotation.\)\?FlaggedApi($FLAG_NAME)/d" {} +
 
 echo "Done."

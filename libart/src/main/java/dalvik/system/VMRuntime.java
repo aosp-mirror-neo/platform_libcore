@@ -817,9 +817,9 @@ public final class VMRuntime {
      *
      * @hide
      */
-    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NICENESS_APIS)
+    @FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_25_V1_APIS)
     @SystemApi(client = MODULE_LIBRARIES)
-    public int getThreadNiceness(Thread t) {
+    public int getThreadNiceness(@NonNull Thread t) {
       return t.getPosixNicenessInternal();
     }
 
@@ -834,9 +834,9 @@ public final class VMRuntime {
      *
      * @hide
      */
-    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_NICENESS_APIS)
+    @FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_25_V1_APIS)
     @SystemApi(client = MODULE_LIBRARIES)
-    public boolean setThreadNiceness(Thread t, int newNiceness) {
+    public boolean setThreadNiceness(@NonNull Thread t, int newNiceness) {
       if (newNiceness < -20 || newNiceness > 19) {
         return false;
       }
@@ -1091,7 +1091,6 @@ public final class VMRuntime {
      *
      * @hide
      */
-    @FlaggedApi(com.android.libcore.Flags.FLAG_POST_CLEANUP_APIS)
     @SystemApi(client = MODULE_LIBRARIES)
     public static void addPostCleanupCallback(@NonNull Runnable runnable) {
         synchronized(postCleanupCallbacks) {
@@ -1104,7 +1103,6 @@ public final class VMRuntime {
      *
      * @hide
      */
-    @FlaggedApi(com.android.libcore.Flags.FLAG_POST_CLEANUP_APIS)
     @SystemApi(client = MODULE_LIBRARIES)
     public static void removePostCleanupCallback(@NonNull Runnable runnable) {
         synchronized(postCleanupCallbacks) {
