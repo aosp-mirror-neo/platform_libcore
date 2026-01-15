@@ -376,6 +376,11 @@ public interface Os {
     /**
      * @hide
      */
+    public int ioctlRet(FileDescriptor fd, int cmd) throws ErrnoException;
+
+    /**
+     * @hide
+     */
     public int ioctlMTU(FileDescriptor fd, String interfaceName) throws ErrnoException;
 
     /**

@@ -1828,6 +1828,11 @@ static jint Linux_ioctlInt(JNIEnv* env, jobject, jobject javaFd, jint cmd) {
     return arg;
 }
 
+static jint Linux_ioctlRet(JNIEnv* env, jobject, jobject javaFd, jint cmd) {
+    int fd = jniGetFDFromFileDescriptor(env, javaFd);
+    return throwIfMinusOne(env, "ioctl", TEMP_FAILURE_RETRY(ioctl(fd, cmd, 0)));
+}
+
 static jint Linux_ioctlMTU(JNIEnv* env, jobject, jobject javaFd, jstring javaInterfaceName) {
      struct ifreq req;
      if (!fillIfreq(env, javaInterfaceName, req)) {
@@ -2831,6 +2836,7 @@ static JNINativeMethod gMethods[] = {
     NATIVE_METHOD(Linux, ioctlFlags, "(Ljava/io/FileDescriptor;Ljava/lang/String;)I"),
     NATIVE_METHOD(Linux, ioctlInetAddress, "(Ljava/io/FileDescriptor;ILjava/lang/String;)Ljava/net/InetAddress;"),
     NATIVE_METHOD(Linux, ioctlInt, "(Ljava/io/FileDescriptor;I)I"),
+    NATIVE_METHOD(Linux, ioctlRet, "(Ljava/io/FileDescriptor;I)I"),
     NATIVE_METHOD(Linux, ioctlMTU, "(Ljava/io/FileDescriptor;Ljava/lang/String;)I"),
     NATIVE_METHOD(Linux, isatty, "(Ljava/io/FileDescriptor;)Z"),
     NATIVE_METHOD(Linux, kill, "(II)V"),

@@ -57,6 +57,12 @@
 #include <asm-generic/mman-common.h>
 #endif
 
+#if defined(__BIONIC__)
+#include <linux/ashmem.h>
+#else
+#define ASHMEM_GET_PROT_MASK (30470)
+#endif
+
 // Taken from Portability.h
 #if __has_include(<linux/vm_sockets.h>)
 #include <linux/vm_sockets.h>
@@ -81,6 +87,7 @@
   V(AF_UNSPEC) \
   V(ARPHRD_ETHER) \
   V(ARPHRD_LOOPBACK) \
+  V(ASHMEM_GET_PROT_MASK) \
   V(VMADDR_PORT_ANY) \
   V(VMADDR_CID_ANY) \
   V(VMADDR_CID_LOCAL) \
@@ -220,9 +227,12 @@
   V(F_GETFD) \
   V(F_GETFL) \
   V(F_GETOWN) \
+  V(F_GET_SEALS) \
   V(F_OK) \
   V(R_OK) \
   V(F_RDLCK) \
+  V(F_SEAL_WRITE) \
+  V(F_SEAL_FUTURE_WRITE) \
   V(F_SETFD) \
   V(F_SETFL) \
   V(F_SETOWN) \

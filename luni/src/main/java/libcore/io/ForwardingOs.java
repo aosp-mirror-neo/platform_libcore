@@ -435,6 +435,11 @@ public class ForwardingOs implements Os {
     /**
      * @hide
      */
+    public int ioctlRet(FileDescriptor fd, int cmd) throws ErrnoException { return os.ioctlRet(fd, cmd); }
+
+    /**
+     * @hide
+     */
     public int ioctlMTU(FileDescriptor fd, String interfaceName) throws ErrnoException { return os.ioctlMTU(fd, interfaceName); }
 
     /**
