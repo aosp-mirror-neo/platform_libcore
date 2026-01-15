@@ -991,13 +991,13 @@ public class ForkJoinPool extends AbstractExecutorService {
     static final class DefaultForkJoinWorkerThreadFactory
         implements ForkJoinWorkerThreadFactory {
         public final ForkJoinWorkerThread newThread(ForkJoinPool pool) {
-            boolean isCommon = (pool.workerNamePrefix == null);
             // Android-changed: Android has no real SecurityManager and policy.
+            // boolean isCommon = (pool.workerNamePrefix == null);
             // if (isCommon && JLA.allowSecurityManager())
-            if (isCommon)
-                return newCommonWithACC(pool);
-            else
-                return newRegularWithACC(pool);
+            //     return newCommonWithACC(pool);
+            // else
+            //     return newRegularWithACC(pool);
+            return newRegularWithACC(pool);
         }
 
         /*
