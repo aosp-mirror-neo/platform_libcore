@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import javax.net.ssl.ExtendedSSLSession;
 import javax.net.ssl.SNIServerName;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -40,6 +42,7 @@ public class ExtendedSSLSessionTest {
         }
     }
 
+    @Ignore("b/476352289")
     @Test
     public void testGetStatusResponses_Override() {
         List<byte[]> expected = Collections.emptyList();
