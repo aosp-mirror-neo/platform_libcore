@@ -153,6 +153,7 @@ public final class Linux implements Os {
     public native int ioctlFlags(FileDescriptor fd, String interfaceName) throws ErrnoException;
     public native InetAddress ioctlInetAddress(FileDescriptor fd, int cmd, String interfaceName) throws ErrnoException;
     public native int ioctlInt(FileDescriptor fd, int cmd) throws ErrnoException;
+    public native int ioctlRet(FileDescriptor fd, int cmd) throws ErrnoException;
     public native int ioctlMTU(FileDescriptor fd, String interfaceName) throws ErrnoException;
     public native boolean isatty(FileDescriptor fd);
     public native void kill(int pid, int signal) throws ErrnoException;

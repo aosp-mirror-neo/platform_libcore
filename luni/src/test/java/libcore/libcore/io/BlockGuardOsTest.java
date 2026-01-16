@@ -277,6 +277,7 @@ public class BlockGuardOsTest {
                 "ioctlInetAddress(java.io.FileDescriptor,int,java.lang.String)",
                 "ioctlInt(java.io.FileDescriptor,int)",
                 "ioctlMTU(java.io.FileDescriptor,java.lang.String)",
+                "ioctlRet(java.io.FileDescriptor,int)",
                 "isatty(java.io.FileDescriptor)",
                 "kill(int,int)",
                 "listen(java.io.FileDescriptor,int)",
