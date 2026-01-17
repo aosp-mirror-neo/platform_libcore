@@ -208,8 +208,7 @@ public abstract class NetworkSecurityPolicy {
         DOMAIN_ENCRYPTION_MODE_UNKNOWN,
         DOMAIN_ENCRYPTION_MODE_DISABLED,
         DOMAIN_ENCRYPTION_MODE_OPPORTUNISTIC,
-        DOMAIN_ENCRYPTION_MODE_ENABLED,
-        DOMAIN_ENCRYPTION_MODE_REQUIRED
+        DOMAIN_ENCRYPTION_MODE_ENABLED
     })
     public @interface DomainEncryptionMode {}
 
@@ -248,7 +247,8 @@ public abstract class NetworkSecurityPolicy {
      * be enabled for any reason, the connection will fail).
      */
     @libcore.api.IntraCoreApi
-    public static final int DOMAIN_ENCRYPTION_MODE_REQUIRED = 4;
+    // TODO(b/476104302): bump the visibility back to public API for 26Q4
+    static final int DOMAIN_ENCRYPTION_MODE_REQUIRED = 4;
 
     /**
      * Returns the domain encryption mode (including ECH).
