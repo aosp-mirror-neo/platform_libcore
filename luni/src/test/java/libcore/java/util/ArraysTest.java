@@ -893,6 +893,35 @@ public class ArraysTest {
     }
 
     @Test
+    public void testEqualsByte() {
+        // Test zero-length arrays
+        assertTrue(Arrays.equals(new byte[0], new byte[0]));
+        // Test various lengths to cover vectorized loop and tail loop
+        for (int len : java.util.stream.IntStream.rangeClosed(1, 65).toArray()) {
+            byte[] a = new byte[len];
+            byte[] b = new byte[len];
+            Arrays.fill(a, (byte) 1);
+            Arrays.fill(b, (byte) 1);
+            assertTrue("Failed equals for length " + len, Arrays.equals(a, b));
+
+            // Test mismatch at the beginning
+            b[0] = (byte) 2;
+            assertFalse("Failed mismatch at 0 for length " + len, Arrays.equals(a, b));
+            b[0] = (byte) 1;
+
+            // Test mismatch in the middle
+            b[len / 2] = (byte) 2;
+            assertFalse("Failed mismatch at middle for length " + len, Arrays.equals(a, b));
+            b[len / 2] = (byte) 1;
+
+            // Test mismatch at the end
+            b[len - 1] = (byte) 2;
+            assertFalse("Failed mismatch at end for length " + len, Arrays.equals(a, b));
+            b[len - 1] = (byte) 1;
+        }
+    }
+
+    @Test
     public void testEqualsLongRange() {
         long[] a = {1, 2, 3};
         long[] b = {1, 2, 3};

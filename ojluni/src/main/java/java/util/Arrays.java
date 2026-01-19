@@ -2850,8 +2850,8 @@ public final class Arrays {
 
         // 1. Vectorized loop: compare 16 bytes at a time
         final int VECTOR_WIDTH_BYTES = 2 * Long.BYTES;
-        int limit = length & ~(VECTOR_WIDTH_BYTES - 1);
-        for (; i < limit; i += VECTOR_WIDTH_BYTES) {
+        int limit = length - VECTOR_WIDTH_BYTES;
+        for (; i <= limit; i += VECTOR_WIDTH_BYTES) {
             long offset = BYTE_ARRAY_BASE_OFFSET + i;
             long l1 = unsafe.getLong(a, offset);
             long l2 = unsafe.getLong(a, offset + Long.BYTES);
@@ -2862,7 +2862,7 @@ public final class Arrays {
             }
         }
 
-        long offset = BYTE_ARRAY_BASE_OFFSET + limit;
+        long offset = BYTE_ARRAY_BASE_OFFSET + i;
         long endOffset = BYTE_ARRAY_BASE_OFFSET + length - 1;
         // Tail Loop: Remaining bytes.
         // Iterating from the start and the end lets us do two comparisons per loop iteration.
