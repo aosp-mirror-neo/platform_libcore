@@ -31,6 +31,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -968,27 +970,20 @@ public class ArraysTest {
         // Test zero-length arrays
         assertTrue(Arrays.equals(new byte[0], new byte[0]));
         // Test various lengths to cover vectorized loop and tail loop
-        for (int len : java.util.stream.IntStream.rangeClosed(1, 65).toArray()) {
+        for (int len : IntStream.rangeClosed(1, 65).toArray()) {
             byte[] a = new byte[len];
             byte[] b = new byte[len];
             Arrays.fill(a, (byte) 1);
             Arrays.fill(b, (byte) 1);
             assertTrue("Failed equals for length " + len, Arrays.equals(a, b));
+            for (int breakPos = 0; breakPos < len; ++breakPos) {
 
-            // Test mismatch at the beginning
-            b[0] = (byte) 2;
-            assertFalse("Failed mismatch at 0 for length " + len, Arrays.equals(a, b));
-            b[0] = (byte) 1;
-
-            // Test mismatch in the middle
-            b[len / 2] = (byte) 2;
-            assertFalse("Failed mismatch at middle for length " + len, Arrays.equals(a, b));
-            b[len / 2] = (byte) 1;
-
-            // Test mismatch at the end
-            b[len - 1] = (byte) 2;
-            assertFalse("Failed mismatch at end for length " + len, Arrays.equals(a, b));
-            b[len - 1] = (byte) 1;
+                b[breakPos] = (byte) 2;
+                String msg = "Failed mismatch when elements at " + breakPos +
+                        " differ for length " + len;
+                assertFalse(msg, Arrays.equals(a, b));
+                b[breakPos] = (byte) 1;
+            }
         }
     }
 
