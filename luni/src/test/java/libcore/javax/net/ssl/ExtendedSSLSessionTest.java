@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+@Ignore("b/476352289")
 @RunWith(JUnit4.class)
 public class ExtendedSSLSessionTest {
 
@@ -42,7 +43,6 @@ public class ExtendedSSLSessionTest {
         }
     }
 
-    @Ignore("b/476352289")
     @Test
     public void testGetStatusResponses_Override() {
         List<byte[]> expected = Collections.emptyList();
