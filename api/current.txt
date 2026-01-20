@@ -4306,8 +4306,10 @@ package java.lang {
     method @NonNull public String indent(int);
     method public int indexOf(int);
     method public int indexOf(int, int);
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public int indexOf(int, int, int);
     method public int indexOf(@NonNull String);
     method public int indexOf(@NonNull String, int);
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public int indexOf(@NonNull String, int, int);
     method @NonNull public String intern();
     method public boolean isBlank();
     method public boolean isEmpty();
@@ -4330,6 +4332,7 @@ package java.lang {
     method @NonNull public String replaceFirst(@NonNull String, @NonNull String);
     method @NonNull public String[] split(@NonNull String, int);
     method @NonNull public String[] split(@NonNull String);
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") @NonNull public String[] splitWithDelimiters(@NonNull String, int);
     method public boolean startsWith(@NonNull String, int);
     method public boolean startsWith(@NonNull String);
     method @NonNull public String strip();

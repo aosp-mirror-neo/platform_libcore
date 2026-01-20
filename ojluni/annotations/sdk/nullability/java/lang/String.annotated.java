@@ -127,9 +127,13 @@ public int lastIndexOf(int ch) { throw new RuntimeException("Stub!"); }
 
 public int lastIndexOf(int ch, int fromIndex) { throw new RuntimeException("Stub!"); }
 
+public int indexOf(int ch, int fromIndex, int endIndex) { throw new RuntimeException("Stub!"); }
+
 public int indexOf(@libcore.util.NonNull java.lang.String str) { throw new RuntimeException("Stub!"); }
 
 public int indexOf(@libcore.util.NonNull java.lang.String str, int fromIndex) { throw new RuntimeException("Stub!"); }
+
+public int indexOf(@libcore.util.NonNull java.lang.String str, int fromIndex, int endIndex) { throw new RuntimeException("Stub!"); }
 
 public int lastIndexOf(@libcore.util.NonNull java.lang.String str) { throw new RuntimeException("Stub!"); }
 
@@ -158,6 +162,8 @@ public boolean contains(@libcore.util.NonNull java.lang.CharSequence s) { throw 
 public java.lang.@libcore.util.NonNull String @libcore.util.NonNull [] split(@libcore.util.NonNull java.lang.String regex, int limit) { throw new RuntimeException("Stub!"); }
 
 public java.lang.@libcore.util.NonNull String @libcore.util.NonNull [] split(@libcore.util.NonNull java.lang.String regex) { throw new RuntimeException("Stub!"); }
+
+@libcore.util.NonNull public String[] splitWithDelimiters(@libcore.util.NonNull String regex, int limit) { throw new RuntimeException("Stub!"); }
 
 @libcore.util.NonNull public static java.lang.String join(@libcore.util.NonNull java.lang.CharSequence delimiter, java.lang.@libcore.util.NonNull CharSequence @libcore.util.Nullable ... elements) { throw new RuntimeException("Stub!"); }
 
