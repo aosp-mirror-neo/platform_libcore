@@ -31,6 +31,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -792,6 +794,14 @@ public class ArraysTest {
         return array;
     }
 
+    private byte[] byteTestArray(int size, int seed) {
+        byte[] array = new byte[size];
+        if (size > 0) {
+            new Random(seed).nextBytes(array);
+        }
+        return array;
+    }
+
     @Test
     public void testEqualsBooleanRange() {
         boolean[] a = {true, false, true};
@@ -830,6 +840,69 @@ public class ArraysTest {
         for (int i = 0; i < 16; i++) {
             assertTrue(Arrays.equals(large, i, 100, large2, i, 100));
         }
+    }
+
+    @Test
+    public void testEqualsByteArray_nulls() {
+        assertTrue(Arrays.equals((byte[]) null, (byte[]) null));
+        assertFalse(Arrays.equals(new byte[0], null));
+        assertFalse(Arrays.equals(null, new byte[0]));
+    }
+
+    @Test
+    public void testEqualsByteArray_empty() {
+        assertTrue(Arrays.equals(new byte[]{}, new byte[]{}));
+    }
+
+    @Test
+    public void testEqualsByteArray_sameInstance() {
+        byte[] a = byteTestArray(32, 42);
+        assertTrue(Arrays.equals(a, a));
+    }
+
+    @Test
+    public void testEqualsByteArray_equalContent() {
+        // Test various sizes to exercise vectorized and tail loops
+        assertTrue(Arrays.equals(byteTestArray(1, 42), byteTestArray(1, 42)));
+        assertTrue(Arrays.equals(byteTestArray(7, 42), byteTestArray(7, 42)));
+        assertTrue(Arrays.equals(byteTestArray(16, 42), byteTestArray(16, 42)));
+        assertTrue(Arrays.equals(byteTestArray(33, 42), byteTestArray(33, 42)));
+        assertTrue(Arrays.equals(byteTestArray(100, 42), byteTestArray(100, 42)));
+    }
+
+    @Test
+    public void testEqualsByteArray_differentLengths() {
+        byte[] a = byteTestArray(32, 42);
+        byte[] b = Arrays.copyOf(a, a.length + 1);
+        byte[] c = Arrays.copyOf(a, a.length - 1);
+
+        assertFalse(Arrays.equals(a, b));
+        assertFalse(Arrays.equals(a, c));
+        assertFalse(Arrays.equals(new byte[0], new byte[1]));
+    }
+
+    @Test
+    public void testEqualsByteArray_mismatchAtStart() {
+        byte[] a = byteTestArray(32, 42);
+        byte[] b = a.clone();
+        b[0] = (byte) (a[0] + 1);
+        assertFalse(Arrays.equals(a, b));
+    }
+
+    @Test
+    public void testEqualsByteArray_mismatchInMiddle() {
+        byte[] a = byteTestArray(32, 42);
+        byte[] b = a.clone();
+        b[15] = (byte) (a[15] + 1);
+        assertFalse(Arrays.equals(a, b));
+    }
+
+    @Test
+    public void testEqualsByteArray_mismatchAtEnd() {
+        byte[] a = byteTestArray(32, 42);
+        byte[] b = a.clone();
+        b[31] = (byte) (a[31] + 1);
+        assertFalse(Arrays.equals(a, b));
     }
 
     @Test
@@ -889,6 +962,28 @@ public class ArraysTest {
         // Test various alignment offsets for vectorized implementations
         for (int i = 0; i < 16; i++) {
             assertTrue(Arrays.equals(large, i, 100, large2, i, 100));
+        }
+    }
+
+    @Test
+    public void testEqualsByte() {
+        // Test zero-length arrays
+        assertTrue(Arrays.equals(new byte[0], new byte[0]));
+        // Test various lengths to cover vectorized loop and tail loop
+        for (int len : IntStream.rangeClosed(1, 65).toArray()) {
+            byte[] a = new byte[len];
+            byte[] b = new byte[len];
+            Arrays.fill(a, (byte) 1);
+            Arrays.fill(b, (byte) 1);
+            assertTrue("Failed equals for length " + len, Arrays.equals(a, b));
+            for (int breakPos = 0; breakPos < len; ++breakPos) {
+
+                b[breakPos] = (byte) 2;
+                String msg = "Failed mismatch when elements at " + breakPos +
+                        " differ for length " + len;
+                assertFalse(msg, Arrays.equals(a, b));
+                b[breakPos] = (byte) 1;
+            }
         }
     }
 
