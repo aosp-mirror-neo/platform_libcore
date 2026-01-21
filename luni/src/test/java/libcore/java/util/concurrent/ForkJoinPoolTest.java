@@ -17,7 +17,9 @@
 package libcore.java.util.concurrent;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -213,5 +215,23 @@ public class ForkJoinPoolTest {
                 /*saturate*/ null,
                 /*keepAliveTime*/ 60,
                 /*unit*/ TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void testSetContextClassLoader() throws InterruptedException, ExecutionException {
+        var pool = ForkJoinPool.commonPool();
+        var cl = pool.getClass().getClassLoader();
+        ForkJoinTask<Class<?>> result = pool.submit(() -> {
+            Thread.currentThread().setContextClassLoader(cl);
+            return Thread.currentThread().getClass();
+        });
+
+        Class<?> threadClass = result.get();
+
+        assertNull(result.getException());
+        assertNotNull(threadClass);
+        assertTrue(threadClass.getName(), Thread.class.isAssignableFrom(threadClass));
+        assertNotEquals(threadClass.getName(), "InnocuousForkJoinWorkerThread",
+                threadClass.getSimpleName());
     }
 }
