@@ -38,6 +38,7 @@ THIS_DIR = Path(__file__).resolve().parent
 LIBCORE_DIR = THIS_DIR.parent.parent.resolve()
 
 AUTOCOMPLETE_TAGS = [
+    'jdk25u/jdk-25.0.1-ga',
     'jdk21u/jdk-21.0.6-ga',
     'jdk17u/jdk-17.0.14-ga',
     'jdk11u/jdk-11.0.26-ga',
