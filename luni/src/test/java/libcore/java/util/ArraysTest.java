@@ -940,4 +940,106 @@ public class ArraysTest {
             assertTrue(Arrays.equals(large, i, 100, large2, i, 100));
         }
     }
+
+    @Test
+    public void testEqualsIntTailHandling() {
+        // Test array lengths 0 to 32 to cover various tail scenarios and small arrays
+        for (int len = 0; len <= 32; len++) {
+            int[] a = new int[len];
+            int[] b = new int[len];
+            Arrays.fill(a, 1);
+            Arrays.fill(b, 1);
+            assertTrue("Length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
+            }
+
+            b[0] = 2;
+            assertFalse("Mismatch 0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch 0 length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[0] = 1;
+
+            b[len - 1] = 2;
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = 1;
+        }
+    }
+
+    @Test
+    public void testEqualsByteTailHandling() {
+        for (int len = 0; len <= 32; len++) {
+            byte[] a = new byte[len];
+            byte[] b = new byte[len];
+            Arrays.fill(a, (byte) 1);
+            Arrays.fill(b, (byte) 1);
+            assertTrue("Length " + len, Arrays.equals(a, b));
+            if (len > 0) {
+                b[len - 1] = (byte) 2;
+                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            }
+        }
+    }
+
+    @Test
+    public void testEqualsShortTailHandling() {
+        for (int len = 0; len <= 32; len++) {
+            short[] a = new short[len];
+            short[] b = new short[len];
+            Arrays.fill(a, (short) 1);
+            Arrays.fill(b, (short) 1);
+            assertTrue("Length " + len, Arrays.equals(a, b));
+            if (len > 0) {
+                b[len - 1] = (short) 2;
+                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            }
+        }
+    }
+
+    @Test
+    public void testEqualsCharTailHandling() {
+        for (int len = 0; len <= 32; len++) {
+            char[] a = new char[len];
+            char[] b = new char[len];
+            Arrays.fill(a, 'a');
+            Arrays.fill(b, 'a');
+            assertTrue("Length " + len, Arrays.equals(a, b));
+            if (len > 0) {
+                b[len - 1] = 'b';
+                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            }
+        }
+    }
+
+    @Test
+    public void testEqualsLongTailHandling() {
+        for (int len = 0; len <= 32; len++) {
+            long[] a = new long[len];
+            long[] b = new long[len];
+            Arrays.fill(a, 1L);
+            Arrays.fill(b, 1L);
+            assertTrue("Length " + len, Arrays.equals(a, b));
+            if (len > 0) {
+                b[len - 1] = 2L;
+                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            }
+        }
+    }
+
+    @Test
+    public void testEqualsBooleanTailHandling() {
+        for (int len = 0; len <= 32; len++) {
+            boolean[] a = new boolean[len];
+            boolean[] b = new boolean[len];
+            Arrays.fill(a, true);
+            Arrays.fill(b, true);
+            assertTrue("Length " + len, Arrays.equals(a, b));
+            if (len > 0) {
+                b[len - 1] = false;
+                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            }
+        }
+    }
 }

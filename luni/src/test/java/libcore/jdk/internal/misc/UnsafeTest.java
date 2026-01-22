@@ -85,6 +85,57 @@ public class UnsafeTest {
         assertEquals(2056, TestFixture.staticIntVar);
     }
 
+    @Test
+    public void testArrayBaseOffsetsForEqualsOptimization() throws Exception {
+        // This test verifies an assumption made in the vectorized implementation of
+        // Arrays.equals for various primitive array types. The implementation contains an
+        // optimization for 32-bit architectures where unaligned memory access is not supported.
+
+        Unsafe unsafe = getUnsafe();
+
+        if (unsafe.addressSize() == 8) {
+            // The optimization is for 32-bit architectures, so this test is only relevant there.
+            // On 64-bit systems, unaligned access is generally supported, and this check is not
+            // needed.
+            return;
+        }
+
+        // The optimization assumes that on 32-bit Android, the base offset for most primitive
+        // arrays is 12. This is because it is a 4-byte aligned address. By reading a single
+        // 4-byte integer, the memory address is advanced to 16, which is an 8-byte aligned
+        // address. This alignment allows the subsequent vectorized loop to perform aligned
+        // 8-byte memory accesses, which is critical for both performance and correctness on
+        // architectures that do not support unaligned access.
+        long expectedOffset12 = 12L;
+
+        class TypeInfo {
+            final Class<?> arrayClass;
+            final String typeName;
+
+            TypeInfo(Class<?> arrayClass, String typeName) {
+                this.arrayClass = arrayClass;
+                this.typeName = typeName;
+            }
+        }
+
+        TypeInfo[] typesToTest = {
+            new TypeInfo(boolean[].class, "boolean"),
+            new TypeInfo(byte[].class, "byte"),
+            new TypeInfo(char[].class, "char"),
+            new TypeInfo(short[].class, "short"),
+            new TypeInfo(int[].class, "int"),
+        };
+
+        for (TypeInfo typeInfo : typesToTest) {
+            long offset = unsafe.arrayBaseOffset(typeInfo.arrayClass);
+            assertEquals(
+                "The base offset for " + typeInfo.typeName + " arrays on 32-bit must be "
+                    + expectedOffset12 + " for the Arrays.equals(" + typeInfo.typeName
+                    + "[], " + typeInfo.typeName + "[]) optimization to work correctly.",
+                expectedOffset12, offset);
+        }
+    }
+
     private static Unsafe getUnsafe() throws Exception {
         Class<?> unsafeClass = Class.forName("jdk.internal.misc.Unsafe");
         Field f = unsafeClass.getDeclaredField("theUnsafe");

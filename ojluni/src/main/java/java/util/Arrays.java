@@ -90,7 +90,12 @@ public final class Arrays {
 
     // BEGIN Android: Set up Unsafe for vectorization.
     private static final Unsafe UNSAFE = Unsafe.getUnsafe();
+    private static final long BOOLEAN_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(boolean[].class);
     private static final long BYTE_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(byte[].class);
+    private static final long CHAR_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(char[].class);
+    private static final long SHORT_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(short[].class);
+    private static final long INT_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(int[].class);
+    private static final long LONG_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(long[].class);
 
     // On arm32 we can't make unaligned memory accesses (using Unsafe or otherwise). If we do,
     // we get SIGBUS with BUS_ADRALN.
@@ -99,7 +104,24 @@ public final class Arrays {
     // Instead, we check if addressSize == 8 (i.e. 64-bit).
     // On all supported 64-bit systems, unaligned access is permitted.
     private static final boolean UNALIGNED_ACCESS = (UNSAFE.addressSize() == 8);
+
+    // For each array type, determine if unaligned access is permitted based on UNALIGNED_ACCESS and
+    // whether the array base offset (which is an offset from an aligned address) is unaligned.
+    private static final int ALIGNMENT_MASK = (Long.BYTES - 1);
+    private static final boolean UNALIGNED_ACCESS_BOOLEAN =
+            UNALIGNED_ACCESS || ((BOOLEAN_ARRAY_BASE_OFFSET & ALIGNMENT_MASK) == 0);
+    private static final boolean UNALIGNED_ACCESS_BYTE =
+            UNALIGNED_ACCESS || ((BYTE_ARRAY_BASE_OFFSET & ALIGNMENT_MASK) == 0);
+    private static final boolean UNALIGNED_ACCESS_CHAR =
+            UNALIGNED_ACCESS || ((CHAR_ARRAY_BASE_OFFSET & ALIGNMENT_MASK) == 0);
+    private static final boolean UNALIGNED_ACCESS_SHORT =
+            UNALIGNED_ACCESS || ((SHORT_ARRAY_BASE_OFFSET & ALIGNMENT_MASK) == 0);
+    private static final boolean UNALIGNED_ACCESS_INT =
+            UNALIGNED_ACCESS || ((INT_ARRAY_BASE_OFFSET & ALIGNMENT_MASK) == 0);
+    private static final boolean UNALIGNED_ACCESS_LONG =
+            UNALIGNED_ACCESS || ((LONG_ARRAY_BASE_OFFSET & ALIGNMENT_MASK) == 0);
     // END Android: Set up Unsafe for vectorization.
+
 
     /*
      * Sorting methods. Note that all public "sort" methods take the
@@ -2436,18 +2458,32 @@ public final class Arrays {
         if (a2.length != length)
             return false;
 
-        // BEGIN Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
-        // TODO(b/362153334) Assess whether it's worth writing intrinsics or not.
+        // BEGIN Android-changed: Vectorized equality check
         // return ArraysSupport.mismatch(a, a2, length) < 0;
-        for (int idx = 0; idx < length; ++idx) {
-            if (a[idx] != a2[idx]) {
+        int i = 0;
+        Unsafe unsafe = UNSAFE;
+        final Class unused = unsafe.getClass(); // Hoist null check
+        // Vectorized loop: long[] is always aligned.
+        final int VECTOR_WIDTH_BYTES = 2 * Long.BYTES;
+        int limit = length - (VECTOR_WIDTH_BYTES / Long.BYTES);
+        for (; i <= limit; i += (VECTOR_WIDTH_BYTES / Long.BYTES)) {
+            long offset = LONG_ARRAY_BASE_OFFSET + (long) i * Long.BYTES;
+            long l1 = unsafe.getLong(a, offset);
+            long l2 = unsafe.getLong(a, offset + Long.BYTES);
+            long l3 = unsafe.getLong(a2, offset);
+            long l4 = unsafe.getLong(a2, offset + Long.BYTES);
+            if (((l1 ^ l3) | (l2 ^ l4)) != 0) {
+                return false;
+            }
+        }
+
+        for (; i < length; i++) {
+            if (a[i] != a2[i]) {
                 return false;
             }
         }
         return true;
-        // END Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
+        // END Android-changed: Vectorized equality check
     }
 
     /**
@@ -2532,18 +2568,53 @@ public final class Arrays {
         if (a2.length != length)
             return false;
 
-        // BEGIN Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
-        // TODO(b/362153334) Assess whether it's worth writing intrinsics or not.
+        // BEGIN Android-changed: Vectorized equality check
         // return ArraysSupport.mismatch(a, a2, length) < 0;
-        for (int idx = 0; idx < length; ++idx) {
-            if (a[idx] != a2[idx]) {
+        Unsafe unsafe = UNSAFE;
+        final Class unused = unsafe.getClass(); // Hoist null check
+        int i = 0;
+        if (!UNALIGNED_ACCESS_INT) {
+            if (length > 0) {
+                // Read the first integer to align subsequent memory reads.
+                if (unsafe.getInt(a, INT_ARRAY_BASE_OFFSET)
+                        != unsafe.getInt(a2, INT_ARRAY_BASE_OFFSET)) {
+                    return false;
+                }
+                i = 1;
+            }
+        }
+
+        // Vectorized loop: compare 16 bytes at a time
+        final int VECTOR_WIDTH_BYTES = 2 * Long.BYTES;
+        int limit = length - (VECTOR_WIDTH_BYTES / Integer.BYTES);
+        for (; i <= limit; i += (VECTOR_WIDTH_BYTES / Integer.BYTES)) {
+            long offset = INT_ARRAY_BASE_OFFSET + (long) i * Integer.BYTES;
+            long l1 = unsafe.getLong(a, offset);
+            long l2 = unsafe.getLong(a, offset + Long.BYTES);
+            long l3 = unsafe.getLong(a2, offset);
+            long l4 = unsafe.getLong(a2, offset + Long.BYTES);
+            if (((l1 ^ l3) | (l2 ^ l4)) != 0) {
                 return false;
             }
         }
+
+        long offset = INT_ARRAY_BASE_OFFSET + (long) i * Integer.BYTES;
+        long endOffset = INT_ARRAY_BASE_OFFSET + (long) (length - 1) * Integer.BYTES;
+        // Tail Loop: Remaining bytes.
+        // Iterating from the start and the end lets us do two comparisons per loop iteration.
+        while (offset <= endOffset) {
+            int i1 = unsafe.getInt(a, offset);
+            int i2 = unsafe.getInt(a, endOffset);
+            int i3 = unsafe.getInt(a2, offset);
+            int i4 = unsafe.getInt(a2, endOffset);
+            if (((i1 ^ i3) | (i2 ^ i4)) != 0) {
+                return false;
+            }
+            offset += Integer.BYTES;
+            endOffset -= Integer.BYTES;
+        }
         return true;
-        // END Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
+        // END Android-changed: Vectorized equality check
     }
 
     /**
@@ -2628,18 +2699,52 @@ public final class Arrays {
         if (a2.length != length)
             return false;
 
-        // BEGIN Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
-        // TODO(b/362153334) Assess whether it's worth writing intrinsics or not.
+        // BEGIN Android-changed: Vectorized equality check
         // return ArraysSupport.mismatch(a, a2, length) < 0;
-        for (int idx = 0; idx < length; ++idx) {
-            if (a[idx] != a2[idx]) {
+        Unsafe unsafe = UNSAFE;
+        final Class unused = unsafe.getClass(); // Hoist null check
+        int i = 0;
+        if (!UNALIGNED_ACCESS_SHORT) {
+            // Round up to 8 byte alignment if necessary.
+            if (length >= Integer.BYTES / Short.BYTES) {
+                // On 32-bit Android, the array base offset is often 12 (4-byte aligned).
+                // We can align to 8 bytes by reading a single int (2 shorts).
+                if (unsafe.getInt(a, SHORT_ARRAY_BASE_OFFSET)
+                        != unsafe.getInt(a2, SHORT_ARRAY_BASE_OFFSET)) {
+                    return false;
+                }
+                i += Integer.BYTES / Short.BYTES;
+            } else {
+                for (; i < length; i++) {
+                    if (a[i] != a2[i]) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+        // Vectorized loop: compare 16 bytes at a time
+        final int VECTOR_WIDTH_BYTES = 2 * Long.BYTES;
+        int limit = length - (VECTOR_WIDTH_BYTES / Short.BYTES);
+        for (; i <= limit; i += (VECTOR_WIDTH_BYTES / Short.BYTES)) {
+            long offset = SHORT_ARRAY_BASE_OFFSET + (long) i * Short.BYTES;
+            long l1 = unsafe.getLong(a, offset);
+            long l2 = unsafe.getLong(a, offset + Long.BYTES);
+            long l3 = unsafe.getLong(a2, offset);
+            long l4 = unsafe.getLong(a2, offset + Long.BYTES);
+            if (((l1 ^ l3) | (l2 ^ l4)) != 0) {
+                return false;
+            }
+        }
+
+        for (; i < length; i++) {
+            if (a[i] != a2[i]) {
                 return false;
             }
         }
         return true;
-        // END Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
+        // END Android-changed: Vectorized equality check
     }
 
     /**
@@ -2725,18 +2830,52 @@ public final class Arrays {
         if (a2.length != length)
             return false;
 
-        // BEGIN Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
-        // TODO(b/362153334) Assess whether it's worth writing intrinsics or not.
+        // BEGIN Android-changed: Vectorized equality check
         // return ArraysSupport.mismatch(a, a2, length) < 0;
-        for (int idx = 0; idx < length; ++idx) {
-            if (a[idx] != a2[idx]) {
+        Unsafe unsafe = UNSAFE;
+        final Class unused = unsafe.getClass(); // Hoist null check
+        int i = 0;
+        if (!UNALIGNED_ACCESS_CHAR) {
+            // Round up to 8 byte alignment if necessary.
+            if (length >= Integer.BYTES / Character.BYTES) {
+                // On 32-bit Android, the array base offset is often 12 (4-byte aligned).
+                // We can align to 8 bytes by reading a single int (2 chars).
+                if (unsafe.getInt(a, CHAR_ARRAY_BASE_OFFSET) !=
+                        unsafe.getInt(a2, CHAR_ARRAY_BASE_OFFSET)) {
+                    return false;
+                }
+                i += Integer.BYTES / Character.BYTES;
+            } else {
+                for (; i < length; i++) {
+                    if (a[i] != a2[i]) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+        // Vectorized loop: compare 16 bytes at a time
+        final int VECTOR_WIDTH_BYTES = 2 * Long.BYTES;
+        int limit = length - (VECTOR_WIDTH_BYTES / Character.BYTES);
+        for (; i <= limit; i += (VECTOR_WIDTH_BYTES / Character.BYTES)) {
+            long offset = CHAR_ARRAY_BASE_OFFSET + (long) i * Character.BYTES;
+            long l1 = unsafe.getLong(a, offset);
+            long l2 = unsafe.getLong(a, offset + Long.BYTES);
+            long l3 = unsafe.getLong(a2, offset);
+            long l4 = unsafe.getLong(a2, offset + Long.BYTES);
+            if (((l1 ^ l3) | (l2 ^ l4)) != 0) {
+                return false;
+            }
+        }
+
+        for (; i < length; i++) {
+            if (a[i] != a2[i]) {
                 return false;
             }
         }
         return true;
-        // END Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
+        // END Android-changed: Vectorized equality check
     }
 
     /**
@@ -2828,7 +2967,7 @@ public final class Arrays {
         final Class unused = unsafe.getClass(); // Hoist null check
         int i = 0;
 
-        if (!UNALIGNED_ACCESS) {
+        if (!UNALIGNED_ACCESS_BYTE) {
             // Round up to 8 byte alignment if necessary.
             if (length >= 4) {
                 // On 32-bit Android, the array base offset is often 12 (4-byte aligned).
@@ -2848,7 +2987,7 @@ public final class Arrays {
             }
         }
 
-        // 1. Vectorized loop: compare 16 bytes at a time
+        // Vectorized loop: compare 16 bytes at a time
         final int VECTOR_WIDTH_BYTES = 2 * Long.BYTES;
         int limit = length - VECTOR_WIDTH_BYTES;
         for (; i <= limit; i += VECTOR_WIDTH_BYTES) {
@@ -2963,18 +3102,52 @@ public final class Arrays {
         if (a2.length != length)
             return false;
 
-        // BEGIN Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
-        // TODO(b/362153334) Assess whether it's worth writing intrinsics or not.
+        // BEGIN Android-changed: Vectorized equality check
         // return ArraysSupport.mismatch(a, a2, length) < 0;
-        for (int idx = 0; idx < length; ++idx) {
-            if (a[idx] != a2[idx]) {
+        Unsafe unsafe = UNSAFE;
+        final Class unused = unsafe.getClass(); // Hoist null check
+        int i = 0;
+        if (!UNALIGNED_ACCESS_BOOLEAN) {
+            // Round up to 8 byte alignment if necessary.
+            if (length >= 4) {
+                // On 32-bit Android, the array base offset is often 12 (4-byte aligned).
+                // We can align to 8 bytes by reading a single int (4 booleans).
+                if (unsafe.getInt(a, BOOLEAN_ARRAY_BASE_OFFSET)
+                        != unsafe.getInt(a2, BOOLEAN_ARRAY_BASE_OFFSET)) {
+                    return false;
+                }
+                i += Integer.BYTES;
+            } else {
+                for (; i < length; i++) {
+                    if (a[i] != a2[i]) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+        // Vectorized loop: compare 16 bytes at a time
+        final int VECTOR_WIDTH_BYTES = 2 * Long.BYTES;
+        int limit = length - VECTOR_WIDTH_BYTES;
+        for (; i <= limit; i += VECTOR_WIDTH_BYTES) {
+            long offset = BOOLEAN_ARRAY_BASE_OFFSET + i;
+            long l1 = unsafe.getLong(a, offset);
+            long l2 = unsafe.getLong(a, offset + Long.BYTES);
+            long l3 = unsafe.getLong(a2, offset);
+            long l4 = unsafe.getLong(a2, offset + Long.BYTES);
+            if (((l1 ^ l3) | (l2 ^ l4)) != 0) {
+                return false;
+            }
+        }
+
+        for (; i < length; i++) {
+            if (a[i] != a2[i]) {
                 return false;
             }
         }
         return true;
-        // END Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
+        // END Android-changed: Vectorized equality check
     }
 
     /**
