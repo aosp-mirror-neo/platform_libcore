@@ -812,7 +812,7 @@ public final class VMRuntime {
      * set via java's Thread API, or via {@code setThreadNiceness()} below. Does not reflect
      * values set directly using Posix calls in JNI code or by another process.
      *
-     * @param t the threaad being queried
+     * @param t the thread being queried
      * @return Linux niceness value for t
      *
      * @hide
