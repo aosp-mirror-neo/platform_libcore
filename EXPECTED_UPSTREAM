@@ -1981,6 +1981,7 @@ ojluni/src/test/java/io/Writer/Append.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/io
 ojluni/src/test/java/io/Writer/NullWriter.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/io/Writer/NullWriter.java
 ojluni/src/test/java/lang/AbstractCompressExpandTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/AbstractCompressExpandTest.java
 ojluni/src/test/java/lang/CharSequence/Emptiness.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/CharSequence/Emptiness.java
+ojluni/src/test/java/lang/CharSequence/GetChars.java,jdk25u/jdk-25.0.1-ga,test/jdk/java/lang/CharSequence/GetChars.java
 ojluni/src/test/java/lang/Character/CharacterName.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/Character/CharacterName.java
 ojluni/src/test/java/lang/Character/Supplementary.java,jdk17u/jdk-17.0.14-ga,test/jdk/java/lang/Character/Supplementary.java
 ojluni/src/test/java/lang/Character/UnicodeBlock/CheckBlocks.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/Character/UnicodeBlock/CheckBlocks.java
@@ -2065,6 +2066,8 @@ ojluni/src/test/java/lang/StringBuilder/CompactStringBuilder.java,jdk17u/jdk-17.
 ojluni/src/test/java/lang/StringBuilder/Comparison.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/StringBuilder/Comparison.java
 ojluni/src/test/java/lang/StringBuilder/EnsureCapacity.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/StringBuilder/EnsureCapacity.java
 ojluni/src/test/java/lang/StringBuilder/Insert.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/StringBuilder/Insert.java
+ojluni/src/test/java/lang/StringBuilder/StringBufferRepeat.java,jdk25u/jdk-25.0.1-ga,test/jdk/java/lang/StringBuilder/StringBufferRepeat.java
+ojluni/src/test/java/lang/StringBuilder/StringBuilderRepeat.java,jdk25u/jdk-25.0.1-ga,test/jdk/java/lang/StringBuilder/StringBuilderRepeat.java
 ojluni/src/test/java/lang/StringBuilder/Supplementary.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/StringBuilder/Supplementary.java
 ojluni/src/test/java/lang/UCDFiles.java,jdk21u/jdk-21.0.6-ga,test/jdk/lib/testlibrary/java/lang/UCDFiles.java
 ojluni/src/test/java/lang/constant/ConvertTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/constant/ConvertTest.java
@@ -2199,6 +2202,7 @@ ojluni/src/test/java/nio/Buffer/Chars.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/ni
 ojluni/src/test/java/nio/Buffer/Chew.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/nio/Buffer/Chew.java
 ojluni/src/test/java/nio/Buffer/CopyDirect-X-Memory.java.template,jdk21u/jdk-21.0.6-ga,test/jdk/java/nio/Buffer/CopyDirect-X-Memory.java.template
 ojluni/src/test/java/nio/Buffer/EqualsCompareTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/nio/Buffer/EqualsCompareTest.java
+ojluni/src/test/java/nio/Buffer/GetChars.java,jdk25u/jdk-25.0.1-ga,test/jdk/java/nio/Buffer/GetChars.java
 ojluni/src/test/java/nio/Buffer/Order-X.java.template,jdk21u/jdk-21.0.6-ga,test/jdk/java/nio/Buffer/Order-X.java.template
 ojluni/src/test/java/nio/Buffer/Order.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/nio/Buffer/Order.java
 ojluni/src/test/java/nio/Buffer/StringCharBufferSliceTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/nio/Buffer/StringCharBufferSliceTest.java
