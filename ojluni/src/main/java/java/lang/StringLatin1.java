@@ -51,6 +51,10 @@ final class StringLatin1 {
         return cp >>> 8 == 0;
     }
 
+    public static byte coderFromChar(char cp) {
+        return (byte)((0xff - cp) >>> (Integer.SIZE - 1));
+    }
+
     public static int length(byte[] value) {
         return value.length;
     }

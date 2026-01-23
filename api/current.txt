@@ -2522,6 +2522,7 @@ package java.lang {
     method @NonNull public default java.util.stream.IntStream chars();
     method @NonNull public default java.util.stream.IntStream codePoints();
     method public static int compare(@NonNull CharSequence, @NonNull CharSequence);
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public default void getChars(int, int, @NonNull char[], int);
     method public default boolean isEmpty();
     method public int length();
     method @NonNull public CharSequence subSequence(int, int);
@@ -4393,7 +4394,6 @@ package java.lang {
     method @NonNull public StringBuffer delete(int, int);
     method @NonNull public StringBuffer deleteCharAt(int);
     method public void ensureCapacity(int);
-    method public void getChars(int, int, char[], int);
     method public int indexOf(@NonNull String);
     method public int indexOf(@NonNull String, int);
     method @NonNull public StringBuffer insert(int, char[], int, int);
@@ -4412,6 +4412,8 @@ package java.lang {
     method public int lastIndexOf(@NonNull String, int);
     method public int length();
     method public int offsetByCodePoints(int, int);
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") @NonNull public StringBuffer repeat(int, int);
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") @NonNull public StringBuffer repeat(@NonNull CharSequence, int);
     method @NonNull public StringBuffer replace(int, int, @NonNull String);
     method @NonNull public StringBuffer reverse();
     method public void setCharAt(int, char);
@@ -4472,6 +4474,8 @@ package java.lang {
     method public int lastIndexOf(@NonNull String, int);
     method public int length();
     method public int offsetByCodePoints(int, int);
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") @NonNull public StringBuilder repeat(int, int);
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") @NonNull public StringBuilder repeat(@NonNull CharSequence, int);
     method @NonNull public StringBuilder replace(int, int, @NonNull String);
     method @NonNull public StringBuilder reverse();
     method public void setCharAt(int, char);
@@ -6606,6 +6610,7 @@ package java.nio {
     method public java.nio.CharBuffer get(char[]);
     method public java.nio.CharBuffer get(int, char[], int, int);
     method public java.nio.CharBuffer get(int, char[]);
+    method @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public void getChars(int, int, @NonNull char[], int);
     method public final boolean hasArray();
     method public final boolean isEmpty();
     method public final int length();

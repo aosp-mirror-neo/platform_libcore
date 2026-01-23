@@ -30,8 +30,10 @@ import dalvik.annotation.optimization.NeverInline;
 import jdk.internal.math.DoubleToDecimal;
 import jdk.internal.math.FloatToDecimal;
 import jdk.internal.math.FloatingDecimal;
+import jdk.internal.util.ArraysSupport;
 
 import java.io.IOException;
+import java.nio.CharBuffer;
 import java.util.Arrays;
 import java.util.Spliterator;
 import java.util.stream.IntStream;
@@ -145,6 +147,123 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
     public int capacity() {
         return value.length >> coder;
     }
+
+    /**
+     * {@return true if the byte array should be replaced due to increased capacity or coder change}
+     * <ul>
+     *     <li>The new coder is different than the old coder
+     *     <li>The new length is greater than to the current length
+     *     <li>The new length is negative, as it might have overflowed due to an increment
+     * </ul>
+     *
+     * @param value       a byte array
+     * @param coder       old coder
+     * @param newCapacity new capacity in characters
+     * @param newCoder    new coder
+     */
+    private static boolean needsNewBuffer(byte[] value, byte coder, int newCapacity, byte newCoder) {
+        long newLength = (long) newCapacity << newCoder;
+        return coder != newCoder || newLength > value.length || 0 > newLength;
+    }
+
+    /**
+     * {@return the value, with the requested coder, in a buffer with at least the minimum capacity}
+     * If the coder matches and there is enough room, the same buffer is returned.
+     * Otherwise, a new buffer is allocated and the string is copied or inflated to match the new coder.
+     * For positive values of {@code minimumCapacity}, this method
+     * behaves like the public {@linkplain #ensureCapacity}, however it is never synchronized.
+     * If {@code minimumCapacity} is non-positive due to numeric
+     * overflow, this method throws {@code OutOfMemoryError}.
+     * @param value the current buffer
+     * @param coder of the current buffer
+     * @param count the count of chars in the current buffer
+     * @param minimumCapacity the new minimum capacity
+     * @param newCoder the desired new coder
+     */
+    private static byte[] ensureCapacityNewCoder(byte[] value, byte coder, int count,
+            int minimumCapacity, byte newCoder) {
+        assert coder == newCoder || newCoder == CODER_UTF16 : "bad new coder UTF16 -> LATIN1";
+        // overflow-conscious code
+        // Compute the new larger size if growth is requested, otherwise keep the capacity the same
+        int oldCapacity = value.length >> coder;
+        int growth = minimumCapacity - oldCapacity;
+        int newCapacity = (growth <= 0)
+                ? oldCapacity               // Do not reduce capacity even if requested
+                : newCapacity(value, newCoder, minimumCapacity);
+        assert count <= newCapacity : "count exceeds new capacity";
+
+        if (coder == newCoder) {
+            if (newCapacity > oldCapacity) {
+                // copy all bytes to new larger buffer
+                value = Arrays.copyOf(value, newCapacity << newCoder);
+            }
+            return value;
+        } else {
+            // inflate (and grow if additional length is requested)
+            byte[] newValue = StringUTF16.newBytesFor(newCapacity);
+            StringLatin1.inflate(value, 0, newValue, 0, count);
+            return newValue;
+        }
+    }
+
+    /**
+     * {@return the value buffer sufficient to hold the minimumCapactity and a copy of the contents}
+     * There is no change to the coder.
+     * The current value buffer is returned if the size is already sufficient.
+     * For positive values of {@code minimumCapacity}, this method
+     * behaves like {@code ensureCapacity}, however it is never synchronized.
+     * If {@code minimumCapacity} is non-positive due to numeric
+     * overflow, this method throws {@code OutOfMemoryError}.
+     * @param value the current buffer
+     * @param coder of the current buffer
+     * @param minimumCapacity the new minimum capacity
+     */
+    private static byte[] ensureCapacitySameCoder(byte[] value, byte coder, int minimumCapacity) {
+        // overflow-conscious code
+        int oldCapacity = value.length >> coder;
+        if (minimumCapacity - oldCapacity > 0) {
+            value = Arrays.copyOf(value,
+                    newCapacity(value, coder, minimumCapacity) << coder);
+        }
+        return value;
+    }
+
+    /**
+     * Inflates the internal 8-bit latin1 storage to 16-bit <hi=0, low> pair storage.
+     * @param value the current byte array buffer
+     * @param count the number of latin1 characters to convert to UTF16
+     * @return the new buffer, the caller is responsible for updates to the coder
+     */
+    private static byte[] inflateToUTF16(byte[] value, int count) {
+        assert count <= value.length : "count > value.length";
+        byte[] newValue = StringUTF16.newBytesFor(value.length);
+        StringLatin1.inflate(value, 0, newValue, 0, count);
+        return newValue;
+    }
+
+    /**
+     * Returns a capacity at least as large as the given minimum capacity.
+     * Returns the current capacity increased by the current length + 2 if that suffices.
+     * Will not return a capacity greater than {@code (SOFT_MAX_ARRAY_LENGTH >> coder)}
+     * unless the given minimum capacity is greater than that.
+     *
+     * @param value the current buffer
+     * @param coder of the current buffer
+     * @param  minCapacity the desired minimum capacity
+     * @throws OutOfMemoryError if minCapacity is less than zero or
+     *         greater than (Integer.MAX_VALUE >> coder)
+     */
+    private static int newCapacity(byte[] value, byte coder, int minCapacity) {
+        int oldLength = value.length;
+        int newLength = minCapacity << coder;
+        int growth = newLength - oldLength;
+        int length = ArraysSupport.newLength(oldLength, growth, oldLength + (2 << coder));
+        if (length == Integer.MAX_VALUE) {
+            throw new OutOfMemoryError("Required length exceeds implementation limit");
+        }
+        return length >> coder;
+    }
+
 
     /**
      * Ensures that the capacity is at least equal to the specified minimum.
@@ -442,33 +561,9 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
     }
 
     /**
-     * Characters are copied from this sequence into the
-     * destination character array {@code dst}. The first character to
-     * be copied is at index {@code srcBegin}; the last character to
-     * be copied is at index {@code srcEnd-1}. The total number of
-     * characters to be copied is {@code srcEnd-srcBegin}. The
-     * characters are copied into the subarray of {@code dst} starting
-     * at index {@code dstBegin} and ending at index:
-     * <pre>{@code
-     * dstbegin + (srcEnd-srcBegin) - 1
-     * }</pre>
-     *
-     * @param      srcBegin   start copying at this offset.
-     * @param      srcEnd     stop copying at this offset.
-     * @param      dst        the array to copy the data into.
-     * @param      dstBegin   offset into {@code dst}.
-     * @throws     IndexOutOfBoundsException  if any of the following is true:
-     *             <ul>
-     *             <li>{@code srcBegin} is negative
-     *             <li>{@code dstBegin} is negative
-     *             <li>the {@code srcBegin} argument is greater than
-     *             the {@code srcEnd} argument.
-     *             <li>{@code srcEnd} is greater than
-     *             {@code this.length()}.
-     *             <li>{@code dstBegin+srcEnd-srcBegin} is greater than
-     *             {@code dst.length}
-     *             </ul>
+     * {@inheritDoc CharSequence}
      */
+    @Override
     public void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin)
     {
         checkRangeSIOOBE(srcBegin, srcEnd, count);  // compatible to old version
@@ -1617,7 +1712,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
      * @param dstBegin  the char index, not offset of byte[]
      * @param coder     the coder of dst[]
      */
-    void getBytes(byte dst[], int dstBegin, byte coder) {
+    void getBytes(byte[] dst, int dstBegin, byte coder) {
         if (this.coder == coder) {
             System.arraycopy(value, 0, dst, dstBegin << coder, count << coder);
         } else {        // this.coder == LATIN && coder == UTF16
@@ -1647,6 +1742,10 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
     }
 
     final boolean isLatin1() {
+        return COMPACT_STRINGS && coder == CODER_LATIN1;
+    }
+
+    private static boolean isLatin1(byte coder) {
         return COMPACT_STRINGS && coder == CODER_LATIN1;
     }
 
@@ -1750,5 +1849,174 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
             throw new StringIndexOutOfBoundsException(
                 "start " + start + ", end " + end + ", length " + len);
         }
+    }
+
+    /**
+     * {@return buffer with new characters appended, possibly inflated}
+     * The value buffer capacity must be large enough to hold the additional (end - off) characters
+     * (assuming they are all latin1).
+     * The buffer will be inflated if any character is UTF16 and the buffer is latin1.
+     * If the returned buffer is different then passed in, the new coder is UTF16.
+     * The caller is responsible for updating the count.
+     * @param value the current buffer
+     * @param coder the coder of the buffer
+     * @param count the character count
+     * @param s CharSequence to append characters from
+     * @param off the offset of the first character to append
+     * @param end end last (exclusive) character to append
+     */
+    private static byte[] appendChars(byte[] value, byte coder, int count, CharSequence s, int off, int end) {
+        if (isLatin1(coder)) {
+            for (int i = off, j = count; i < end; i++) {
+                char c = s.charAt(i);
+                if (StringLatin1.canEncode(c)) {
+                    value[j++] = (byte)c;
+                } else {
+                    value = inflateToUTF16(value, j);
+                    // Store c to make sure sb has a UTF16 char
+                    StringUTF16.putCharSB(value, j++, c);
+                    i++;
+                    StringUTF16.putCharsSB(value, j, s, i, end);
+                    return value;
+                }
+            }
+        } else {
+            StringUTF16.putCharsSB(value, count, s, off, end);
+        }
+        return value;
+    }
+
+    private AbstractStringBuilder repeat(char c, int count) {
+        byte coder = this.coder;
+        int prevCount = this.count;
+        int limit = prevCount + count;
+        byte[] value = this.value;
+        byte newCoder = (byte) (coder | StringLatin1.coderFromChar(c));
+        if (needsNewBuffer(value, coder, limit, newCoder)) {
+            this.value = value = ensureCapacityNewCoder(value, coder, prevCount, limit, newCoder);
+            this.coder = coder = newCoder;
+        }
+        if (isLatin1(coder)) {
+            Arrays.fill(value, prevCount, limit, (byte)c);
+        } else {
+            for (int index = prevCount; index < limit; index++) {
+                StringUTF16.putCharSB(value, index, c);
+            }
+        }
+        this.count = limit;
+        return this;
+    }
+
+    /**
+     * Repeats {@code count} copies of the string representation of the
+     * {@code codePoint} argument to this sequence.
+     * <p>
+     * The length of this sequence increases by {@code count} times the
+     * string representation length.
+     * <p>
+     * It is usual to use {@code char} expressions for code points. For example:
+     * {@snippet lang="java":
+     * // insert 10 asterisks into the buffer
+     * sb.repeat('*', 10);
+     * }
+     *
+     * @param codePoint  code point to append
+     * @param count      number of times to copy
+     *
+     * @return  a reference to this object.
+     *
+     * @throws IllegalArgumentException if the specified {@code codePoint}
+     * is not a valid Unicode code point or if {@code count} is negative.
+     *
+     * @since 21
+     */
+    public AbstractStringBuilder repeat(int codePoint, int count) {
+        if (count < 0) {
+            throw new IllegalArgumentException("count is negative: " + count);
+        } else if (count == 0) {
+            return this;
+        }
+        if (Character.isBmpCodePoint(codePoint)) {
+            repeat((char)codePoint, count);
+        } else {
+            repeat(CharBuffer.wrap(Character.toChars(codePoint)), count);
+        }
+        return this;
+    }
+
+    /**
+     * Appends {@code count} copies of the specified {@code CharSequence} {@code cs}
+     * to this sequence.
+     * <p>
+     * The length of this sequence increases by {@code count} times the
+     * {@code CharSequence} length.
+     * <p>
+     * If {@code cs} is {@code null}, then the four characters
+     * {@code "null"} are repeated into this sequence.
+     * <p>
+     * The contents are unspecified if the {@code CharSequence}
+     * is modified during the method call or an exception is thrown
+     * when accessing the {@code CharSequence}.
+     *
+     * @param cs     a {@code CharSequence}
+     * @param count  number of times to copy
+     *
+     * @return  a reference to this object.
+     *
+     * @throws IllegalArgumentException  if {@code count} is negative
+     *
+     * @since 21
+     */
+    public AbstractStringBuilder repeat(CharSequence cs, int count) {
+        if (count < 0) {
+            throw new IllegalArgumentException("count is negative: " + count);
+        } else if (count == 0) {
+            return this;
+        } else if (count == 1) {
+            return append(cs);
+        }
+        if (cs == null) {
+            cs = "null";
+        }
+        int length = cs.length();
+        if (length == 0) {
+            return this;
+        } else if (length == 1) {
+            return repeat(cs.charAt(0), count);
+        }
+        byte coder = this.coder;
+        int offset = this.count;
+        byte[] value = this.value;
+        int valueLength = length << coder;
+        if ((Integer.MAX_VALUE - offset) / count < valueLength) {
+            throw new OutOfMemoryError("Required length exceeds implementation limit");
+        }
+        int total = count * length;
+        int limit = offset + total;
+        if (cs instanceof String str) {
+            byte newCoder = (byte)(coder | str.coder());
+            if (needsNewBuffer(value, coder, limit, newCoder)) {
+                this.value = value = ensureCapacityNewCoder(value, coder, offset, limit, newCoder);
+                this.coder = coder = newCoder;
+            }
+            str.fillBytes(value, offset, newCoder);
+        } else if (cs instanceof AbstractStringBuilder asb) {
+            byte newCoder = (byte)(coder | asb.coder);
+            if (needsNewBuffer(value, coder, limit, newCoder)) {
+                this.value = value = ensureCapacityNewCoder(value, coder, offset, limit, newCoder);
+                this.coder = coder = newCoder;
+            }
+            asb.getBytes(value, offset, newCoder);
+        } else {
+            byte[] currValue = ensureCapacitySameCoder(value, coder, limit);
+            value = appendChars(currValue, coder, offset, cs, 0, length);
+            if (currValue != value) {
+                this.coder = coder = CODER_UTF16;
+            }
+            this.value = value;
+        }
+        String.repeatCopyRest(value, offset << coder, total << coder, length << coder);
+        this.count = limit;
+        return this;
     }
 }

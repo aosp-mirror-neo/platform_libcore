@@ -2179,6 +2179,58 @@ public abstract class DoubleBuffer
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // -- Other byte stuff: Access to binary data --
 
 
@@ -2196,6 +2248,15 @@ public abstract class DoubleBuffer
      * @return  This buffer's byte order
      */
     public abstract ByteOrder order();
+
+
+
+
+
+
+
+
+
 
 
 
