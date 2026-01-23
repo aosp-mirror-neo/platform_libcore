@@ -55,6 +55,7 @@ import java.util.function.LongUnaryOperator;
 public class AtomicLong extends Number implements java.io.Serializable {
     private static final long serialVersionUID = 1927816293512124184L;
 
+    // BEGIN Android-added: VMSupportsCS8
     /**
      * Records whether the underlying JVM supports lockless
      * compareAndSet for longs. While the intrinsic compareAndSetLong
@@ -68,6 +69,7 @@ public class AtomicLong extends Number implements java.io.Serializable {
      * for longs. Called only once and cached in VM_SUPPORTS_LONG_CAS.
      */
     private static native boolean VMSupportsCS8();
+    // END Android-added: VMSupportsCS8
 
     /*
      * This class intended to be implemented using VarHandles, but there
@@ -88,6 +90,7 @@ public class AtomicLong extends Number implements java.io.Serializable {
     }
     // END Android-changed: Using VarHandle instead of Unsafe
 
+    /** @serial */
     private volatile long value;
 
     /**
@@ -390,8 +393,7 @@ public class AtomicLong extends Number implements java.io.Serializable {
     }
 
     /**
-     * Returns the String representation of the current value.
-     * @return the String representation of the current value
+     * {@return the String representation of the current value}
      */
     public String toString() {
         return Long.toString(get());
