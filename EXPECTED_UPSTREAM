@@ -2040,6 +2040,7 @@ ojluni/src/test/java/lang/StackWalker/StackWalkTest.java,jdk17u/jdk-17.0.14-ga,t
 # ojluni/src/test/java/lang/StackWalker/TestBCI.java,jdk17u/jdk-17.0.14-ga,test/jdk/java/lang/StackWalker/TestBCI.java
 ojluni/src/test/java/lang/StackWalker/VerifyStackTrace.java,jdk17u/jdk-17.0.14-ga,test/jdk/java/lang/StackWalker/VerifyStackTrace.java
 ojluni/src/test/java/lang/StackWalker/WalkFunction.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/StackWalker/WalkFunction.java
+ojluni/src/test/java/lang/String/IndexOfBeginEnd.java,jdk25u/jdk-25.0.1-ga,test/jdk/java/lang/String/IndexOfBeginEnd.java
 ojluni/src/test/java/lang/String/Transform.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/String/Transform.java
 ojluni/src/test/java/lang/StringBuffer/AppendCharSequence.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/StringBuffer/AppendCharSequence.java
 ojluni/src/test/java/lang/StringBuffer/AppendSB.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/StringBuffer/AppendSB.java
@@ -2709,6 +2710,7 @@ ojluni/src/test/java/util/regex/POSIX_ASCII.java,jdk21u/jdk-21.0.6-ga,test/jdk/j
 ojluni/src/test/java/util/regex/POSIX_Unicode.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/regex/POSIX_Unicode.java
 ojluni/src/test/java/util/regex/PatternStreamTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/regex/PatternStreamTest.java
 ojluni/src/test/java/util/regex/RegExTest.java,jdk17u/jdk-17.0.14-ga,test/jdk/java/util/regex/RegExTest.java
+ojluni/src/test/java/util/regex/SplitWithDelimitersTest.java,jdk25u/jdk-25.0.1-ga,test/jdk/java/util/regex/SplitWithDelimitersTest.java
 ojluni/src/test/java/util/regex/SupplementaryTestCases.txt,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/regex/SupplementaryTestCases.txt
 ojluni/src/test/java/util/regex/TestCases.txt,jdk21u/jdk-21.0.6-ga,test/jdk/java/util/regex/TestCases.txt
 ojluni/src/test/java/util/stream/GathererAPITest.java,jdk/jdk-25+25,test/jdk/java/util/stream/GathererAPITest.java
