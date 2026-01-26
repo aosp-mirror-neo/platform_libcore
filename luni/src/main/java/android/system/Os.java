@@ -393,13 +393,13 @@ public final class Os {
     public static InetAddress ioctlInetAddress(FileDescriptor fd, int cmd, String interfaceName) throws ErrnoException { return Libcore.os.ioctlInetAddress(fd, cmd, interfaceName); }
 
     /**
-     * See <a href="https://man7.org/linux/man-pages/man2/ioctl.2.html">ioctl(3)</a>.
+     * See <a href="https://man7.org/linux/man-pages/man2/ioctl.2.html">ioctl(2)</a>.
      * System call manipulates the underlying device parameters of special files. In particular,
      * many operating characteristics of character special files.
      *
      * @param fd    an open file descriptor
      * @param cmd   encoded in it whether the argument is an "in" parameter or "out" parameter
-     * @return      the value written to the {@code int} argument of the ioctl(3). This is
+     * @return      the value written to the {@code int} argument of the ioctl(2). This is
      *              different from {@link #ioctlRet}, which returns the ioctl system call
      *              return value.
      * @throws ErrnoException A checked exception thrown when {@link Os} methods fail.
@@ -412,7 +412,7 @@ public final class Os {
     }
 
     /**
-     * See <a href="https://man7.org/linux/man-pages/man2/ioctl.2.html">ioctl(3)</a>.
+     * See <a href="https://man7.org/linux/man-pages/man2/ioctl.2.html">ioctl(2)</a>.
      * System call manipulates the underlying device parameters of special files. In particular,
      * many operating characteristics of character special files.
      *

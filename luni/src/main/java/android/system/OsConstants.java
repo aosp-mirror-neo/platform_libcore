@@ -164,6 +164,9 @@ public final class OsConstants {
     public static final int AI_V4MAPPED = OsConstantsHolder.AI_V4MAPPED;
     public static final int ARPHRD_ETHER;
 
+    /**
+     * Gets the protection mask for an ashmem region.
+     */
     @android.annotation.FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support")
     public static final int ASHMEM_GET_PROT_MASK;
 
@@ -358,10 +361,23 @@ public final class OsConstants {
     public static final int F_GETFD;
     public static final int F_GETFL;
 
+    /**
+     * Get the seals set on the file.
+     *
+     * <p>See <a href="https://man7.org/linux/man-pages/man2/fcntl.2.html">fcntl(2)</a>.
+     */
     @android.annotation.FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support")
     public static final int F_GET_SEALS;
+
+    /**
+     * Seal the file to prevent further write operations.
+     */
     @android.annotation.FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support")
     public static final int F_SEAL_WRITE;
+
+    /**
+     * Seal the file to prevent future write operations.
+     */
     @android.annotation.FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support")
     public static final int F_SEAL_FUTURE_WRITE;
 
