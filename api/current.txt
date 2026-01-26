@@ -2770,6 +2770,7 @@ package java.lang {
     field public static final java.lang.Character.UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_F;
     field public static final java.lang.Character.UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_G;
     field public static final java.lang.Character.UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_H;
+    field @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_I;
     field public static final java.lang.Character.UnicodeBlock COMBINING_DIACRITICAL_MARKS;
     field public static final java.lang.Character.UnicodeBlock COMBINING_DIACRITICAL_MARKS_EXTENDED;
     field public static final java.lang.Character.UnicodeBlock COMBINING_DIACRITICAL_MARKS_SUPPLEMENT;
@@ -2802,6 +2803,7 @@ package java.lang {
     field public static final java.lang.Character.UnicodeBlock DUPLOYAN;
     field public static final java.lang.Character.UnicodeBlock EARLY_DYNASTIC_CUNEIFORM;
     field public static final java.lang.Character.UnicodeBlock EGYPTIAN_HIEROGLYPHS;
+    field @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeBlock EGYPTIAN_HIEROGLYPHS_EXTENDED_A;
     field public static final java.lang.Character.UnicodeBlock EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS;
     field public static final java.lang.Character.UnicodeBlock ELBASAN;
     field public static final java.lang.Character.UnicodeBlock ELYMAIC;
@@ -2815,6 +2817,7 @@ package java.lang {
     field public static final java.lang.Character.UnicodeBlock ETHIOPIC_EXTENDED_A;
     field public static final java.lang.Character.UnicodeBlock ETHIOPIC_EXTENDED_B;
     field public static final java.lang.Character.UnicodeBlock ETHIOPIC_SUPPLEMENT;
+    field @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeBlock GARAY;
     field public static final java.lang.Character.UnicodeBlock GENERAL_PUNCTUATION;
     field public static final java.lang.Character.UnicodeBlock GEOMETRIC_SHAPES;
     field public static final java.lang.Character.UnicodeBlock GEOMETRIC_SHAPES_EXTENDED;
@@ -2830,6 +2833,7 @@ package java.lang {
     field public static final java.lang.Character.UnicodeBlock GUJARATI;
     field public static final java.lang.Character.UnicodeBlock GUNJALA_GONDI;
     field public static final java.lang.Character.UnicodeBlock GURMUKHI;
+    field @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeBlock GURUNG_KHEMA;
     field public static final java.lang.Character.UnicodeBlock HALFWIDTH_AND_FULLWIDTH_FORMS;
     field public static final java.lang.Character.UnicodeBlock HANGUL_COMPATIBILITY_JAMO;
     field public static final java.lang.Character.UnicodeBlock HANGUL_JAMO;
@@ -2869,6 +2873,7 @@ package java.lang {
     field public static final java.lang.Character.UnicodeBlock KHMER_SYMBOLS;
     field public static final java.lang.Character.UnicodeBlock KHOJKI;
     field public static final java.lang.Character.UnicodeBlock KHUDAWADI;
+    field @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeBlock KIRAT_RAI;
     field public static final java.lang.Character.UnicodeBlock LAO;
     field public static final java.lang.Character.UnicodeBlock LATIN_1_SUPPLEMENT;
     field public static final java.lang.Character.UnicodeBlock LATIN_EXTENDED_A;
@@ -2924,6 +2929,7 @@ package java.lang {
     field public static final java.lang.Character.UnicodeBlock MYANMAR;
     field public static final java.lang.Character.UnicodeBlock MYANMAR_EXTENDED_A;
     field public static final java.lang.Character.UnicodeBlock MYANMAR_EXTENDED_B;
+    field @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeBlock MYANMAR_EXTENDED_C;
     field public static final java.lang.Character.UnicodeBlock NABATAEAN;
     field public static final java.lang.Character.UnicodeBlock NAG_MUNDARI;
     field public static final java.lang.Character.UnicodeBlock NANDINAGARI;
@@ -2944,6 +2950,7 @@ package java.lang {
     field public static final java.lang.Character.UnicodeBlock OLD_TURKIC;
     field public static final java.lang.Character.UnicodeBlock OLD_UYGHUR;
     field public static final java.lang.Character.UnicodeBlock OL_CHIKI;
+    field @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeBlock OL_ONAL;
     field public static final java.lang.Character.UnicodeBlock OPTICAL_CHARACTER_RECOGNITION;
     field public static final java.lang.Character.UnicodeBlock ORIYA;
     field public static final java.lang.Character.UnicodeBlock ORNAMENTAL_DINGBATS;
@@ -2981,6 +2988,7 @@ package java.lang {
     field public static final java.lang.Character.UnicodeBlock SPECIALS;
     field public static final java.lang.Character.UnicodeBlock SUNDANESE;
     field public static final java.lang.Character.UnicodeBlock SUNDANESE_SUPPLEMENT;
+    field @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeBlock SUNUWAR;
     field public static final java.lang.Character.UnicodeBlock SUPERSCRIPTS_AND_SUBSCRIPTS;
     field public static final java.lang.Character.UnicodeBlock SUPPLEMENTAL_ARROWS_A;
     field public static final java.lang.Character.UnicodeBlock SUPPLEMENTAL_ARROWS_B;
@@ -2995,6 +3003,7 @@ package java.lang {
     field public static final java.lang.Character.UnicodeBlock SYLOTI_NAGRI;
     field public static final java.lang.Character.UnicodeBlock SYMBOLS_AND_PICTOGRAPHS_EXTENDED_A;
     field public static final java.lang.Character.UnicodeBlock SYMBOLS_FOR_LEGACY_COMPUTING;
+    field @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeBlock SYMBOLS_FOR_LEGACY_COMPUTING_SUPPLEMENT;
     field public static final java.lang.Character.UnicodeBlock SYRIAC;
     field public static final java.lang.Character.UnicodeBlock SYRIAC_SUPPLEMENT;
     field public static final java.lang.Character.UnicodeBlock TAGALOG;
@@ -3017,8 +3026,10 @@ package java.lang {
     field public static final java.lang.Character.UnicodeBlock TIBETAN;
     field public static final java.lang.Character.UnicodeBlock TIFINAGH;
     field public static final java.lang.Character.UnicodeBlock TIRHUTA;
+    field @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeBlock TODHRI;
     field public static final java.lang.Character.UnicodeBlock TOTO;
     field public static final java.lang.Character.UnicodeBlock TRANSPORT_AND_MAP_SYMBOLS;
+    field @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeBlock TULU_TIGALARI;
     field public static final java.lang.Character.UnicodeBlock UGARITIC;
     field public static final java.lang.Character.UnicodeBlock UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS;
     field public static final java.lang.Character.UnicodeBlock UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED;
@@ -3081,6 +3092,7 @@ package java.lang {
     enum_constant public static final java.lang.Character.UnicodeScript ELBASAN;
     enum_constant public static final java.lang.Character.UnicodeScript ELYMAIC;
     enum_constant public static final java.lang.Character.UnicodeScript ETHIOPIC;
+    enum_constant @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeScript GARAY;
     enum_constant public static final java.lang.Character.UnicodeScript GEORGIAN;
     enum_constant public static final java.lang.Character.UnicodeScript GLAGOLITIC;
     enum_constant public static final java.lang.Character.UnicodeScript GOTHIC;
@@ -3089,6 +3101,7 @@ package java.lang {
     enum_constant public static final java.lang.Character.UnicodeScript GUJARATI;
     enum_constant public static final java.lang.Character.UnicodeScript GUNJALA_GONDI;
     enum_constant public static final java.lang.Character.UnicodeScript GURMUKHI;
+    enum_constant @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeScript GURUNG_KHEMA;
     enum_constant public static final java.lang.Character.UnicodeScript HAN;
     enum_constant public static final java.lang.Character.UnicodeScript HANGUL;
     enum_constant public static final java.lang.Character.UnicodeScript HANIFI_ROHINGYA;
@@ -3111,6 +3124,7 @@ package java.lang {
     enum_constant public static final java.lang.Character.UnicodeScript KHMER;
     enum_constant public static final java.lang.Character.UnicodeScript KHOJKI;
     enum_constant public static final java.lang.Character.UnicodeScript KHUDAWADI;
+    enum_constant @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeScript KIRAT_RAI;
     enum_constant public static final java.lang.Character.UnicodeScript LAO;
     enum_constant public static final java.lang.Character.UnicodeScript LATIN;
     enum_constant public static final java.lang.Character.UnicodeScript LEPCHA;
@@ -3157,6 +3171,7 @@ package java.lang {
     enum_constant public static final java.lang.Character.UnicodeScript OLD_TURKIC;
     enum_constant public static final java.lang.Character.UnicodeScript OLD_UYGHUR;
     enum_constant public static final java.lang.Character.UnicodeScript OL_CHIKI;
+    enum_constant @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeScript OL_ONAL;
     enum_constant public static final java.lang.Character.UnicodeScript ORIYA;
     enum_constant public static final java.lang.Character.UnicodeScript OSAGE;
     enum_constant public static final java.lang.Character.UnicodeScript OSMANYA;
@@ -3179,6 +3194,7 @@ package java.lang {
     enum_constant public static final java.lang.Character.UnicodeScript SORA_SOMPENG;
     enum_constant public static final java.lang.Character.UnicodeScript SOYOMBO;
     enum_constant public static final java.lang.Character.UnicodeScript SUNDANESE;
+    enum_constant @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeScript SUNUWAR;
     enum_constant public static final java.lang.Character.UnicodeScript SYLOTI_NAGRI;
     enum_constant public static final java.lang.Character.UnicodeScript SYRIAC;
     enum_constant public static final java.lang.Character.UnicodeScript TAGALOG;
@@ -3196,7 +3212,9 @@ package java.lang {
     enum_constant public static final java.lang.Character.UnicodeScript TIBETAN;
     enum_constant public static final java.lang.Character.UnicodeScript TIFINAGH;
     enum_constant public static final java.lang.Character.UnicodeScript TIRHUTA;
+    enum_constant @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeScript TODHRI;
     enum_constant public static final java.lang.Character.UnicodeScript TOTO;
+    enum_constant @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public static final java.lang.Character.UnicodeScript TULU_TIGALARI;
     enum_constant public static final java.lang.Character.UnicodeScript UGARITIC;
     enum_constant public static final java.lang.Character.UnicodeScript UNKNOWN;
     enum_constant public static final java.lang.Character.UnicodeScript VAI;
