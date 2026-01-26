@@ -2223,6 +2223,91 @@ public class PatternTest extends TestCaseWithRules {
         assertEquals(s[8], "e");
     }
 
+    public void testSplitWithDelimiters_positiveLimit() {
+        // Verifies splitWithDelimiters with a positive limit.
+        // The limit is the threshold for the number of matches.
+        Pattern p = Pattern.compile(":+");
+        String input = "boo:::and::foo";
+
+        // limit=2, less than number of matches (2). The pattern is applied limit-1=1 time.
+        // The array length will be no greater than 2*limit-1 = 3.
+        assertEquals(asList("boo", ":::", "and::foo"),
+                asList(p.splitWithDelimiters(input, 2)));
+
+        // limit=5, greater than number of matches (2).
+        assertEquals(asList("boo", ":::", "and", "::", "foo"),
+                asList(p.splitWithDelimiters(input, 5)));
+
+        // Another example from Javadoc
+        Pattern p2 = Pattern.compile("o");
+        String input2 = "boo:::and::foo";
+        assertEquals(asList("b", "o", "", "o", ":::and::f", "o", "", "o", ""),
+                asList(p2.splitWithDelimiters(input2, 5)));
+    }
+
+    public void testSplitWithDelimiters_zeroLimit() {
+        // Verifies splitWithDelimiters with a zero limit.
+        // The pattern is applied as many times as possible, and trailing empty strings are discarded.
+        Pattern p = Pattern.compile(":+");
+        String input = "boo:::and::foo";
+        assertEquals(asList("boo", ":::", "and", "::", "foo"),
+                asList(p.splitWithDelimiters(input, 0)));
+
+        // Example with trailing empty strings
+        Pattern p2 = Pattern.compile("o");
+        String input2 = "boo:::and::foo";
+        // The last empty string from "foo" is discarded.
+        assertEquals(asList("b", "o", "", "o", ":::and::f", "o", "", "o"),
+                asList(p2.splitWithDelimiters(input2, 0)));
+
+        // Another example with trailing empty strings
+        Pattern p3 = Pattern.compile(":");
+        // The trailing empty string after the last ":" is discarded.
+        assertEquals(asList("a", ":", "b", ":"), asList(p3.splitWithDelimiters("a:b:", 0)));
+    }
+
+    public void testSplitWithDelimiters_negativeLimit() {
+        // Verifies splitWithDelimiters with a negative limit.
+        // The pattern is applied as many times as possible, and trailing empty strings are preserved.
+        Pattern p = Pattern.compile(":+");
+        String input = "boo:::and::foo";
+        assertEquals(asList("boo", ":::", "and", "::", "foo"),
+                asList(p.splitWithDelimiters(input, -1)));
+
+        // Example with trailing empty strings
+        Pattern p2 = Pattern.compile("o");
+        String input2 = "boo:::and::foo";
+        assertEquals(asList("b", "o", "", "o", ":::and::f", "o", "", "o", ""),
+                asList(p2.splitWithDelimiters(input2, -1)));
+
+        // Another example with trailing empty strings
+        Pattern p3 = Pattern.compile(":");
+        assertEquals(asList("a", ":", "b", ":", ""), asList(p3.splitWithDelimiters("a:b:", -1)));
+    }
+
+    public void testSplitWithDelimiters_edgeCases() {
+        // Verifies edge cases for splitWithDelimiters.
+
+        // No match
+        Pattern p1 = Pattern.compile("x");
+        assertEquals(asList("abc"), asList(p1.splitWithDelimiters("abc", 0)));
+
+        // Empty input
+        assertEquals(asList(""), asList(p1.splitWithDelimiters("", 0)));
+
+        // Match at beginning (positive-width)
+        Pattern p2 = Pattern.compile("a");
+        assertEquals(asList("", "a", "bc"), asList(p2.splitWithDelimiters("abc", 0)));
+
+        // Zero-width match at beginning
+        Pattern p3 = Pattern.compile("^");
+        assertEquals(asList("abc"), asList(p3.splitWithDelimiters("abc", 0)));
+
+        // Empty string components
+        Pattern p4 = Pattern.compile("o");
+        assertEquals(asList("b", "o", "", "o"), asList(p4.splitWithDelimiters("boo", 0)));
+    }
+
     private int getExpectedEmptyStringSplitLength() {
         if (VMRuntime.getSdkVersion() > VersionCodes.TIRAMISU
                 && Compatibility.isChangeEnabled(
