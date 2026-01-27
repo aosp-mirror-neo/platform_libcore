@@ -4,9 +4,7 @@
  *
  * This code is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * published by the Free Software Foundation.
  *
  * This code is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -36,6 +34,9 @@
 
 package test.java.lang.Character.UnicodeBlock;
 
+import libcore.test.annotation.NonCts;
+import libcore.test.reasons.NonCtsReasons;
+
 import java.io.InputStreamReader;
 import java.lang.Character.UnicodeBlock;
 import java.lang.reflect.Field;
@@ -47,6 +48,7 @@ import java.util.Locale;
 
 import test.java.lang.UCDFiles;
 
+@NonCts(reason = NonCtsReasons.NON_BREAKING_BEHAVIOR_FIX)
 public class CheckBlocks {
 
     static boolean err = false;

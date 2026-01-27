@@ -57,34 +57,33 @@ public class Character_UnicodeBlockTest extends TestCase {
         new UnassignedRange(0x2fe0, 0x2ff0 - 1),
         new UnassignedRange(0x10200, 0x10280 - 1),
         new UnassignedRange(0x103e0, 0x10400 - 1),
-        new UnassignedRange(0x105c0, 0x10600 - 1),
         new UnassignedRange(0x107c0, 0x10800 - 1),
         new UnassignedRange(0x108b0, 0x108e0 - 1),
         new UnassignedRange(0x10940, 0x10980 - 1),
         new UnassignedRange(0x10aa0, 0x10ac0 - 1),
         new UnassignedRange(0x10bb0, 0x10c00 - 1),
         new UnassignedRange(0x10c50, 0x10c80 - 1),
-        new UnassignedRange(0x10d40, 0x10e60 - 1),
+        new UnassignedRange(0x10d90, 0x10e60 - 1),
         new UnassignedRange(0x11250, 0x11280 - 1),
-        new UnassignedRange(0x11380, 0x11400 - 1),
         new UnassignedRange(0x114e0, 0x11580 - 1),
-        new UnassignedRange(0x116d0, 0x11700 - 1),
         new UnassignedRange(0x11750, 0x11800 - 1),
         new UnassignedRange(0x11850, 0x118a0 - 1),
         new UnassignedRange(0x11960, 0x119a0 - 1),
-        new UnassignedRange(0x11b60, 0x11c00 - 1),
+        new UnassignedRange(0x11b60, 0x11bc0 - 1),
         new UnassignedRange(0x11cc0, 0x11d00 - 1),
         new UnassignedRange(0x11db0, 0x11ee0 - 1),
         new UnassignedRange(0x11f60, 0x11fb0 - 1),
         new UnassignedRange(0x12550, 0x12f90 - 1),
-        new UnassignedRange(0x13460, 0x14400 - 1),
-        new UnassignedRange(0x14680, 0x16800 - 1),
-        new UnassignedRange(0x16b90, 0x16e40 - 1),
+        new UnassignedRange(0x14680, 0x16100 - 1),
+        new UnassignedRange(0x16140, 0x16800 - 1),
+        new UnassignedRange(0x16b90, 0x16d40 - 1),
+        new UnassignedRange(0x16d80, 0x16e40 - 1),
         new UnassignedRange(0x16ea0, 0x16f00 - 1),
         new UnassignedRange(0x16fa0, 0x16fe0 - 1),
         new UnassignedRange(0x18d80, 0x1aff0 - 1),
         new UnassignedRange(0x1b300, 0x1bc00 - 1),
-        new UnassignedRange(0x1bcb0, 0x1cf00 - 1),
+        new UnassignedRange(0x1bcb0, 0x1cc00 - 1),
+        new UnassignedRange(0x1cec0, 0x1cf00 - 1),
         new UnassignedRange(0x1cfd0, 0x1d000 - 1),
         new UnassignedRange(0x1d250, 0x1d2c0 - 1),
         new UnassignedRange(0x1d380, 0x1d400 - 1),
@@ -92,7 +91,8 @@ public class Character_UnicodeBlockTest extends TestCase {
         new UnassignedRange(0x1e090, 0x1e100 - 1),
         new UnassignedRange(0x1e150, 0x1e290 - 1),
         new UnassignedRange(0x1e300, 0x1e4d0 - 1),
-        new UnassignedRange(0x1e500, 0x1e7e0 - 1),
+        new UnassignedRange(0x1e500, 0x1e5d0 - 1),
+        new UnassignedRange(0x1e600, 0x1e7e0 - 1),
         new UnassignedRange(0x1e8e0, 0x1e900 - 1),
         new UnassignedRange(0x1e960, 0x1ec70 - 1),
         new UnassignedRange(0x1ecc0, 0x1ed00 - 1),
@@ -100,7 +100,7 @@ public class Character_UnicodeBlockTest extends TestCase {
         new UnassignedRange(0x1ef00, 0x1f000 - 1),
         new UnassignedRange(0x1fc00, 0x20000 - 1),
         new UnassignedRange(0x2a6e0, 0x2a700 - 1),
-        new UnassignedRange(0x2ebf0, 0x2f800 - 1),
+        new UnassignedRange(0x2ee60, 0x2f800 - 1),
         new UnassignedRange(0x2fa20, 0x30000 - 1),
         new UnassignedRange(0x3e3b0, 0xe0000 - 1),
         new UnassignedRange(0xe0080, 0xe0100 - 1),
@@ -865,6 +865,30 @@ public class Character_UnicodeBlockTest extends TestCase {
         assertEquals(Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_H, Character.UnicodeBlock.of(0x31350));
         assertEquals(Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_H, Character.UnicodeBlock.of(0x323af));
 
+        // Blocks updated for 24
+        assertEquals(Character.UnicodeBlock.TODHRI, Character.UnicodeBlock.of(0x105c0));
+        assertEquals(Character.UnicodeBlock.TODHRI, Character.UnicodeBlock.of(0x105ff));
+        assertEquals(Character.UnicodeBlock.GARAY, Character.UnicodeBlock.of(0x10d40));
+        assertEquals(Character.UnicodeBlock.GARAY, Character.UnicodeBlock.of(0x10d8f));
+        assertEquals(Character.UnicodeBlock.TULU_TIGALARI, Character.UnicodeBlock.of(0x11380));
+        assertEquals(Character.UnicodeBlock.TULU_TIGALARI, Character.UnicodeBlock.of(0x113ff));
+        assertEquals(Character.UnicodeBlock.MYANMAR_EXTENDED_C, Character.UnicodeBlock.of(0x116d0));
+        assertEquals(Character.UnicodeBlock.MYANMAR_EXTENDED_C, Character.UnicodeBlock.of(0x116ff));
+        assertEquals(Character.UnicodeBlock.SUNUWAR, Character.UnicodeBlock.of(0x11bc0));
+        assertEquals(Character.UnicodeBlock.SUNUWAR, Character.UnicodeBlock.of(0x11bff));
+        assertEquals(Character.UnicodeBlock.EGYPTIAN_HIEROGLYPHS_EXTENDED_A, Character.UnicodeBlock.of(0x13460));
+        assertEquals(Character.UnicodeBlock.EGYPTIAN_HIEROGLYPHS_EXTENDED_A, Character.UnicodeBlock.of(0x143ff));
+        assertEquals(Character.UnicodeBlock.GURUNG_KHEMA, Character.UnicodeBlock.of(0x16100));
+        assertEquals(Character.UnicodeBlock.GURUNG_KHEMA, Character.UnicodeBlock.of(0x1613f));
+        assertEquals(Character.UnicodeBlock.KIRAT_RAI, Character.UnicodeBlock.of(0x16d40));
+        assertEquals(Character.UnicodeBlock.KIRAT_RAI, Character.UnicodeBlock.of(0x16d7f));
+        assertEquals(Character.UnicodeBlock.SYMBOLS_FOR_LEGACY_COMPUTING_SUPPLEMENT, Character.UnicodeBlock.of(0x1cc00));
+        assertEquals(Character.UnicodeBlock.SYMBOLS_FOR_LEGACY_COMPUTING_SUPPLEMENT, Character.UnicodeBlock.of(0x1cebf));
+        assertEquals(Character.UnicodeBlock.OL_ONAL, Character.UnicodeBlock.of(0x1e5d0));
+        assertEquals(Character.UnicodeBlock.OL_ONAL, Character.UnicodeBlock.of(0x1e5ff));
+        assertEquals(Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_I, Character.UnicodeBlock.of(0x2ebf0));
+        assertEquals(Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_I, Character.UnicodeBlock.of(0x2ee5f));
+
         // Negative test: Test unassigned ranges
         for (UnassignedRange range : UNASSIGNED_RANGES) {
             assertEquals(
@@ -886,6 +910,7 @@ public class Character_UnicodeBlockTest extends TestCase {
         }
     }
 
+    @NonCts(bug = 287231726, reason = NonCtsReasons.NON_BREAKING_BEHAVIOR_FIX)
     @SuppressWarnings("deprecation")
     public void test_forNameLjava_lang_String() {
         assertEquals(Character.UnicodeBlock.BASIC_LATIN, Character.UnicodeBlock.forName("BASIC_LATIN"));
@@ -1208,6 +1233,26 @@ public class Character_UnicodeBlockTest extends TestCase {
         assertEquals(Character.UnicodeBlock.ARABIC_MATHEMATICAL_ALPHABETIC_SYMBOLS,
                      Character.UnicodeBlock.forName("ArabicMathematicalAlphabeticSymbols"));
 
+        // Blocks added in 24
+        assertEquals(Character.UnicodeBlock.TODHRI, Character.UnicodeBlock.forName("TODHRI"));
+        assertEquals(Character.UnicodeBlock.GARAY, Character.UnicodeBlock.forName("GARAY"));
+        assertEquals(Character.UnicodeBlock.TULU_TIGALARI, Character.UnicodeBlock.forName("TULU_TIGALARI"));
+        assertEquals(Character.UnicodeBlock.TULU_TIGALARI, Character.UnicodeBlock.forName("Tulu-Tigalari"));
+        assertEquals(Character.UnicodeBlock.MYANMAR_EXTENDED_C, Character.UnicodeBlock.forName("MYANMAR_EXTENDED_C"));
+        assertEquals(Character.UnicodeBlock.MYANMAR_EXTENDED_C, Character.UnicodeBlock.forName("Myanmar Extended-C"));
+        assertEquals(Character.UnicodeBlock.SUNUWAR, Character.UnicodeBlock.forName("SUNUWAR"));
+        assertEquals(Character.UnicodeBlock.EGYPTIAN_HIEROGLYPHS_EXTENDED_A, Character.UnicodeBlock.forName("EGYPTIAN_HIEROGLYPHS_EXTENDED_A"));
+        assertEquals(Character.UnicodeBlock.EGYPTIAN_HIEROGLYPHS_EXTENDED_A, Character.UnicodeBlock.forName("Egyptian Hieroglyphs Extended-A"));
+        assertEquals(Character.UnicodeBlock.GURUNG_KHEMA, Character.UnicodeBlock.forName("GURUNG_KHEMA"));
+        assertEquals(Character.UnicodeBlock.GURUNG_KHEMA, Character.UnicodeBlock.forName("Gurung Khema"));
+        assertEquals(Character.UnicodeBlock.KIRAT_RAI, Character.UnicodeBlock.forName("KIRAT_RAI"));
+        assertEquals(Character.UnicodeBlock.KIRAT_RAI, Character.UnicodeBlock.forName("Kirat Rai"));
+        assertEquals(Character.UnicodeBlock.SYMBOLS_FOR_LEGACY_COMPUTING_SUPPLEMENT, Character.UnicodeBlock.forName("SYMBOLS_FOR_LEGACY_COMPUTING_SUPPLEMENT"));
+        assertEquals(Character.UnicodeBlock.SYMBOLS_FOR_LEGACY_COMPUTING_SUPPLEMENT, Character.UnicodeBlock.forName("Symbols for Legacy Computing Supplement"));
+        assertEquals(Character.UnicodeBlock.OL_ONAL, Character.UnicodeBlock.forName("OL_ONAL"));
+        assertEquals(Character.UnicodeBlock.OL_ONAL, Character.UnicodeBlock.forName("Ol Onal"));
+        assertEquals(Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_I, Character.UnicodeBlock.forName("CJK_UNIFIED_IDEOGRAPHS_EXTENSION_I"));
+        assertEquals(Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_I, Character.UnicodeBlock.forName("CJK Unified Ideographs Extension I"));
     }
 
     public void test_forNameLjava_lang_StringExceptions() {
