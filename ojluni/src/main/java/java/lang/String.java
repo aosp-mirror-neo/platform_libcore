@@ -219,7 +219,7 @@ public final class String
      * In contrast, {@link String} in the upstream uses Latin-1 encoding when all characters
      * contains only 0x00 - 0xff, when {@link #COMPACT_STRINGS} is enabled.
      *
-     * WARNING: Do not assume that a {@String} instance using {@link #CODER_UTF16} encoding
+     * WARNING: Do not assume that a {@link String} instance using {@link #CODER_UTF16} encoding
      * must contain at least one character {@code \u0100} - {@code \uffff}. This isn't true on
      * Android, and may cause bugs, e.g. http://b/356007654, when importing upstream codes.
      * This constant is renamed from {@code LATIN1} to {@code CODER_LATIN1} to require a manual
@@ -1422,36 +1422,15 @@ public final class String
     }
 
     /**
-     * Copies characters from this string into the destination character
-     * array.
-     * <p>
-     * The first character to be copied is at index {@code srcBegin};
-     * the last character to be copied is at index {@code srcEnd-1}
-     * (thus the total number of characters to be copied is
-     * {@code srcEnd-srcBegin}). The characters are copied into the
-     * subarray of {@code dst} starting at index {@code dstBegin}
-     * and ending at index:
-     * <blockquote><pre>
-     *     dstBegin + (srcEnd-srcBegin) - 1
-     * </pre></blockquote>
-     *
-     * @param      srcBegin   index of the first character in the string
-     *                        to copy.
-     * @param      srcEnd     index after the last character in the string
-     *                        to copy.
-     * @param      dst        the destination array.
-     * @param      dstBegin   the start offset in the destination array.
-     * @exception IndexOutOfBoundsException If any of the following
-     *            is true:
-     *            <ul><li>{@code srcBegin} is negative.
-     *            <li>{@code srcBegin} is greater than {@code srcEnd}
-     *            <li>{@code srcEnd} is greater than the length of this
-     *                string
-     *            <li>{@code dstBegin} is negative
-     *            <li>{@code dstBegin+(srcEnd-srcBegin)} is larger than
-     *                {@code dst.length}</ul>
+     * {@inheritDoc CharSequence}
+     * @param srcBegin {@inheritDoc CharSequence}
+     * @param srcEnd   {@inheritDoc CharSequence}
+     * @param dst      {@inheritDoc CharSequence}
+     * @param dstBegin {@inheritDoc CharSequence}
+     * @throws    IndexOutOfBoundsException {@inheritDoc CharSequence}
      */
-    public void getChars(int srcBegin, int srcEnd, char dst[], int dstBegin) {
+    @Override
+    public void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin) {
         // BEGIN Android-added: Null pointer check.
         if (dst == null) {
             throw new NullPointerException("dst == null");
@@ -5052,6 +5031,32 @@ public final class String
         return doRepeat(count);
     }
 
+    /**
+     * Used to perform copying after the initial insertion. Copying is optimized
+     * by using power of two duplication. First pass duplicates original copy,
+     * second pass then duplicates the original and the copy yielding four copies,
+     * third pass duplicates four copies yielding eight copies, and so on.
+     * Finally, the remainder is filled in with prior copies.
+     *
+     * @implNote The technique used here is significantly faster than hand-rolled
+     * loops or special casing small numbers due to the intensive optimization
+     * done by intrinsic {@code System.arraycopy}.
+     *
+     * @param buffer    destination buffer
+     * @param offset    offset in the destination buffer
+     * @param limit     total replicated including what is already in the buffer
+     * @param copied    number of bytes that have already in the buffer
+     */
+    static void repeatCopyRest(byte[] buffer, int offset, int limit, int copied) {
+        // Initial copy is in the buffer.
+        for (; copied < limit - copied; copied <<= 1) {
+            // Power of two duplicate.
+            System.arraycopy(buffer, offset, buffer, offset + copied, copied);
+        }
+        // Duplicate remainder.
+        System.arraycopy(buffer, offset, buffer, offset + copied, limit - copied);
+    }
+
     @FastNative
     private native String doRepeat(int count);
 
@@ -5064,13 +5069,10 @@ public final class String
      * Invoker guarantees: dst is in UTF16 (inflate itself for asb), if two
      * coders are different, and dst is big enough (range check)
      *
-     * Android-note: Please always inflate the byte buffer {@code dst} if
-     * {@code coder != str.coder()}, or the string contains only
-     * {@code \u0000} - (@code \u00ff} characters. The later check is a rather expensive
-     * operation because ART doesn't keep tracking it in a String instance.
-     *
-     * {@link #coder()} returns {@link #CODER_UTF16}
-     * if it contains any {@code \u0080} - {@code \u00ff} characters. See {@link #CODER_LATIN1}.
+     * Android-note: {@link #coder()} returns {@link #CODER_UTF16} if it contains any
+     * {@code \u0080} - {@code \u00ff} characters. Don't assume the resulting {@link dst}
+     * must contain at least one character of {@code \u0100} - {@code \uffff} in this case.
+     * See {@link #CODER_LATIN1}.
      *
      * @param dstBegin  the char index, not offset of byte[]
      * @param coder     the coder of dst[]
@@ -5085,7 +5087,7 @@ public final class String
         }
     }
     */
-    void fillBytes(byte dst[], int dstBegin, byte coder) {
+    void fillBytes(byte[] dst, int dstBegin, byte coder) {
         // We do bound check here before the native calls, because the upstream implementation does
         // the bound check in System.arraycopy and StringLatin1.inflate or throws an exception.
         if (coder == CODER_UTF16) {

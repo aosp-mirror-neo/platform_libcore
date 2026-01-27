@@ -44,4 +44,7 @@ public char charAt(int index);
 @libcore.util.NonNull public default java.util.stream.IntStream codePoints() { throw new RuntimeException("Stub!"); }
 
 public default int compare(@libcore.util.NonNull CharSequence cs1, @libcore.util.NonNull CharSequence cs2) { throw new RuntimeException("Stub!"); }
+
+public default void getChars(int srcBegin, int srcEnd, @libcore.util.NonNull char[] dst, int dstBegin) { throw new RuntimeException("Stub!"); }
+
 }

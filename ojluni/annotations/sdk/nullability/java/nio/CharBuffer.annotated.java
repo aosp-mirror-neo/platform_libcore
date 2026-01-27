@@ -51,8 +51,7 @@ public java.nio.CharBuffer get(char[] dst, int offset, int length) { throw new R
 public abstract char get(int index);
 public java.nio.CharBuffer get(int index, char[] dst) { throw new RuntimeException("Stub!"); }
 public java.nio.CharBuffer get(int index, char[] dst, int offset, int length) { throw new RuntimeException("Stub!"); }
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_25_V1_APIS)
-public void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin) { throw new RuntimeException("Stub!"); }
+public void getChars(int srcBegin, int srcEnd, @libcore.util.NonNull char[] dst, int dstBegin) { throw new RuntimeException("Stub!"); }
 public final boolean hasArray() { throw new RuntimeException("Stub!"); }
 public int hashCode() { throw new RuntimeException("Stub!"); }
 public abstract boolean isDirect();
