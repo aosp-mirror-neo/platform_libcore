@@ -852,6 +852,7 @@ public final class Class<T> implements java.io.Serializable,
     @IntrinsicCandidate
     // Android-changed: JNI code can be replaced by simple java code.
     // public native boolean isAssignableFrom(Class<?> cls);
+    @dalvik.annotation.optimization.NeverInline
     public boolean isAssignableFrom(Class<?> cls) {
         if (this == cls) {
             return true;  // Can always assign to things of the same type.
