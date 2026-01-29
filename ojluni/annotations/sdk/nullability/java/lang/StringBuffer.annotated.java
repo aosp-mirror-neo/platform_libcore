@@ -139,5 +139,9 @@ public synchronized int lastIndexOf(@libcore.util.NonNull java.lang.String str, 
 @libcore.util.NonNull public synchronized java.lang.String toString() { throw new RuntimeException("Stub!"); }
 
 public synchronized int compareTo(@libcore.util.NonNull StringBuffer another) { throw new RuntimeException("Stub!"); }
+
+@libcore.util.NonNull public synchronized java.lang.StringBuilder repeat(int codePoint, int count) { throw new RuntimeException("Stub!"); }
+
+@libcore.util.NonNull public synchronized java.lang.StringBuilder repeat(@libcore.util.NonNull java.lang.CharSequence cs, int count) { throw new RuntimeException("Stub!"); }
 }
 

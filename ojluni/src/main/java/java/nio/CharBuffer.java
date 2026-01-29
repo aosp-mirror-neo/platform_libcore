@@ -1976,6 +1976,58 @@ public abstract class CharBuffer
 
 
     /**
+     * Relative bulk <i>get</i> method.
+     *
+     * <p> This method transfers {@code srcEnd-srcBegin} characters from this
+     * buffer into the given array, starting at index
+     * {@code position() + srcBegin} in this buffer and at offset
+     * {@code dstBegin} in the array. The position of this buffer is unchanged.
+     *
+     * <p> An invocation of this method behaves exactly the same was as the
+     * invocation
+     *
+     * {@snippet lang=java :
+     *     get(position() + srcBegin, dst, dstBegin, srcEnd - srcBegin)
+     * }
+     *
+     * @param  srcBegin
+     *         The index in this buffer, relative to the current position,
+     *         of the first character to
+     *         read; must be non-negative and less than
+     *         {@code limit() - position()}
+     *
+     * @param  srcEnd
+     *         The index in this buffer, relative to the current position,
+     *         after the last character to read;
+     *         must be greater than or equal to {@code srcBegin} and less than
+     *         or equal to {@code limit() - position()}
+     *
+     * @param  dst
+     *         The array into which chars are to be written. It must be large
+     *         enough to hold the selected source range from the position
+     *         {@code dstBegin}
+     *
+     * @param  dstBegin
+     *         The offset within the array of the first character to be
+     *         written; must be non-negative and less than {@code dst.length}
+     *
+     * @throws  IndexOutOfBoundsException
+     *          If the preconditions on the {@code srcBegin}, {@code srcEnd},
+     *          and {@code dstBegin} parameters do not hold
+     *
+     * @since 25
+     */
+    @Override
+    public void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin) {
+        // Check [srcBegin,srcEnd) is a subset of [0,limit()-position)
+        int pos = position();
+        int lim = limit();
+        Objects.checkFromToIndex(srcBegin, srcEnd, lim - pos);
+
+        get(pos + srcBegin, dst, dstBegin, srcEnd - srcBegin);
+    }
+
+    /**
      * Returns a string containing the characters in this buffer.
      *
      * <p> The first character of the resulting string will be the character at
@@ -2203,6 +2255,15 @@ public abstract class CharBuffer
     // The order or null if the buffer does not cover a memory region,
     // such as StringCharBuffer
     abstract ByteOrder charRegionOrder();
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1255,6 +1255,7 @@ java_aconfig_library {
         "com.android.art.debug",
     ],
     visibility: [
+        "//art:__subpackages__",
         "//libcore:__subpackages__",
     ],
 }

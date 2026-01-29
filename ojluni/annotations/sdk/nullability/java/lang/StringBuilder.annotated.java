@@ -140,5 +140,9 @@ public int codePointCount(int beginIndex, int endIndex) { throw new RuntimeExcep
 public int offsetByCodePoints(int index, int codePointOffset) { throw new RuntimeException("Stub!"); }
 
 public int compareTo(@libcore.util.NonNull StringBuilder another) { throw new RuntimeException("Stub!"); }
+
+@libcore.util.NonNull public java.lang.StringBuilder repeat(int codePoint, int count) { throw new RuntimeException("Stub!"); }
+
+@libcore.util.NonNull public java.lang.StringBuilder repeat(@libcore.util.NonNull java.lang.CharSequence cs, int count) { throw new RuntimeException("Stub!"); }
 }
 

@@ -2179,6 +2179,58 @@ public abstract class ByteBuffer
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // -- Other byte stuff: Access to binary data --
 
 

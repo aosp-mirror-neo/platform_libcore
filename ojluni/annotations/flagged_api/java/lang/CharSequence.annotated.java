@@ -45,5 +45,9 @@ public default java.util.stream.IntStream chars() { throw new RuntimeException("
 public default java.util.stream.IntStream codePoints() { throw new RuntimeException("Stub!"); }
 
 public static int compare(java.lang.CharSequence cs1, java.lang.CharSequence cs2) { throw new RuntimeException("Stub!"); }
+
+@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_25_V1_APIS)
+public default void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin) { throw new RuntimeException("Stub!"); }
+
 }
 
