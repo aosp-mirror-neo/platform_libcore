@@ -24,14 +24,24 @@ import java.util.List;
 import javax.net.ssl.ExtendedSSLSession;
 import javax.net.ssl.SNIServerName;
 
-import org.junit.Ignore;
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-@Ignore("b/476352289")
 @RunWith(JUnit4.class)
 public class ExtendedSSLSessionTest {
+
+    @Before
+    public void setUp() {
+        // TODO(b/481260088): Remove this skip when the API is available.
+        try {
+            ExtendedSSLSession.class.getMethod("getStatusResponses");
+        } catch (NoSuchMethodException e) {
+            Assume.assumeNoException("API method getStatusResponses is not available", e);
+        }
+    }
 
     @Test
     public void testGetStatusResponses() {
