@@ -1042,10 +1042,21 @@ public class ArraysTest {
             Arrays.fill(a, (byte) 1);
             Arrays.fill(b, (byte) 1);
             assertTrue("Length " + len, Arrays.equals(a, b));
-            if (len > 0) {
-                b[len - 1] = (byte) 2;
-                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
             }
+
+            b[0] = (byte) 2;
+            assertFalse("Mismatch 0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch 0 length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[0] = (byte) 1;
+
+            b[len - 1] = (byte) 2;
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = (byte) 1;
         }
     }
 
@@ -1057,10 +1068,21 @@ public class ArraysTest {
             Arrays.fill(a, (short) 1);
             Arrays.fill(b, (short) 1);
             assertTrue("Length " + len, Arrays.equals(a, b));
-            if (len > 0) {
-                b[len - 1] = (short) 2;
-                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
             }
+
+            b[0] = (short) 2;
+            assertFalse("Mismatch 0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch 0 length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[0] = (short) 1;
+
+            b[len - 1] = (short) 2;
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = (short) 1;
         }
     }
 
@@ -1072,10 +1094,21 @@ public class ArraysTest {
             Arrays.fill(a, 'a');
             Arrays.fill(b, 'a');
             assertTrue("Length " + len, Arrays.equals(a, b));
-            if (len > 0) {
-                b[len - 1] = 'b';
-                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
             }
+
+            b[0] = 'b';
+            assertFalse("Mismatch 0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch 0 length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[0] = 'a';
+
+            b[len - 1] = 'b';
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = 'a';
         }
     }
 
@@ -1087,10 +1120,21 @@ public class ArraysTest {
             Arrays.fill(a, 1L);
             Arrays.fill(b, 1L);
             assertTrue("Length " + len, Arrays.equals(a, b));
-            if (len > 0) {
-                b[len - 1] = 2L;
-                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
             }
+
+            b[0] = 2L;
+            assertFalse("Mismatch 0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch 0 length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[0] = 1L;
+
+            b[len - 1] = 2L;
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = 1L;
         }
     }
 
@@ -1102,10 +1146,21 @@ public class ArraysTest {
             Arrays.fill(a, true);
             Arrays.fill(b, true);
             assertTrue("Length " + len, Arrays.equals(a, b));
-            if (len > 0) {
-                b[len - 1] = false;
-                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
             }
+
+            b[0] = false;
+            assertFalse("Mismatch 0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch 0 length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[0] = true;
+
+            b[len - 1] = false;
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = true;
         }
     }
 }
