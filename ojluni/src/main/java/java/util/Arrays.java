@@ -96,6 +96,8 @@ public final class Arrays {
     private static final long SHORT_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(short[].class);
     private static final long INT_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(int[].class);
     private static final long LONG_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(long[].class);
+    private static final long FLOAT_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(float[].class);
+    private static final long DOUBLE_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(double[].class);
 
     private static final int ALIGNMENT_MASK = (Long.BYTES - 1);
     // END Android: Set up Unsafe for vectorization.
@@ -3354,18 +3356,42 @@ public final class Arrays {
         if (a2.length != length)
             return false;
 
-        // BEGIN Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
-        // TODO(b/362153334) Assess whether it's worth writing intrinsics or not.
+        // BEGIN Android-changed: Vectorized equality check
         // return ArraysSupport.mismatch(a, a2, length) < 0;
-        for (int idx = 0; idx < length; ++idx) {
-            if (Double.doubleToLongBits(a[idx]) != Double.doubleToLongBits(a2[idx])) {
+        int i = 0;
+        Unsafe unsafe = UNSAFE;
+        final Class unused = unsafe.getClass(); // Hoist null check
+        // Vectorized loop: double[] is always aligned.
+        final int VECTOR_WIDTH_BYTES = 2 * Long.BYTES;
+        int limit = length - (VECTOR_WIDTH_BYTES / Double.BYTES);
+        for (; i <= limit; i += (VECTOR_WIDTH_BYTES / Double.BYTES)) {
+            long offset = DOUBLE_ARRAY_BASE_OFFSET + (long) i * Double.BYTES;
+            long l1 = unsafe.getLong(a, offset);
+            long l2 = unsafe.getLong(a, offset + Long.BYTES);
+            long l3 = unsafe.getLong(a2, offset);
+            long l4 = unsafe.getLong(a2, offset + Long.BYTES);
+            if (((l1 ^ l3) | (l2 ^ l4)) != 0) {
+                // Mismatch found. Check for NaNs.
+                if (l1 != l3) {
+                    double d1 = Double.longBitsToDouble(l1);
+                    double d3 = Double.longBitsToDouble(l3);
+                    if (!Double.isNaN(d1) || !Double.isNaN(d3)) return false;
+                }
+                if (l2 != l4) {
+                    double d2 = Double.longBitsToDouble(l2);
+                    double d4 = Double.longBitsToDouble(l4);
+                    if (!Double.isNaN(d2) || !Double.isNaN(d4)) return false;
+                }
+            }
+        }
+
+        for (; i < length; i++) {
+            if (Double.doubleToLongBits(a[i]) != Double.doubleToLongBits(a2[i])) {
                 return false;
             }
         }
         return true;
-        // END Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
+        // END Android-changed: Vectorized equality check
     }
 
     /**
@@ -3416,22 +3442,43 @@ public final class Arrays {
         if (aLength != bLength)
             return false;
 
-        // BEGIN Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
-        // TODO(b/362153334) Assess whether it's worth writing intrinsics or not.
-        /*
-        return ArraysSupport.mismatch(a, aFromIndex,
-                                      b, bFromIndex, aLength) < 0;
-        */
-        for (int idx = 0; idx < aLength; ++idx) {
-            if (Double.doubleToLongBits(a[aFromIndex++]) !=
-                    Double.doubleToLongBits(b[bFromIndex++])) {
+        // BEGIN Android-changed: Vectorized equality check
+        // return ArraysSupport.mismatch(a, aFromIndex, b, bFromIndex, aLength) < 0;
+        int i = 0;
+        Unsafe unsafe = UNSAFE;
+        final Class unused = unsafe.getClass(); // Hoist null check
+        // Vectorized loop: double[] is always aligned.
+        final int VECTOR_WIDTH_BYTES = 2 * Long.BYTES;
+        int limit = aLength - (VECTOR_WIDTH_BYTES / Double.BYTES);
+        for (; i <= limit; i += (VECTOR_WIDTH_BYTES / Double.BYTES)) {
+            long offsetA = DOUBLE_ARRAY_BASE_OFFSET + (long) (aFromIndex + i) * Double.BYTES;
+            long offsetB = DOUBLE_ARRAY_BASE_OFFSET + (long) (bFromIndex + i) * Double.BYTES;
+            long l1 = unsafe.getLong(a, offsetA);
+            long l2 = unsafe.getLong(a, offsetA + Long.BYTES);
+            long l3 = unsafe.getLong(b, offsetB);
+            long l4 = unsafe.getLong(b, offsetB + Long.BYTES);
+            if (((l1 ^ l3) | (l2 ^ l4)) != 0) {
+                if (l1 != l3) {
+                    double d1 = Double.longBitsToDouble(l1);
+                    double d3 = Double.longBitsToDouble(l3);
+                    if (!Double.isNaN(d1) || !Double.isNaN(d3)) return false;
+                }
+                if (l2 != l4) {
+                    double d2 = Double.longBitsToDouble(l2);
+                    double d4 = Double.longBitsToDouble(l4);
+                    if (!Double.isNaN(d2) || !Double.isNaN(d4)) return false;
+                }
+            }
+        }
+
+        for (; i < aLength; i++) {
+            if (Double.doubleToLongBits(a[aFromIndex + i]) !=
+                    Double.doubleToLongBits(b[bFromIndex + i])) {
                 return false;
             }
         }
         return true;
-        // END Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
+        // END Android-changed: Vectorized equality check
     }
 
     /**
@@ -3461,18 +3508,61 @@ public final class Arrays {
         int length = a.length;
         if (a2.length != length)
             return false;
-        // BEGIN Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
-        // TODO(b/362153334) Assess whether it's worth writing intrinsics or not.
+
+        // BEGIN Android-changed: Vectorized equality check
         // return ArraysSupport.mismatch(a, a2, length) < 0;
-        for (int idx = 0; idx < length; ++idx) {
-            if (Float.floatToIntBits(a[idx]) != Float.floatToIntBits(a2[idx])) {
+        Unsafe unsafe = UNSAFE;
+        final Class unused = unsafe.getClass(); // Hoist null check
+        int i = 0;
+        // Align to 8 bytes.
+        for (; (FLOAT_ARRAY_BASE_OFFSET + (long) i * Float.BYTES & ALIGNMENT_MASK) != 0
+                && i < length; i++) {
+            if (Float.floatToIntBits(a[i]) != Float.floatToIntBits(a2[i])) {
+                return false;
+            }
+        }
+
+        // Vectorized loop: compare 16 bytes at a time
+        final int VECTOR_WIDTH_BYTES = 2 * Long.BYTES;
+        int limit = length - (VECTOR_WIDTH_BYTES / Float.BYTES);
+        for (; i <= limit; i += (VECTOR_WIDTH_BYTES / Float.BYTES)) {
+            long offset = FLOAT_ARRAY_BASE_OFFSET + (long) i * Float.BYTES;
+            long l1 = unsafe.getLong(a, offset);
+            long l2 = unsafe.getLong(a, offset + Long.BYTES);
+            long l3 = unsafe.getLong(a2, offset);
+            long l4 = unsafe.getLong(a2, offset + Long.BYTES);
+            if (((l1 ^ l3) | (l2 ^ l4)) != 0) {
+                // Mismatch found. Check for NaNs.
+                if (l1 != l3) {
+                    int i1a = (int) l1;
+                    int i1b = (int) l3;
+                    int i2a = (int) (l1 >>> 32);
+                    int i2b = (int) (l3 >>> 32);
+                    if (i1a != i1b && (!Float.isNaN(Float.intBitsToFloat(i1a))
+                            || !Float.isNaN(Float.intBitsToFloat(i1b)))) return false;
+                    if (i2a != i2b && (!Float.isNaN(Float.intBitsToFloat(i2a))
+                            || !Float.isNaN(Float.intBitsToFloat(i2b)))) return false;
+                }
+                if (l2 != l4) {
+                    int i3a = (int) l2;
+                    int i3b = (int) l4;
+                    int i4a = (int) (l2 >>> 32);
+                    int i4b = (int) (l4 >>> 32);
+                    if (i3a != i3b && (!Float.isNaN(Float.intBitsToFloat(i3a))
+                            || !Float.isNaN(Float.intBitsToFloat(i3b)))) return false;
+                    if (i4a != i4b && (!Float.isNaN(Float.intBitsToFloat(i4a))
+                            || !Float.isNaN(Float.intBitsToFloat(i4b)))) return false;
+                }
+            }
+        }
+
+        for (; i < length; i++) {
+            if (Float.floatToIntBits(a[i]) != Float.floatToIntBits(a2[i])) {
                 return false;
             }
         }
         return true;
-        // END Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
+        // END Android-changed: Vectorized equality check
     }
 
     /**
@@ -3523,21 +3613,78 @@ public final class Arrays {
         if (aLength != bLength)
             return false;
 
-        // BEGIN Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
-        // TODO(b/362153334) Assess whether it's worth writing intrinsics or not.
-        /*
-        return ArraysSupport.mismatch(a, aFromIndex,
-                                      b, bFromIndex, aLength) < 0;
-        */
-        for (int idx = 0; idx < aLength; ++idx) {
-            if (Float.floatToIntBits(a[aFromIndex++]) != Float.floatToIntBits(b[bFromIndex++])) {
+        // BEGIN Android-changed: Vectorized equality check
+        // return ArraysSupport.mismatch(a, aFromIndex, b, bFromIndex, aLength) < 0;
+        int i = 0;
+        int length = aLength;
+        Unsafe unsafe = UNSAFE;
+        final Class unused = unsafe.getClass(); // Hoist null check
+        final long baseOffset = FLOAT_ARRAY_BASE_OFFSET;
+
+        // If the start of the ranges have different alignments wrt 8-bytes, we can't vectorize.
+        if ((((baseOffset + (long) aFromIndex * Float.BYTES) & ALIGNMENT_MASK) !=
+                ((baseOffset + (long) bFromIndex * Float.BYTES) & ALIGNMENT_MASK))) {
+            for (i = 0; i < length; i++) {
+                if (Float.floatToIntBits(a[aFromIndex + i])
+                        != Float.floatToIntBits(b[bFromIndex + i])) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Align to 8 bytes.
+        for (; ((baseOffset + (long) (aFromIndex + i) * Float.BYTES) & ALIGNMENT_MASK) != 0
+                && i < length; i++) {
+            if (Float.floatToIntBits(a[aFromIndex + i])
+                    != Float.floatToIntBits(b[bFromIndex + i])) {
+                return false;
+            }
+        }
+
+        // Vectorized loop: compare 16 bytes at a time
+        final int VECTOR_WIDTH_BYTES = 2 * Long.BYTES;
+        int limit = length - (VECTOR_WIDTH_BYTES / Float.BYTES);
+        for (; i <= limit; i += (VECTOR_WIDTH_BYTES / Float.BYTES)) {
+            long offsetA = FLOAT_ARRAY_BASE_OFFSET + (long) (aFromIndex + i) * Float.BYTES;
+            long offsetB = FLOAT_ARRAY_BASE_OFFSET + (long) (bFromIndex + i) * Float.BYTES;
+            long l1 = unsafe.getLong(a, offsetA);
+            long l2 = unsafe.getLong(a, offsetA + Long.BYTES);
+            long l3 = unsafe.getLong(b, offsetB);
+            long l4 = unsafe.getLong(b, offsetB + Long.BYTES);
+            if (((l1 ^ l3) | (l2 ^ l4)) != 0) {
+                // Mismatch found. Check for NaNs.
+                if (l1 != l3) {
+                    int i1a = (int) l1;
+                    int i1b = (int) l3;
+                    int i2a = (int) (l1 >>> 32);
+                    int i2b = (int) (l3 >>> 32);
+                    if (i1a != i1b && (!Float.isNaN(Float.intBitsToFloat(i1a))
+                            || !Float.isNaN(Float.intBitsToFloat(i1b)))) return false;
+                    if (i2a != i2b && (!Float.isNaN(Float.intBitsToFloat(i2a))
+                            || !Float.isNaN(Float.intBitsToFloat(i2b)))) return false;
+                }
+                if (l2 != l4) {
+                    int i3a = (int) l2;
+                    int i3b = (int) l4;
+                    int i4a = (int) (l2 >>> 32);
+                    int i4b = (int) (l4 >>> 32);
+                    if (i3a != i3b && (!Float.isNaN(Float.intBitsToFloat(i3a))
+                            || !Float.isNaN(Float.intBitsToFloat(i3b)))) return false;
+                    if (i4a != i4b && (!Float.isNaN(Float.intBitsToFloat(i4a))
+                            || !Float.isNaN(Float.intBitsToFloat(i4b)))) return false;
+                }
+            }
+        }
+
+        for (; i < length; i++) {
+            if (Float.floatToIntBits(a[aFromIndex + i])
+                    != Float.floatToIntBits(b[bFromIndex + i])) {
                 return false;
             }
         }
         return true;
-        // END Android-changed: keep for-loop implementation due to the absence of ArraySupport
-        // intrinsics.
+        // END Android-changed: Vectorized equality check
     }
 
     /**

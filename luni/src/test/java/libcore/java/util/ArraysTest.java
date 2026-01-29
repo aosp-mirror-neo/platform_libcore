@@ -1163,4 +1163,104 @@ public class ArraysTest {
             b[len - 1] = true;
         }
     }
+
+    @Test
+    public void testEqualsFloatTailHandling() {
+        for (int len = 0; len <= 32; len++) {
+            float[] a = new float[len];
+            float[] b = new float[len];
+            Arrays.fill(a, 1.0f);
+            Arrays.fill(b, 1.0f);
+            assertTrue("Length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
+            }
+
+            b[len - 1] = 2.0f;
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = 1.0f;
+
+            // Signed zero
+            a[0] = 0.0f;
+            b[0] = -0.0f;
+            assertFalse("0.0 equals -0.0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range 0.0 equals -0.0 length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+
+            // NaN checks
+            a[0] = Float.NaN;
+            b[0] = Float.NaN;
+            assertTrue("NaN equals NaN length " + len, Arrays.equals(a, b));
+            assertTrue("Range NaN equals NaN length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+
+            // Different NaN bit patterns
+            a[0] = Float.intBitsToFloat(0x7fc00000); // Standard NaN
+            b[0] = Float.intBitsToFloat(0x7fc00001); // Different NaN
+            assertTrue("NaN(1) equals NaN(2) length " + len, Arrays.equals(a, b));
+            assertTrue("Range NaN(1) equals NaN(2) length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+
+            // Mixed NaN and non-NaN
+            a[0] = 1.0f;
+            b[0] = Float.NaN;
+            assertFalse("1.0 equals NaN length " + len, Arrays.equals(a, b));
+            assertFalse("Range 1.0 equals NaN length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+        }
+    }
+
+    @Test
+    public void testEqualsDoubleTailHandling() {
+        for (int len = 0; len <= 32; len++) {
+            double[] a = new double[len];
+            double[] b = new double[len];
+            Arrays.fill(a, 1.0d);
+            Arrays.fill(b, 1.0d);
+            assertTrue("Length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
+            }
+
+            b[len - 1] = 2.0d;
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = 1.0d;
+
+            // Signed zero
+            a[0] = 0.0d;
+            b[0] = -0.0d;
+            assertFalse("0.0 equals -0.0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range 0.0 equals -0.0 length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+
+            // NaN checks
+            a[0] = Double.NaN;
+            b[0] = Double.NaN;
+            assertTrue("NaN equals NaN length " + len, Arrays.equals(a, b));
+            assertTrue("Range NaN equals NaN length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+
+            // Different NaN bit patterns
+            a[0] = Double.longBitsToDouble(0x7ff8000000000000L); // Standard NaN
+            b[0] = Double.longBitsToDouble(0x7ff8000000000001L); // Different NaN
+            assertTrue("NaN(1) equals NaN(2) length " + len, Arrays.equals(a, b));
+            assertTrue("Range NaN(1) equals NaN(2) length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+
+            // Mixed NaN and non-NaN
+            a[0] = 1.0d;
+            b[0] = Double.NaN;
+            assertFalse("1.0 equals NaN length " + len, Arrays.equals(a, b));
+            assertFalse("Range 1.0 equals NaN length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+        }
+    }
 }
