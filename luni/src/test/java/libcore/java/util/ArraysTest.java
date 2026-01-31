@@ -1042,10 +1042,21 @@ public class ArraysTest {
             Arrays.fill(a, (byte) 1);
             Arrays.fill(b, (byte) 1);
             assertTrue("Length " + len, Arrays.equals(a, b));
-            if (len > 0) {
-                b[len - 1] = (byte) 2;
-                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
             }
+
+            b[0] = (byte) 2;
+            assertFalse("Mismatch 0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch 0 length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[0] = (byte) 1;
+
+            b[len - 1] = (byte) 2;
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = (byte) 1;
         }
     }
 
@@ -1057,10 +1068,21 @@ public class ArraysTest {
             Arrays.fill(a, (short) 1);
             Arrays.fill(b, (short) 1);
             assertTrue("Length " + len, Arrays.equals(a, b));
-            if (len > 0) {
-                b[len - 1] = (short) 2;
-                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
             }
+
+            b[0] = (short) 2;
+            assertFalse("Mismatch 0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch 0 length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[0] = (short) 1;
+
+            b[len - 1] = (short) 2;
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = (short) 1;
         }
     }
 
@@ -1072,10 +1094,21 @@ public class ArraysTest {
             Arrays.fill(a, 'a');
             Arrays.fill(b, 'a');
             assertTrue("Length " + len, Arrays.equals(a, b));
-            if (len > 0) {
-                b[len - 1] = 'b';
-                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
             }
+
+            b[0] = 'b';
+            assertFalse("Mismatch 0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch 0 length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[0] = 'a';
+
+            b[len - 1] = 'b';
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = 'a';
         }
     }
 
@@ -1087,10 +1120,21 @@ public class ArraysTest {
             Arrays.fill(a, 1L);
             Arrays.fill(b, 1L);
             assertTrue("Length " + len, Arrays.equals(a, b));
-            if (len > 0) {
-                b[len - 1] = 2L;
-                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
             }
+
+            b[0] = 2L;
+            assertFalse("Mismatch 0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch 0 length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[0] = 1L;
+
+            b[len - 1] = 2L;
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = 1L;
         }
     }
 
@@ -1102,10 +1146,121 @@ public class ArraysTest {
             Arrays.fill(a, true);
             Arrays.fill(b, true);
             assertTrue("Length " + len, Arrays.equals(a, b));
-            if (len > 0) {
-                b[len - 1] = false;
-                assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
             }
+
+            b[0] = false;
+            assertFalse("Mismatch 0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch 0 length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[0] = true;
+
+            b[len - 1] = false;
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len, Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = true;
+        }
+    }
+
+    @Test
+    public void testEqualsFloatTailHandling() {
+        for (int len = 0; len <= 32; len++) {
+            float[] a = new float[len];
+            float[] b = new float[len];
+            Arrays.fill(a, 1.0f);
+            Arrays.fill(b, 1.0f);
+            assertTrue("Length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
+            }
+
+            b[len - 1] = 2.0f;
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = 1.0f;
+
+            // Signed zero
+            a[0] = 0.0f;
+            b[0] = -0.0f;
+            assertFalse("0.0 equals -0.0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range 0.0 equals -0.0 length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+
+            // NaN checks
+            a[0] = Float.NaN;
+            b[0] = Float.NaN;
+            assertTrue("NaN equals NaN length " + len, Arrays.equals(a, b));
+            assertTrue("Range NaN equals NaN length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+
+            // Different NaN bit patterns
+            a[0] = Float.intBitsToFloat(0x7fc00000); // Standard NaN
+            b[0] = Float.intBitsToFloat(0x7fc00001); // Different NaN
+            assertTrue("NaN(1) equals NaN(2) length " + len, Arrays.equals(a, b));
+            assertTrue("Range NaN(1) equals NaN(2) length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+
+            // Mixed NaN and non-NaN
+            a[0] = 1.0f;
+            b[0] = Float.NaN;
+            assertFalse("1.0 equals NaN length " + len, Arrays.equals(a, b));
+            assertFalse("Range 1.0 equals NaN length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+        }
+    }
+
+    @Test
+    public void testEqualsDoubleTailHandling() {
+        for (int len = 0; len <= 32; len++) {
+            double[] a = new double[len];
+            double[] b = new double[len];
+            Arrays.fill(a, 1.0d);
+            Arrays.fill(b, 1.0d);
+            assertTrue("Length " + len, Arrays.equals(a, b));
+            assertTrue("Range Length " + len, Arrays.equals(a, 0, len, b, 0, len));
+
+            if (len == 0) {
+                continue;
+            }
+
+            b[len - 1] = 2.0d;
+            assertFalse("Mismatch end length " + len, Arrays.equals(a, b));
+            assertFalse("Range Mismatch end length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+            b[len - 1] = 1.0d;
+
+            // Signed zero
+            a[0] = 0.0d;
+            b[0] = -0.0d;
+            assertFalse("0.0 equals -0.0 length " + len, Arrays.equals(a, b));
+            assertFalse("Range 0.0 equals -0.0 length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+
+            // NaN checks
+            a[0] = Double.NaN;
+            b[0] = Double.NaN;
+            assertTrue("NaN equals NaN length " + len, Arrays.equals(a, b));
+            assertTrue("Range NaN equals NaN length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+
+            // Different NaN bit patterns
+            a[0] = Double.longBitsToDouble(0x7ff8000000000000L); // Standard NaN
+            b[0] = Double.longBitsToDouble(0x7ff8000000000001L); // Different NaN
+            assertTrue("NaN(1) equals NaN(2) length " + len, Arrays.equals(a, b));
+            assertTrue("Range NaN(1) equals NaN(2) length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
+
+            // Mixed NaN and non-NaN
+            a[0] = 1.0d;
+            b[0] = Double.NaN;
+            assertFalse("1.0 equals NaN length " + len, Arrays.equals(a, b));
+            assertFalse("Range 1.0 equals NaN length " + len,
+                    Arrays.equals(a, 0, len, b, 0, len));
         }
     }
 }
