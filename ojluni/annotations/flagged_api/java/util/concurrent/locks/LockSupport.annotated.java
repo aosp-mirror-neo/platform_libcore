@@ -34,7 +34,6 @@
  */
 package java.util.concurrent.locks;
 @SuppressWarnings({"unchecked", "deprecation", "all"})
-@android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OPENJDK_25_V1_APIS)
 public final class LockSupport {
 LockSupport() { throw new RuntimeException("Stub!"); }
 public static java.lang.Object getBlocker(java.lang.Thread t) { throw new RuntimeException("Stub!"); }

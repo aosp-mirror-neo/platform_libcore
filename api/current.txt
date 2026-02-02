@@ -17239,7 +17239,7 @@ package java.util.concurrent.locks {
     method public void unlock();
   }
 
-  @FlaggedApi("com.android.libcore.openjdk_25_v1_apis") public final class LockSupport {
+  public final class LockSupport {
     method public static Object getBlocker(Thread);
     method public static void park(Object);
     method public static void park();
