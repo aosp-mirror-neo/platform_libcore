@@ -38,17 +38,12 @@ package java.util.concurrent;
 import static java.lang.ref.Reference.reachabilityFence;
 import dalvik.annotation.optimization.ReachabilitySensitive;
 import java.lang.ref.Cleaner.Cleanable;
-import java.security.AccessControlContext;
-import java.security.AccessControlException;
-import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import jdk.internal.ref.CleanerFactory;
-import sun.security.util.SecurityConstants;
 
 // BEGIN android-note
 // removed security manager docs
@@ -78,7 +73,7 @@ import sun.security.util.SecurityConstants;
  * @since 1.5
  * @author Doug Lea
  */
-public class Executors {
+public final class Executors {
 
     /**
      * Creates a thread pool that reuses a fixed number of threads
@@ -379,7 +374,8 @@ public class Executors {
     /**
      * Returns a default thread factory used to create new threads.
      * This factory creates all new threads used by an Executor in the
-     * same {@link ThreadGroup}. Each new
+     * same {@link ThreadGroup}. It uses the group of the thread
+     * invoking this {@code defaultThreadFactory} method. Each new
      * thread is created as a non-daemon thread with priority set to
      * the smaller of {@code Thread.NORM_PRIORITY} and the maximum
      * priority permitted in the thread group.  New threads have names
@@ -397,12 +393,13 @@ public class Executors {
     /**
      * Legacy security code; do not use.
      *
-     * @deprecated This method is only useful in conjunction with
-     *       {@linkplain SecurityManager the Security Manager}, which is
-     *       deprecated and subject to removal in a future release.
-     *       Consequently, this method is also deprecated and subject to
-     *       removal. There is no replacement for the Security Manager or this
-     *       method.
+     * @deprecated This method originally returned a thread factory that
+     *       created new threads that had the same access control context
+     *       as the current thread. Access control contexts were
+     *       only useful in conjunction with
+     *       {@linkplain SecurityManager the Security Manager}, which is no
+     *       longer supported. There is no replacement for the Security Manager
+     *       or this method.
      */
     @Deprecated(since="17", forRemoval=true)
     public static ThreadFactory privilegedThreadFactory() {
@@ -472,12 +469,13 @@ public class Executors {
     /**
      * Legacy security code; do not use.
      *
-     * @deprecated This method is only useful in conjunction with
-     *       {@linkplain SecurityManager the Security Manager}, which is
-     *       deprecated and subject to removal in a future release.
-     *       Consequently, this method is also deprecated and subject to
-     *       removal. There is no replacement for the Security Manager or this
-     *       method.
+     * @deprecated This method originally returned a {@code Callable} object
+     *       that when called, executed the given {@code callable} under the
+     *       current access control context. Access control contexts were
+     *       only useful in conjunction with
+     *       {@linkplain SecurityManager the Security Manager}, which is no
+     *       longer supported. There is no replacement for the Security Manager
+     *       or this method.
      */
     @Deprecated(since="17", forRemoval=true)
     public static <T> Callable<T> privilegedCallable(Callable<T> callable) {
@@ -490,12 +488,14 @@ public class Executors {
     /**
      * Legacy security code; do not use.
      *
-     * @deprecated This method is only useful in conjunction with
-     *       {@linkplain SecurityManager the Security Manager}, which is
-     *       deprecated and subject to removal in a future release.
-     *       Consequently, this method is also deprecated and subject to
-     *       removal. There is no replacement for the Security Manager or this
-     *       method.
+     * @deprecated This method originally returned a {@code Callable} object
+     *       that when called, executed the given {@code callable} under the
+     *       current access control context, with the current context class
+     *       loader as the context class loader. Access control contexts were
+     *       only useful in conjunction with
+     *       {@linkplain SecurityManager the Security Manager}, which is no
+     *       longer supported. There is no replacement for the Security Manager
+     *       or this method.
      */
     @Deprecated(since="17", forRemoval=true)
     public static <T> Callable<T> privilegedCallableUsingCurrentClassLoader(Callable<T> callable) {
@@ -530,27 +530,13 @@ public class Executors {
      */
     private static final class PrivilegedCallable<T> implements Callable<T> {
         final Callable<T> task;
-        @SuppressWarnings("removal")
-        final AccessControlContext acc;
 
-        @SuppressWarnings("removal")
         PrivilegedCallable(Callable<T> task) {
             this.task = task;
-            this.acc = AccessController.getContext();
         }
 
-        @SuppressWarnings("removal")
         public T call() throws Exception {
-            try {
-                return AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<T>() {
-                        public T run() throws Exception {
-                            return task.call();
-                        }
-                    }, acc);
-            } catch (PrivilegedActionException e) {
-                throw e.getException();
-            }
+            return task.call();
         }
 
         public String toString() {
@@ -565,53 +551,25 @@ public class Executors {
     private static final class PrivilegedCallableUsingCurrentClassLoader<T>
             implements Callable<T> {
         final Callable<T> task;
-        @SuppressWarnings("removal")
-        final AccessControlContext acc;
         final ClassLoader ccl;
 
-        @SuppressWarnings("removal")
         PrivilegedCallableUsingCurrentClassLoader(Callable<T> task) {
-            // Android-removed: System.getSecurityManager always returns null.
-            /*
-            SecurityManager sm = System.getSecurityManager();
-            if (sm != null) {
-                // Calls to getContextClassLoader from this class
-                // never trigger a security check, but we check
-                // whether our callers have this permission anyways.
-                sm.checkPermission(SecurityConstants.GET_CLASSLOADER_PERMISSION);
-
-                // Whether setContextClassLoader turns out to be necessary
-                // or not, we fail fast if permission is not available.
-                sm.checkPermission(new RuntimePermission("setContextClassLoader"));
-            }
-            */
             this.task = task;
-            this.acc = AccessController.getContext();
             this.ccl = Thread.currentThread().getContextClassLoader();
         }
 
-        @SuppressWarnings("removal")
         public T call() throws Exception {
-            try {
-                return AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<T>() {
-                        public T run() throws Exception {
-                            Thread t = Thread.currentThread();
-                            ClassLoader cl = t.getContextClassLoader();
-                            if (ccl == cl) {
-                                return task.call();
-                            } else {
-                                t.setContextClassLoader(ccl);
-                                try {
-                                    return task.call();
-                                } finally {
-                                    t.setContextClassLoader(cl);
-                                }
-                            }
-                        }
-                    }, acc);
-            } catch (PrivilegedActionException e) {
-                throw e.getException();
+            Thread t = Thread.currentThread();
+            ClassLoader cl = t.getContextClassLoader();
+            if (ccl == cl) {
+                return task.call();
+            } else {
+                t.setContextClassLoader(ccl);
+                try {
+                    return task.call();
+                } finally {
+                    t.setContextClassLoader(cl);
+                }
             }
         }
 
@@ -630,10 +588,7 @@ public class Executors {
         private final String namePrefix;
 
         DefaultThreadFactory() {
-            @SuppressWarnings("removal")
-            SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup() :
-                                  Thread.currentThread().getThreadGroup();
+            group = Thread.currentThread().getThreadGroup();
             namePrefix = "pool-" +
                           poolNumber.getAndIncrement() +
                          "-thread-";
@@ -652,44 +607,21 @@ public class Executors {
     }
 
     /**
-     * Thread factory capturing access control context and class loader.
+     * Thread factory capturing the current class loader.
      */
     private static class PrivilegedThreadFactory extends DefaultThreadFactory {
-        @SuppressWarnings("removal")
-        final AccessControlContext acc;
         final ClassLoader ccl;
 
-        @SuppressWarnings("removal")
         PrivilegedThreadFactory() {
             super();
-            // Android-removed: System.getSecurityManager always returns null.
-            /*
-            SecurityManager sm = System.getSecurityManager();
-            if (sm != null) {
-                // Calls to getContextClassLoader from this class
-                // never trigger a security check, but we check
-                // whether our callers have this permission anyways.
-                sm.checkPermission(SecurityConstants.GET_CLASSLOADER_PERMISSION);
-
-                // Fail fast
-                sm.checkPermission(new RuntimePermission("setContextClassLoader"));
-            }
-            */
-            this.acc = AccessController.getContext();
             this.ccl = Thread.currentThread().getContextClassLoader();
         }
 
         public Thread newThread(final Runnable r) {
             return super.newThread(new Runnable() {
-                @SuppressWarnings("removal")
                 public void run() {
-                    AccessController.doPrivileged(new PrivilegedAction<>() {
-                        public Void run() {
-                            Thread.currentThread().setContextClassLoader(ccl);
-                            r.run();
-                            return null;
-                        }
-                    }, acc);
+                    Thread.currentThread().setContextClassLoader(ccl);
+                    r.run();
                 }
             });
         }
@@ -791,9 +723,7 @@ public class Executors {
             super(executor);
             Runnable action = () -> {
                 if (!executor.isShutdown()) {
-                    PrivilegedAction<Void> pa = () -> { executor.shutdown(); return null; };
-                    @SuppressWarnings("removal")
-                    var ignore = AccessController.doPrivileged(pa);
+                    executor.shutdown();
                 }
             };
             cleanable = CleanerFactory.cleaner().register(this, action);
