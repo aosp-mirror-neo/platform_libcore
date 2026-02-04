@@ -13862,7 +13862,7 @@ package java.util {
     method @NonNull public default <T> T[] toArray(@NonNull java.util.function.IntFunction<T[]>);
   }
 
-  public class Collections {
+  public final class Collections {
     method @java.lang.SafeVarargs public static <T> boolean addAll(@NonNull java.util.Collection<? super T>, @NonNull T...);
     method @NonNull public static <T> java.util.Queue<T> asLifoQueue(@NonNull java.util.Deque<T>);
     method public static <T> int binarySearch(@NonNull java.util.List<? extends java.lang.Comparable<? super T>>, @NonNull T);
@@ -13880,13 +13880,13 @@ package java.util {
     method public static boolean disjoint(@NonNull java.util.Collection<?>, @NonNull java.util.Collection<?>);
     method @NonNull public static <T> java.util.Enumeration<T> emptyEnumeration();
     method @NonNull public static <T> java.util.Iterator<T> emptyIterator();
-    method @NonNull public static final <T> java.util.List<T> emptyList();
+    method @NonNull public static <T> java.util.List<T> emptyList();
     method @NonNull public static <T> java.util.ListIterator<T> emptyListIterator();
-    method @NonNull public static final <K, V> java.util.Map<K,V> emptyMap();
-    method @NonNull public static final <K, V> java.util.NavigableMap<K,V> emptyNavigableMap();
+    method @NonNull public static <K, V> java.util.Map<K,V> emptyMap();
+    method @NonNull public static <K, V> java.util.NavigableMap<K,V> emptyNavigableMap();
     method @NonNull public static <E> java.util.NavigableSet<E> emptyNavigableSet();
-    method @NonNull public static final <T> java.util.Set<T> emptySet();
-    method @NonNull public static final <K, V> java.util.SortedMap<K,V> emptySortedMap();
+    method @NonNull public static <T> java.util.Set<T> emptySet();
+    method @NonNull public static <K, V> java.util.SortedMap<K,V> emptySortedMap();
     method @NonNull public static <E> java.util.SortedSet<E> emptySortedSet();
     method @NonNull public static <T> java.util.Enumeration<T> enumeration(@NonNull java.util.Collection<T>);
     method public static <T> void fill(@NonNull java.util.List<? super T>, T);
