@@ -16182,7 +16182,7 @@ package java.util.concurrent {
     method public java.util.concurrent.Future<?> submit(Runnable);
   }
 
-  public class Executors {
+  public final class Executors {
     method public static <T> java.util.concurrent.Callable<T> callable(Runnable, T);
     method public static java.util.concurrent.Callable<java.lang.Object> callable(Runnable);
     method public static java.util.concurrent.Callable<java.lang.Object> callable(java.security.PrivilegedAction<?>);
