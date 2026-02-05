@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, 2023, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021, 2025, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -24,6 +24,9 @@
  */
 
 package java.util;
+
+import dalvik.annotation.compat.VersionCodes;
+import dalvik.system.VMRuntime;
 
 import jdk.internal.util.NullableKeyValueHolder;
 
@@ -263,8 +266,15 @@ public interface SequencedMap<K, V> extends Map<K, V> {
      *
      * @implSpec
      * The implementation in this interface returns a {@code SequencedSet} instance
-     * that behaves as follows. Its {@link SequencedSet#add add} and {@link
-     * SequencedSet#addAll addAll} methods throw {@link UnsupportedOperationException}.
+     * that behaves as follows. Its {@link SequencedSet#add add}, {@link
+     * SequencedSet#addAll addAll}, {@link SequencedSet#addFirst addFirst}, and {@link
+     * SequencedSet#addLast addLast} methods throw {@link UnsupportedOperationException}.
+     * Its {@link SequencedSet#getFirst getFirst} and {@link SequencedSet#getLast getLast}
+     * methods are implemented in terms of the {@link #firstEntry firstEntry} and {@link
+     * #lastEntry lastEntry} methods of this interface, respectively. Its {@link
+     * SequencedSet#removeFirst removeFirst} and {@link SequencedSet#removeLast removeLast}
+     * methods are implemented in terms of the {@link #pollFirstEntry pollFirstEntry} and
+     * {@link #pollLastEntry pollLastEntry} methods of this interface, respectively.
      * Its {@link SequencedSet#reversed reversed} method returns the {@link
      * #sequencedKeySet sequencedKeySet} view of the {@link #reversed reversed} view of
      * this map. Each of its other methods calls the corresponding method of the {@link
@@ -286,6 +296,34 @@ public interface SequencedMap<K, V> extends Map<K, V> {
             public int hashCode() {
                 return view().hashCode();
             }
+            public void addFirst(K k) { throw new UnsupportedOperationException(); }
+            public void addLast(K k) { throw new UnsupportedOperationException(); }
+            // BEGIN Android-changed: keep these methods SequencedSet-based if app targets pre C.
+            public K getFirst() {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                    return SequencedSet.super.getFirst();
+                }
+                return nsee(SequencedMap.this.firstEntry()).getKey();
+            }
+            public K getLast() {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                    return SequencedSet.super.getLast();
+                }
+                return nsee(SequencedMap.this.lastEntry()).getKey();
+            }
+            public K removeFirst() {
+                if  (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                    return SequencedSet.super.removeFirst();
+                }
+                return nsee(SequencedMap.this.pollFirstEntry()).getKey();
+            }
+            public K removeLast() {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                    return SequencedSet.super.removeLast();
+                }
+                return nsee(SequencedMap.this.pollLastEntry()).getKey();
+            }
+            // END Android-changed: keep these methods SequencedSet-based if app targets pre C.
         }
         return new SeqKeySet();
     }
@@ -295,8 +333,15 @@ public interface SequencedMap<K, V> extends Map<K, V> {
      *
      * @implSpec
      * The implementation in this interface returns a {@code SequencedCollection} instance
-     * that behaves as follows. Its {@link SequencedCollection#add add} and {@link
-     * SequencedCollection#addAll addAll} methods throw {@link UnsupportedOperationException}.
+     * that behaves as follows. Its {@link SequencedCollection#add add}, {@link
+     * SequencedCollection#addAll addAll}, {@link SequencedCollection#addFirst addFirst}, and {@link
+     * SequencedCollection#addLast addLast} methods throw {@link UnsupportedOperationException}.
+     * Its {@link SequencedCollection#getFirst getFirst} and {@link SequencedCollection#getLast getLast}
+     * methods are implemented in terms of the {@link #firstEntry firstEntry} and {@link
+     * #lastEntry lastEntry} methods of this interface, respectively. Its {@link
+     * SequencedCollection#removeFirst removeFirst} and {@link SequencedCollection#removeLast removeLast}
+     * methods are implemented in terms of the {@link #pollFirstEntry pollFirstEntry} and
+     * {@link #pollLastEntry pollLastEntry} methods of this interface, respectively.
      * Its {@link SequencedCollection#reversed reversed} method returns the {@link
      * #sequencedValues sequencedValues} view of the {@link #reversed reversed} view of
      * this map. Its {@link Object#equals equals} and {@link Object#hashCode hashCode} methods
@@ -313,6 +358,36 @@ public interface SequencedMap<K, V> extends Map<K, V> {
             public SequencedCollection<V> reversed() {
                 return SequencedMap.this.reversed().sequencedValues();
             }
+            public void addFirst(V v) { throw new UnsupportedOperationException(); }
+            public void addLast(V v) { throw new UnsupportedOperationException(); }
+            // BEGIN Android-changed: keep these methods SequencedCollection-based if app targets
+            // pre C.
+            public V getFirst() {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                    return SequencedCollection.super.getFirst();
+                }
+                return nsee(SequencedMap.this.firstEntry()).getValue();
+            }
+            public V getLast() {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                    return SequencedCollection.super.getLast();
+                }
+                return nsee(SequencedMap.this.lastEntry()).getValue();
+            }
+            public V removeFirst() {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                    return SequencedCollection.super.removeFirst();
+                }
+                return nsee(SequencedMap.this.pollFirstEntry()).getValue();
+            }
+            public V removeLast() {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                    return SequencedCollection.super.removeLast();
+                }
+                return nsee(SequencedMap.this.pollLastEntry()).getValue();
+            }
+            // END Android-changed: keep these methods SequencedCollection-based if app targets
+            // pre C.
         }
         return new SeqValues();
     }
@@ -322,8 +397,15 @@ public interface SequencedMap<K, V> extends Map<K, V> {
      *
      * @implSpec
      * The implementation in this interface returns a {@code SequencedSet} instance
-     * that behaves as follows. Its {@link SequencedSet#add add} and {@link
-     * SequencedSet#addAll addAll} methods throw {@link UnsupportedOperationException}.
+     * that behaves as follows. Its {@link SequencedSet#add add}, {@link
+     * SequencedSet#addAll addAll}, {@link SequencedSet#addFirst addFirst}, and {@link
+     * SequencedSet#addLast addLast} methods throw {@link UnsupportedOperationException}.
+     * Its {@link SequencedSet#getFirst getFirst} and {@link SequencedSet#getLast getLast}
+     * methods are implemented in terms of the {@link #firstEntry firstEntry} and {@link
+     * #lastEntry lastEntry} methods of this interface, respectively. Its {@link
+     * SequencedSet#removeFirst removeFirst} and {@link SequencedSet#removeLast removeLast}
+     * methods are implemented in terms of the {@link #pollFirstEntry pollFirstEntry} and
+     * {@link #pollLastEntry pollLastEntry} methods of this interface, respectively.
      * Its {@link SequencedSet#reversed reversed} method returns the {@link
      * #sequencedEntrySet sequencedEntrySet} view of the {@link #reversed reversed} view of
      * this map. Each of its other methods calls the corresponding method of the {@link
@@ -346,6 +428,34 @@ public interface SequencedMap<K, V> extends Map<K, V> {
             public int hashCode() {
                 return view().hashCode();
             }
+            public void addFirst(Map.Entry<K, V> e) { throw new UnsupportedOperationException(); }
+            public void addLast(Map.Entry<K, V> e) { throw new UnsupportedOperationException(); }
+            // BEGIN Android-changed: keep these methods SequencedSet-based if app targets pre C.
+            public Map.Entry<K, V> getFirst() {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                    return SequencedSet.super.getFirst();
+                }
+                return nsee(SequencedMap.this.firstEntry());
+            }
+            public Map.Entry<K, V> getLast() {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                    return SequencedSet.super.getLast();
+                }
+                return nsee(SequencedMap.this.lastEntry());
+            }
+            public Map.Entry<K, V> removeFirst() {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                    return SequencedSet.super.removeFirst();
+                }
+                return nsee(SequencedMap.this.pollFirstEntry());
+            }
+            public Map.Entry<K, V> removeLast() {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                    return SequencedSet.super.removeLast();
+                }
+                return nsee(SequencedMap.this.pollLastEntry());
+            }
+            // END Android-changed: keep these methods SequencedSet-based if app targets pre C.
         }
         return new SeqEntrySet();
     }
