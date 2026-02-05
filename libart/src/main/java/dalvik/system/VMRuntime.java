@@ -112,7 +112,7 @@ public final class VMRuntime {
      * Throw UnsatisfiedLinkError when attempting to load a writable file.
      */
     @ChangeId
-    @EnabledSince(targetSdkVersion = VersionCodes.C)
+    @EnabledSince(targetSdkVersion = VersionCodes.CINNAMON_BUN)
     private static final long THROW_ERROR_FOR_WRITABLE_DCL = 463348571;
 
     /**

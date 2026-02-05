@@ -1449,7 +1449,7 @@ public class Thread implements Runnable {
      * @hide
      */
     @ChangeId
-    @EnabledSince(targetSdkVersion = VersionCodes.C)
+    @EnabledSince(targetSdkVersion = VersionCodes.CINNAMON_BUN)
     public static final long OVERRIDDEN_THREAD_START_METHOD = 418924588L;
 
     /**
@@ -1459,7 +1459,7 @@ public class Thread implements Runnable {
      */
     void start(ThreadContainer container) {
         // Android-changed: App compat with overridden Thread.start() method. http://b/418924588
-        if (!isVirtual() && !(VMRuntime.getSdkVersion() >= VersionCodes.C
+        if (!isVirtual() && !(VMRuntime.getSdkVersion() >= VersionCodes.CINNAMON_BUN
                 && Compatibility.isChangeEnabled(Thread.OVERRIDDEN_THREAD_START_METHOD))) {
             synchronized (this) {
                 // Disable this check due to app compat http://b/455404369
