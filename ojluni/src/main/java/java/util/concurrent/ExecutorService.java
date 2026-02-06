@@ -386,13 +386,6 @@ public interface ExecutorService extends Executor, AutoCloseable {
      * The default implementation invokes {@code shutdown()} and waits for tasks
      * to complete execution with {@code awaitTermination}.
      *
-     * @throws SecurityException if a security manager exists and
-     *         shutting down this ExecutorService may manipulate
-     *         threads that the caller is not permitted to modify
-     *         because it does not hold {@link
-     *         java.lang.RuntimePermission}{@code ("modifyThread")},
-     *         or the security manager's {@code checkAccess} method
-     *         denies access.
      * @since 19
      */
     // TODO(b/369520931): Add desugaring support for this method.

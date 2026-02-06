@@ -36,7 +36,6 @@
 package java.util.concurrent;
 
 import java.security.AccessController;
-import java.security.AccessControlContext;
 import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
 
@@ -210,17 +209,19 @@ public class ForkJoinWorkerThread extends Thread {
     static final class InnocuousForkJoinWorkerThread extends ForkJoinWorkerThread {
         /** The ThreadGroup for all InnocuousForkJoinWorkerThreads */
         private static final ThreadGroup innocuousThreadGroup;
-        @SuppressWarnings("removal")
-        private static final AccessControlContext innocuousACC;
+        // Android-removed: AccessControlContext removal from JDK 25 brought forward.
+        // @SuppressWarnings("removal")
+        // private static final AccessControlContext innocuousACC;
         InnocuousForkJoinWorkerThread(ForkJoinPool pool) {
             super(innocuousThreadGroup, pool, true, true);
         }
 
-        @Override @SuppressWarnings("removal")
-        protected void onStart() {
-            Thread t = Thread.currentThread();
-            ThreadLocalRandom.setInheritedAccessControlContext(t, innocuousACC);
-        }
+        // Android-removed: AccessControlContext removal from JDK 25 brought forward.
+        // @Override @SuppressWarnings("removal")
+        // protected void onStart() {
+        //     Thread t = Thread.currentThread();
+        //     ThreadLocalRandom.setInheritedAccessControlContext(t, innocuousACC);
+        // }
 
         @Override // to silently fail
         public void setUncaughtExceptionHandler(UncaughtExceptionHandler x) { }
@@ -231,11 +232,12 @@ public class ForkJoinWorkerThread extends Thread {
                 throw new SecurityException("setContextClassLoader");
         }
 
-        @SuppressWarnings("removal")
-        static AccessControlContext createACC() {
-            return new AccessControlContext(
-                new ProtectionDomain[] { new ProtectionDomain(null, null) });
-        }
+        // Android-removed: AccessControlContext removal from JDK 25 brought forward.
+        // @SuppressWarnings("removal")
+        // static AccessControlContext createACC() {
+        //     return new AccessControlContext(
+        //         new ProtectionDomain[] { new ProtectionDomain(null, null) });
+        // }
         static ThreadGroup createGroup() {
             ThreadGroup group = Thread.currentThread().getThreadGroup();
             for (ThreadGroup p; (p = group.getParent()) != null; )
@@ -251,12 +253,13 @@ public class ForkJoinWorkerThread extends Thread {
                 AccessController.doPrivileged(new PrivilegedAction<>() {
                         public ThreadGroup run() {
                             return createGroup(); }});
-            @SuppressWarnings("removal")
-            AccessControlContext a = innocuousACC =
-                (sm == null) ? createACC() :
-                AccessController.doPrivileged(new PrivilegedAction<>() {
-                        public AccessControlContext run() {
-                            return createACC(); }});
+            // Android-removed: AccessControlContext removal from JDK 25.
+            // @SuppressWarnings("removal")
+            // AccessControlContext a = innocuousACC =
+            //     (sm == null) ? createACC() :
+            //     AccessController.doPrivileged(new PrivilegedAction<>() {
+            //             public AccessControlContext run() {
+            //                 return createACC(); }});
         }
     }
 }
