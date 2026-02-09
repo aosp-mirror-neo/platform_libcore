@@ -1088,248 +1088,15 @@ public final class OsConstants {
     }
 
     /**
-     * Returns the string name of an errno value.
-     * For example, "EACCES". See {@link Os#strerror} for human-readable errno descriptions.
+     * Returns the string name of an errno value. For example, "EACCES". See {@link Os#strerror} for
+     * human-readable errno descriptions. The errno value 95 should map to "ENOTSUP" instead of
+     * "EOPNOTSUPP" to preserve the legacy behavior of this function.
      */
     public static String errnoName(int errno) {
-        if (errno == E2BIG) {
-            return "E2BIG";
+        if (errno < 0 || ErrnoNames.TABLE.length <= errno) {
+            return null;
         }
-        if (errno == EACCES) {
-            return "EACCES";
-        }
-        if (errno == EADDRINUSE) {
-            return "EADDRINUSE";
-        }
-        if (errno == EADDRNOTAVAIL) {
-            return "EADDRNOTAVAIL";
-        }
-        if (errno == EAFNOSUPPORT) {
-            return "EAFNOSUPPORT";
-        }
-        if (errno == EAGAIN) {
-            return "EAGAIN";
-        }
-        if (errno == EALREADY) {
-            return "EALREADY";
-        }
-        if (errno == EBADF) {
-            return "EBADF";
-        }
-        if (errno == EBADMSG) {
-            return "EBADMSG";
-        }
-        if (errno == EBUSY) {
-            return "EBUSY";
-        }
-        if (errno == ECANCELED) {
-            return "ECANCELED";
-        }
-        if (errno == ECHILD) {
-            return "ECHILD";
-        }
-        if (errno == ECONNABORTED) {
-            return "ECONNABORTED";
-        }
-        if (errno == ECONNREFUSED) {
-            return "ECONNREFUSED";
-        }
-        if (errno == ECONNRESET) {
-            return "ECONNRESET";
-        }
-        if (errno == EDEADLK) {
-            return "EDEADLK";
-        }
-        if (errno == EDESTADDRREQ) {
-            return "EDESTADDRREQ";
-        }
-        if (errno == EDOM) {
-            return "EDOM";
-        }
-        if (errno == EDQUOT) {
-            return "EDQUOT";
-        }
-        if (errno == EEXIST) {
-            return "EEXIST";
-        }
-        if (errno == EFAULT) {
-            return "EFAULT";
-        }
-        if (errno == EFBIG) {
-            return "EFBIG";
-        }
-        if (errno == EHOSTUNREACH) {
-            return "EHOSTUNREACH";
-        }
-        if (errno == EIDRM) {
-            return "EIDRM";
-        }
-        if (errno == EILSEQ) {
-            return "EILSEQ";
-        }
-        if (errno == EINPROGRESS) {
-            return "EINPROGRESS";
-        }
-        if (errno == EINTR) {
-            return "EINTR";
-        }
-        if (errno == EINVAL) {
-            return "EINVAL";
-        }
-        if (errno == EIO) {
-            return "EIO";
-        }
-        if (errno == EISCONN) {
-            return "EISCONN";
-        }
-        if (errno == EISDIR) {
-            return "EISDIR";
-        }
-        if (errno == ELOOP) {
-            return "ELOOP";
-        }
-        if (errno == EMFILE) {
-            return "EMFILE";
-        }
-        if (errno == EMLINK) {
-            return "EMLINK";
-        }
-        if (errno == EMSGSIZE) {
-            return "EMSGSIZE";
-        }
-        if (errno == EMULTIHOP) {
-            return "EMULTIHOP";
-        }
-        if (errno == ENAMETOOLONG) {
-            return "ENAMETOOLONG";
-        }
-        if (errno == ENETDOWN) {
-            return "ENETDOWN";
-        }
-        if (errno == ENETRESET) {
-            return "ENETRESET";
-        }
-        if (errno == ENETUNREACH) {
-            return "ENETUNREACH";
-        }
-        if (errno == ENFILE) {
-            return "ENFILE";
-        }
-        if (errno == ENOBUFS) {
-            return "ENOBUFS";
-        }
-        if (errno == ENODATA) {
-            return "ENODATA";
-        }
-        if (errno == ENODEV) {
-            return "ENODEV";
-        }
-        if (errno == ENOENT) {
-            return "ENOENT";
-        }
-        if (errno == ENOEXEC) {
-            return "ENOEXEC";
-        }
-        if (errno == ENOLCK) {
-            return "ENOLCK";
-        }
-        if (errno == ENOLINK) {
-            return "ENOLINK";
-        }
-        if (errno == ENOMEM) {
-            return "ENOMEM";
-        }
-        if (errno == ENOMSG) {
-            return "ENOMSG";
-        }
-        if (errno == ENONET) {
-            return "ENONET";
-        }
-        if (errno == ENOPROTOOPT) {
-            return "ENOPROTOOPT";
-        }
-        if (errno == ENOSPC) {
-            return "ENOSPC";
-        }
-        if (errno == ENOSR) {
-            return "ENOSR";
-        }
-        if (errno == ENOSTR) {
-            return "ENOSTR";
-        }
-        if (errno == ENOSYS) {
-            return "ENOSYS";
-        }
-        if (errno == ENOTCONN) {
-            return "ENOTCONN";
-        }
-        if (errno == ENOTDIR) {
-            return "ENOTDIR";
-        }
-        if (errno == ENOTEMPTY) {
-            return "ENOTEMPTY";
-        }
-        if (errno == ENOTSOCK) {
-            return "ENOTSOCK";
-        }
-        if (errno == ENOTSUP) {
-            return "ENOTSUP";
-        }
-        if (errno == ENOTTY) {
-            return "ENOTTY";
-        }
-        if (errno == ENXIO) {
-            return "ENXIO";
-        }
-        if (errno == EOPNOTSUPP) {
-            return "EOPNOTSUPP";
-        }
-        if (errno == EOVERFLOW) {
-            return "EOVERFLOW";
-        }
-        if (errno == EPERM) {
-            return "EPERM";
-        }
-        if (errno == EPIPE) {
-            return "EPIPE";
-        }
-        if (errno == EPROTO) {
-            return "EPROTO";
-        }
-        if (errno == EPROTONOSUPPORT) {
-            return "EPROTONOSUPPORT";
-        }
-        if (errno == EPROTOTYPE) {
-            return "EPROTOTYPE";
-        }
-        if (errno == ERANGE) {
-            return "ERANGE";
-        }
-        if (errno == EROFS) {
-            return "EROFS";
-        }
-        if (errno == ESPIPE) {
-            return "ESPIPE";
-        }
-        if (errno == ESRCH) {
-            return "ESRCH";
-        }
-        if (errno == ESTALE) {
-            return "ESTALE";
-        }
-        if (errno == ETIME) {
-            return "ETIME";
-        }
-        if (errno == ETIMEDOUT) {
-            return "ETIMEDOUT";
-        }
-        if (errno == ETXTBSY) {
-            return "ETXTBSY";
-        }
-        if (errno == EXDEV) {
-            return "EXDEV";
-        }
-        return null;
+        return ErrnoNames.TABLE[errno];
     }
 
     static {
@@ -1843,5 +1610,99 @@ public final class OsConstants {
         XATTR_CREATE = 1;
         XATTR_REPLACE = 2;
         X_OK = 1;
+    }
+
+    /**
+     * Private class to hold the String name constants of errno values in a static table without
+     * adding any additional static field in {@code OsConstants}. A private class also avoids the
+     * cost of creating the lookup table until the first call to OsConstants.errnoName().
+     */
+    private static final class ErrnoNames {
+        // Lookup table for errno names. The errno values are directly used as indexes into the array.
+        private static final String[] TABLE = new String[126]; // ECANCELED + 1
+
+        static {
+            TABLE[E2BIG] = "E2BIG";
+            TABLE[EACCES] = "EACCES";
+            TABLE[EADDRINUSE] = "EADDRINUSE";
+            TABLE[EADDRNOTAVAIL] = "EADDRNOTAVAIL";
+            TABLE[EAFNOSUPPORT] = "EAFNOSUPPORT";
+            TABLE[EAGAIN] = "EAGAIN";
+            TABLE[EALREADY] = "EALREADY";
+            TABLE[EBADF] = "EBADF";
+            TABLE[EBADMSG] = "EBADMSG";
+            TABLE[EBUSY] = "EBUSY";
+            TABLE[ECANCELED] = "ECANCELED";
+            TABLE[ECHILD] = "ECHILD";
+            TABLE[ECONNABORTED] = "ECONNABORTED";
+            TABLE[ECONNREFUSED] = "ECONNREFUSED";
+            TABLE[ECONNRESET] = "ECONNRESET";
+            TABLE[EDEADLK] = "EDEADLK";
+            TABLE[EDESTADDRREQ] = "EDESTADDRREQ";
+            TABLE[EDOM] = "EDOM";
+            TABLE[EDQUOT] = "EDQUOT";
+            TABLE[EEXIST] = "EEXIST";
+            TABLE[EFAULT] = "EFAULT";
+            TABLE[EFBIG] = "EFBIG";
+            TABLE[EHOSTUNREACH] = "EHOSTUNREACH";
+            TABLE[EIDRM] = "EIDRM";
+            TABLE[EILSEQ] = "EILSEQ";
+            TABLE[EINPROGRESS] = "EINPROGRESS";
+            TABLE[EINTR] = "EINTR";
+            TABLE[EINVAL] = "EINVAL";
+            TABLE[EIO] = "EIO";
+            TABLE[EISCONN] = "EISCONN";
+            TABLE[EISDIR] = "EISDIR";
+            TABLE[ELOOP] = "ELOOP";
+            TABLE[EMFILE] = "EMFILE";
+            TABLE[EMLINK] = "EMLINK";
+            TABLE[EMSGSIZE] = "EMSGSIZE";
+            TABLE[EMULTIHOP] = "EMULTIHOP";
+            TABLE[ENAMETOOLONG] = "ENAMETOOLONG";
+            TABLE[ENETDOWN] = "ENETDOWN";
+            TABLE[ENETRESET] = "ENETRESET";
+            TABLE[ENETUNREACH] = "ENETUNREACH";
+            TABLE[ENFILE] = "ENFILE";
+            TABLE[ENOBUFS] = "ENOBUFS";
+            TABLE[ENODATA] = "ENODATA";
+            TABLE[ENODEV] = "ENODEV";
+            TABLE[ENOENT] = "ENOENT";
+            TABLE[ENOEXEC] = "ENOEXEC";
+            TABLE[ENOLCK] = "ENOLCK";
+            TABLE[ENOLINK] = "ENOLINK";
+            TABLE[ENOMEM] = "ENOMEM";
+            TABLE[ENOMSG] = "ENOMSG";
+            TABLE[ENONET] = "ENONET";
+            TABLE[ENOPROTOOPT] = "ENOPROTOOPT";
+            TABLE[ENOSPC] = "ENOSPC";
+            TABLE[ENOSR] = "ENOSR";
+            TABLE[ENOSTR] = "ENOSTR";
+            TABLE[ENOSYS] = "ENOSYS";
+            TABLE[ENOTCONN] = "ENOTCONN";
+            TABLE[ENOTDIR] = "ENOTDIR";
+            TABLE[ENOTEMPTY] = "ENOTEMPTY";
+            TABLE[ENOTSOCK] = "ENOTSOCK";
+            TABLE[ENOTTY] = "ENOTTY";
+            TABLE[ENXIO] = "ENXIO";
+            // The errno value 95 should map to "EOPNOTSUPP" instead of "ENOTSUP" for preserving
+            // legacy behavior.
+            TABLE[EOPNOTSUPP] = "EOPNOTSUPP";
+            TABLE[EOVERFLOW] = "EOVERFLOW";
+            TABLE[EPERM] = "EPERM";
+            TABLE[EPIPE] = "EPIPE";
+            TABLE[EPROTO] = "EPROTO";
+            TABLE[EPROTONOSUPPORT] = "EPROTONOSUPPORT";
+            TABLE[EPROTOTYPE] = "EPROTOTYPE";
+            TABLE[ERANGE] = "ERANGE";
+            TABLE[EROFS] = "EROFS";
+            TABLE[ESPIPE] = "ESPIPE";
+            TABLE[ESRCH] = "ESRCH";
+            TABLE[ESTALE] = "ESTALE";
+            TABLE[ETIME] = "ETIME";
+            TABLE[ETIMEDOUT] = "ETIMEDOUT";
+            TABLE[ETXTBSY] = "ETXTBSY";
+            TABLE[EUSERS] = "EUSERS";
+            TABLE[EXDEV] = "EXDEV";
+        }
     }
 }
