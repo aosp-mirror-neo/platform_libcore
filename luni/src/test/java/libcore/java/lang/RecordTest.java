@@ -92,7 +92,7 @@ public class RecordTest {
     }
 
     @Test
-    @TargetSdkVersion(VersionCodes.CINNAMON_BUN)
+    @TargetSdkVersion(VersionCodes.C)
     public void gettingRecordFieldOffset_shouldThrow_afterBaklava() throws Throwable {
         // Check is for C+ only. For compat purposes on older OS version this is allowed.
         assumeTrue(VMRuntime.getSdkVersion() > VersionCodes.BAKLAVA);

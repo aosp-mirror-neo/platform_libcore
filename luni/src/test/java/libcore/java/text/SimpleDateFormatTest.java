@@ -462,7 +462,7 @@ public class SimpleDateFormatTest extends junit.framework.TestCase {
     }
 
     // http://b/17431155
-    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.CINNAMON_BUN)
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     public void test_sl_dates() throws Exception {
         DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, new Locale("sl"));
         assertEquals(TimeZone.getDefault(), df.getTimeZone());

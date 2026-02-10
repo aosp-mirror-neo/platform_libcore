@@ -184,7 +184,7 @@ public class TestNonIsoFormatter {
     }
 
     @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY,
-        disabledUntilSdk = VersionCodes.CINNAMON_BUN)
+        disabledUntilSdk = VersionCodes.C)
     @Test(dataProvider="chrono_names")
     public void test_chronoNames(Chronology chrono, Locale locale, String expected) {
         DateTimeFormatter dtf = new DateTimeFormatterBuilder().appendChronologyText(TextStyle.SHORT)

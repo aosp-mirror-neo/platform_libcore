@@ -47,7 +47,7 @@ public class CurrencyTest {
     @Parameterized.Parameter(0)
     public Locale locale;
 
-    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.CINNAMON_BUN)
+    @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY, disabledUntilSdk = VersionCodes.C)
     @Test
     public void test_currencyCodeIcuConsistency() {
         String countryCode = locale.getCountry();
