@@ -53,10 +53,10 @@ public final class FieldTest {
     }
 
     @Test
-    @TargetSdkVersion(VersionCodes.C)
+    @TargetSdkVersion(VersionCodes.CINNAMON_BUN)
     public void testSetStaticFinalField_shouldThrow_afterBaklava() throws Exception {
         // Prior to Android C it was possible to override static final fields.
-        assumeTrue(VMRuntime.getSdkVersion() >= VersionCodes.C);
+        assumeTrue(VMRuntime.getSdkVersion() >= VersionCodes.CINNAMON_BUN);
         Field longField = getClass().getDeclaredField("MY_LONG");
         longField.setAccessible(true);
 
@@ -80,10 +80,10 @@ public final class FieldTest {
     }
 
     @Test
-    @TargetSdkVersion(VersionCodes.C)
+    @TargetSdkVersion(VersionCodes.CINNAMON_BUN)
     public void setWriteProtectedField_shouldThrow_afterBaklava() throws Exception {
         // Prior to Android C it was possible to override static final fields.
-        assumeTrue(VMRuntime.getSdkVersion() >= VersionCodes.C);
+        assumeTrue(VMRuntime.getSdkVersion() >= VersionCodes.CINNAMON_BUN);
 
         Field systemIn = System.class.getDeclaredField("in");
         systemIn.setAccessible(true);

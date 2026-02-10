@@ -103,9 +103,8 @@ public class VersionCodes {
     public static final int BAKLAVA = 36;
 
     /**
-     * C.
-     * C comes after B. Not yet announced Android release.
+     * Cinnamon Bun.
      * @hide
      */
-    public static final int C = CUR_DEVELOPMENT;
+    public static final int CINNAMON_BUN = CUR_DEVELOPMENT;
 }

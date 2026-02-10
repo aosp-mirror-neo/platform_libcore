@@ -199,7 +199,7 @@ public class TestEraDisplayName {
 
     // Android-changed: The ICU data is different before ICU version 70. http://b/229960530
     @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY,
-            disabledUntilSdk = VersionCodes.C)
+            disabledUntilSdk = VersionCodes.CINNAMON_BUN)
     @Test(dataProvider="eraDisplayName")
     public void test_eraDisplayName(Era era, TextStyle style, Locale locale, String expected) {
         assertEquals(era.getDisplayName(style, locale), expected);
