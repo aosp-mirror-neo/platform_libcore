@@ -1663,6 +1663,7 @@ filegroup {
         "ojluni/src/main/java/jdk/internal/vm/ThreadContainers.java",
         "ojluni/src/main/java/jdk/internal/vm/ThreadDumper.java",
         "ojluni/src/main/java/jdk/internal/util/ArraysSupport.java",
+        "ojluni/src/main/java/jdk/internal/util/HexDigits.java",
         "ojluni/src/main/java/jdk/internal/util/NullableKeyValueHolder.java",
         "ojluni/src/main/java/jdk/internal/util/Preconditions.java",
         "ojluni/src/main/java/jdk/internal/util/ReferencedKeyMap.java",
