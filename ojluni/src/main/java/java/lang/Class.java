@@ -270,7 +270,7 @@ public final class Class<T> implements java.io.Serializable,
     /**
      * tid used to check for recursive static initializer invocation.
      */
-    private transient int clinitThreadIdOrHash;
+    private transient int clinitThreadId;
 
     /**
      * Class def index from dex file. An index of 65535 indicates that there is no class definition,
