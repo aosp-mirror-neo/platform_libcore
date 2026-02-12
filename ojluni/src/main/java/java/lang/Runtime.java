@@ -949,9 +949,11 @@ public class Runtime {
                         fromClass.getPackageName(),
                         file.getName());
             }
+            // TODO: before the read_only_dynamic_code_load_throw_exception flag is pushed to
+            // NextFood, we will need to add the if (VMRuntime.getSdkVersion() >= VersionCodes.C)
+            // check here.
             if (VMRuntime.isReadOnlyDynamicCodeLoadThrowExceptionEnabled()
-                    && VMRuntime.isThrowErrorForWritableDclEnabled()
-                    && VMRuntime.getSdkVersion() >= VersionCodes.C) {
+                    && VMRuntime.isThrowErrorForWritableDclEnabled()) {
                 throw new UnsatisfiedLinkError(
                   "Attempt to load writable file: " + filename);
             }
