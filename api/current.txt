@@ -12569,6 +12569,7 @@ package java.time.chrono {
     method public default String getDisplayName(java.time.format.TextStyle, java.util.Locale);
     method public String getId();
     method public int hashCode();
+    method @FlaggedApi("com.android.libcore.openjdk_25_v2_apis") public default boolean isIsoBased();
     method public boolean isLeapYear(long);
     method public default java.time.chrono.ChronoLocalDateTime<? extends java.time.chrono.ChronoLocalDate> localDateTime(java.time.temporal.TemporalAccessor);
     method public static java.time.chrono.Chronology of(String);
@@ -12662,6 +12663,7 @@ package java.time.chrono {
     method public java.util.List<java.time.chrono.Era> eras();
     method public String getCalendarType();
     method public String getId();
+    method @FlaggedApi("com.android.libcore.openjdk_25_v2_apis") public boolean isIsoBased();
     method public boolean isLeapYear(long);
     method public java.time.LocalDateTime localDateTime(java.time.temporal.TemporalAccessor);
     method public java.time.Period period(int, int, int);
@@ -12694,6 +12696,7 @@ package java.time.chrono {
     method public java.util.List<java.time.chrono.Era> eras();
     method public String getCalendarType();
     method public String getId();
+    method @FlaggedApi("com.android.libcore.openjdk_25_v2_apis") public boolean isIsoBased();
     method public boolean isLeapYear(long);
     method public java.time.chrono.ChronoLocalDateTime<java.time.chrono.JapaneseDate> localDateTime(java.time.temporal.TemporalAccessor);
     method public int prolepticYear(java.time.chrono.Era, int);
@@ -12759,6 +12762,7 @@ package java.time.chrono {
     method public java.util.List<java.time.chrono.Era> eras();
     method public String getCalendarType();
     method public String getId();
+    method @FlaggedApi("com.android.libcore.openjdk_25_v2_apis") public boolean isIsoBased();
     method public boolean isLeapYear(long);
     method public java.time.chrono.ChronoLocalDateTime<java.time.chrono.MinguoDate> localDateTime(java.time.temporal.TemporalAccessor);
     method public int prolepticYear(java.time.chrono.Era, int);
@@ -12814,6 +12818,7 @@ package java.time.chrono {
     method public java.util.List<java.time.chrono.Era> eras();
     method public String getCalendarType();
     method public String getId();
+    method @FlaggedApi("com.android.libcore.openjdk_25_v2_apis") public boolean isIsoBased();
     method public boolean isLeapYear(long);
     method public java.time.chrono.ChronoLocalDateTime<java.time.chrono.ThaiBuddhistDate> localDateTime(java.time.temporal.TemporalAccessor);
     method public int prolepticYear(java.time.chrono.Era, int);
