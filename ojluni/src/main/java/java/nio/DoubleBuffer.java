@@ -274,7 +274,7 @@ public abstract class DoubleBuffer
     implements Comparable<DoubleBuffer>
 {
     // Cached array base offset
-    private static final long ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(double[].class);
+    private static final long ARRAY_BASE_OFFSET = Unsafe.ARRAY_DOUBLE_BASE_OFFSET;
 
     // These fields are declared here rather than in Heap-X-Buffer in order to
     // reduce the number of virtual method invocations needed to access these

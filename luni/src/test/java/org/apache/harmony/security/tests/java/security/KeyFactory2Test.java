@@ -45,9 +45,11 @@ public class KeyFactory2Test extends junit.framework.TestCase {
 
     private static final String KEYFACTORY_ID = "KeyFactory.";
 
-    private String[] keyfactAlgs = null;
+    private String[] keyfactAlgs = {
+        "EC", "RSA"
+    };
 
-    private String providerName = null;
+    private String providerName = "AndroidOpenSSL";
 
     // XDH, EdDSA, ML-DSA, SLH-DSA are fully tested in Conscrypt
     private static final Set<String> SKIPPED_KEYFACTORY_ALGORITHMS = new HashSet<>(Arrays.asList(

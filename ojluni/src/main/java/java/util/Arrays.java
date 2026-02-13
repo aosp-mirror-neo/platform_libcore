@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 The Android Open Source Project
- * Copyright (c) 1997, 2023, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2025, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -34,7 +34,6 @@ import dalvik.annotation.compat.VersionCodes;
 import dalvik.system.VMRuntime;
 
 import jdk.internal.util.ArraysSupport;
-import jdk.internal.vm.annotation.ForceInline;
 import jdk.internal.vm.annotation.IntrinsicCandidate;
 
 import jdk.internal.misc.Unsafe;
@@ -1017,11 +1016,8 @@ public final class Arrays {
      * circular dependencies. To be removed in a future release.
      * 
     static final class LegacyMergeSort {
-        @SuppressWarnings("removal")
         private static final boolean userRequested =
-            java.security.AccessController.doPrivileged(
-                new sun.security.action.GetBooleanAction(
-                    "java.util.Arrays.useLegacyMergeSort")).booleanValue();
+                Boolean.getBoolean("java.util.Arrays.useLegacyMergeSort");
     }
     */
     // END Android-removed: LegacyMergeSort class (unused on Android).
@@ -1180,7 +1176,7 @@ public final class Arrays {
      * off is the offset to generate corresponding low, high in src
      * To be removed in a future release.
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings("unchecked")
     private static void mergeSort(Object[] src,
                                   Object[] dest,
                                   int low,
@@ -4228,8 +4224,8 @@ public final class Arrays {
      * is greater than that of the original array.
      * The resulting array is of the class {@code newType}.
      *
-     * @param <U> the class of the objects in the original array
      * @param <T> the class of the objects in the returned array
+     * @param <U> the class of the objects in the original array
      * @param original the array to be copied
      * @param newLength the length of the copy to be returned
      * @param newType the class of the copy to be returned
@@ -4543,8 +4539,8 @@ public final class Arrays {
      * of the returned array will be {@code to - from}.
      * The resulting array is of the class {@code newType}.
      *
-     * @param <U> the class of the objects in the original array
      * @param <T> the class of the objects in the returned array
+     * @param <U> the class of the objects in the original array
      * @param original the array from which a range is to be copied
      * @param from the initial index of the range to be copied, inclusive
      * @param to the final index of the range to be copied, exclusive.
@@ -4564,8 +4560,9 @@ public final class Arrays {
     @IntrinsicCandidate
     public static <T,U> T[] copyOfRange(U[] original, int from, int to, Class<? extends T[]> newType) {
         int newLength = to - from;
-        if (newLength < 0)
+        if (newLength < 0) {
             throw new IllegalArgumentException(from + " > " + to);
+        }
         @SuppressWarnings("unchecked")
         T[] copy = ((Object)newType == (Object)Object[].class)
             ? (T[]) new Object[newLength]
@@ -4573,13 +4570,6 @@ public final class Arrays {
         System.arraycopy(original, from, copy, 0,
                          Math.min(original.length - from, newLength));
         return copy;
-    }
-
-    @ForceInline
-    private static void checkLength(int from, int to) {
-        if (to < from) {
-            throw new IllegalArgumentException(from + " > " + to);
-        }
     }
 
     /**
@@ -4609,24 +4599,19 @@ public final class Arrays {
      * @since 1.6
      */
     public static byte[] copyOfRange(byte[] original, int from, int to) {
-        // Tickle the JIT to fold special cases optimally
         // Android-changed: TODO(b/359517996) .clone() is slower than System.arraycopy.
         /*
-        if (from != 0 || to != original.length)
-            return copyOfRangeByte(original, from, to);
-        else // from == 0 && to == original.length
+        if (from == 0 && to == original.length) {
             return original.clone();
+        }
         */
-        return copyOfRangeByte(original, from, to);
-    }
-
-    @ForceInline
-    private static byte[] copyOfRangeByte(byte[] original, int from, int to) {
-        checkLength(from, to);
         int newLength = to - from;
+        if (newLength < 0) {
+            throw new IllegalArgumentException(from + " > " + to);
+        }
         byte[] copy = new byte[newLength];
         System.arraycopy(original, from, copy, 0,
-                         Math.min(original.length - from, newLength));
+                Math.min(original.length - from, newLength));
         return copy;
     }
 
@@ -4657,21 +4642,16 @@ public final class Arrays {
      * @since 1.6
      */
     public static short[] copyOfRange(short[] original, int from, int to) {
-        // Tickle the JIT to fold special cases optimally
         // Android-changed: TODO(b/359517996) .clone() is slower than System.arraycopy.
         /*
-        if (from != 0 || to != original.length)
-            return copyOfRangeShort(original, from, to);
-        else // from == 0 && to == original.length
+        if (from == 0 && to == original.length) {
             return original.clone();
+        }
         */
-        return copyOfRangeShort(original, from, to);
-    }
-
-    @ForceInline
-    private static short[] copyOfRangeShort(short[] original, int from, int to) {
-        checkLength(from, to);
         int newLength = to - from;
+        if (newLength < 0) {
+            throw new IllegalArgumentException(from + " > " + to);
+        }
         short[] copy = new short[newLength];
         System.arraycopy(original, from, copy, 0,
                          Math.min(original.length - from, newLength));
@@ -4705,21 +4685,16 @@ public final class Arrays {
      * @since 1.6
      */
     public static int[] copyOfRange(int[] original, int from, int to) {
-        // Tickle the JIT to fold special cases optimally
         // Android-changed: TODO(b/359517996) .clone() is slower than System.arraycopy.
         /*
-        if (from != 0 || to != original.length)
-            return copyOfRangeInt(original, from, to);
-        else // from == 0 && to == original.length
+        if (from == 0 && to == original.length) {
             return original.clone();
+        }
         */
-        return copyOfRangeInt(original, from, to);
-    }
-
-    @ForceInline
-    private static int[] copyOfRangeInt(int[] original, int from, int to) {
-        checkLength(from, to);
         int newLength = to - from;
+        if (newLength < 0) {
+            throw new IllegalArgumentException(from + " > " + to);
+        }
         int[] copy = new int[newLength];
         System.arraycopy(original, from, copy, 0,
                          Math.min(original.length - from, newLength));
@@ -4753,21 +4728,16 @@ public final class Arrays {
      * @since 1.6
      */
     public static long[] copyOfRange(long[] original, int from, int to) {
-        // Tickle the JIT to fold special cases optimally
         // Android-changed: TODO(b/359517996) .clone() is slower than System.arraycopy.
         /*
-        if (from != 0 || to != original.length)
-            return copyOfRangeLong(original, from, to);
-        else // from == 0 && to == original.length
+        if (from == 0 && to == original.length) {
             return original.clone();
+        }
         */
-        return copyOfRangeLong(original, from, to);
-    }
-
-    @ForceInline
-    private static long[] copyOfRangeLong(long[] original, int from, int to) {
-        checkLength(from, to);
         int newLength = to - from;
+        if (newLength < 0) {
+            throw new IllegalArgumentException(from + " > " + to);
+        }
         long[] copy = new long[newLength];
         System.arraycopy(original, from, copy, 0,
                          Math.min(original.length - from, newLength));
@@ -4801,22 +4771,16 @@ public final class Arrays {
      * @since 1.6
      */
     public static char[] copyOfRange(char[] original, int from, int to) {
-        // Tickle the JIT to fold special cases optimally
         // Android-changed: TODO(b/359517996) .clone() is slower than System.arraycopy.
         /*
-        if (from != 0 || to != original.length)
-            return copyOfRangeChar(original, from, to);
-        else // from == 0 && to == original.length
+        if (from == 0 && to == original.length) {
             return original.clone();
+        }
         */
-        return copyOfRangeChar(original, from, to);
-    }
-
-
-    @ForceInline
-    private static char[] copyOfRangeChar(char[] original, int from, int to) {
-        checkLength(from, to);
         int newLength = to - from;
+        if (newLength < 0) {
+            throw new IllegalArgumentException(from + " > " + to);
+        }
         char[] copy = new char[newLength];
         System.arraycopy(original, from, copy, 0,
                          Math.min(original.length - from, newLength));
@@ -4850,22 +4814,16 @@ public final class Arrays {
      * @since 1.6
      */
     public static float[] copyOfRange(float[] original, int from, int to) {
-        // Tickle the JIT to fold special cases optimally
         // Android-changed: TODO(b/359517996) .clone() is slower than System.arraycopy.
         /*
-        if (from != 0 || to != original.length)
-            return copyOfRangeFloat(original, from, to);
-        else // from == 0 && to == original.length
+        if (from == 0 && to == original.length) {
             return original.clone();
+        }
         */
-        return copyOfRangeFloat(original, from, to);
-    }
-
-
-    @ForceInline
-    private static float[] copyOfRangeFloat(float[] original, int from, int to) {
-        checkLength(from, to);
         int newLength = to - from;
+        if (newLength < 0) {
+            throw new IllegalArgumentException(from + " > " + to);
+        }
         float[] copy = new float[newLength];
         System.arraycopy(original, from, copy, 0,
                          Math.min(original.length - from, newLength));
@@ -4899,22 +4857,16 @@ public final class Arrays {
      * @since 1.6
      */
     public static double[] copyOfRange(double[] original, int from, int to) {
-        // Tickle the JIT to fold special cases optimally
         // Android-changed: TODO(b/359517996) .clone() is slower than System.arraycopy.
         /*
-        if (from != 0 || to != original.length)
-            return copyOfRangeDouble(original, from, to);
-        else // from == 0 && to == original.length
+        if (from == 0 && to == original.length) {
             return original.clone();
+        }
         */
-        return copyOfRangeDouble(original, from, to);
-    }
-
-
-    @ForceInline
-    private static double[] copyOfRangeDouble(double[] original, int from, int to) {
-        checkLength(from, to);
         int newLength = to - from;
+        if (newLength < 0) {
+            throw new IllegalArgumentException(from + " > " + to);
+        }
         double[] copy = new double[newLength];
         System.arraycopy(original, from, copy, 0,
                          Math.min(original.length - from, newLength));
@@ -4948,22 +4900,16 @@ public final class Arrays {
      * @since 1.6
      */
     public static boolean[] copyOfRange(boolean[] original, int from, int to) {
-        // Tickle the JIT to fold special cases optimally
         // Android-changed: TODO(b/359517996) .clone() is slower than System.arraycopy.
         /*
-        if (from != 0 || to != original.length)
-            return copyOfRangeBoolean(original, from, to);
-        else // from == 0 && to == original.length
+        if (from == 0 && to == original.length) {
             return original.clone();
+        }
         */
-        return copyOfRangeBoolean(original, from, to);
-    }
-
-
-    @ForceInline
-    private static boolean[] copyOfRangeBoolean(boolean[] original, int from, int to) {
-        checkLength(from, to);
         int newLength = to - from;
+        if (newLength < 0) {
+            throw new IllegalArgumentException(from + " > " + to);
+        }
         boolean[] copy = new boolean[newLength];
         System.arraycopy(original, from, copy, 0,
                          Math.min(original.length - from, newLength));
@@ -5044,6 +4990,8 @@ public final class Arrays {
     {
         @java.io.Serial
         private static final long serialVersionUID = -2764017481108945198L;
+        /** @serial */
+        @SuppressWarnings("serial") // Conditionally serializable
         private final E[] a;
 
         ArrayList(E[] array) {
@@ -5200,8 +5148,7 @@ public final class Arrays {
         }
         int result = 1;
         for (long element : a) {
-            int elementHash = (int)(element ^ (element >>> 32));
-            result = 31 * result + elementHash;
+            result = 31 * result + Long.hashCode(element);
         }
         return result;
     }
@@ -5226,11 +5173,7 @@ public final class Arrays {
         if (a == null) {
             return 0;
         }
-        return switch (a.length) {
-            case 0 -> 1;
-            case 1 -> 31 + a[0];
-            default -> ArraysSupport.vectorizedHashCode(a, 0, a.length, 1, ArraysSupport.T_INT);
-        };
+        return ArraysSupport.hashCode(a, 0, a.length, 1);
     }
 
     /**
@@ -5253,11 +5196,7 @@ public final class Arrays {
         if (a == null) {
             return 0;
         }
-        return switch (a.length) {
-            case 0 -> 1;
-            case 1 -> 31 + (int)a[0];
-            default -> ArraysSupport.vectorizedHashCode(a, 0, a.length, 1, ArraysSupport.T_SHORT);
-        };
+        return ArraysSupport.hashCode(a, 0, a.length, 1);
     }
 
     /**
@@ -5280,11 +5219,7 @@ public final class Arrays {
         if (a == null) {
             return 0;
         }
-        return switch (a.length) {
-            case 0 -> 1;
-            case 1 -> 31 + (int)a[0];
-            default -> ArraysSupport.vectorizedHashCode(a, 0, a.length, 1, ArraysSupport.T_CHAR);
-        };
+        return ArraysSupport.hashCode(a, 0, a.length, 1);
     }
 
     /**
@@ -5307,11 +5242,7 @@ public final class Arrays {
         if (a == null) {
             return 0;
         }
-        return switch (a.length) {
-            case 0 -> 1;
-            case 1 -> 31 + (int)a[0];
-            default -> ArraysSupport.vectorizedHashCode(a, 0, a.length, 1, ArraysSupport.T_BYTE);
-        };
+        return ArraysSupport.hashCode(a, 0, a.length, 1);
     }
 
     /**
@@ -5336,7 +5267,7 @@ public final class Arrays {
 
         int result = 1;
         for (boolean element : a)
-            result = 31 * result + (element ? 1231 : 1237);
+            result = 31 * result + Boolean.hashCode(element);
 
         return result;
     }
@@ -5363,7 +5294,7 @@ public final class Arrays {
 
         int result = 1;
         for (float element : a)
-            result = 31 * result + Float.floatToIntBits(element);
+            result = 31 * result + Float.hashCode(element);
 
         return result;
     }
@@ -5390,8 +5321,7 @@ public final class Arrays {
 
         int result = 1;
         for (double element : a) {
-            long bits = Double.doubleToLongBits(element);
-            result = 31 * result + (int)(bits ^ (bits >>> 32));
+            result = 31 * result + Double.hashCode(element);
         }
         return result;
     }
@@ -5418,15 +5348,10 @@ public final class Arrays {
      * @since 1.5
      */
     public static int hashCode(Object[] a) {
-        if (a == null)
+        if (a == null) {
             return 0;
-
-        int result = 1;
-
-        for (Object element : a)
-            result = 31 * result + (element == null ? 0 : element.hashCode());
-
-        return result;
+        }
+        return ArraysSupport.hashCode(a, 0, a.length, 1);
     }
 
     /**
