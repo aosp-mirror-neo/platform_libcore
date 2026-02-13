@@ -1351,11 +1351,11 @@ public class TimerTest {
 
             // Schedule tasks to run:
             // A) {In 1 millis} Increment a counter by 1 and throw an exception
-            // B) {In 100 millis} Increment a counter by 1000 (but it's not intended to be executed
+            // B) {In 2000 millis} Increment a counter by 1000 (but it's not intended to be executed
             //        because of the previous exception).
             // We want A and B to be scheduled before A runs.
             // We add them in reverse order.
-            // We have ~99 millis after scheduling B to schedule A. If A ran before we scheduled B
+            // We have ~1999 millis after scheduling B to schedule A. If A ran before we scheduled B
             // we would get an exception when we came to schedule B.
 
             TimerTask taskThatDoesntThrow = new IncrementCounterTaskAndPossiblyThrowAfter(
@@ -1366,9 +1366,9 @@ public class TimerTest {
                     counter,
                     1,    /* incrementAmount */
                     true  /* willThrow */);
-            t.schedule(taskThatDoesntThrow, 100 /* delay */);
-            t.scheduleAtFixedRate(taskThatThrows, 1 /* delay */, 100 /* period */);
-            swallowUncaughtExceptionHandler.waitForException(1000);
+            t.schedule(taskThatDoesntThrow, 2000 /* delay */);
+            t.scheduleAtFixedRate(taskThatThrows, 1 /* delay */, 2000 /* period */);
+            swallowUncaughtExceptionHandler.waitForException(5000);
             // Check the counter wasn't increased more than once (ie, the exception killed the
             // execution thread).
             assertEquals("Counter should be 1, and is: " + counter.get(), 1, counter.get());
