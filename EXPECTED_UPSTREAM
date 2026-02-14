@@ -157,7 +157,7 @@ ojluni/src/main/java/java/lang/IllegalArgumentException.java,jdk25u/jdk-25.0.1-g
 ojluni/src/main/java/java/lang/IllegalCallerException.java,jdk25u/jdk-25.0.1-ga,src/java.base/share/classes/java/lang/IllegalCallerException.java
 ojluni/src/main/java/java/lang/IllegalMonitorStateException.java,jdk25u/jdk-25.0.1-ga,src/java.base/share/classes/java/lang/IllegalMonitorStateException.java
 ojluni/src/main/java/java/lang/IllegalStateException.java,jdk25u/jdk-25.0.1-ga,src/java.base/share/classes/java/lang/IllegalStateException.java
-ojluni/src/main/java/java/lang/IllegalThreadStateException.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/IllegalThreadStateException.java
+ojluni/src/main/java/java/lang/IllegalThreadStateException.java,jdk25u/jdk-25.0.1-ga,src/java.base/share/classes/java/lang/IllegalThreadStateException.java
 ojluni/src/main/java/java/lang/IncompatibleClassChangeError.java,jdk25u/jdk-25.0.1-ga,src/java.base/share/classes/java/lang/IncompatibleClassChangeError.java
 ojluni/src/main/java/java/lang/IndexOutOfBoundsException.java,jdk25u/jdk-25.0.1-ga,src/java.base/share/classes/java/lang/IndexOutOfBoundsException.java
 ojluni/src/main/java/java/lang/InheritableThreadLocal.java,jdk21u/jdk-21.0.6-ga,src/java.base/share/classes/java/lang/InheritableThreadLocal.java
