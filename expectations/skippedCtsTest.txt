@@ -18,8 +18,6 @@
   {
     "description": "Test for internal APIs.",
     "names": [
-      "com.android.org.conscrypt.java.security.KeyPairGeneratorTest#test_getInstance",
-      "com.android.org.conscrypt.java.security.SignatureTest#test_getInstance",
       "libcore.java.util.concurrent.ForkJoinPoolTest#testThreadContainerTracking",
       "libcore.java.util.concurrent.ThreadPoolExecutorTest#testThreadContainerTracking",
       "libcore.libcore.icu.DecimalFormatDataTest",
