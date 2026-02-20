@@ -700,6 +700,9 @@ java_library_static {
         "//libcore:__subpackages__",
         "//frameworks/base/tests/PlatformCompatGating/test-rules",
         "//libcore:__subpackages__",
+        // Linking platform-compat-test-rules to Bluetooth causes runtime test failures
+        // (b/485180748).
+        "//packages/modules/Bluetooth:__subpackages__",
     ],
     srcs: [
         "luni/src/main/java/android/compat/**/*.java",
