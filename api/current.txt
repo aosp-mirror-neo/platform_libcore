@@ -141,7 +141,7 @@ package android.system {
     method public static String if_indextoname(int);
     method public static int if_nametoindex(String);
     method public static java.net.InetAddress inet_pton(int, String);
-    method @FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support") public static int ioctlRet(@NonNull java.io.FileDescriptor, int) throws android.system.ErrnoException;
+    method @FlaggedApi("com.android.libcore.flags.FLAG_ENABLE_PCC_FRAMEWORK_SUPPORT") public static int ioctlRet(@NonNull java.io.FileDescriptor, int) throws android.system.ErrnoException;
     method public static boolean isatty(java.io.FileDescriptor);
     method public static void kill(int, int) throws android.system.ErrnoException;
     method public static void lchown(String, int, int) throws android.system.ErrnoException;
@@ -244,7 +244,7 @@ package android.system {
     field public static final int AI_PASSIVE;
     field public static final int AI_V4MAPPED;
     field public static final int ARPHRD_ETHER;
-    field @FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support") public static final int ASHMEM_GET_PROT_MASK;
+    field @FlaggedApi("com.android.libcore.enable_pcc_framework_support") public static final int ASHMEM_GET_PROT_MASK;
     field public static final int CAP_AUDIT_CONTROL;
     field public static final int CAP_AUDIT_WRITE;
     field public static final int CAP_BLOCK_SUSPEND;
@@ -388,11 +388,11 @@ package android.system {
     field public static final int F_GETLK;
     field public static final int F_GETLK64;
     field public static final int F_GETOWN;
-    field @FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support") public static final int F_GET_SEALS;
+    field @FlaggedApi("com.android.libcore.enable_pcc_framework_support") public static final int F_GET_SEALS;
     field public static final int F_OK;
     field public static final int F_RDLCK;
-    field @FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support") public static final int F_SEAL_FUTURE_WRITE;
-    field @FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support") public static final int F_SEAL_WRITE;
+    field @FlaggedApi("com.android.libcore.enable_pcc_framework_support") public static final int F_SEAL_FUTURE_WRITE;
+    field @FlaggedApi("com.android.libcore.enable_pcc_framework_support") public static final int F_SEAL_WRITE;
     field public static final int F_SETFD;
     field public static final int F_SETFL;
     field public static final int F_SETLK;
