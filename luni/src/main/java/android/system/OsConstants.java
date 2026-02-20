@@ -167,7 +167,7 @@ public final class OsConstants {
     /**
      * Gets the protection mask for an ashmem region.
      */
-    @android.annotation.FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support")
+    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_ENABLE_PCC_FRAMEWORK_SUPPORT)
     public static final int ASHMEM_GET_PROT_MASK;
 
     /**
@@ -366,19 +366,19 @@ public final class OsConstants {
      *
      * <p>See <a href="https://man7.org/linux/man-pages/man2/fcntl.2.html">fcntl(2)</a>.
      */
-    @android.annotation.FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support")
+    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_ENABLE_PCC_FRAMEWORK_SUPPORT)
     public static final int F_GET_SEALS;
 
     /**
      * Seal the file to prevent further write operations.
      */
-    @android.annotation.FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support")
+    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_ENABLE_PCC_FRAMEWORK_SUPPORT)
     public static final int F_SEAL_WRITE;
 
     /**
      * Seal the file to prevent future write operations.
      */
-    @android.annotation.FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support")
+    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_ENABLE_PCC_FRAMEWORK_SUPPORT)
     public static final int F_SEAL_FUTURE_WRITE;
 
     public static final int F_GETLK = OsConstantsHolder.F_GETLK;

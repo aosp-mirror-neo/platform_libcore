@@ -422,7 +422,7 @@ public final class Os {
      *              which returns the value written to the {@code int} argument of the ioctl.
      * @throws ErrnoException A checked exception thrown when {@link Os} methods fail.
      */
-    @android.annotation.FlaggedApi("android.app.privatecompute.flags.enable_pcc_framework_support")
+    @android.annotation.FlaggedApi("com.android.libcore.flags.FLAG_ENABLE_PCC_FRAMEWORK_SUPPORT")
     public static int ioctlRet(@NonNull FileDescriptor fd, int cmd) throws ErrnoException {
         return Libcore.os.ioctlRet(fd, cmd);
     }
