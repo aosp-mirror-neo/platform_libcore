@@ -1260,6 +1260,7 @@ java_aconfig_library {
     visibility: [
         "//art:__subpackages__",
         "//libcore:__subpackages__",
+        "//cts:__subpackages__",
     ],
 }
 

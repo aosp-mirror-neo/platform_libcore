@@ -172,3 +172,12 @@ flag {
     bug: "419020719"
     is_fixed_read_only: true
 }
+
+flag {
+    namespace: "core_libraries"
+    name: "enable_pcc_framework_support"
+    is_exported: true
+    description: "This flag enables PCC framework support"
+    bug: "486173312"
+    is_fixed_read_only: true
+}
