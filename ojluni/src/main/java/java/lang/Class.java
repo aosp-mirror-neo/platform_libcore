@@ -217,7 +217,7 @@ public final class Class<T> implements java.io.Serializable,
     /**
      * Extra data that only some classes possess. This is allocated lazily as needed.
      */
-    private transient ClassExt extData;
+    private transient volatile ClassExt extData;
 
     /**
      * The interface table (iftable_) contains pairs of a interface class and an array of the
@@ -4558,8 +4558,16 @@ public final class Class<T> implements java.io.Serializable,
     @FastNative
     private native Method getDeclaredMethodInternal(String name, Class<?>[] args);
 
+    ClassExt ensureExtDataPresent() {
+        ClassExt existing = extData;
+        if (existing != null) {
+            return existing;
+        }
+        return ensureExtDataPresent0();
+    }
+
     @FastNative
-    native ClassExt ensureExtDataPresent();
+    private native ClassExt ensureExtDataPresent0();
 
     // Android-changed: Removed SecurityException.
     /**
