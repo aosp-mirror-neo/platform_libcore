@@ -257,7 +257,9 @@ public abstract class ClassValue<T> {
     }
 
     /** Check that e is non-null, matches this ClassValue, and is live. */
-    boolean match(Entry<?> e) {
+    // Android-changed: mark as final so it could be inlined.
+    // boolean match(Entry<?> e) {
+    final boolean match(Entry<?> e) {
         // racing e.version : null (blank) => unique Version token => null (GC-ed version)
         // non-racing this.version : v1 => v2 => ... (updates are read faithfully from volatile)
         return (e != null && e.version() == this.version);
