@@ -137,7 +137,7 @@ ojluni/src/main/java/java/lang/ClassCircularityError.java,jdk25u/jdk-25.0.1-ga,s
 ojluni/src/main/java/java/lang/ClassFormatError.java,jdk25u/jdk-25.0.1-ga,src/java.base/share/classes/java/lang/ClassFormatError.java
 ojluni/src/main/java/java/lang/ClassLoader.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/ClassLoader.java
 ojluni/src/main/java/java/lang/ClassNotFoundException.java,jdk25u/jdk-25.0.1-ga,src/java.base/share/classes/java/lang/ClassNotFoundException.java
-ojluni/src/main/java/java/lang/ClassValue.java,jdk17u/jdk-17.0.14-ga,src/java.base/share/classes/java/lang/ClassValue.java
+ojluni/src/main/java/java/lang/ClassValue.java,jdk25u/jdk-25.0.1-ga,src/java.base/share/classes/java/lang/ClassValue.java
 ojluni/src/main/java/java/lang/CloneNotSupportedException.java,jdk25u/jdk-25.0.1-ga,src/java.base/share/classes/java/lang/CloneNotSupportedException.java
 ojluni/src/main/java/java/lang/Cloneable.java,jdk25u/jdk-25.0.1-ga,src/java.base/share/classes/java/lang/Cloneable.java
 ojluni/src/main/java/java/lang/Comparable.java,jdk25u/jdk-25.0.1-ga,src/java.base/share/classes/java/lang/Comparable.java
@@ -2078,7 +2078,7 @@ ojluni/src/test/java/lang/constant/NameValidationTest.java,jdk25u/jdk-25.0.1-ga,
 ojluni/src/test/java/lang/constant/access_test/pkg1/MethodTypeDescriptorAccessTest.java,jdk17u/jdk-17.0.14-ga,test/jdk/java/lang/constant/access_test/pkg1/MethodTypeDescriptorAccessTest.java
 ojluni/src/test/java/lang/constant/access_test/pkg2/NonPublicClass.java,jdk25u/jdk-25.0.1-ga,test/jdk/java/lang/constant/access_test/pkg2/NonPublicClass.java
 ojluni/src/test/java/lang/constant/access_test/pkg2/PublicClass.java,jdk25u/jdk-25.0.1-ga,test/jdk/java/lang/constant/access_test/pkg2/PublicClass.java
-ojluni/src/test/java/lang/invoke/ClassValueTest.java,jdk21u/jdk-21.0.6-ga,test/jdk/java/lang/invoke/ClassValueTest.java
+ojluni/src/test/java/lang/invoke/ClassValueTest.java,jdk25u/jdk-25.0.1-ga,test/jdk/java/lang/invoke/ClassValueTest.java
 ojluni/src/test/java/lang/invoke/MethodHandlesGeneralTest.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/MethodHandlesGeneralTest.java
 ojluni/src/test/java/lang/invoke/VarHandles/VarHandleBaseByteArrayTest.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleBaseByteArrayTest.java
 ojluni/src/test/java/lang/invoke/VarHandles/VarHandleBaseTest.java,jdk11u/jdk-11.0.26-ga,test/jdk/java/lang/invoke/VarHandles/VarHandleBaseTest.java
