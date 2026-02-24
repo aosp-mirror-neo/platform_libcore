@@ -268,6 +268,13 @@ REJECT_EXTENDED_RANGES;
 }
 
 @SuppressWarnings({"unchecked", "deprecation", "all"})
+public enum IsoCountryCode {
+PART1_ALPHA2,
+PART1_ALPHA3,
+PART3;
+}
+
+@SuppressWarnings({"unchecked", "deprecation", "all"})
 public static final class LanguageRange {
 
 public LanguageRange(@libcore.util.NonNull java.lang.String range) { throw new RuntimeException("Stub!"); }
