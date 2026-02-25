@@ -420,14 +420,6 @@ public class Thread implements Runnable {
         return t.getVirtualThreadContext();
     }
 
-    /** @hide */
-    @FastNative
-    public static native int acquireThinLockId();
-
-    /** @hide */
-    @FastNative
-    public static native void releaseThinLockId(int id);
-
     /**
      * @hide
      */
