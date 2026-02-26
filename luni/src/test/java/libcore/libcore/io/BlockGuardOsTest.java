@@ -46,6 +46,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -218,6 +219,27 @@ public class BlockGuardOsTest {
         } finally {
             IoUtils.closeQuietly(tcpSocket);
         }
+    }
+
+    @Test
+    public void test_readNoThrow_blockGuard() throws Exception {
+        BlockGuardOs blockGuardOs = new BlockGuardOs(mockOsDelegate);
+        FileDescriptor fd = new FileDescriptor();
+        byte[] bytes = new byte[10];
+        blockGuardOs.readNoThrow(fd, bytes, 0, 10);
+        verify(mockThreadPolicy).onReadFromDisk();
+        verify(mockOsDelegate).readNoThrow(fd, bytes, 0, 10);
+    }
+
+    @Test
+    public void test_recvfromNoThrow_blockGuard() throws Exception {
+        BlockGuardOs blockGuardOs = new BlockGuardOs(mockOsDelegate);
+        FileDescriptor fd = new FileDescriptor();
+        byte[] bytes = new byte[10];
+        InetSocketAddress addr = new InetSocketAddress(InetAddress.getLoopbackAddress(), 0);
+        blockGuardOs.recvfromNoThrow(fd, bytes, 0, 10, 0, addr);
+        verify(mockThreadPolicy).onNetwork();
+        verify(mockOsDelegate).recvfromNoThrow(fd, bytes, 0, 10, 0, addr);
     }
 
     /**

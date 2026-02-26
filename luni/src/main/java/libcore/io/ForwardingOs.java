@@ -631,6 +631,11 @@ public class ForwardingOs implements Os {
     /**
      * @hide
      */
+    public int readNoThrow(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount) { return os.readNoThrow(fd, bytes, byteOffset, byteCount); }
+
+    /**
+     * @hide
+     */
     @UnsupportedAppUsage
     public String readlink(String path) throws ErrnoException { return os.readlink(path); }
 
@@ -653,6 +658,11 @@ public class ForwardingOs implements Os {
      * @hide
      */
     public int recvfrom(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount, int flags, InetSocketAddress srcAddress) throws ErrnoException, SocketException { return os.recvfrom(fd, bytes, byteOffset, byteCount, flags, srcAddress); }
+
+    /**
+     * @hide
+     */
+    public int recvfromNoThrow(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount, int flags, InetSocketAddress srcAddress) { return os.recvfromNoThrow(fd, bytes, byteOffset, byteCount, flags, srcAddress); }
 
     /**
      * @hide

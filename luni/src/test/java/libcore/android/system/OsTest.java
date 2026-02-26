@@ -1767,6 +1767,51 @@ public class OsTest {
     }
 
     @Test
+    public void test_readNoThrow() throws Exception {
+        FileInputStream fis = new FileInputStream(new File("/dev/zero"));
+        FileDescriptor fd = fis.getFD();
+        byte[] buffer = new byte[64];
+
+        int read = Os.readNoThrow(fd, buffer, 0, buffer.length);
+        assertTrue(read > 0);
+
+        // Test with invalid file descriptor
+        FileDescriptor invalidFd = new FileDescriptor();
+        read = Os.readNoThrow(invalidFd, buffer, 0, buffer.length);
+        assertEquals(-EBADF, read);
+
+        fis.close();
+    }
+
+    @Test
+    public void test_recvfromNoThrow_EmptyPacket() throws Exception {
+        try (DatagramSocket ds = new DatagramSocket();
+             DatagramSocket srcSock = new DatagramSocket()) {
+            srcSock.send(new DatagramPacket(new byte[0], 0, ds.getLocalSocketAddress()));
+
+            byte[] recvBuf = new byte[16];
+            InetSocketAddress address = new InetSocketAddress();
+            int recvCount =
+                    Os.recvfromNoThrow(ds.getFileDescriptor$(), recvBuf, 0, 16, 0, address);
+            assertEquals(0, recvCount);
+            assertTrue(address.getAddress().isLoopbackAddress());
+            assertEquals(srcSock.getLocalPort(), address.getPort());
+        }
+    }
+
+    @Test
+    public void test_recvfromNoThrow_InvalidFd() throws Exception {
+        FileDescriptor invalidFd = new FileDescriptor();
+        byte[] recvBuf = new byte[16];
+        InetSocketAddress address = new InetSocketAddress();
+        int recvCount =
+                Os.recvfromNoThrow(invalidFd, recvBuf, 0, 16, 0, address);
+        assertEquals(-EBADF, recvCount);
+    }
+
+
+
+    @Test
     public void test_fstat_times() throws Exception {
         File file = File.createTempFile("OsTest", "fstattest");
         FileOutputStream fos = new FileOutputStream(file);

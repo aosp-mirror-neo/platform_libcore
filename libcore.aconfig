@@ -181,3 +181,12 @@ flag {
     bug: "486173312"
     is_fixed_read_only: true
 }
+
+flag {
+    namespace: "system_performance"
+    name: "os_no_throw_apis"
+    is_exported: true
+    description: "Java APIs for non-throwing read/recvfrom"
+    bug: "476434241"
+    is_fixed_read_only: true
+}
