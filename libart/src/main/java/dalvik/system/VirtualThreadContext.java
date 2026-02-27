@@ -15,9 +15,6 @@
  */
 package dalvik.system;
 
-import android.system.SystemCleaner;
-
-import java.lang.ref.Cleaner;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -40,10 +37,6 @@ public final class VirtualThreadContext implements Runnable {
      * this id can be accessed via {@link Thread#threadId()}.
      */
     public final long id;
-
-    public final int monitorThreadId;
-
-    private final Cleaner.Cleanable monitorThreadIdCleanable;
 
     /**
      * The name of the carrier thread. The name is cached here and re-used for all carrier threads.
@@ -74,13 +67,6 @@ public final class VirtualThreadContext implements Runnable {
         this.id = id;
         this.target = target;
         this.carrierName = "VirtualThread-" + id;
-        int lockId = Thread.acquireThinLockId();
-        this.monitorThreadId = lockId;
-        // TODO(http://b/460438903): If Virtual Threads are GC roots, we can simply
-        // release the thin lock id when a virtual thread terminates, rather than using
-        // system cleaner to release.
-        this.monitorThreadIdCleanable = SystemCleaner.cleaner().register(this,
-                () -> Thread.releaseThinLockId(lockId));
     }
 
     @Override
@@ -102,11 +88,6 @@ public final class VirtualThreadContext implements Runnable {
      */
     public boolean isUnmounted() {
         return parkedStates != null;
-    }
-
-
-    public void releaseThinLockId() {
-        monitorThreadIdCleanable.clean();
     }
 
     public void parkOnCarrierThreadIfPinned() {
