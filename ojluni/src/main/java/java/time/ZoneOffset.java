@@ -115,12 +115,20 @@ import java.util.concurrent.ConcurrentMap;
  * Instances of {@code ZoneOffset} must be compared using {@link #equals}.
  * Implementations may choose to cache certain common offsets, however
  * applications must not rely on such caching.
+ * <p>
+ * This is a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
+ * class; programmers should treat instances that are
+ * {@linkplain #equals(Object) equal} as interchangeable and should not
+ * use instances for synchronization, or unpredictable behavior may
+ * occur. For example, in a future release, synchronization may fail.
+ * The {@code equals} method should be used for comparisons.
  *
  * @implSpec
  * This class is immutable and thread-safe.
  *
  * @since 1.8
  */
+@jdk.internal.ValueBased
 public final class ZoneOffset
         extends ZoneId
         implements TemporalAccessor, TemporalAdjuster, Comparable<ZoneOffset>, Serializable {

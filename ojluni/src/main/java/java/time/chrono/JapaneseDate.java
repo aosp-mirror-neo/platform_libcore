@@ -111,12 +111,20 @@ import sun.util.calendar.LocalGregorianCalendar;
  * Calling {@code japaneseDate.get(YEAR)} will return 2012.<br>
  * Calling {@code japaneseDate.get(ERA)} will return 2, corresponding to
  * {@code JapaneseChronology.ERA_HEISEI}.<br>
+ * <p>
+ * This is a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
+ * class; programmers should treat instances that are
+ * {@linkplain #equals(Object) equal} as interchangeable and should not
+ * use instances for synchronization, or unpredictable behavior may
+ * occur. For example, in a future release, synchronization may fail.
+ * The {@code equals} method should be used for comparisons.
  *
  * @implSpec
  * This class is immutable and thread-safe.
  *
  * @since 1.8
  */
+@jdk.internal.ValueBased
 public final class JapaneseDate
         extends ChronoLocalDateImpl<JapaneseDate>
         implements ChronoLocalDate, Serializable {
