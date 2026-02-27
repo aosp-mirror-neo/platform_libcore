@@ -87,7 +87,6 @@ import libcore.util.ZoneInfo;
 
 import static java.util.Map.entry;
 
-// Android-changed: removed ValueBased paragraph.
 // Android-changed: removed {@link ZoneRulesProvider}.
 /**
  * A time-zone ID, such as {@code Europe/Paris}.
@@ -165,7 +164,7 @@ import static java.util.Map.entry;
  * This approach is designed to allow a {@link ZonedDateTime} to be loaded and
  * queried, but not modified, on a Java Runtime with incomplete time-zone information.
  * <p>
- * This is a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
+ * This is a <a href="{@docRoot}/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
  * class; programmers should treat instances that are
  * {@linkplain #equals(Object) equal} as interchangeable and should not
  * use instances for synchronization, or unpredictable behavior may

@@ -48,7 +48,7 @@ import static java.lang.constant.ConstantDescs.DEFAULT_NAME;
  * {@code short}, as well as other constants and methods useful when
  * dealing with a {@code short}.
  *
- * <p>This is a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
+ * <p>This is a <a href="{@docRoot}/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
  * class; programmers should treat instances that are
  * {@linkplain #equals(Object) equal} as interchangeable and should not
  * use instances for synchronization, or unpredictable behavior may

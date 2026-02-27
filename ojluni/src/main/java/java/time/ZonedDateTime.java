@@ -91,7 +91,6 @@ import java.time.zone.ZoneRules;
 import java.util.List;
 import java.util.Objects;
 
-// Android-changed: removed ValueBased paragraph.
 /**
  * A date-time with a time-zone in the ISO-8601 calendar system,
  * such as {@code 2007-12-03T10:15:30+01:00 Europe/Paris}.
@@ -144,7 +143,7 @@ import java.util.Objects;
  * a vital, but secondary, piece of information, used to ensure that the class
  * represents an instant, especially during a daylight savings overlap.
  * <p>
- * This is a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
+ * This is a <a href="{@docRoot}/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
  * class; programmers should treat instances that are
  * {@linkplain #equals(Object) equal} as interchangeable and should not
  * use instances for synchronization, or unpredictable behavior may

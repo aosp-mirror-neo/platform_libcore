@@ -85,7 +85,6 @@ import java.time.temporal.TemporalUnit;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.time.temporal.ValueRange;
 
-// Android-changed: removed ValueBased paragraph.
 /**
  * A date in the Hijrah calendar system.
  * <p>
@@ -105,7 +104,7 @@ import java.time.temporal.ValueRange;
  * Alternatively, the {@link #withVariant} method can be used to convert
  * to a new HijrahChronology.
  * <p>
- * This is a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
+ * This is a <a href="{@docRoot}/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
  * class; programmers should treat instances that are
  * {@linkplain #equals(Object) equal} as interchangeable and should not
  * use instances for synchronization, or unpredictable behavior may
