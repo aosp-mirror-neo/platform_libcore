@@ -20,7 +20,11 @@ import java.time.chrono.AbstractChronology;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.Chronology;
 import java.time.chrono.Era;
+import java.time.chrono.HijrahChronology;
 import java.time.chrono.IsoChronology;
+import java.time.chrono.JapaneseChronology;
+import java.time.chrono.MinguoChronology;
+import java.time.chrono.ThaiBuddhistChronology;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.ValueRange;
@@ -66,6 +70,16 @@ public class ChronologyTest {
     @Test(expected = NullPointerException.class)
     public void test_compareTo_null() {
         IsoChronology.INSTANCE.compareTo(null);
+    }
+
+    @Test
+    public void test_isIsoBased() {
+        assertEquals(true, IsoChronology.INSTANCE.isIsoBased());
+        assertEquals(true, JapaneseChronology.INSTANCE.isIsoBased());
+        assertEquals(true, MinguoChronology.INSTANCE.isIsoBased());
+        assertEquals(true, ThaiBuddhistChronology.INSTANCE.isIsoBased());
+        assertEquals(false, HijrahChronology.INSTANCE.isIsoBased());
+        assertEquals(false, new FakeChronology("fake", "fake").isIsoBased());
     }
 
     /** Fake chronology that supports only returning an id and a type. */
