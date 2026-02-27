@@ -104,12 +104,20 @@ import java.time.temporal.ValueRange;
  * to create new HijrahDate instances.
  * Alternatively, the {@link #withVariant} method can be used to convert
  * to a new HijrahChronology.
+ * <p>
+ * This is a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
+ * class; programmers should treat instances that are
+ * {@linkplain #equals(Object) equal} as interchangeable and should not
+ * use instances for synchronization, or unpredictable behavior may
+ * occur. For example, in a future release, synchronization may fail.
+ * The {@code equals} method should be used for comparisons.
  *
  * @implSpec
  * This class is immutable and thread-safe.
  *
  * @since 1.8
  */
+@jdk.internal.ValueBased
 public final class HijrahDate
         extends ChronoLocalDateImpl<HijrahDate>
         implements ChronoLocalDate, Serializable {
