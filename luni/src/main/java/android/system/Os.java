@@ -601,6 +601,28 @@ public final class Os {
     public static int read(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount) throws ErrnoException, InterruptedIOException { return Libcore.os.read(fd, bytes, byteOffset, byteCount); }
 
     /**
+     * See <a href="http://man7.org/linux/man-pages/man2/read.2.html">read(2)</a>.
+     *
+     * <p>This method behaves like {@link #read(FileDescriptor, byte[], int, int)}, but it returns
+     * a negative errno value instead of throwing {@link ErrnoException} or
+     * {@link java.io.InterruptedIOException} on failure.
+     *
+     * <p>This method is useful when an error is part of normal operation, and not exceptional.
+     * In this case, using this method rather than {@link #read(FileDescriptor, byte[], int, int)}
+     * saves the overhead of allocating an exception just to pass the error code to the caller.
+     *
+     * @return the number of bytes read, or a negative errno value if an error occurred.
+     *         {@link OsConstants} can be used to be compared against the errno value.
+     *
+     * @hide
+     */
+    @SystemApi(client = MODULE_LIBRARIES)
+    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OS_NO_THROW_APIS)
+    public static int readNoThrow(@NonNull FileDescriptor fd, @NonNull byte[] bytes, int byteOffset, int byteCount) {
+        return Libcore.os.readNoThrow(fd, bytes, byteOffset, byteCount);
+    }
+
+    /**
      * See <a href="http://man7.org/linux/man-pages/man2/readlink.2.html">readlink(2)</a>.
      */
     public static String readlink(String path) throws ErrnoException { return Libcore.os.readlink(path); }
@@ -642,6 +664,28 @@ public final class Os {
      * See <a href="http://man7.org/linux/man-pages/man2/recvfrom.2.html">recvfrom(2)</a>.
      */
     public static int recvfrom(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount, int flags, InetSocketAddress srcAddress) throws ErrnoException, SocketException { return Libcore.os.recvfrom(fd, bytes, byteOffset, byteCount, flags, srcAddress); }
+
+    /**
+     * See <a href="http://man7.org/linux/man-pages/man2/recvfrom.2.html">recvfrom(2)</a>.
+     *
+     * <p>This method behaves like {@link #recvfrom(FileDescriptor, byte[], int, int, int, InetSocketAddress)},
+     * but it returns a negative errno value instead of throwing {@link ErrnoException} or
+     * {@link java.net.SocketException} on failure.
+     *
+     * <p>This method is useful when an error is part of normal operation, and not exceptional.
+     * In this case, using this method rather than
+     * {@link #recvfrom(FileDescriptor, byte[], int, int, int, InetSocketAddress)} saves the
+     * overhead of allocating an exception just to pass the error code to the caller.
+     *
+     * @return the number of bytes received, or a negative errno value if an error occurred.
+     *         {@link OsConstants} can be used to be compared against the errno value.
+     * @hide
+     */
+    @SystemApi(client = MODULE_LIBRARIES)
+    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OS_NO_THROW_APIS)
+    public static int recvfromNoThrow(@NonNull FileDescriptor fd, @NonNull byte[] bytes, int byteOffset, int byteCount, int flags, @Nullable InetSocketAddress srcAddress) {
+        return Libcore.os.recvfromNoThrow(fd, bytes, byteOffset, byteCount, flags, srcAddress);
+    }
 
     /**
      * See <a href="http://man7.org/linux/man-pages/man2/recvmsg.2.html">recvmsg(2)</a>.

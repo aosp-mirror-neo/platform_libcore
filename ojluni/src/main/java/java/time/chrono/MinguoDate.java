@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2019, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -91,6 +91,13 @@ import java.util.Objects;
  * This date operates using the {@linkplain MinguoChronology Minguo calendar}.
  * This calendar system is primarily used in the Republic of China, often known as Taiwan.
  * Dates are aligned such that {@code 0001-01-01 (Minguo)} is {@code 1912-01-01 (ISO)}.
+ * <p>
+ * This is a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
+ * class; programmers should treat instances that are
+ * {@linkplain #equals(Object) equal} as interchangeable and should not
+ * use instances for synchronization, or unpredictable behavior may
+ * occur. For example, in a future release, synchronization may fail.
+ * The {@code equals} method should be used for comparisons.
  *
  * @implSpec
  * This class is immutable and thread-safe.
@@ -308,25 +315,23 @@ public final class MinguoDate
             if (getLong(chronoField) == newValue) {
                 return this;
             }
-            switch (chronoField) {
-                case PROLEPTIC_MONTH:
+            return switch (chronoField) {
+                case PROLEPTIC_MONTH -> {
                     getChronology().range(chronoField).checkValidValue(newValue, chronoField);
-                    return plusMonths(newValue - getProlepticMonth());
-                case YEAR_OF_ERA:
-                case YEAR:
-                case ERA: {
-                    int nvalue = getChronology().range(chronoField).checkValidIntValue(newValue, chronoField);
-                    switch (chronoField) {
-                        case YEAR_OF_ERA:
-                            return with(isoDate.withYear(getProlepticYear() >= 1 ? nvalue + YEARS_DIFFERENCE : (1 - nvalue)  + YEARS_DIFFERENCE));
-                        case YEAR:
-                            return with(isoDate.withYear(nvalue + YEARS_DIFFERENCE));
-                        case ERA:
-                            return with(isoDate.withYear((1 - getProlepticYear()) + YEARS_DIFFERENCE));
-                    }
+                    yield plusMonths(newValue - getProlepticMonth());
                 }
-            }
-            return with(isoDate.with(field, newValue));
+                case YEAR_OF_ERA -> {
+                    int nvalue = getChronology().range(chronoField).checkValidIntValue(newValue, chronoField);
+                    yield with(isoDate.withYear(getProlepticYear() >= 1 ? nvalue + YEARS_DIFFERENCE : (1 - nvalue) + YEARS_DIFFERENCE));
+                }
+                case YEAR -> {
+                    int nvalue = getChronology().range(chronoField).checkValidIntValue(newValue, chronoField);
+                    yield with(isoDate.withYear(nvalue + YEARS_DIFFERENCE));
+                }
+                case ERA -> with(isoDate.withYear((1 - getProlepticYear()) + YEARS_DIFFERENCE));
+
+                default -> with(isoDate.with(field, newValue));
+            };
         }
         return super.with(field, newValue);
     }
@@ -388,8 +393,8 @@ public final class MinguoDate
     }
 
     @Override
-    public MinguoDate minus(long amountToAdd, TemporalUnit unit) {
-        return super.minus(amountToAdd, unit);
+    public MinguoDate minus(long amountToSubtract, TemporalUnit unit) {
+        return super.minus(amountToSubtract, unit);
     }
 
     @Override

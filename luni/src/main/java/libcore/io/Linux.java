@@ -232,6 +232,7 @@ public final class Linux implements Os {
         return readBytes(fd, bytes, byteOffset, byteCount);
     }
     private native int readBytes(FileDescriptor fd, Object buffer, int offset, int byteCount) throws ErrnoException, InterruptedIOException;
+    public native int readNoThrow(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount);
     public native String readlink(String path) throws ErrnoException;
     public native String realpath(String path) throws ErrnoException;
     public native int readv(FileDescriptor fd, Object[] buffers, int[] offsets, int[] byteCounts) throws ErrnoException, InterruptedIOException;
@@ -253,6 +254,7 @@ public final class Linux implements Os {
         return recvfromBytes(fd, bytes, byteOffset, byteCount, flags, srcAddress);
     }
     private native int recvfromBytes(FileDescriptor fd, Object buffer, int byteOffset, int byteCount, int flags, InetSocketAddress srcAddress) throws ErrnoException, SocketException;
+    public native int recvfromNoThrow(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount, int flags, InetSocketAddress srcAddress);
     public native int recvmsg(FileDescriptor fd, StructMsghdr msg, int flags) throws ErrnoException, SocketException;
     public native void remove(String path) throws ErrnoException;
     public native void removexattr(String path, String name) throws ErrnoException;

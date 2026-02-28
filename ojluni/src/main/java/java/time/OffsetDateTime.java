@@ -113,12 +113,20 @@ import java.util.Objects;
  * It is intended that {@code ZonedDateTime} or {@code Instant} is used to model data
  * in simpler applications. This class may be used when modeling date-time concepts in
  * more detail, or when communicating to a database or in a network protocol.
+ * <p>
+ * This is a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based<>
+ * class; programmers should treat instances that are
+ * {@linkplain #equals(Object) equal} as interchangeable and should not
+ * use instances for synchronization, or unpredictable behavior may
+ * occur. For example, in a future release, synchronization may fail.
+ * The {@code equals} method should be used for comparisons.
  *
  * @implSpec
  * This class is immutable and thread-safe.
  *
  * @since 1.8
  */
+@jdk.internal.ValueBased
 public final class OffsetDateTime
         implements Temporal, TemporalAdjuster, Comparable<OffsetDateTime>, Serializable {
 

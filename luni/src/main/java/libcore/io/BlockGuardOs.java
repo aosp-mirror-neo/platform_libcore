@@ -325,6 +325,11 @@ public class BlockGuardOs extends ForwardingOs {
         return super.read(fd, bytes, byteOffset, byteCount);
     }
 
+    @Override public int readNoThrow(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount) {
+        BlockGuard.getThreadPolicy().onReadFromDisk();
+        return super.readNoThrow(fd, bytes, byteOffset, byteCount);
+    }
+
     @UnsupportedAppUsage
     @Override public String readlink(String path) throws ErrnoException {
       BlockGuard.getThreadPolicy().onReadFromDisk();
@@ -353,6 +358,11 @@ public class BlockGuardOs extends ForwardingOs {
     @Override public int recvfrom(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount, int flags, InetSocketAddress srcAddress) throws ErrnoException, SocketException {
         BlockGuard.getThreadPolicy().onNetwork();
         return super.recvfrom(fd, bytes, byteOffset, byteCount, flags, srcAddress);
+    }
+
+    @Override public int recvfromNoThrow(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount, int flags, InetSocketAddress srcAddress) {
+        BlockGuard.getThreadPolicy().onNetwork();
+        return super.recvfromNoThrow(fd, bytes, byteOffset, byteCount, flags, srcAddress);
     }
 
     @Override public int recvmsg(FileDescriptor fd, StructMsghdr msg, int flags) throws ErrnoException, SocketException {

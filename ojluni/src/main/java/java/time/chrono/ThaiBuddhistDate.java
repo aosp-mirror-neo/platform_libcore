@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2019, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -91,12 +91,20 @@ import java.util.Objects;
  * This date operates using the {@linkplain ThaiBuddhistChronology Thai Buddhist calendar}.
  * This calendar system is primarily used in Thailand.
  * Dates are aligned such that {@code 2484-01-01 (Buddhist)} is {@code 1941-01-01 (ISO)}.
+ * <p>
+ * This is a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
+ * class; programmers should treat instances that are
+ * {@linkplain #equals(Object) equal} as interchangeable and should not
+ * use instances for synchronization, or unpredictable behavior may
+ * occur. For example, in a future release, synchronization may fail.
+ * The {@code equals} method should be used for comparisons.
  *
  * @implSpec
  * This class is immutable and thread-safe.
  *
  * @since 1.8
  */
+@jdk.internal.ValueBased
 public final class ThaiBuddhistDate
         extends ChronoLocalDateImpl<ThaiBuddhistDate>
         implements ChronoLocalDate, Serializable {
@@ -388,8 +396,8 @@ public final class ThaiBuddhistDate
     }
 
     @Override
-    public ThaiBuddhistDate minus(long amountToAdd, TemporalUnit unit) {
-        return super.minus(amountToAdd, unit);
+    public ThaiBuddhistDate minus(long amountToSubtract, TemporalUnit unit) {
+        return super.minus(amountToSubtract, unit);
     }
 
     @Override

@@ -147,6 +147,15 @@ flag {
 }
 
 flag {
+    namespace: "core_libraries"
+    name: "openjdk_25_v2_apis"
+    is_exported: true
+    description: "This flag includes OpenJDK APIs released in 26Q4."
+    bug: "487931212"
+    is_fixed_read_only: true
+}
+
+flag {
     name: "virtual_thread_api_v1"
     namespace: "core_libraries"
     description: "Flag for the version 1 of Virtual Thread API."
@@ -179,5 +188,14 @@ flag {
     is_exported: true
     description: "This flag enables PCC framework support"
     bug: "486173312"
+    is_fixed_read_only: true
+}
+
+flag {
+    namespace: "system_performance"
+    name: "os_no_throw_apis"
+    is_exported: true
+    description: "Java APIs for non-throwing read/recvfrom"
+    bug: "476434241"
     is_fixed_read_only: true
 }

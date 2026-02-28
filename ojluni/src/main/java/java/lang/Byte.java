@@ -51,13 +51,11 @@ import libcore.util.HexEncoding;
  * byte}, as well as other constants and methods useful when dealing
  * with a {@code byte}.
  *
- * <!-- Android-removed: paragraph on ValueBased
- * <p>This is a <a href="{@docRoot}/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
+ * <p>This is a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
  * class; programmers should treat instances that are
  * {@linkplain #equals(Object) equal} as interchangeable and should not
  * use instances for synchronization, or unpredictable behavior may
  * occur. For example, in a future release, synchronization may fail.
- *  -->
  *
  * @author  Nakul Saraiya
  * @author  Joseph D. Darcy
