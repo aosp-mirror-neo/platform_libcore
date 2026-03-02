@@ -106,5 +106,5 @@ public class VersionCodes {
      * Cinnamon Bun.
      */
     @IntraCoreApi
-    public static final int C = 37;
+    public static final int CINNAMON_BUN = 37;
 }

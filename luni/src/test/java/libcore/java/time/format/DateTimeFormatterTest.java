@@ -126,7 +126,7 @@ public class DateTimeFormatterTest {
 
     @Test
     @NonMts(bug = 331729784, reason = NonMtsReasons.ICU_VERSION_DEPENDENCY,
-            disabledUntilSdk = VersionCodes.C)
+            disabledUntilSdk = VersionCodes.CINNAMON_BUN)
     public void test_format_locale_tok() {
         Assume.assumeTrue(VersionInfo.ICU_VERSION.getMajor() >= 74);
 
