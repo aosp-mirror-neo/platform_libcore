@@ -693,6 +693,28 @@ public final class Os {
     public static int recvmsg(@NonNull FileDescriptor fd, @NonNull StructMsghdr msg, int flags) throws ErrnoException, SocketException { return Libcore.os.recvmsg(fd, msg, flags); }
 
     /**
+     * See <a href="http://man7.org/linux/man-pages/man2/recvmsg.2.html">recvmsg(2)</a>.
+     *
+     * <p>This method behaves like {@link #recvmsg(FileDescriptor, StructMsghdr, int)},
+     * but it returns a negative errno value instead of throwing {@link ErrnoException} or
+     * {@link java.net.SocketException} on failure.
+     *
+     * <p>This method is useful when an error is part of normal operation, and not exceptional.
+     * In this case, using this method rather than
+     * {@link #recvmsg(FileDescriptor, StructMsghdr, int)} saves the
+     * overhead of allocating an exception just to pass the error code to the caller.
+     *
+     * @return the number of bytes received, or a negative errno value if an error occurred.
+     *         {@link OsConstants} can be used to be compared against the errno value.
+     * @hide
+     */
+    @SystemApi(client = MODULE_LIBRARIES)
+    @android.annotation.FlaggedApi(com.android.libcore.Flags.FLAG_OS_NO_THROW_APIS)
+    public static int recvmsgNoThrow(@NonNull FileDescriptor fd, @NonNull StructMsghdr msg, int flags) {
+        return Libcore.os.recvmsgNoThrow(fd, msg, flags);
+    }
+
+    /**
      * See <a href="http://man7.org/linux/man-pages/man3/remove.3.html">remove(3)</a>.
      */
     public static void remove(String path) throws ErrnoException { Libcore.os.remove(path); }

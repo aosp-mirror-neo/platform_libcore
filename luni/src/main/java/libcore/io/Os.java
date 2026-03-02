@@ -576,6 +576,11 @@ public interface Os {
     /**
      * @hide
      */
+    public int recvmsgNoThrow(FileDescriptor fd, StructMsghdr msg, int flags);
+
+    /**
+     * @hide
+     */
     @UnsupportedAppUsage
     public void remove(String path) throws ErrnoException;
 
