@@ -300,25 +300,25 @@ public interface SequencedMap<K, V> extends Map<K, V> {
             public void addLast(K k) { throw new UnsupportedOperationException(); }
             // BEGIN Android-changed: keep these methods SequencedSet-based if app targets pre C.
             public K getFirst() {
-                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.CINNAMON_BUN) {
                     return SequencedSet.super.getFirst();
                 }
                 return nsee(SequencedMap.this.firstEntry()).getKey();
             }
             public K getLast() {
-                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.CINNAMON_BUN) {
                     return SequencedSet.super.getLast();
                 }
                 return nsee(SequencedMap.this.lastEntry()).getKey();
             }
             public K removeFirst() {
-                if  (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                if  (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.CINNAMON_BUN) {
                     return SequencedSet.super.removeFirst();
                 }
                 return nsee(SequencedMap.this.pollFirstEntry()).getKey();
             }
             public K removeLast() {
-                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.CINNAMON_BUN) {
                     return SequencedSet.super.removeLast();
                 }
                 return nsee(SequencedMap.this.pollLastEntry()).getKey();
@@ -363,25 +363,25 @@ public interface SequencedMap<K, V> extends Map<K, V> {
             // BEGIN Android-changed: keep these methods SequencedCollection-based if app targets
             // pre C.
             public V getFirst() {
-                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.CINNAMON_BUN) {
                     return SequencedCollection.super.getFirst();
                 }
                 return nsee(SequencedMap.this.firstEntry()).getValue();
             }
             public V getLast() {
-                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.CINNAMON_BUN) {
                     return SequencedCollection.super.getLast();
                 }
                 return nsee(SequencedMap.this.lastEntry()).getValue();
             }
             public V removeFirst() {
-                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.CINNAMON_BUN) {
                     return SequencedCollection.super.removeFirst();
                 }
                 return nsee(SequencedMap.this.pollFirstEntry()).getValue();
             }
             public V removeLast() {
-                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.CINNAMON_BUN) {
                     return SequencedCollection.super.removeLast();
                 }
                 return nsee(SequencedMap.this.pollLastEntry()).getValue();
@@ -432,25 +432,25 @@ public interface SequencedMap<K, V> extends Map<K, V> {
             public void addLast(Map.Entry<K, V> e) { throw new UnsupportedOperationException(); }
             // BEGIN Android-changed: keep these methods SequencedSet-based if app targets pre C.
             public Map.Entry<K, V> getFirst() {
-                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.CINNAMON_BUN) {
                     return SequencedSet.super.getFirst();
                 }
                 return nsee(SequencedMap.this.firstEntry());
             }
             public Map.Entry<K, V> getLast() {
-                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.CINNAMON_BUN) {
                     return SequencedSet.super.getLast();
                 }
                 return nsee(SequencedMap.this.lastEntry());
             }
             public Map.Entry<K, V> removeFirst() {
-                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.CINNAMON_BUN) {
                     return SequencedSet.super.removeFirst();
                 }
                 return nsee(SequencedMap.this.pollFirstEntry());
             }
             public Map.Entry<K, V> removeLast() {
-                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.C) {
+                if (VMRuntime.getRuntime().getTargetSdkVersion() < VersionCodes.CINNAMON_BUN) {
                     return SequencedSet.super.removeLast();
                 }
                 return nsee(SequencedMap.this.pollLastEntry());

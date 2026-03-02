@@ -842,7 +842,7 @@ public class TestUnicodeExtension {
 
     @NonCts(bug = 286802267, reason = NonCtsReasons.CLDR_DATA_DEPENDENCY)
     @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY,
-            disabledUntilSdk = VersionCodes.C)
+            disabledUntilSdk = VersionCodes.CINNAMON_BUN)
     @Test(dataProvider="localizedBy")
     public void test_localizedBy(Locale locale, Chronology chrono, ZoneId zone,
                                 Chronology chronoExpected, ZoneId zoneExpected,
@@ -874,7 +874,7 @@ public class TestUnicodeExtension {
     }
 
     @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY,
-            disabledUntilSdk = VersionCodes.C)
+            disabledUntilSdk = VersionCodes.CINNAMON_BUN)
     @Test(dataProvider="withLocale")
     public void test_withLocale(Locale locale, Chronology chrono, ZoneId zone,
                                 Chronology chronoExpected, ZoneId zoneExpected,

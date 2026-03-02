@@ -176,7 +176,7 @@ public class TCKChronology {
     }
 
     @NonMts(reason = NonMtsReasons.ICU_VERSION_DEPENDENCY,
-        disabledUntilSdk = VersionCodes.C)
+        disabledUntilSdk = VersionCodes.CINNAMON_BUN)
     @Test(dataProvider = "calendarDisplayName")
     public void test_getDisplayName(String chronoId, String calendarDisplayName) {
         Chronology chrono = Chronology.of(chronoId);
