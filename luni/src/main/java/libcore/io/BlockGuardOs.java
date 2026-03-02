@@ -370,6 +370,11 @@ public class BlockGuardOs extends ForwardingOs {
         return super.recvmsg(fd, msg, flags);
     }
 
+    @Override public int recvmsgNoThrow(FileDescriptor fd, StructMsghdr msg, int flags) {
+        BlockGuard.getThreadPolicy().onNetwork();
+        return super.recvmsgNoThrow(fd, msg, flags);
+    }
+
     @UnsupportedAppUsage
     @Override public void remove(String path) throws ErrnoException {
         BlockGuard.getThreadPolicy().onWriteToDisk();

@@ -1784,6 +1784,17 @@ public class OsTest {
     }
 
     @Test
+    public void test_readNoThrow_EAGAIN() throws Exception {
+        try (DatagramSocket ds = new DatagramSocket()) {
+            FileDescriptor fd = ds.getFileDescriptor$();
+            Os.fcntlInt(fd, F_SETFL, O_NONBLOCK);
+            byte[] recvBuf = new byte[16];
+            int readCount = Os.readNoThrow(fd, recvBuf, 0, recvBuf.length);
+            assertEquals(-EAGAIN, readCount);
+        }
+    }
+
+    @Test
     public void test_recvfromNoThrow_EmptyPacket() throws Exception {
         try (DatagramSocket ds = new DatagramSocket();
              DatagramSocket srcSock = new DatagramSocket()) {
@@ -1806,6 +1817,66 @@ public class OsTest {
         InetSocketAddress address = new InetSocketAddress();
         int recvCount =
                 Os.recvfromNoThrow(invalidFd, recvBuf, 0, 16, 0, address);
+        assertEquals(-EBADF, recvCount);
+    }
+
+    @Test
+    public void test_recvfromNoThrow_EAGAIN() throws Exception {
+        try (DatagramSocket ds = new DatagramSocket()) {
+            FileDescriptor fd = ds.getFileDescriptor$();
+            Os.fcntlInt(fd, F_SETFL, O_NONBLOCK);
+            byte[] recvBuf = new byte[16];
+            InetSocketAddress address = new InetSocketAddress();
+            int recvCount = Os.recvfromNoThrow(fd, recvBuf, 0, 16, 0, address);
+            assertEquals(-EAGAIN, recvCount);
+        }
+    }
+
+    @Test
+    public void test_recvmsgNoThrow_EmptyPacket() throws Exception {
+        try (DatagramSocket ds = new DatagramSocket();
+             DatagramSocket srcSock = new DatagramSocket()) {
+            srcSock.send(new DatagramPacket(new byte[0], 0, ds.getLocalSocketAddress()));
+
+            android.system.StructMsghdr msg = new android.system.StructMsghdr(
+                new InetSocketAddress(),
+                new java.nio.ByteBuffer[]{ java.nio.ByteBuffer.allocate(16) },
+                null,
+                0
+            );
+            int recvCount = Os.recvmsgNoThrow(ds.getFileDescriptor$(), msg, 0);
+            assertEquals(0, recvCount);
+            assertTrue(((InetSocketAddress) msg.msg_name).getAddress().isLoopbackAddress());
+            assertEquals(srcSock.getLocalPort(), ((InetSocketAddress) msg.msg_name).getPort());
+        }
+    }
+
+    @Test
+    public void test_recvmsgNoThrow_EAGAIN() throws Exception {
+        try (DatagramSocket ds = new DatagramSocket()) {
+            FileDescriptor fd = ds.getFileDescriptor$();
+            Os.fcntlInt(fd, F_SETFL, O_NONBLOCK);
+            android.system.StructMsghdr msg = new android.system.StructMsghdr(
+                new InetSocketAddress(),
+                new java.nio.ByteBuffer[]{ java.nio.ByteBuffer.allocate(16) },
+                null,
+                0
+            );
+            int recvCount = Os.recvmsgNoThrow(fd, msg, 0);
+            assertEquals(-EAGAIN, recvCount);
+        }
+    }
+
+    @Test
+    public void test_recvmsgNoThrow_InvalidFd() throws Exception {
+        FileDescriptor invalidFd = new FileDescriptor();
+        android.system.StructMsghdr msg = new android.system.StructMsghdr(
+            new InetSocketAddress(Inet4Address.LOOPBACK, 0),
+            new java.nio.ByteBuffer[0],
+            new android.system.StructCmsghdr[0],
+            0
+        );
+        int recvCount = Os.recvmsgNoThrow(invalidFd, msg, 0);
         assertEquals(-EBADF, recvCount);
     }
 

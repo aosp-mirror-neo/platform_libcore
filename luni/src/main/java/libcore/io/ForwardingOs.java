@@ -668,6 +668,7 @@ public class ForwardingOs implements Os {
      * @hide
      */
     public int recvmsg(FileDescriptor fd, StructMsghdr msg, int flags) throws ErrnoException, SocketException { return os.recvmsg(fd, msg, flags); }
+    public int recvmsgNoThrow(FileDescriptor fd, StructMsghdr msg, int flags) { return os.recvmsgNoThrow(fd, msg, flags); }
 
     /**
      * Deletes a name from the filesystem.
