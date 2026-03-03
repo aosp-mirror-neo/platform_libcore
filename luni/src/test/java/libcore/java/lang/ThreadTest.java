@@ -678,7 +678,7 @@ public final class ThreadTest {
     @Test
     @CoreCompatChangeRule.EnableCompatChanges({Thread.OVERRIDDEN_THREAD_START_METHOD})
     public void testOverriddenThreadStartMethod_changeEnabled() {
-        assumeTrue(VMRuntime.getSdkVersion() >= VersionCodes.C);
+        assumeTrue(VMRuntime.getSdkVersion() >= VersionCodes.CINNAMON_BUN);
 
         assertOverriddenStartMethodCalled(Executors::newSingleThreadExecutor, false);
         assertOverriddenStartMethodCalled(Executors::newCachedThreadPool, false);

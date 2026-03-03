@@ -95,7 +95,6 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// Android-changed: removed ValueBased paragraph.
 /**
  * A time-based amount of time, such as '34.5 seconds'.
  * <p>
@@ -121,7 +120,7 @@ import java.util.regex.Pattern;
  * most applications.
  * See {@link Instant} for a discussion as to the meaning of the second and time-scales.
  * <p>
- * This is a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
+ * This is a <a href="{@docRoot}/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
  * class; programmers should treat instances that are
  * {@linkplain #equals(Object) equal} as interchangeable and should not
  * use instances for synchronization, or unpredictable behavior may

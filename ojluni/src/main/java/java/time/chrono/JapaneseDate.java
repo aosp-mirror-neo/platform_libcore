@@ -91,7 +91,6 @@ import java.util.Objects;
 import sun.util.calendar.CalendarDate;
 import sun.util.calendar.LocalGregorianCalendar;
 
-// Android-changed: removed ValueBased paragraph.
 /**
  * A date in the Japanese Imperial calendar system.
  * <p>
@@ -112,7 +111,7 @@ import sun.util.calendar.LocalGregorianCalendar;
  * Calling {@code japaneseDate.get(ERA)} will return 2, corresponding to
  * {@code JapaneseChronology.ERA_HEISEI}.<br>
  * <p>
- * This is a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
+ * This is a <a href="{@docRoot}/java.base/java/lang/doc-files/ValueBased.html">value-based</a>
  * class; programmers should treat instances that are
  * {@linkplain #equals(Object) equal} as interchangeable and should not
  * use instances for synchronization, or unpredictable behavior may
