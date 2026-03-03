@@ -247,14 +247,7 @@ public class CharacterTest extends junit.framework.TestCase {
     Method m = Character.class.getDeclaredMethod("isSpaceChar" + "Impl", int.class);
     m.setAccessible(true);
     for (int i = 0; i <= 0xffff; ++i) {
-      // ICU and the RI disagree about character 0x180e. Remove this special case if this changes
-      // or Android decides to follow ICU exactly.
-      if (i == 0x180e) {
-        assertTrue(Character.isSpaceChar(i));
-        assertFalse((Boolean) m.invoke(null, i));
-      } else {
-        assertEquals("Failed for character " + i, m.invoke(null, i), Character.isSpaceChar(i));
-      }
+      assertEquals("Failed for character " + i, m.invoke(null, i), Character.isSpaceChar(i));
     }
   }
 
@@ -272,15 +265,15 @@ public class CharacterTest extends junit.framework.TestCase {
     Method m = Character.class.getDeclaredMethod("isWhitespace" + "Impl", int.class);
     m.setAccessible(true);
     for (int i = 0; i <= 0xffff; ++i) {
-      // ICU and the RI disagree about character 0x180e. Remove this special case if this changes
-      // or Android decides to follow ICU exactly.
-      if (i == 0x180e) {
-          assertTrue(Character.isWhitespace(i));
-          assertFalse((Boolean) m.invoke(null, i));
-      } else {
-        assertEquals("Failed for character " + i, m.invoke(null, i), Character.isWhitespace(i));
-      }
+      assertEquals("Failed for character " + i, m.invoke(null, i), Character.isWhitespace(i));
     }
+  }
+
+  public void test_isWhitespace_180e() {
+    // Since Java 11, Mongolian vowel separator is not considered whitespace.
+    // http://b/486153102
+    assertFalse(Character.isWhitespace(0x180e));
+    assertFalse(Character.isSpaceChar(0x180e));
   }
 
   // http://b/15492712
