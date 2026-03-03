@@ -2150,7 +2150,7 @@ static jint Linux_readBytes(JNIEnv* env, jobject, jobject javaFd, jobject javaBy
 static jint Linux_readNoThrow(JNIEnv* env, jobject, jobject javaFd, jbyteArray javaBytes, jint byteOffset, jint byteCount) {
     ScopedBytesRW bytes(env, javaBytes);
     if (bytes.get() == NULL) {
-        return -ENOBUFS;
+        return -EFAULT;
     }
     int fd = jniGetFDFromFileDescriptor(env, javaFd);
     ssize_t rc = TEMP_FAILURE_RETRY(read(fd, bytes.get() + byteOffset, byteCount));
@@ -2221,7 +2221,7 @@ static jint Linux_recvfromBytes(JNIEnv* env, jobject, jobject javaFd, jobject ja
 static jint Linux_recvfromNoThrow(JNIEnv* env, jobject, jobject javaFd, jbyteArray javaBytes, jint byteOffset, jint byteCount, jint flags, jobject javaInetSocketAddress) {
     ScopedBytesRW bytes(env, javaBytes);
     if (bytes.get() == NULL) {
-        return -ENOBUFS;
+        return -EFAULT;
     }
     sockaddr_storage ss = {};
     socklen_t sl = sizeof(ss);
@@ -2302,7 +2302,7 @@ static jint Linux_recvmsgNoThrow(JNIEnv* env, jobject, jobject javaFd, jobject s
     static jfieldID msgNameFid = env->GetFieldID(JniConstants::GetStructMsghdrClass(env),
                                                   "msg_name", "Ljava/net/SocketAddress;");
     if (!msgNameFid) {
-        return -ENOBUFS;
+        return -EFAULT;
     }
 
     // Initialize msghdr with everything from StructCMsghdr except msg_name.
