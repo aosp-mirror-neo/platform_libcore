@@ -45,6 +45,7 @@ import java.io.FileDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -121,7 +122,7 @@ public class BlockGuardOsTest {
 
     @Test
     public void test_android_getaddrinfo_networkPolicy() {
-        InetAddress[] addresses = new InetAddress[] { InetAddress.getLoopbackAddress() };
+        InetAddress[] addresses = new InetAddress[] { Inet4Address.LOOPBACK };
         when(mockOsDelegate.android_getaddrinfo(anyString(), any(), anyInt()))
                 .thenReturn(addresses);
 
@@ -203,7 +204,7 @@ public class BlockGuardOsTest {
         // Test connect with a UDP socket that will not trigger a network policy check.
         FileDescriptor udpSocket = Libcore.os.socket(AF_INET6, SOCK_DGRAM, IPPROTO_UDP);
         try {
-            blockGuardOs.connect(udpSocket, InetAddress.getLoopbackAddress(), 0);
+            blockGuardOs.connect(udpSocket, Inet4Address.LOOPBACK, 0);
             verify(mockThreadPolicy, never()).onNetwork();
             verify(mockOsDelegate, times(1)).connect(eq(udpSocket), any(), anyInt());
         } finally {
@@ -213,7 +214,7 @@ public class BlockGuardOsTest {
         // Test connect with a TCP socket that will trigger a network policy check.
         FileDescriptor tcpSocket = Libcore.os.socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
         try {
-            blockGuardOs.connect(tcpSocket, InetAddress.getLoopbackAddress(), 0);
+            blockGuardOs.connect(tcpSocket, Inet4Address.LOOPBACK, 0);
             verify(mockThreadPolicy, times(1)).onNetwork();
             verify(mockOsDelegate, times(1)).connect(eq(tcpSocket), any(), anyInt());
         } finally {
@@ -236,10 +237,25 @@ public class BlockGuardOsTest {
         BlockGuardOs blockGuardOs = new BlockGuardOs(mockOsDelegate);
         FileDescriptor fd = new FileDescriptor();
         byte[] bytes = new byte[10];
-        InetSocketAddress addr = new InetSocketAddress(InetAddress.getLoopbackAddress(), 0);
+        InetSocketAddress addr = new InetSocketAddress(Inet4Address.LOOPBACK, 0);
         blockGuardOs.recvfromNoThrow(fd, bytes, 0, 10, 0, addr);
         verify(mockThreadPolicy).onNetwork();
         verify(mockOsDelegate).recvfromNoThrow(fd, bytes, 0, 10, 0, addr);
+    }
+
+    @Test
+    public void test_recvmsgNoThrow_blockGuard() throws Exception {
+        BlockGuardOs blockGuardOs = new BlockGuardOs(mockOsDelegate);
+        FileDescriptor fd = new FileDescriptor();
+        android.system.StructMsghdr msg = new android.system.StructMsghdr(
+            new InetSocketAddress(Inet4Address.LOOPBACK, 0),
+            new java.nio.ByteBuffer[0],
+            new android.system.StructCmsghdr[0],
+            0
+        );
+        blockGuardOs.recvmsgNoThrow(fd, msg, 0);
+        verify(mockThreadPolicy).onNetwork();
+        verify(mockOsDelegate).recvmsgNoThrow(fd, msg, 0);
     }
 
     /**

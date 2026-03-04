@@ -2150,7 +2150,7 @@ static jint Linux_readBytes(JNIEnv* env, jobject, jobject javaFd, jobject javaBy
 static jint Linux_readNoThrow(JNIEnv* env, jobject, jobject javaFd, jbyteArray javaBytes, jint byteOffset, jint byteCount) {
     ScopedBytesRW bytes(env, javaBytes);
     if (bytes.get() == NULL) {
-        return -ENOBUFS;
+        return -EFAULT;
     }
     int fd = jniGetFDFromFileDescriptor(env, javaFd);
     ssize_t rc = TEMP_FAILURE_RETRY(read(fd, bytes.get() + byteOffset, byteCount));
@@ -2221,7 +2221,7 @@ static jint Linux_recvfromBytes(JNIEnv* env, jobject, jobject javaFd, jobject ja
 static jint Linux_recvfromNoThrow(JNIEnv* env, jobject, jobject javaFd, jbyteArray javaBytes, jint byteOffset, jint byteCount, jint flags, jobject javaInetSocketAddress) {
     ScopedBytesRW bytes(env, javaBytes);
     if (bytes.get() == NULL) {
-        return -ENOBUFS;
+        return -EFAULT;
     }
     sockaddr_storage ss = {};
     socklen_t sl = sizeof(ss);
@@ -2293,6 +2293,66 @@ static jint Linux_recvmsg(JNIEnv* env, jobject, jobject javaFd, jobject structMs
     return rc;
 }
 
+
+static jint Linux_recvmsgNoThrow(JNIEnv* env, jobject, jobject javaFd, jobject structMsghdr, jint flags) {
+    ScopedMsghdr scopedMsghdrValue;
+    ScopedByteBufferArray scopedBytesArray(env, true);
+    sockaddr_storage ss = {};
+
+    static jfieldID msgNameFid = env->GetFieldID(JniConstants::GetStructMsghdrClass(env),
+                                                  "msg_name", "Ljava/net/SocketAddress;");
+    if (!msgNameFid) {
+        return -EFAULT;
+    }
+
+    // Initialize msghdr with everything from StructCMsghdr except msg_name.
+    if (msghdrJavaToC(env, structMsghdr, scopedMsghdrValue.getObject(),
+                           scopedBytesArray) == false) {
+        return -ENOBUFS;
+    }
+
+    jobject javaSocketAddress = env->GetObjectField(structMsghdr, msgNameFid);
+    if (javaSocketAddress) {
+        // client want to get source address, then set msg_name and msg_namelen.
+        scopedMsghdrValue.setMsgNameAndLen(reinterpret_cast<sockaddr*>(&ss),
+                                              sizeof(sockaddr_in6));
+    }
+
+    int fd = jniGetFDFromFileDescriptor(env, javaFd);
+    ssize_t rc = -1;
+    int errno_saved = 0;
+    while (true) {
+        bool wasSignaled;
+        {
+            AsynchronousCloseMonitor monitor(fd);
+            rc = recvmsg(fd, &scopedMsghdrValue.getObject(), flags);
+            errno_saved = errno;
+            wasSignaled = monitor.wasSignaled();
+        }
+        if (wasSignaled) {
+            return -EINTR;
+        }
+        if (rc != -1 || errno_saved != EINTR) {
+            break;
+        }
+    }
+
+    if (rc < 0) {
+        return -errno_saved;
+    }
+
+    if (javaSocketAddress) {
+        sockaddr_storage* interfaceAddr = NULL;
+        interfaceAddr = reinterpret_cast<sockaddr_storage*>(scopedMsghdrValue.getObject().msg_name);
+        fillSocketAddress(env, javaSocketAddress, *interfaceAddr,
+                scopedMsghdrValue.getObject().msg_namelen);
+    }
+
+    msghdrCToJava(env, structMsghdr, scopedMsghdrValue.getObject(),
+                            scopedBytesArray);
+
+    return static_cast<jint>(rc);
+}
 
 static void Linux_remove(JNIEnv* env, jobject, jstring javaPath) {
     ScopedUtfChars path(env, javaPath);
@@ -2904,6 +2964,7 @@ static JNINativeMethod gMethods[] = {
     NATIVE_METHOD(Linux, recvfromBytes, "(Ljava/io/FileDescriptor;Ljava/lang/Object;IIILjava/net/InetSocketAddress;)I"),
     NATIVE_METHOD(Linux, recvfromNoThrow, "(Ljava/io/FileDescriptor;[BIIILjava/net/InetSocketAddress;)I"),
     NATIVE_METHOD(Linux, recvmsg, "(Ljava/io/FileDescriptor;Landroid/system/StructMsghdr;I)I"),
+    NATIVE_METHOD(Linux, recvmsgNoThrow, "(Ljava/io/FileDescriptor;Landroid/system/StructMsghdr;I)I"),
     NATIVE_METHOD(Linux, remove, "(Ljava/lang/String;)V"),
     NATIVE_METHOD(Linux, removexattr, "(Ljava/lang/String;Ljava/lang/String;)V"),
     NATIVE_METHOD(Linux, rename, "(Ljava/lang/String;Ljava/lang/String;)V"),
