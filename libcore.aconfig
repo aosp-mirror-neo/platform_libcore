@@ -199,3 +199,12 @@ flag {
     bug: "476434241"
     is_fixed_read_only: true
 }
+
+flag {
+    namespace: "core_libraries"
+    name: "always_false_test_flag"
+    is_exported: false
+    description: "This flag is for testing purpose only and should never be true."
+    bug: "443939040"
+    is_fixed_read_only: true
+}
