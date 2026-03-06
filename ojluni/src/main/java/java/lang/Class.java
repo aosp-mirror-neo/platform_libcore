@@ -604,6 +604,14 @@ public final class Class<T> implements java.io.Serializable,
     static native Class<?> classForName(String className, boolean shouldInitialize,
             ClassLoader classLoader) throws ClassNotFoundException;
 
+    public boolean isIdentity() {
+        return true;
+    }
+
+    public boolean isValue() {
+        return !isIdentity();
+    }
+
     // Android-removed: Remove unsupported forName(Module, String) method.
     /*
      * Returns the {@code Class} with the given <a href="ClassLoader.html#name">

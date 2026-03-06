@@ -3289,6 +3289,7 @@ package java.lang {
     method public boolean isArray();
     method public boolean isAssignableFrom(@NonNull Class<?>);
     method public boolean isEnum();
+    method @FlaggedApi("com.android.art.flags.value_classes") public boolean isIdentity();
     method public boolean isInstance(@Nullable Object);
     method public boolean isInterface();
     method public boolean isLocalClass();
@@ -3298,6 +3299,7 @@ package java.lang {
     method public boolean isRecord();
     method public boolean isSealed();
     method public boolean isSynthetic();
+    method @FlaggedApi("com.android.art.flags.value_classes") public boolean isValue();
     method @Deprecated @NonNull public T newInstance() throws java.lang.IllegalAccessException, java.lang.InstantiationException;
     method @NonNull public String toGenericString();
   }
