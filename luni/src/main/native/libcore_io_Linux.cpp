@@ -2302,13 +2302,13 @@ static jint Linux_recvmsgNoThrow(JNIEnv* env, jobject, jobject javaFd, jobject s
     static jfieldID msgNameFid = env->GetFieldID(JniConstants::GetStructMsghdrClass(env),
                                                   "msg_name", "Ljava/net/SocketAddress;");
     if (!msgNameFid) {
-        return -EFAULT;
+        return -EINVAL;
     }
 
     // Initialize msghdr with everything from StructCMsghdr except msg_name.
     if (msghdrJavaToC(env, structMsghdr, scopedMsghdrValue.getObject(),
                            scopedBytesArray) == false) {
-        return -ENOBUFS;
+        return -EINVAL;
     }
 
     jobject javaSocketAddress = env->GetObjectField(structMsghdr, msgNameFid);
