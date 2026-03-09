@@ -66,6 +66,8 @@ import jdk.internal.util.StaticProperty;
 import sun.reflect.misc.ReflectUtil;
 import sun.security.util.SecurityConstants;
 
+import dalvik.annotation.optimization.NeverInline;
+
 // Android-changed: Removed javadoc related to getPlatformClassLoader().
 /**
  * A class loader is an object that is responsible for loading classes. The
@@ -2681,18 +2683,42 @@ class BootClassLoader extends ClassLoader {
     private static volatile BootClassLoader instance;
 
     @FindBugsSuppressWarnings("DP_CREATE_CLASSLOADER_INSIDE_DO_PRIVILEGED")
+    // BEGIN Android-changed: extract cold create path to @NeverInline'd method.
+    // This keeps cold code bloat from being inlined to call sites,
+    // of which there are many.
+    // public static BootClassLoader getInstance() {
+    //     BootClassLoader myInstance = instance;
+    //     if (myInstance == null) {
+    //         synchronized(BootClassLoader.class) {
+    //             if (instance == null) {
+    //                 instance = myInstance = new BootClassLoader();
+    //             }
+    //         }
+    //     }
+
+    //     return myInstance;
+    // }
+
     public static BootClassLoader getInstance() {
         BootClassLoader myInstance = instance;
         if (myInstance == null) {
-            synchronized(BootClassLoader.class) {
-                if (instance == null) {
-                    instance = myInstance = new BootClassLoader();
-                }
-            }
+            return maybeCreateInstance();
         }
 
         return myInstance;
     }
+
+    @NeverInline
+    private static BootClassLoader maybeCreateInstance() {
+        synchronized (BootClassLoader.class) {
+            BootClassLoader myInstance = instance;
+            if (myInstance == null) {
+                instance = myInstance = new BootClassLoader();
+            }
+            return myInstance;
+        }
+    }
+    // END Android-changed: extract cold create path to @NeverInline'd method.
 
     public BootClassLoader() {
         super(null);
