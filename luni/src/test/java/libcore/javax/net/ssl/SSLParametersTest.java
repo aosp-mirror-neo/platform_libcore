@@ -21,6 +21,9 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import dalvik.annotation.compat.VersionCodes;
+import dalvik.system.VMRuntime;
+
 import java.util.Arrays;
 import javax.net.ssl.SSLParameters;
 import org.junit.Assume;
@@ -84,7 +87,7 @@ public class SSLParametersTest {
 
   @Test
   public void test_getSetNamedGroups() {
-    assumeOpenjdk25V1ApisFlagTrue();
+    assumeSdkC();
     SSLParameters params = new SSLParameters();
 
     assertTrue(params.getNamedGroups() == null);
@@ -109,7 +112,7 @@ public class SSLParametersTest {
 
   @Test
   public void test_setNamedGroups_invalidInputs() {
-    assumeOpenjdk25V1ApisFlagTrue();
+    assumeSdkC();
     SSLParameters params = new SSLParameters();
 
     assertThrows(IllegalArgumentException.class, () -> {
@@ -129,13 +132,7 @@ public class SSLParametersTest {
     });
   }
 
-  private static void assumeOpenjdk25V1ApisFlagTrue() {
-    try {
-      Assume.assumeTrue(com.android.libcore.Flags.openjdk25V1Apis());
-    } catch (NoClassDefFoundError | NoSuchMethodError e) {
-      // Skip the test in MtsConscryptFdSocketTestCases when the flag isn't declared.
-      // http://b/472696869
-      Assume.assumeNoException(e);
-    }
+  private static void assumeSdkC() {
+    Assume.assumeTrue(VMRuntime.getSdkVersion() >= VersionCodes.CINNAMON_BUN);
   }
 }
