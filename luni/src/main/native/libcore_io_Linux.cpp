@@ -192,11 +192,15 @@ static bool isIPv4MappedAddress(const sockaddr *sa) {
  * a close() or Thread.interrupt(). Other signals that result in an EINTR result are ignored and the
  * system call is retried.
  *
- * Returns the result of the system call though a Java exception will be pending if the result is
- * -1: an IOException if the file descriptor is already closed, a InterruptedIOException if signaled
- * via AsynchronousCloseMonitor, or ErrnoException for other failures.
+ * IO_FAILURE_RETRY returns the result of the system call though a Java exception will be pending
+ * if the result is -1: a InterruptedIOException if signaled via AsynchronousCloseMonitor,
+ * or ErrnoException for other failures.
+ *
+ * IO_FAILURE_RETRY_NOTHROW returns the result of the system call or -1 on failure. In case of
+ * failure, errno is set to the error code. If the operation was interrupted by an asynchronous
+ * close, errno is set to EBADF to indicate the file descriptor is no longer valid.
  */
-#define IO_FAILURE_RETRY(jni_env, return_type, syscall_name, java_fd, ...) ({ \
+#define IO_FAILURE_RETRY_IMPL(jni_env, return_type, syscall_name, java_fd, should_throw, ...) ({ \
     return_type _rc = -1; \
     int _syscallErrno; \
     do { \
@@ -209,14 +213,20 @@ static bool isIPv4MappedAddress(const sockaddr *sa) {
             _wasSignaled = _monitor.wasSignaled(); \
         } \
         if (_wasSignaled) { \
-            jniThrowException(jni_env, "java/io/InterruptedIOException", \
-                # syscall_name " interrupted by close() on another thread"); \
+            if (should_throw) { \
+                jniThrowException(jni_env, "java/io/InterruptedIOException", \
+                    # syscall_name " interrupted by close() on another thread"); \
+            } else { \
+                _syscallErrno = EBADF; \
+            } \
             _rc = -1; \
             break; \
         } \
         if (_rc == -1 && _syscallErrno != EINTR) { \
-            /* TODO: with a format string we could show the arguments too, like strace(1). */ \
-            throwErrnoException(jni_env, # syscall_name); \
+            if (should_throw) { \
+                /* TODO: with a format string we could show the arguments too, like strace(1). */ \
+                throwErrnoException(jni_env, # syscall_name); \
+            } \
             break; \
         } \
     } while (_rc == -1); /* && _syscallErrno == EINTR && !_wasSignaled */ \
@@ -225,6 +235,12 @@ static bool isIPv4MappedAddress(const sockaddr *sa) {
         errno = _syscallErrno; \
     } \
     _rc; })
+
+#define IO_FAILURE_RETRY(jni_env, return_type, syscall_name, java_fd, ...) \
+    IO_FAILURE_RETRY_IMPL(jni_env, return_type, syscall_name, java_fd, true, __VA_ARGS__)
+
+#define IO_FAILURE_RETRY_NOTHROW(jni_env, return_type, syscall_name, java_fd, ...) \
+    IO_FAILURE_RETRY_IMPL(jni_env, return_type, syscall_name, java_fd, false, __VA_ARGS__)
 
 #define NULL_ADDR_OK         true
 #define NULL_ADDR_FORBIDDEN  false
@@ -2152,8 +2168,8 @@ static jint Linux_readNoThrow(JNIEnv* env, jobject, jobject javaFd, jbyteArray j
     if (bytes.get() == NULL) {
         return -EFAULT;
     }
-    int fd = jniGetFDFromFileDescriptor(env, javaFd);
-    ssize_t rc = TEMP_FAILURE_RETRY(read(fd, bytes.get() + byteOffset, byteCount));
+    ssize_t rc = IO_FAILURE_RETRY_NOTHROW(env, ssize_t, read, javaFd, bytes.get() + byteOffset, byteCount);
+
     if (rc == -1) {
         return -errno;
     }
@@ -2227,8 +2243,9 @@ static jint Linux_recvfromNoThrow(JNIEnv* env, jobject, jobject javaFd, jbyteArr
     socklen_t sl = sizeof(ss);
     sockaddr* from = (javaInetSocketAddress != NULL) ? reinterpret_cast<sockaddr*>(&ss) : NULL;
     socklen_t* fromLength = (javaInetSocketAddress != NULL) ? &sl : 0;
-    int fd = jniGetFDFromFileDescriptor(env, javaFd);
-    ssize_t rc = TEMP_FAILURE_RETRY(recvfrom(fd, bytes.get() + byteOffset, byteCount, flags, from, fromLength));
+
+    ssize_t rc = IO_FAILURE_RETRY_NOTHROW(env, ssize_t, recvfrom, javaFd, bytes.get() + byteOffset, byteCount, flags, from, fromLength);
+
     if (rc == -1) {
         return -errno;
     }
@@ -2318,27 +2335,10 @@ static jint Linux_recvmsgNoThrow(JNIEnv* env, jobject, jobject javaFd, jobject s
                                               sizeof(sockaddr_in6));
     }
 
-    int fd = jniGetFDFromFileDescriptor(env, javaFd);
-    ssize_t rc = -1;
-    int errno_saved = 0;
-    while (true) {
-        bool wasSignaled;
-        {
-            AsynchronousCloseMonitor monitor(fd);
-            rc = recvmsg(fd, &scopedMsghdrValue.getObject(), flags);
-            errno_saved = errno;
-            wasSignaled = monitor.wasSignaled();
-        }
-        if (wasSignaled) {
-            return -EINTR;
-        }
-        if (rc != -1 || errno_saved != EINTR) {
-            break;
-        }
-    }
+    ssize_t rc = IO_FAILURE_RETRY_NOTHROW(env, ssize_t, recvmsg, javaFd, &scopedMsghdrValue.getObject(), flags);
 
-    if (rc < 0) {
-        return -errno_saved;
+    if (rc == -1) {
+        return -errno;
     }
 
     if (javaSocketAddress) {
