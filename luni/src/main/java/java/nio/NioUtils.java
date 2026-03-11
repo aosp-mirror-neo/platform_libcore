@@ -85,9 +85,10 @@ public final class NioUtils {
     }
 
     /**
-     * Exposes the array backing a non-direct {@link java.nio.ByteBuffer ByteBuffer}, even if
-     * the {@link java.nio.ByteBuffer ByteBuffer} is read-only.
-     * Normally, attempting to access the array backing a read-only buffer throws.
+     * Exposes the array backing a non-direct {@link java.nio.ByteBuffer ByteBuffer}, if
+     * the buffer isn't read-only.
+     *
+     * This method will be deprecated. Please use {@link java.nio.ByteBuffer#array()} instead.
      *
      * @param b  {@link java.nio.ByteBuffer ByteBuffer} to access its backing array.
      * @return   buffer's underlying array.
@@ -102,7 +103,9 @@ public final class NioUtils {
 
     /**
      * Exposes the array offset for the array backing a non-direct {@link java.nio.ByteBuffer ByteBuffer},
-     * even if the {@link java.nio.ByteBuffer ByteBuffer} is read-only.
+     * if the buffer isn't read-only.
+     *
+     * This method will be deprecated. Please use {@link java.nio.ByteBuffer#arrayOffset()} instead.
      *
      * @param b  {@link java.nio.ByteBuffer ByteBuffer} to access its backing array offset.
      * @return   buffer's underlying array data offset.
