@@ -42,9 +42,7 @@ import static java.lang.annotation.ElementType.TYPE;
  *
  * @since 16
  */
-// Android-changed: RetentionPolicy.SOURCE is sufficient as this is no-op on Android.
-// @Retention(RetentionPolicy.RUNTIME)
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.RUNTIME)
 @Target(value={TYPE})
 public @interface ValueBased {
 }
