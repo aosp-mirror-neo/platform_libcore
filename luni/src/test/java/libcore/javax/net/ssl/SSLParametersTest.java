@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 import dalvik.annotation.compat.VersionCodes;
 import dalvik.system.VMRuntime;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import javax.net.ssl.SSLParameters;
 import org.junit.Assume;
@@ -133,6 +134,17 @@ public class SSLParametersTest {
   }
 
   private static void assumeSdkC() {
+    Assume.assumeTrue(isVmRuntimeGetSdkVersionAvailable());
     Assume.assumeTrue(VMRuntime.getSdkVersion() >= VersionCodes.CINNAMON_BUN);
+  }
+
+  private static boolean isVmRuntimeGetSdkVersionAvailable() {
+    try {
+      Class<?> clazz = Class.forName("dalvik.system.VMRuntime");
+      Method m = clazz.getDeclaredMethod("getSdkVersion");
+      return m != null;
+    } catch (ClassNotFoundException | NoSuchMethodException e) {
+      return false;
+    }
   }
 }
