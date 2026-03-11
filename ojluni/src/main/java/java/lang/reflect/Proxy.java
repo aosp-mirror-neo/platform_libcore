@@ -28,6 +28,7 @@ package java.lang.reflect;
 
 
 import dalvik.annotation.optimization.FastNative;
+import dalvik.annotation.optimization.NeverInline;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.security.Permission;
@@ -773,6 +774,7 @@ public class Proxy implements java.io.Serializable {
         }
     }
 
+    @NeverInline  // Prevent code bloat from inlining recursive code.
     private static List<Method> getMethods(Class<?>[] interfaces) {
         List<Method> result = new ArrayList<Method>();
         try {
@@ -791,6 +793,7 @@ public class Proxy implements java.io.Serializable {
      * Fills {@code proxiedMethods} with the methods of {@code interfaces} and
      * the interfaces they extend. May contain duplicates.
      */
+    @NeverInline  // Prevent code bloat from inlining recursive code.
     private static void getMethodsRecursive(Class<?>[] interfaces, List<Method> methods) {
         for (Class<?> i : interfaces) {
             getMethodsRecursive(i.getInterfaces(), methods);

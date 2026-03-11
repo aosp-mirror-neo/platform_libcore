@@ -666,8 +666,14 @@ java_library_static {
         "test-rules/src/main/**/*.java",
     ],
     static_libs: [
+        "flag-junit",
         "junit",
         "platform-test-annotations",
+        // The following aconfig libs are needed to generate an "aconfig.pb" resource file into
+        // the test apks / jars.
+        "art-aconfig-flags-java-lib",
+        "art-aconfig-rw-flags-java-lib",
+        "libcore-aconfig-flags-lib",
     ],
 
     sdk_version: "none",
@@ -883,6 +889,9 @@ java_test {
     ],
     defaults: ["libcore_java_defaults"],
     hostdex: true,
+    // enable_static_aconfig_pb: true is needed to generate the "aconfig.pb" file for reading
+    // aconfig flags in this test module. See go/android-ts-flag-annotation#prerequisites
+    enable_static_aconfig_pb: true,
     srcs: [
         "dalvik/src/test/java/**/*.java",
         "dalvik/test-rules/src/test/java/**/*.java",
@@ -1120,7 +1129,7 @@ droidstubs {
 }
 
 // Separate @FlaggedApi annotations for luni/ to avoid a circular dependency between
-// libcore_aconfig_flags_lib and core-all
+// libcore-aconfig-flags-lib and core-all
 droiddoc_exported_dir {
     name: "luni-annotated-flagged-stubs",
     path: "luni/annotations/flagged_api",
