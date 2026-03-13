@@ -3521,6 +3521,14 @@ package java.lang {
   @java.lang.annotation.Documented @java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME) @java.lang.annotation.Target(java.lang.annotation.ElementType.TYPE) public @interface FunctionalInterface {
   }
 
+  @FlaggedApi("com.android.art.flags.value_classes") public class IdentityException extends java.lang.RuntimeException {
+    ctor public IdentityException();
+    ctor public IdentityException(Class<?>);
+    ctor public IdentityException(String);
+    ctor public IdentityException(Throwable);
+    ctor public IdentityException(String, Throwable);
+  }
+
   public class IllegalAccessError extends java.lang.IncompatibleClassChangeError {
     ctor public IllegalAccessError();
     ctor public IllegalAccessError(String);
