@@ -149,6 +149,7 @@ filegroup {
         "ojluni/src/main/java/java/lang/foreign/MemoryLayout.java",
         "ojluni/src/main/java/java/lang/foreign/ValueLayout.java",
         "ojluni/src/main/java/java/lang/FunctionalInterface.java",
+        "ojluni/src/main/java/java/lang/IdentityException.java",
         "ojluni/src/main/java/java/lang/IllegalAccessError.java",
         "ojluni/src/main/java/java/lang/IllegalAccessException.java",
         "ojluni/src/main/java/java/lang/IllegalArgumentException.java",
