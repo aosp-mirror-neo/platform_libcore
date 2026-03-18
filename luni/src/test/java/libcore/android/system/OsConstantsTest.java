@@ -16,31 +16,30 @@
 
 package libcore.android.system;
 
-import android.system.OsConstants;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-
 import static android.system.OsConstants.CAP_TO_INDEX;
 import static android.system.OsConstants.CAP_TO_MASK;
 import static android.system.OsConstants.S_ISBLK;
 import static android.system.OsConstants.S_ISCHR;
 import static android.system.OsConstants.S_ISDIR;
 import static android.system.OsConstants.S_ISFIFO;
-import static android.system.OsConstants.S_ISREG;
 import static android.system.OsConstants.S_ISLNK;
+import static android.system.OsConstants.S_ISREG;
 import static android.system.OsConstants.S_ISSOCK;
-import static android.system.OsConstants.WEXITSTATUS;
 import static android.system.OsConstants.WCOREDUMP;
-import static android.system.OsConstants.WTERMSIG;
-import static android.system.OsConstants.WSTOPSIG;
+import static android.system.OsConstants.WEXITSTATUS;
 import static android.system.OsConstants.WIFEXITED;
-import static android.system.OsConstants.WIFSTOPPED;
 import static android.system.OsConstants.WIFSIGNALED;
+import static android.system.OsConstants.WIFSTOPPED;
+import static android.system.OsConstants.WSTOPSIG;
+import static android.system.OsConstants.WTERMSIG;
 
 import static org.junit.Assert.*;
+
+import android.system.OsConstants;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class OsConstantsTest {
@@ -440,7 +439,93 @@ public class OsConstantsTest {
     }
 
     @Test
+    public void errno_validValues() {
+        assertEquals("EPERM", OsConstants.errnoName(1));
+        assertEquals("ENOENT", OsConstants.errnoName(2));
+        assertEquals("ESRCH", OsConstants.errnoName(3));
+        assertEquals("EINTR", OsConstants.errnoName(4));
+        assertEquals("EIO", OsConstants.errnoName(5));
+        assertEquals("ENXIO", OsConstants.errnoName(6));
+        assertEquals("E2BIG", OsConstants.errnoName(7));
+        assertEquals("ENOEXEC", OsConstants.errnoName(8));
+        assertEquals("EBADF", OsConstants.errnoName(9));
+        assertEquals("ECHILD", OsConstants.errnoName(10));
+        assertEquals("EAGAIN", OsConstants.errnoName(11));
+        assertEquals("ENOMEM", OsConstants.errnoName(12));
+        assertEquals("EACCES", OsConstants.errnoName(13));
+        assertEquals("EFAULT", OsConstants.errnoName(14));
+        assertEquals("EBUSY", OsConstants.errnoName(16));
+        assertEquals("EEXIST", OsConstants.errnoName(17));
+        assertEquals("EXDEV", OsConstants.errnoName(18));
+        assertEquals("ENODEV", OsConstants.errnoName(19));
+        assertEquals("ENOTDIR", OsConstants.errnoName(20));
+        assertEquals("EISDIR", OsConstants.errnoName(21));
+        assertEquals("EINVAL", OsConstants.errnoName(22));
+        assertEquals("ENFILE", OsConstants.errnoName(23));
+        assertEquals("EMFILE", OsConstants.errnoName(24));
+        assertEquals("ENOTTY", OsConstants.errnoName(25));
+        assertEquals("ETXTBSY", OsConstants.errnoName(26));
+        assertEquals("EFBIG", OsConstants.errnoName(27));
+        assertEquals("ENOSPC", OsConstants.errnoName(28));
+        assertEquals("ESPIPE", OsConstants.errnoName(29));
+        assertEquals("EROFS", OsConstants.errnoName(30));
+        assertEquals("EMLINK", OsConstants.errnoName(31));
+        assertEquals("EPIPE", OsConstants.errnoName(32));
+        assertEquals("EDOM", OsConstants.errnoName(33));
+        assertEquals("ERANGE", OsConstants.errnoName(34));
+        assertEquals("EDEADLK", OsConstants.errnoName(35));
+        assertEquals("ENAMETOOLONG", OsConstants.errnoName(36));
+        assertEquals("ENOLCK", OsConstants.errnoName(37));
+        assertEquals("ENOSYS", OsConstants.errnoName(38));
+        assertEquals("ENOTEMPTY", OsConstants.errnoName(39));
+        assertEquals("ELOOP", OsConstants.errnoName(40));
+        assertEquals("ENOMSG", OsConstants.errnoName(42));
+        assertEquals("EIDRM", OsConstants.errnoName(43));
+        assertEquals("ENOSTR", OsConstants.errnoName(60));
+        assertEquals("ENODATA", OsConstants.errnoName(61));
+        assertEquals("ETIME", OsConstants.errnoName(62));
+        assertEquals("ENOSR", OsConstants.errnoName(63));
+        assertEquals("ENONET", OsConstants.errnoName(64));
+        assertEquals("ENOLINK", OsConstants.errnoName(67));
+        assertEquals("EPROTO", OsConstants.errnoName(71));
+        assertEquals("EMULTIHOP", OsConstants.errnoName(72));
+        assertEquals("EBADMSG", OsConstants.errnoName(74));
+        assertEquals("EOVERFLOW", OsConstants.errnoName(75));
+        assertEquals("EILSEQ", OsConstants.errnoName(84));
+        assertEquals("EUSERS", OsConstants.errnoName(87));
+        assertEquals("ENOTSOCK", OsConstants.errnoName(88));
+        assertEquals("EDESTADDRREQ", OsConstants.errnoName(89));
+        assertEquals("EMSGSIZE", OsConstants.errnoName(90));
+        assertEquals("EPROTOTYPE", OsConstants.errnoName(91));
+        assertEquals("ENOPROTOOPT", OsConstants.errnoName(92));
+        assertEquals("EPROTONOSUPPORT", OsConstants.errnoName(93));
+        assertEquals("EOPNOTSUPP", OsConstants.errnoName(95));
+        assertEquals("EAFNOSUPPORT", OsConstants.errnoName(97));
+        assertEquals("EADDRINUSE", OsConstants.errnoName(98));
+        assertEquals("EADDRNOTAVAIL", OsConstants.errnoName(99));
+        assertEquals("ENETDOWN", OsConstants.errnoName(100));
+        assertEquals("ENETUNREACH", OsConstants.errnoName(101));
+        assertEquals("ENETRESET", OsConstants.errnoName(102));
+        assertEquals("ECONNABORTED", OsConstants.errnoName(103));
+        assertEquals("ECONNRESET", OsConstants.errnoName(104));
+        assertEquals("ENOBUFS", OsConstants.errnoName(105));
+        assertEquals("EISCONN", OsConstants.errnoName(106));
+        assertEquals("ENOTCONN", OsConstants.errnoName(107));
+        assertEquals("ETIMEDOUT", OsConstants.errnoName(110));
+        assertEquals("ECONNREFUSED", OsConstants.errnoName(111));
+        assertEquals("EHOSTUNREACH", OsConstants.errnoName(113));
+        assertEquals("EALREADY", OsConstants.errnoName(114));
+        assertEquals("EINPROGRESS", OsConstants.errnoName(115));
+        assertEquals("ESTALE", OsConstants.errnoName(116));
+        assertEquals("EDQUOT", OsConstants.errnoName(122));
+        assertEquals("ECANCELED", OsConstants.errnoName(125));
+    }
+
+    @Test
     public void errno_returnsNull_onUnknown() {
+        assertNull(OsConstants.errnoName(-1));
+        assertNull(OsConstants.errnoName(0));
+        assertNull(OsConstants.errnoName(126));
         assertNull(OsConstants.errnoName(99999999));
     }
 
