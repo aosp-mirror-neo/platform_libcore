@@ -1935,8 +1935,6 @@ import jdk.internal.math.FormattedFloatingDecimal;
  * @author  Iris Clark
  * @since 1.5
  */
-// Android-added: errorprone crashes with NPE otherwise. See: https://github.com/google/error-prone/issues/2638
-@SuppressWarnings("FallThrough")
 public final class Formatter implements Closeable, Flushable {
     private Appendable a;
     private final Locale l;
