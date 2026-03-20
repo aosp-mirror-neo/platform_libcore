@@ -1,6 +1,5 @@
 // Signature format: 6.0
 // - style=java
-// - type-argument-spacing=legacy
 package android.crypto.hpke {
 
   @FlaggedApi("com.android.libcore.hpke_public_api") public class AeadParameterSpec extends java.security.spec.NamedParameterSpec {
@@ -3966,7 +3965,7 @@ package java.lang {
     method public ProcessBuilder command(java.util.List<String>);
     method public java.io.File directory();
     method public ProcessBuilder directory(java.io.File);
-    method public java.util.Map<String,String> environment();
+    method public java.util.Map<String, String> environment();
     method public ProcessBuilder inheritIO();
     method public ProcessBuilder.Redirect redirectError();
     method public ProcessBuilder redirectError(java.io.File);
@@ -4165,7 +4164,7 @@ package java.lang {
     method public static StackWalker getInstance(StackWalker.Option);
     method public static StackWalker getInstance(java.util.Set<StackWalker.Option>);
     method public static StackWalker getInstance(java.util.Set<StackWalker.Option>, int);
-    method public <T> T walk(java.util.function.Function<? super java.util.stream.Stream<StackWalker.StackFrame>,? extends T>);
+    method public <T> T walk(java.util.function.Function<? super java.util.stream.Stream<StackWalker.StackFrame>, ? extends T>);
   }
 
   public enum StackWalker.Option {
@@ -4384,7 +4383,7 @@ package java.lang {
     method @NonNull public String toString();
     method @NonNull public String toUpperCase();
     method @NonNull public String toUpperCase(@NonNull java.util.Locale);
-    method public <R> R transform(@NonNull java.util.function.Function<? super String,? extends R>);
+    method public <R> R transform(@NonNull java.util.function.Function<? super String, ? extends R>);
     method @NonNull public String translateEscapes();
     method @NonNull public String trim();
     method @NonNull public static String valueOf(boolean);
@@ -4543,7 +4542,7 @@ package java.lang {
     method @Nullable public static String getProperty(@NonNull String);
     method @Nullable public static String getProperty(@NonNull String, @Nullable String);
     method @Nullable public static SecurityManager getSecurityManager();
-    method @NonNull public static java.util.Map<String,String> getenv();
+    method @NonNull public static java.util.Map<String, String> getenv();
     method @Nullable public static String getenv(@NonNull String);
     method public static int identityHashCode(@Nullable Object);
     method @Nullable public static java.nio.channels.Channel inheritedChannel() throws java.io.IOException;
@@ -4580,7 +4579,7 @@ package java.lang {
     method @NonNull public static Thread currentThread();
     method public static void dumpStack();
     method public static int enumerate(Thread[]);
-    method @NonNull public static java.util.Map<Thread,StackTraceElement[]> getAllStackTraces();
+    method @NonNull public static java.util.Map<Thread, StackTraceElement[]> getAllStackTraces();
     method @Nullable public ClassLoader getContextClassLoader();
     method @Nullable public static Thread.UncaughtExceptionHandler getDefaultUncaughtExceptionHandler();
     method @Deprecated public long getId();
@@ -4991,7 +4990,7 @@ package java.lang.invoke {
     field public static final int PUBLIC = 1; // 0x1
   }
 
-  public final class MethodType implements java.io.Serializable java.lang.invoke.TypeDescriptor.OfMethod<Class<?>,java.lang.invoke.MethodType> {
+  public final class MethodType implements java.io.Serializable java.lang.invoke.TypeDescriptor.OfMethod<Class<?>, java.lang.invoke.MethodType> {
     method public java.lang.invoke.MethodType appendParameterTypes(Class<?>...);
     method public java.lang.invoke.MethodType appendParameterTypes(java.util.List<Class<?>>);
     method public java.lang.invoke.MethodType changeParameterType(int, Class<?>);
@@ -5702,7 +5701,7 @@ package java.net {
   public abstract class CacheResponse {
     ctor public CacheResponse();
     method public abstract java.io.InputStream getBody() throws java.io.IOException;
-    method public abstract java.util.Map<String,java.util.List<String>> getHeaders() throws java.io.IOException;
+    method public abstract java.util.Map<String, java.util.List<String>> getHeaders() throws java.io.IOException;
   }
 
   public class ConnectException extends java.net.SocketException {
@@ -5722,18 +5721,18 @@ package java.net {
 
   public abstract class CookieHandler {
     ctor public CookieHandler();
-    method public abstract java.util.Map<String,java.util.List<String>> get(java.net.URI, java.util.Map<String,java.util.List<String>>) throws java.io.IOException;
+    method public abstract java.util.Map<String, java.util.List<String>> get(java.net.URI, java.util.Map<String, java.util.List<String>>) throws java.io.IOException;
     method public static java.net.CookieHandler getDefault();
-    method public abstract void put(java.net.URI, java.util.Map<String,java.util.List<String>>) throws java.io.IOException;
+    method public abstract void put(java.net.URI, java.util.Map<String, java.util.List<String>>) throws java.io.IOException;
     method public static void setDefault(java.net.CookieHandler);
   }
 
   public class CookieManager extends java.net.CookieHandler {
     ctor public CookieManager();
     ctor public CookieManager(java.net.CookieStore, java.net.CookiePolicy);
-    method public java.util.Map<String,java.util.List<String>> get(java.net.URI, java.util.Map<String,java.util.List<String>>) throws java.io.IOException;
+    method public java.util.Map<String, java.util.List<String>> get(java.net.URI, java.util.Map<String, java.util.List<String>>) throws java.io.IOException;
     method public java.net.CookieStore getCookieStore();
-    method public void put(java.net.URI, java.util.Map<String,java.util.List<String>>) throws java.io.IOException;
+    method public void put(java.net.URI, java.util.Map<String, java.util.List<String>>) throws java.io.IOException;
     method public void setCookiePolicy(java.net.CookiePolicy);
   }
 
@@ -6131,7 +6130,7 @@ package java.net {
 
   public abstract class ResponseCache {
     ctor public ResponseCache();
-    method public abstract java.net.CacheResponse get(java.net.URI, String, java.util.Map<String,java.util.List<String>>) throws java.io.IOException;
+    method public abstract java.net.CacheResponse get(java.net.URI, String, java.util.Map<String, java.util.List<String>>) throws java.io.IOException;
     method public static java.net.ResponseCache getDefault();
     method public abstract java.net.CacheRequest put(java.net.URI, java.net.URLConnection) throws java.io.IOException;
     method public static void setDefault(java.net.ResponseCache);
@@ -6442,14 +6441,14 @@ package java.net {
     method public int getHeaderFieldInt(String, int);
     method public String getHeaderFieldKey(int);
     method public long getHeaderFieldLong(String, long);
-    method public java.util.Map<String,java.util.List<String>> getHeaderFields();
+    method public java.util.Map<String, java.util.List<String>> getHeaderFields();
     method public long getIfModifiedSince();
     method public java.io.InputStream getInputStream() throws java.io.IOException;
     method public long getLastModified();
     method public java.io.OutputStream getOutputStream() throws java.io.IOException;
     method public java.security.Permission getPermission() throws java.io.IOException;
     method public int getReadTimeout();
-    method public java.util.Map<String,java.util.List<String>> getRequestProperties();
+    method public java.util.Map<String, java.util.List<String>> getRequestProperties();
     method public String getRequestProperty(String);
     method public java.net.URL getURL();
     method public boolean getUseCaches();
@@ -6868,9 +6867,9 @@ package java.nio.channels {
 
   public interface AsynchronousByteChannel extends java.nio.channels.AsynchronousChannel {
     method public java.util.concurrent.Future<Integer> read(java.nio.ByteBuffer);
-    method public <A> void read(java.nio.ByteBuffer, A, java.nio.channels.CompletionHandler<Integer,? super A>);
+    method public <A> void read(java.nio.ByteBuffer, A, java.nio.channels.CompletionHandler<Integer, ? super A>);
     method public java.util.concurrent.Future<Integer> write(java.nio.ByteBuffer);
-    method public <A> void write(java.nio.ByteBuffer, A, java.nio.channels.CompletionHandler<Integer,? super A>);
+    method public <A> void write(java.nio.ByteBuffer, A, java.nio.channels.CompletionHandler<Integer, ? super A>);
   }
 
   public interface AsynchronousChannel extends java.nio.channels.Channel {
@@ -6897,25 +6896,25 @@ package java.nio.channels {
     ctor protected AsynchronousFileChannel();
     method public abstract void force(boolean) throws java.io.IOException;
     method public final java.util.concurrent.Future<java.nio.channels.FileLock> lock();
-    method public final <A> void lock(A, java.nio.channels.CompletionHandler<java.nio.channels.FileLock,? super A>);
+    method public final <A> void lock(A, java.nio.channels.CompletionHandler<java.nio.channels.FileLock, ? super A>);
     method public abstract java.util.concurrent.Future<java.nio.channels.FileLock> lock(long, long, boolean);
-    method public abstract <A> void lock(long, long, boolean, A, java.nio.channels.CompletionHandler<java.nio.channels.FileLock,? super A>);
+    method public abstract <A> void lock(long, long, boolean, A, java.nio.channels.CompletionHandler<java.nio.channels.FileLock, ? super A>);
     method public static java.nio.channels.AsynchronousFileChannel open(java.nio.file.Path, java.nio.file.OpenOption...) throws java.io.IOException;
     method public static java.nio.channels.AsynchronousFileChannel open(java.nio.file.Path, java.util.Set<? extends java.nio.file.OpenOption>, java.util.concurrent.ExecutorService, java.nio.file.attribute.FileAttribute<?>...) throws java.io.IOException;
     method public abstract java.util.concurrent.Future<Integer> read(java.nio.ByteBuffer, long);
-    method public abstract <A> void read(java.nio.ByteBuffer, long, A, java.nio.channels.CompletionHandler<Integer,? super A>);
+    method public abstract <A> void read(java.nio.ByteBuffer, long, A, java.nio.channels.CompletionHandler<Integer, ? super A>);
     method public abstract long size() throws java.io.IOException;
     method public abstract java.nio.channels.AsynchronousFileChannel truncate(long) throws java.io.IOException;
     method public final java.nio.channels.FileLock tryLock() throws java.io.IOException;
     method public abstract java.nio.channels.FileLock tryLock(long, long, boolean) throws java.io.IOException;
     method public abstract java.util.concurrent.Future<Integer> write(java.nio.ByteBuffer, long);
-    method public abstract <A> void write(java.nio.ByteBuffer, long, A, java.nio.channels.CompletionHandler<Integer,? super A>);
+    method public abstract <A> void write(java.nio.ByteBuffer, long, A, java.nio.channels.CompletionHandler<Integer, ? super A>);
   }
 
   public abstract class AsynchronousServerSocketChannel implements java.nio.channels.AsynchronousChannel java.nio.channels.NetworkChannel {
     ctor protected AsynchronousServerSocketChannel(java.nio.channels.spi.AsynchronousChannelProvider);
     method public abstract java.util.concurrent.Future<java.nio.channels.AsynchronousSocketChannel> accept();
-    method public abstract <A> void accept(A, java.nio.channels.CompletionHandler<java.nio.channels.AsynchronousSocketChannel,? super A>);
+    method public abstract <A> void accept(A, java.nio.channels.CompletionHandler<java.nio.channels.AsynchronousSocketChannel, ? super A>);
     method public final java.nio.channels.AsynchronousServerSocketChannel bind(java.net.SocketAddress) throws java.io.IOException;
     method public abstract java.nio.channels.AsynchronousServerSocketChannel bind(java.net.SocketAddress, int) throws java.io.IOException;
     method public static java.nio.channels.AsynchronousServerSocketChannel open() throws java.io.IOException;
@@ -6928,20 +6927,20 @@ package java.nio.channels {
     ctor protected AsynchronousSocketChannel(java.nio.channels.spi.AsynchronousChannelProvider);
     method public abstract java.nio.channels.AsynchronousSocketChannel bind(java.net.SocketAddress) throws java.io.IOException;
     method public abstract java.util.concurrent.Future<Void> connect(java.net.SocketAddress);
-    method public abstract <A> void connect(java.net.SocketAddress, A, java.nio.channels.CompletionHandler<Void,? super A>);
+    method public abstract <A> void connect(java.net.SocketAddress, A, java.nio.channels.CompletionHandler<Void, ? super A>);
     method public abstract java.net.SocketAddress getRemoteAddress() throws java.io.IOException;
     method public static java.nio.channels.AsynchronousSocketChannel open() throws java.io.IOException;
     method public static java.nio.channels.AsynchronousSocketChannel open(java.nio.channels.AsynchronousChannelGroup) throws java.io.IOException;
     method public final java.nio.channels.spi.AsynchronousChannelProvider provider();
-    method public final <A> void read(java.nio.ByteBuffer, A, java.nio.channels.CompletionHandler<Integer,? super A>);
-    method public abstract <A> void read(java.nio.ByteBuffer, long, java.util.concurrent.TimeUnit, A, java.nio.channels.CompletionHandler<Integer,? super A>);
-    method public abstract <A> void read(java.nio.ByteBuffer[], int, int, long, java.util.concurrent.TimeUnit, A, java.nio.channels.CompletionHandler<Long,? super A>);
+    method public final <A> void read(java.nio.ByteBuffer, A, java.nio.channels.CompletionHandler<Integer, ? super A>);
+    method public abstract <A> void read(java.nio.ByteBuffer, long, java.util.concurrent.TimeUnit, A, java.nio.channels.CompletionHandler<Integer, ? super A>);
+    method public abstract <A> void read(java.nio.ByteBuffer[], int, int, long, java.util.concurrent.TimeUnit, A, java.nio.channels.CompletionHandler<Long, ? super A>);
     method public abstract <T> java.nio.channels.AsynchronousSocketChannel setOption(java.net.SocketOption<T>, T) throws java.io.IOException;
     method public abstract java.nio.channels.AsynchronousSocketChannel shutdownInput() throws java.io.IOException;
     method public abstract java.nio.channels.AsynchronousSocketChannel shutdownOutput() throws java.io.IOException;
-    method public final <A> void write(java.nio.ByteBuffer, A, java.nio.channels.CompletionHandler<Integer,? super A>);
-    method public abstract <A> void write(java.nio.ByteBuffer, long, java.util.concurrent.TimeUnit, A, java.nio.channels.CompletionHandler<Integer,? super A>);
-    method public abstract <A> void write(java.nio.ByteBuffer[], int, int, long, java.util.concurrent.TimeUnit, A, java.nio.channels.CompletionHandler<Long,? super A>);
+    method public final <A> void write(java.nio.ByteBuffer, A, java.nio.channels.CompletionHandler<Integer, ? super A>);
+    method public abstract <A> void write(java.nio.ByteBuffer, long, java.util.concurrent.TimeUnit, A, java.nio.channels.CompletionHandler<Integer, ? super A>);
+    method public abstract <A> void write(java.nio.ByteBuffer[], int, int, long, java.util.concurrent.TimeUnit, A, java.nio.channels.CompletionHandler<Long, ? super A>);
   }
 
   public interface ByteChannel extends java.nio.channels.ReadableByteChannel java.nio.channels.WritableByteChannel {
@@ -7344,7 +7343,7 @@ package java.nio.charset {
   public abstract class Charset implements Comparable<java.nio.charset.Charset> {
     ctor protected Charset(String, String[]);
     method public final java.util.Set<String> aliases();
-    method public static java.util.SortedMap<String,java.nio.charset.Charset> availableCharsets();
+    method public static java.util.SortedMap<String, java.nio.charset.Charset> availableCharsets();
     method public boolean canEncode();
     method public final int compareTo(java.nio.charset.Charset);
     method public abstract boolean contains(java.nio.charset.Charset);
@@ -7591,12 +7590,12 @@ package java.nio.file {
   public final class FileSystems {
     method public static java.nio.file.FileSystem getDefault();
     method public static java.nio.file.FileSystem getFileSystem(java.net.URI);
-    method public static java.nio.file.FileSystem newFileSystem(java.net.URI, java.util.Map<String,?>) throws java.io.IOException;
-    method public static java.nio.file.FileSystem newFileSystem(java.net.URI, java.util.Map<String,?>, ClassLoader) throws java.io.IOException;
+    method public static java.nio.file.FileSystem newFileSystem(java.net.URI, java.util.Map<String, ?>) throws java.io.IOException;
+    method public static java.nio.file.FileSystem newFileSystem(java.net.URI, java.util.Map<String, ?>, ClassLoader) throws java.io.IOException;
     method public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path) throws java.io.IOException;
     method public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path, ClassLoader) throws java.io.IOException;
-    method public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path, java.util.Map<String,?>) throws java.io.IOException;
-    method public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path, java.util.Map<String,?>, ClassLoader) throws java.io.IOException;
+    method public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path, java.util.Map<String, ?>) throws java.io.IOException;
+    method public static java.nio.file.FileSystem newFileSystem(java.nio.file.Path, java.util.Map<String, ?>, ClassLoader) throws java.io.IOException;
   }
 
   public enum FileVisitOption {
@@ -7633,7 +7632,7 @@ package java.nio.file {
     method public static void delete(java.nio.file.Path) throws java.io.IOException;
     method public static boolean deleteIfExists(java.nio.file.Path) throws java.io.IOException;
     method public static boolean exists(java.nio.file.Path, java.nio.file.LinkOption...);
-    method public static java.util.stream.Stream<java.nio.file.Path> find(java.nio.file.Path, int, java.util.function.BiPredicate<java.nio.file.Path,java.nio.file.attribute.BasicFileAttributes>, java.nio.file.FileVisitOption...) throws java.io.IOException;
+    method public static java.util.stream.Stream<java.nio.file.Path> find(java.nio.file.Path, int, java.util.function.BiPredicate<java.nio.file.Path, java.nio.file.attribute.BasicFileAttributes>, java.nio.file.FileVisitOption...) throws java.io.IOException;
     method public static Object getAttribute(java.nio.file.Path, String, java.nio.file.LinkOption...) throws java.io.IOException;
     method public static <V extends java.nio.file.attribute.FileAttributeView> V getFileAttributeView(java.nio.file.Path, Class<V>, java.nio.file.LinkOption...);
     method public static java.nio.file.FileStore getFileStore(java.nio.file.Path) throws java.io.IOException;
@@ -7669,7 +7668,7 @@ package java.nio.file {
     method public static java.util.List<String> readAllLines(java.nio.file.Path) throws java.io.IOException;
     method public static java.util.List<String> readAllLines(java.nio.file.Path, java.nio.charset.Charset) throws java.io.IOException;
     method public static <A extends java.nio.file.attribute.BasicFileAttributes> A readAttributes(java.nio.file.Path, Class<A>, java.nio.file.LinkOption...) throws java.io.IOException;
-    method public static java.util.Map<String,Object> readAttributes(java.nio.file.Path, String, java.nio.file.LinkOption...) throws java.io.IOException;
+    method public static java.util.Map<String, Object> readAttributes(java.nio.file.Path, String, java.nio.file.LinkOption...) throws java.io.IOException;
     method public static String readString(java.nio.file.Path) throws java.io.IOException;
     method public static String readString(java.nio.file.Path, java.nio.charset.Charset) throws java.io.IOException;
     method public static java.nio.file.Path readSymbolicLink(java.nio.file.Path) throws java.io.IOException;
@@ -8062,12 +8061,12 @@ package java.nio.file.spi {
     method public abstract java.nio.channels.SeekableByteChannel newByteChannel(java.nio.file.Path, java.util.Set<? extends java.nio.file.OpenOption>, java.nio.file.attribute.FileAttribute<?>...) throws java.io.IOException;
     method public abstract java.nio.file.DirectoryStream<java.nio.file.Path> newDirectoryStream(java.nio.file.Path, java.nio.file.DirectoryStream.Filter<? super java.nio.file.Path>) throws java.io.IOException;
     method public java.nio.channels.FileChannel newFileChannel(java.nio.file.Path, java.util.Set<? extends java.nio.file.OpenOption>, java.nio.file.attribute.FileAttribute<?>...) throws java.io.IOException;
-    method public abstract java.nio.file.FileSystem newFileSystem(java.net.URI, java.util.Map<String,?>) throws java.io.IOException;
-    method public java.nio.file.FileSystem newFileSystem(java.nio.file.Path, java.util.Map<String,?>) throws java.io.IOException;
+    method public abstract java.nio.file.FileSystem newFileSystem(java.net.URI, java.util.Map<String, ?>) throws java.io.IOException;
+    method public java.nio.file.FileSystem newFileSystem(java.nio.file.Path, java.util.Map<String, ?>) throws java.io.IOException;
     method public java.io.InputStream newInputStream(java.nio.file.Path, java.nio.file.OpenOption...) throws java.io.IOException;
     method public java.io.OutputStream newOutputStream(java.nio.file.Path, java.nio.file.OpenOption...) throws java.io.IOException;
     method public abstract <A extends java.nio.file.attribute.BasicFileAttributes> A readAttributes(java.nio.file.Path, Class<A>, java.nio.file.LinkOption...) throws java.io.IOException;
-    method public abstract java.util.Map<String,Object> readAttributes(java.nio.file.Path, String, java.nio.file.LinkOption...) throws java.io.IOException;
+    method public abstract java.util.Map<String, Object> readAttributes(java.nio.file.Path, String, java.nio.file.LinkOption...) throws java.io.IOException;
     method public java.nio.file.Path readSymbolicLink(java.nio.file.Path) throws java.io.IOException;
     method public abstract void setAttribute(java.nio.file.Path, String, Object, java.nio.file.LinkOption...) throws java.io.IOException;
   }
@@ -8246,10 +8245,10 @@ package java.security {
   }
 
   public final class DomainLoadStoreParameter implements java.security.KeyStore.LoadStoreParameter {
-    ctor public DomainLoadStoreParameter(java.net.URI, java.util.Map<String,java.security.KeyStore.ProtectionParameter>);
+    ctor public DomainLoadStoreParameter(java.net.URI, java.util.Map<String, java.security.KeyStore.ProtectionParameter>);
     method public java.net.URI getConfiguration();
     method public java.security.KeyStore.ProtectionParameter getProtectionParameter();
-    method public java.util.Map<String,java.security.KeyStore.ProtectionParameter> getProtectionParams();
+    method public java.util.Map<String, java.security.KeyStore.ProtectionParameter> getProtectionParams();
   }
 
   public class DrbgParameters {
@@ -8714,7 +8713,7 @@ package java.security {
   }
 
   public static class Provider.Service {
-    ctor public Provider.Service(java.security.Provider, String, String, String, java.util.List<String>, java.util.Map<String,String>);
+    ctor public Provider.Service(java.security.Provider, String, String, String, java.util.List<String>, java.util.Map<String, String>);
     method public final String getAlgorithm();
     method public final String getAttribute(String);
     method public final String getClassName();
@@ -8788,7 +8787,7 @@ package java.security {
     method public static java.security.Provider getProvider(String);
     method public static java.security.Provider[] getProviders();
     method public static java.security.Provider[] getProviders(String);
-    method public static java.security.Provider[] getProviders(java.util.Map<String,String>);
+    method public static java.security.Provider[] getProviders(java.util.Map<String, String>);
     method public static int insertProviderAt(java.security.Provider, int);
     method public static void removeProvider(String);
     method public static void setProperty(String, String);
@@ -9205,9 +9204,9 @@ package java.security.cert {
   }
 
   public class CertificateRevokedException extends java.security.cert.CertificateException {
-    ctor public CertificateRevokedException(java.util.Date, java.security.cert.CRLReason, javax.security.auth.x500.X500Principal, java.util.Map<String,java.security.cert.Extension>);
+    ctor public CertificateRevokedException(java.util.Date, java.security.cert.CRLReason, javax.security.auth.x500.X500Principal, java.util.Map<String, java.security.cert.Extension>);
     method public javax.security.auth.x500.X500Principal getAuthorityName();
-    method public java.util.Map<String,java.security.cert.Extension> getExtensions();
+    method public java.util.Map<String, java.security.cert.Extension> getExtensions();
     method public java.util.Date getInvalidityDate();
     method public java.util.Date getRevocationDate();
     method public java.security.cert.CRLReason getRevocationReason();
@@ -9313,13 +9312,13 @@ package java.security.cert {
     method public java.util.List<java.security.cert.Extension> getOcspExtensions();
     method public java.net.URI getOcspResponder();
     method public java.security.cert.X509Certificate getOcspResponderCert();
-    method public java.util.Map<java.security.cert.X509Certificate,byte[]> getOcspResponses();
+    method public java.util.Map<java.security.cert.X509Certificate, byte[]> getOcspResponses();
     method public java.util.Set<java.security.cert.PKIXRevocationChecker.Option> getOptions();
     method public abstract java.util.List<java.security.cert.CertPathValidatorException> getSoftFailExceptions();
     method public void setOcspExtensions(java.util.List<java.security.cert.Extension>);
     method public void setOcspResponder(java.net.URI);
     method public void setOcspResponderCert(java.security.cert.X509Certificate);
-    method public void setOcspResponses(java.util.Map<java.security.cert.X509Certificate,byte[]>);
+    method public void setOcspResponses(java.util.Map<java.security.cert.X509Certificate, byte[]>);
     method public void setOptions(java.util.Set<java.security.cert.PKIXRevocationChecker.Option>);
   }
 
@@ -9880,15 +9879,15 @@ package java.sql {
   public interface Array {
     method public void free() throws java.sql.SQLException;
     method public Object getArray() throws java.sql.SQLException;
-    method public Object getArray(java.util.Map<String,Class<?>>) throws java.sql.SQLException;
+    method public Object getArray(java.util.Map<String, Class<?>>) throws java.sql.SQLException;
     method public Object getArray(long, int) throws java.sql.SQLException;
-    method public Object getArray(long, int, java.util.Map<String,Class<?>>) throws java.sql.SQLException;
+    method public Object getArray(long, int, java.util.Map<String, Class<?>>) throws java.sql.SQLException;
     method public int getBaseType() throws java.sql.SQLException;
     method public String getBaseTypeName() throws java.sql.SQLException;
     method public java.sql.ResultSet getResultSet() throws java.sql.SQLException;
-    method public java.sql.ResultSet getResultSet(java.util.Map<String,Class<?>>) throws java.sql.SQLException;
+    method public java.sql.ResultSet getResultSet(java.util.Map<String, Class<?>>) throws java.sql.SQLException;
     method public java.sql.ResultSet getResultSet(long, int) throws java.sql.SQLException;
-    method public java.sql.ResultSet getResultSet(long, int, java.util.Map<String,Class<?>>) throws java.sql.SQLException;
+    method public java.sql.ResultSet getResultSet(long, int, java.util.Map<String, Class<?>>) throws java.sql.SQLException;
   }
 
   public class BatchUpdateException extends java.sql.SQLException {
@@ -9956,9 +9955,9 @@ package java.sql {
     method public String getNString(int) throws java.sql.SQLException;
     method public String getNString(String) throws java.sql.SQLException;
     method public Object getObject(int) throws java.sql.SQLException;
-    method public Object getObject(int, java.util.Map<String,Class<?>>) throws java.sql.SQLException;
+    method public Object getObject(int, java.util.Map<String, Class<?>>) throws java.sql.SQLException;
     method public Object getObject(String) throws java.sql.SQLException;
-    method public Object getObject(String, java.util.Map<String,Class<?>>) throws java.sql.SQLException;
+    method public Object getObject(String, java.util.Map<String, Class<?>>) throws java.sql.SQLException;
     method public java.sql.Ref getRef(int) throws java.sql.SQLException;
     method public java.sql.Ref getRef(String) throws java.sql.SQLException;
     method public java.sql.RowId getRowId(int) throws java.sql.SQLException;
@@ -10076,7 +10075,7 @@ package java.sql {
     method public int getHoldability() throws java.sql.SQLException;
     method public java.sql.DatabaseMetaData getMetaData() throws java.sql.SQLException;
     method public int getTransactionIsolation() throws java.sql.SQLException;
-    method public java.util.Map<String,Class<?>> getTypeMap() throws java.sql.SQLException;
+    method public java.util.Map<String, Class<?>> getTypeMap() throws java.sql.SQLException;
     method public java.sql.SQLWarning getWarnings() throws java.sql.SQLException;
     method public boolean isClosed() throws java.sql.SQLException;
     method public boolean isReadOnly() throws java.sql.SQLException;
@@ -10103,7 +10102,7 @@ package java.sql {
     method public java.sql.Savepoint setSavepoint() throws java.sql.SQLException;
     method public java.sql.Savepoint setSavepoint(String) throws java.sql.SQLException;
     method public void setTransactionIsolation(int) throws java.sql.SQLException;
-    method public void setTypeMap(java.util.Map<String,Class<?>>) throws java.sql.SQLException;
+    method public void setTypeMap(java.util.Map<String, Class<?>>) throws java.sql.SQLException;
     field public static final int TRANSACTION_NONE = 0; // 0x0
     field public static final int TRANSACTION_READ_COMMITTED = 2; // 0x2
     field public static final int TRANSACTION_READ_UNCOMMITTED = 1; // 0x1
@@ -10481,7 +10480,7 @@ package java.sql {
   public interface Ref {
     method public String getBaseTypeName() throws java.sql.SQLException;
     method public Object getObject() throws java.sql.SQLException;
-    method public Object getObject(java.util.Map<String,Class<?>>) throws java.sql.SQLException;
+    method public Object getObject(java.util.Map<String, Class<?>>) throws java.sql.SQLException;
     method public void setObject(Object) throws java.sql.SQLException;
   }
 
@@ -10542,9 +10541,9 @@ package java.sql {
     method public String getNString(int) throws java.sql.SQLException;
     method public String getNString(String) throws java.sql.SQLException;
     method public Object getObject(int) throws java.sql.SQLException;
-    method public Object getObject(int, java.util.Map<String,Class<?>>) throws java.sql.SQLException;
+    method public Object getObject(int, java.util.Map<String, Class<?>>) throws java.sql.SQLException;
     method public Object getObject(String) throws java.sql.SQLException;
-    method public Object getObject(String, java.util.Map<String,Class<?>>) throws java.sql.SQLException;
+    method public Object getObject(String, java.util.Map<String, Class<?>>) throws java.sql.SQLException;
     method public java.sql.Ref getRef(int) throws java.sql.SQLException;
     method public java.sql.Ref getRef(String) throws java.sql.SQLException;
     method public int getRow() throws java.sql.SQLException;
@@ -10729,15 +10728,15 @@ package java.sql {
 
   public class SQLClientInfoException extends java.sql.SQLException {
     ctor public SQLClientInfoException();
-    ctor public SQLClientInfoException(String, String, int, java.util.Map<String,java.sql.ClientInfoStatus>);
-    ctor public SQLClientInfoException(String, String, int, java.util.Map<String,java.sql.ClientInfoStatus>, Throwable);
-    ctor public SQLClientInfoException(String, String, java.util.Map<String,java.sql.ClientInfoStatus>);
-    ctor public SQLClientInfoException(String, String, java.util.Map<String,java.sql.ClientInfoStatus>, Throwable);
-    ctor public SQLClientInfoException(String, java.util.Map<String,java.sql.ClientInfoStatus>);
-    ctor public SQLClientInfoException(String, java.util.Map<String,java.sql.ClientInfoStatus>, Throwable);
-    ctor public SQLClientInfoException(java.util.Map<String,java.sql.ClientInfoStatus>);
-    ctor public SQLClientInfoException(java.util.Map<String,java.sql.ClientInfoStatus>, Throwable);
-    method public java.util.Map<String,java.sql.ClientInfoStatus> getFailedProperties();
+    ctor public SQLClientInfoException(String, String, int, java.util.Map<String, java.sql.ClientInfoStatus>);
+    ctor public SQLClientInfoException(String, String, int, java.util.Map<String, java.sql.ClientInfoStatus>, Throwable);
+    ctor public SQLClientInfoException(String, String, java.util.Map<String, java.sql.ClientInfoStatus>);
+    ctor public SQLClientInfoException(String, String, java.util.Map<String, java.sql.ClientInfoStatus>, Throwable);
+    ctor public SQLClientInfoException(String, java.util.Map<String, java.sql.ClientInfoStatus>);
+    ctor public SQLClientInfoException(String, java.util.Map<String, java.sql.ClientInfoStatus>, Throwable);
+    ctor public SQLClientInfoException(java.util.Map<String, java.sql.ClientInfoStatus>);
+    ctor public SQLClientInfoException(java.util.Map<String, java.sql.ClientInfoStatus>, Throwable);
+    method public java.util.Map<String, java.sql.ClientInfoStatus> getFailedProperties();
   }
 
   public interface SQLData {
@@ -11041,7 +11040,7 @@ package java.sql {
 
   public interface Struct {
     method public Object[] getAttributes() throws java.sql.SQLException;
-    method public Object[] getAttributes(java.util.Map<String,Class<?>>) throws java.sql.SQLException;
+    method public Object[] getAttributes(java.util.Map<String, Class<?>>) throws java.sql.SQLException;
     method public String getSQLTypeName() throws java.sql.SQLException;
   }
 
@@ -11119,7 +11118,7 @@ package java.text {
   public interface AttributedCharacterIterator extends java.text.CharacterIterator {
     method public java.util.Set<java.text.AttributedCharacterIterator.Attribute> getAllAttributeKeys();
     method public Object getAttribute(java.text.AttributedCharacterIterator.Attribute);
-    method public java.util.Map<java.text.AttributedCharacterIterator.Attribute,Object> getAttributes();
+    method public java.util.Map<java.text.AttributedCharacterIterator.Attribute, Object> getAttributes();
     method public int getRunLimit();
     method public int getRunLimit(java.text.AttributedCharacterIterator.Attribute);
     method public int getRunLimit(java.util.Set<? extends java.text.AttributedCharacterIterator.Attribute>);
@@ -11141,13 +11140,13 @@ package java.text {
 
   public class AttributedString {
     ctor public AttributedString(String);
-    ctor public AttributedString(String, java.util.Map<? extends java.text.AttributedCharacterIterator.Attribute,?>);
+    ctor public AttributedString(String, java.util.Map<? extends java.text.AttributedCharacterIterator.Attribute, ?>);
     ctor public AttributedString(java.text.AttributedCharacterIterator);
     ctor public AttributedString(java.text.AttributedCharacterIterator, int, int);
     ctor public AttributedString(java.text.AttributedCharacterIterator, int, int, java.text.AttributedCharacterIterator.Attribute[]);
     method public void addAttribute(java.text.AttributedCharacterIterator.Attribute, Object);
     method public void addAttribute(java.text.AttributedCharacterIterator.Attribute, Object, int, int);
-    method public void addAttributes(java.util.Map<? extends java.text.AttributedCharacterIterator.Attribute,?>, int, int);
+    method public void addAttributes(java.util.Map<? extends java.text.AttributedCharacterIterator.Attribute, ?>, int, int);
     method public java.text.AttributedCharacterIterator getIterator();
     method public java.text.AttributedCharacterIterator getIterator(java.text.AttributedCharacterIterator.Attribute[]);
     method public java.text.AttributedCharacterIterator getIterator(java.text.AttributedCharacterIterator.Attribute[], int, int);
@@ -12334,10 +12333,10 @@ package java.time {
     method public abstract java.time.zone.ZoneRules getRules();
     method public java.time.ZoneId normalized();
     method public static java.time.ZoneId of(String);
-    method public static java.time.ZoneId of(String, java.util.Map<String,String>);
+    method public static java.time.ZoneId of(String, java.util.Map<String, String>);
     method public static java.time.ZoneId ofOffset(String, java.time.ZoneOffset);
     method public static java.time.ZoneId systemDefault();
-    field public static final java.util.Map<String,String> SHORT_IDS;
+    field public static final java.util.Map<String, String> SHORT_IDS;
   }
 
   public final class ZoneOffset extends java.time.ZoneId implements Comparable<java.time.ZoneOffset> java.io.Serializable java.time.temporal.TemporalAccessor java.time.temporal.TemporalAdjuster {
@@ -12450,7 +12449,7 @@ package java.time.chrono {
     method public int compareTo(java.time.chrono.Chronology);
     method public boolean equals(Object);
     method public int hashCode();
-    method public java.time.chrono.ChronoLocalDate resolveDate(java.util.Map<java.time.temporal.TemporalField,Long>, java.time.format.ResolverStyle);
+    method public java.time.chrono.ChronoLocalDate resolveDate(java.util.Map<java.time.temporal.TemporalField, Long>, java.time.format.ResolverStyle);
     method public String toString();
   }
 
@@ -12589,7 +12588,7 @@ package java.time.chrono {
     method public default java.time.chrono.ChronoPeriod period(int, int, int);
     method public int prolepticYear(java.time.chrono.Era, int);
     method public java.time.temporal.ValueRange range(java.time.temporal.ChronoField);
-    method public java.time.chrono.ChronoLocalDate resolveDate(java.util.Map<java.time.temporal.TemporalField,Long>, java.time.format.ResolverStyle);
+    method public java.time.chrono.ChronoLocalDate resolveDate(java.util.Map<java.time.temporal.TemporalField, Long>, java.time.format.ResolverStyle);
     method public String toString();
     method public default java.time.chrono.ChronoZonedDateTime<? extends java.time.chrono.ChronoLocalDate> zonedDateTime(java.time.Instant, java.time.ZoneId);
     method public default java.time.chrono.ChronoZonedDateTime<? extends java.time.chrono.ChronoLocalDate> zonedDateTime(java.time.temporal.TemporalAccessor);
@@ -12621,7 +12620,7 @@ package java.time.chrono {
     method public java.time.chrono.ChronoLocalDateTime<java.time.chrono.HijrahDate> localDateTime(java.time.temporal.TemporalAccessor);
     method public int prolepticYear(java.time.chrono.Era, int);
     method public java.time.temporal.ValueRange range(java.time.temporal.ChronoField);
-    method public java.time.chrono.HijrahDate resolveDate(java.util.Map<java.time.temporal.TemporalField,Long>, java.time.format.ResolverStyle);
+    method public java.time.chrono.HijrahDate resolveDate(java.util.Map<java.time.temporal.TemporalField, Long>, java.time.format.ResolverStyle);
     method public java.time.chrono.ChronoZonedDateTime<java.time.chrono.HijrahDate> zonedDateTime(java.time.Instant, java.time.ZoneId);
     method public java.time.chrono.ChronoZonedDateTime<java.time.chrono.HijrahDate> zonedDateTime(java.time.temporal.TemporalAccessor);
     field public static final java.time.chrono.HijrahChronology INSTANCE;
@@ -12681,7 +12680,7 @@ package java.time.chrono {
     method public java.time.Period period(int, int, int);
     method public int prolepticYear(java.time.chrono.Era, int);
     method public java.time.temporal.ValueRange range(java.time.temporal.ChronoField);
-    method public java.time.LocalDate resolveDate(java.util.Map<java.time.temporal.TemporalField,Long>, java.time.format.ResolverStyle);
+    method public java.time.LocalDate resolveDate(java.util.Map<java.time.temporal.TemporalField, Long>, java.time.format.ResolverStyle);
     method public java.time.ZonedDateTime zonedDateTime(java.time.Instant, java.time.ZoneId);
     method public java.time.ZonedDateTime zonedDateTime(java.time.temporal.TemporalAccessor);
     field public static final java.time.chrono.IsoChronology INSTANCE;
@@ -12713,7 +12712,7 @@ package java.time.chrono {
     method public java.time.chrono.ChronoLocalDateTime<java.time.chrono.JapaneseDate> localDateTime(java.time.temporal.TemporalAccessor);
     method public int prolepticYear(java.time.chrono.Era, int);
     method public java.time.temporal.ValueRange range(java.time.temporal.ChronoField);
-    method public java.time.chrono.JapaneseDate resolveDate(java.util.Map<java.time.temporal.TemporalField,Long>, java.time.format.ResolverStyle);
+    method public java.time.chrono.JapaneseDate resolveDate(java.util.Map<java.time.temporal.TemporalField, Long>, java.time.format.ResolverStyle);
     method public java.time.chrono.ChronoZonedDateTime<java.time.chrono.JapaneseDate> zonedDateTime(java.time.Instant, java.time.ZoneId);
     method public java.time.chrono.ChronoZonedDateTime<java.time.chrono.JapaneseDate> zonedDateTime(java.time.temporal.TemporalAccessor);
     field public static final java.time.chrono.JapaneseChronology INSTANCE;
@@ -12779,7 +12778,7 @@ package java.time.chrono {
     method public java.time.chrono.ChronoLocalDateTime<java.time.chrono.MinguoDate> localDateTime(java.time.temporal.TemporalAccessor);
     method public int prolepticYear(java.time.chrono.Era, int);
     method public java.time.temporal.ValueRange range(java.time.temporal.ChronoField);
-    method public java.time.chrono.MinguoDate resolveDate(java.util.Map<java.time.temporal.TemporalField,Long>, java.time.format.ResolverStyle);
+    method public java.time.chrono.MinguoDate resolveDate(java.util.Map<java.time.temporal.TemporalField, Long>, java.time.format.ResolverStyle);
     method public java.time.chrono.ChronoZonedDateTime<java.time.chrono.MinguoDate> zonedDateTime(java.time.Instant, java.time.ZoneId);
     method public java.time.chrono.ChronoZonedDateTime<java.time.chrono.MinguoDate> zonedDateTime(java.time.temporal.TemporalAccessor);
     field public static final java.time.chrono.MinguoChronology INSTANCE;
@@ -12835,7 +12834,7 @@ package java.time.chrono {
     method public java.time.chrono.ChronoLocalDateTime<java.time.chrono.ThaiBuddhistDate> localDateTime(java.time.temporal.TemporalAccessor);
     method public int prolepticYear(java.time.chrono.Era, int);
     method public java.time.temporal.ValueRange range(java.time.temporal.ChronoField);
-    method public java.time.chrono.ThaiBuddhistDate resolveDate(java.util.Map<java.time.temporal.TemporalField,Long>, java.time.format.ResolverStyle);
+    method public java.time.chrono.ThaiBuddhistDate resolveDate(java.util.Map<java.time.temporal.TemporalField, Long>, java.time.format.ResolverStyle);
     method public java.time.chrono.ChronoZonedDateTime<java.time.chrono.ThaiBuddhistDate> zonedDateTime(java.time.Instant, java.time.ZoneId);
     method public java.time.chrono.ChronoZonedDateTime<java.time.chrono.ThaiBuddhistDate> zonedDateTime(java.time.temporal.TemporalAccessor);
     field public static final java.time.chrono.ThaiBuddhistChronology INSTANCE;
@@ -12945,7 +12944,7 @@ package java.time.format {
     method public java.time.format.DateTimeFormatterBuilder appendPattern(String);
     method public java.time.format.DateTimeFormatterBuilder appendText(java.time.temporal.TemporalField);
     method public java.time.format.DateTimeFormatterBuilder appendText(java.time.temporal.TemporalField, java.time.format.TextStyle);
-    method public java.time.format.DateTimeFormatterBuilder appendText(java.time.temporal.TemporalField, java.util.Map<Long,String>);
+    method public java.time.format.DateTimeFormatterBuilder appendText(java.time.temporal.TemporalField, java.util.Map<Long, String>);
     method public java.time.format.DateTimeFormatterBuilder appendValue(java.time.temporal.TemporalField);
     method public java.time.format.DateTimeFormatterBuilder appendValue(java.time.temporal.TemporalField, int);
     method public java.time.format.DateTimeFormatterBuilder appendValue(java.time.temporal.TemporalField, int, int, java.time.format.SignStyle);
@@ -13171,7 +13170,7 @@ package java.time.temporal {
     method public boolean isTimeBased();
     method public java.time.temporal.ValueRange range();
     method public java.time.temporal.ValueRange rangeRefinedBy(java.time.temporal.TemporalAccessor);
-    method public default java.time.temporal.TemporalAccessor resolve(java.util.Map<java.time.temporal.TemporalField,Long>, java.time.temporal.TemporalAccessor, java.time.format.ResolverStyle);
+    method public default java.time.temporal.TemporalAccessor resolve(java.util.Map<java.time.temporal.TemporalField, Long>, java.time.temporal.TemporalAccessor, java.time.format.ResolverStyle);
     method public String toString();
   }
 
@@ -13336,7 +13335,7 @@ package java.util {
     field protected transient int modCount;
   }
 
-  public abstract class AbstractMap<K, V> implements java.util.Map<K,V> {
+  public abstract class AbstractMap<K, V> implements java.util.Map<K, V> {
     ctor protected AbstractMap();
     method public void clear();
     method public boolean containsKey(@Nullable Object);
@@ -13347,14 +13346,14 @@ package java.util {
     method public boolean isEmpty();
     method @NonNull public java.util.Set<K> keySet();
     method @Nullable public V put(K, V);
-    method public void putAll(@NonNull java.util.Map<? extends K,? extends V>);
+    method public void putAll(@NonNull java.util.Map<? extends K, ? extends V>);
     method @Nullable public V remove(@Nullable Object);
     method public int size();
     method @NonNull public java.util.Collection<V> values();
   }
 
-  public static class AbstractMap.SimpleEntry<K, V> implements java.util.Map.Entry<K,V> java.io.Serializable {
-    ctor public AbstractMap.SimpleEntry(@NonNull java.util.Map.Entry<? extends K,? extends V>);
+  public static class AbstractMap.SimpleEntry<K, V> implements java.util.Map.Entry<K, V> java.io.Serializable {
+    ctor public AbstractMap.SimpleEntry(@NonNull java.util.Map.Entry<? extends K, ? extends V>);
     ctor public AbstractMap.SimpleEntry(K, V);
     method public boolean equals(@Nullable Object);
     method public K getKey();
@@ -13363,8 +13362,8 @@ package java.util {
     method public V setValue(V);
   }
 
-  public static class AbstractMap.SimpleImmutableEntry<K, V> implements java.util.Map.Entry<K,V> java.io.Serializable {
-    ctor public AbstractMap.SimpleImmutableEntry(@NonNull java.util.Map.Entry<? extends K,? extends V>);
+  public static class AbstractMap.SimpleImmutableEntry<K, V> implements java.util.Map.Entry<K, V> java.io.Serializable {
+    ctor public AbstractMap.SimpleImmutableEntry(@NonNull java.util.Map.Entry<? extends K, ? extends V>);
     ctor public AbstractMap.SimpleImmutableEntry(K, V);
     method public boolean equals(@Nullable Object);
     method public K getKey();
@@ -13747,7 +13746,7 @@ package java.util {
     method @NonNull public static java.util.Locale[] getAvailableLocales();
     method @NonNull public String getCalendarType();
     method @Nullable public String getDisplayName(int, int, @NonNull java.util.Locale);
-    method @Nullable public java.util.Map<String,Integer> getDisplayNames(int, int, @NonNull java.util.Locale);
+    method @Nullable public java.util.Map<String, Integer> getDisplayNames(int, int, @NonNull java.util.Locale);
     method public int getFirstDayOfWeek();
     method public abstract int getGreatestMinimum(int);
     method @NonNull public static java.util.Calendar getInstance();
@@ -13886,12 +13885,12 @@ package java.util {
     method public static <T> int binarySearch(@NonNull java.util.List<? extends T>, T, @Nullable java.util.Comparator<? super T>);
     method @NonNull public static <E> java.util.Collection<E> checkedCollection(@NonNull java.util.Collection<E>, @NonNull Class<E>);
     method @NonNull public static <E> java.util.List<E> checkedList(@NonNull java.util.List<E>, @NonNull Class<E>);
-    method @NonNull public static <K, V> java.util.Map<K,V> checkedMap(@NonNull java.util.Map<K,V>, @NonNull Class<K>, @NonNull Class<V>);
-    method @NonNull public static <K, V> java.util.NavigableMap<K,V> checkedNavigableMap(@NonNull java.util.NavigableMap<K,V>, @NonNull Class<K>, @NonNull Class<V>);
+    method @NonNull public static <K, V> java.util.Map<K, V> checkedMap(@NonNull java.util.Map<K, V>, @NonNull Class<K>, @NonNull Class<V>);
+    method @NonNull public static <K, V> java.util.NavigableMap<K, V> checkedNavigableMap(@NonNull java.util.NavigableMap<K, V>, @NonNull Class<K>, @NonNull Class<V>);
     method @NonNull public static <E> java.util.NavigableSet<E> checkedNavigableSet(@NonNull java.util.NavigableSet<E>, @NonNull Class<E>);
     method @NonNull public static <E> java.util.Queue<E> checkedQueue(@NonNull java.util.Queue<E>, @NonNull Class<E>);
     method @NonNull public static <E> java.util.Set<E> checkedSet(@NonNull java.util.Set<E>, @NonNull Class<E>);
-    method @NonNull public static <K, V> java.util.SortedMap<K,V> checkedSortedMap(@NonNull java.util.SortedMap<K,V>, @NonNull Class<K>, @NonNull Class<V>);
+    method @NonNull public static <K, V> java.util.SortedMap<K, V> checkedSortedMap(@NonNull java.util.SortedMap<K, V>, @NonNull Class<K>, @NonNull Class<V>);
     method @NonNull public static <E> java.util.SortedSet<E> checkedSortedSet(@NonNull java.util.SortedSet<E>, @NonNull Class<E>);
     method public static <T> void copy(@NonNull java.util.List<? super T>, @NonNull java.util.List<? extends T>);
     method public static boolean disjoint(@NonNull java.util.Collection<?>, @NonNull java.util.Collection<?>);
@@ -13899,11 +13898,11 @@ package java.util {
     method @NonNull public static <T> java.util.Iterator<T> emptyIterator();
     method @NonNull public static <T> java.util.List<T> emptyList();
     method @NonNull public static <T> java.util.ListIterator<T> emptyListIterator();
-    method @NonNull public static <K, V> java.util.Map<K,V> emptyMap();
-    method @NonNull public static <K, V> java.util.NavigableMap<K,V> emptyNavigableMap();
+    method @NonNull public static <K, V> java.util.Map<K, V> emptyMap();
+    method @NonNull public static <K, V> java.util.NavigableMap<K, V> emptyNavigableMap();
     method @NonNull public static <E> java.util.NavigableSet<E> emptyNavigableSet();
     method @NonNull public static <T> java.util.Set<T> emptySet();
-    method @NonNull public static <K, V> java.util.SortedMap<K,V> emptySortedMap();
+    method @NonNull public static <K, V> java.util.SortedMap<K, V> emptySortedMap();
     method @NonNull public static <E> java.util.SortedSet<E> emptySortedSet();
     method @NonNull public static <T> java.util.Enumeration<T> enumeration(@NonNull java.util.Collection<T>);
     method public static <T> void fill(@NonNull java.util.List<? super T>, T);
@@ -13916,8 +13915,8 @@ package java.util {
     method @NonNull public static <T extends Object & Comparable<? super T>> T min(@NonNull java.util.Collection<? extends T>);
     method public static <T> T min(@NonNull java.util.Collection<? extends T>, @Nullable java.util.Comparator<? super T>);
     method @NonNull public static <T> java.util.List<T> nCopies(int, T);
-    method @NonNull public static <E> java.util.SequencedSet<E> newSequencedSetFromMap(@NonNull java.util.SequencedMap<E,Boolean>);
-    method @NonNull public static <E> java.util.Set<E> newSetFromMap(@NonNull java.util.Map<E,Boolean>);
+    method @NonNull public static <E> java.util.SequencedSet<E> newSequencedSetFromMap(@NonNull java.util.SequencedMap<E, Boolean>);
+    method @NonNull public static <E> java.util.Set<E> newSetFromMap(@NonNull java.util.Map<E, Boolean>);
     method public static <T> boolean replaceAll(@NonNull java.util.List<T>, T, T);
     method public static void reverse(@NonNull java.util.List<?>);
     method @NonNull public static <T> java.util.Comparator<T> reverseOrder();
@@ -13928,28 +13927,28 @@ package java.util {
     method public static void shuffle(@NonNull java.util.List<?>, @NonNull java.util.random.RandomGenerator);
     method @NonNull public static <T> java.util.Set<T> singleton(T);
     method @NonNull public static <T> java.util.List<T> singletonList(T);
-    method @NonNull public static <K, V> java.util.Map<K,V> singletonMap(K, V);
+    method @NonNull public static <K, V> java.util.Map<K, V> singletonMap(K, V);
     method public static <T extends Comparable<? super T>> void sort(@NonNull java.util.List<T>);
     method public static <T> void sort(@NonNull java.util.List<T>, @Nullable java.util.Comparator<? super T>);
     method public static void swap(@NonNull java.util.List<?>, int, int);
     method @NonNull public static <T> java.util.Collection<T> synchronizedCollection(@NonNull java.util.Collection<T>);
     method @NonNull public static <T> java.util.List<T> synchronizedList(@NonNull java.util.List<T>);
-    method @NonNull public static <K, V> java.util.Map<K,V> synchronizedMap(@NonNull java.util.Map<K,V>);
-    method @NonNull public static <K, V> java.util.NavigableMap<K,V> synchronizedNavigableMap(@NonNull java.util.NavigableMap<K,V>);
+    method @NonNull public static <K, V> java.util.Map<K, V> synchronizedMap(@NonNull java.util.Map<K, V>);
+    method @NonNull public static <K, V> java.util.NavigableMap<K, V> synchronizedNavigableMap(@NonNull java.util.NavigableMap<K, V>);
     method @NonNull public static <T> java.util.NavigableSet<T> synchronizedNavigableSet(@NonNull java.util.NavigableSet<T>);
     method @NonNull public static <T> java.util.Set<T> synchronizedSet(@NonNull java.util.Set<T>);
-    method @NonNull public static <K, V> java.util.SortedMap<K,V> synchronizedSortedMap(@NonNull java.util.SortedMap<K,V>);
+    method @NonNull public static <K, V> java.util.SortedMap<K, V> synchronizedSortedMap(@NonNull java.util.SortedMap<K, V>);
     method @NonNull public static <T> java.util.SortedSet<T> synchronizedSortedSet(@NonNull java.util.SortedSet<T>);
     method @NonNull public static <T> java.util.Collection<T> unmodifiableCollection(@NonNull java.util.Collection<? extends T>);
     method @NonNull public static <T> java.util.List<T> unmodifiableList(@NonNull java.util.List<? extends T>);
-    method @NonNull public static <K, V> java.util.Map<K,V> unmodifiableMap(@NonNull java.util.Map<? extends K,? extends V>);
-    method @NonNull public static <K, V> java.util.NavigableMap<K,V> unmodifiableNavigableMap(@NonNull java.util.NavigableMap<K,? extends V>);
+    method @NonNull public static <K, V> java.util.Map<K, V> unmodifiableMap(@NonNull java.util.Map<? extends K, ? extends V>);
+    method @NonNull public static <K, V> java.util.NavigableMap<K, V> unmodifiableNavigableMap(@NonNull java.util.NavigableMap<K, ? extends V>);
     method @NonNull public static <T> java.util.NavigableSet<T> unmodifiableNavigableSet(@NonNull java.util.NavigableSet<T>);
     method @NonNull public static <T> java.util.SequencedCollection<T> unmodifiableSequencedCollection(@NonNull java.util.SequencedCollection<? extends T>);
-    method @NonNull public static <K, V> java.util.SequencedMap<K,V> unmodifiableSequencedMap(@NonNull java.util.SequencedMap<? extends K,? extends V>);
+    method @NonNull public static <K, V> java.util.SequencedMap<K, V> unmodifiableSequencedMap(@NonNull java.util.SequencedMap<? extends K, ? extends V>);
     method @NonNull public static <T> java.util.SequencedSet<T> unmodifiableSequencedSet(@NonNull java.util.SequencedSet<? extends T>);
     method @NonNull public static <T> java.util.Set<T> unmodifiableSet(@NonNull java.util.Set<? extends T>);
-    method @NonNull public static <K, V> java.util.SortedMap<K,V> unmodifiableSortedMap(@NonNull java.util.SortedMap<K,? extends V>);
+    method @NonNull public static <K, V> java.util.SortedMap<K, V> unmodifiableSortedMap(@NonNull java.util.SortedMap<K, ? extends V>);
     method @NonNull public static <T> java.util.SortedSet<T> unmodifiableSortedSet(@NonNull java.util.SortedSet<T>);
     field @NonNull public static final java.util.List EMPTY_LIST;
     field @NonNull public static final java.util.Map EMPTY_MAP;
@@ -13958,8 +13957,8 @@ package java.util {
 
   @java.lang.FunctionalInterface public interface Comparator<T> {
     method public int compare(T, T);
-    method public static <T, U extends Comparable<? super U>> java.util.Comparator<T> comparing(java.util.function.Function<? super T,? extends U>);
-    method public static <T, U> java.util.Comparator<T> comparing(java.util.function.Function<? super T,? extends U>, java.util.Comparator<? super U>);
+    method public static <T, U extends Comparable<? super U>> java.util.Comparator<T> comparing(java.util.function.Function<? super T, ? extends U>);
+    method public static <T, U> java.util.Comparator<T> comparing(java.util.function.Function<? super T, ? extends U>, java.util.Comparator<? super U>);
     method public static <T> java.util.Comparator<T> comparingDouble(java.util.function.ToDoubleFunction<? super T>);
     method public static <T> java.util.Comparator<T> comparingInt(java.util.function.ToIntFunction<? super T>);
     method public static <T> java.util.Comparator<T> comparingLong(java.util.function.ToLongFunction<? super T>);
@@ -13970,8 +13969,8 @@ package java.util {
     method public static <T extends Comparable<? super T>> java.util.Comparator<T> reverseOrder();
     method public default java.util.Comparator<T> reversed();
     method public default java.util.Comparator<T> thenComparing(java.util.Comparator<? super T>);
-    method public default <U extends Comparable<? super U>> java.util.Comparator<T> thenComparing(java.util.function.Function<? super T,? extends U>);
-    method public default <U> java.util.Comparator<T> thenComparing(java.util.function.Function<? super T,? extends U>, java.util.Comparator<? super U>);
+    method public default <U extends Comparable<? super U>> java.util.Comparator<T> thenComparing(java.util.function.Function<? super T, ? extends U>);
+    method public default <U> java.util.Comparator<T> thenComparing(java.util.function.Function<? super T, ? extends U>, java.util.Comparator<? super U>);
     method public default java.util.Comparator<T> thenComparingDouble(java.util.function.ToDoubleFunction<? super T>);
     method public default java.util.Comparator<T> thenComparingInt(java.util.function.ToIntFunction<? super T>);
     method public default java.util.Comparator<T> thenComparingLong(java.util.function.ToLongFunction<? super T>);
@@ -14087,12 +14086,12 @@ package java.util {
     ctor public EmptyStackException();
   }
 
-  public class EnumMap<K extends Enum<K>, V> extends java.util.AbstractMap<K,V> implements Cloneable java.io.Serializable {
+  public class EnumMap<K extends Enum<K>, V> extends java.util.AbstractMap<K, V> implements Cloneable java.io.Serializable {
     ctor public EnumMap(Class<K>);
-    ctor public EnumMap(java.util.EnumMap<K,? extends V>);
-    ctor public EnumMap(java.util.Map<K,? extends V>);
-    method public java.util.EnumMap<K,V> clone();
-    method public java.util.Set<java.util.Map.Entry<K,V>> entrySet();
+    ctor public EnumMap(java.util.EnumMap<K, ? extends V>);
+    ctor public EnumMap(java.util.Map<K, ? extends V>);
+    method public java.util.EnumMap<K, V> clone();
+    method public java.util.Set<java.util.Map.Entry<K, V>> entrySet();
     method public V put(K, V);
   }
 
@@ -14210,25 +14209,25 @@ package java.util {
     field public static final int BC = 0; // 0x0
   }
 
-  public class HashMap<K, V> extends java.util.AbstractMap<K,V> implements Cloneable java.util.Map<K,V> java.io.Serializable {
+  public class HashMap<K, V> extends java.util.AbstractMap<K, V> implements Cloneable java.util.Map<K, V> java.io.Serializable {
     ctor public HashMap();
     ctor public HashMap(int);
     ctor public HashMap(int, float);
-    ctor public HashMap(@NonNull java.util.Map<? extends K,? extends V>);
+    ctor public HashMap(@NonNull java.util.Map<? extends K, ? extends V>);
     method @NonNull public Object clone();
-    method @Nullable public V compute(K, @NonNull java.util.function.BiFunction<? super K,? super V,? extends V>);
-    method @Nullable public V computeIfAbsent(K, @NonNull java.util.function.Function<? super K,? extends V>);
-    method @Nullable public V computeIfPresent(K, @NonNull java.util.function.BiFunction<? super K,? super V,? extends V>);
-    method @NonNull public java.util.Set<java.util.Map.Entry<K,V>> entrySet();
-    method public void forEach(@NonNull java.util.function.BiConsumer<? super K,? super V>);
+    method @Nullable public V compute(K, @NonNull java.util.function.BiFunction<? super K, ? super V, ? extends V>);
+    method @Nullable public V computeIfAbsent(K, @NonNull java.util.function.Function<? super K, ? extends V>);
+    method @Nullable public V computeIfPresent(K, @NonNull java.util.function.BiFunction<? super K, ? super V, ? extends V>);
+    method @NonNull public java.util.Set<java.util.Map.Entry<K, V>> entrySet();
+    method public void forEach(@NonNull java.util.function.BiConsumer<? super K, ? super V>);
     method @Nullable public V getOrDefault(@Nullable Object, @Nullable V);
-    method @Nullable public V merge(K, @NonNull V, @NonNull java.util.function.BiFunction<? super V,? super V,? extends V>);
-    method @NonNull public static <K, V> java.util.HashMap<K,V> newHashMap(int);
+    method @Nullable public V merge(K, @NonNull V, @NonNull java.util.function.BiFunction<? super V, ? super V, ? extends V>);
+    method @NonNull public static <K, V> java.util.HashMap<K, V> newHashMap(int);
     method @Nullable public V putIfAbsent(K, V);
     method public boolean remove(@Nullable Object, @Nullable Object);
     method @Nullable public V replace(K, V);
     method public boolean replace(K, @Nullable V, V);
-    method public void replaceAll(@NonNull java.util.function.BiFunction<? super K,? super V,? extends V>);
+    method public void replaceAll(@NonNull java.util.function.BiFunction<? super K, ? super V, ? extends V>);
   }
 
   public class HashSet<E> extends java.util.AbstractSet<E> implements Cloneable java.io.Serializable java.util.Set<E> {
@@ -14243,39 +14242,39 @@ package java.util {
     method @NonNull public java.util.Spliterator<E> spliterator();
   }
 
-  public class Hashtable<K, V> extends java.util.Dictionary<K,V> implements Cloneable java.util.Map<K,V> java.io.Serializable {
+  public class Hashtable<K, V> extends java.util.Dictionary<K, V> implements Cloneable java.util.Map<K, V> java.io.Serializable {
     ctor public Hashtable();
     ctor public Hashtable(int);
     ctor public Hashtable(int, float);
-    ctor public Hashtable(java.util.Map<? extends K,? extends V>);
+    ctor public Hashtable(java.util.Map<? extends K, ? extends V>);
     method public void clear();
     method public Object clone();
-    method public V compute(K, java.util.function.BiFunction<? super K,? super V,? extends V>);
-    method public V computeIfAbsent(K, java.util.function.Function<? super K,? extends V>);
-    method public V computeIfPresent(K, java.util.function.BiFunction<? super K,? super V,? extends V>);
+    method public V compute(K, java.util.function.BiFunction<? super K, ? super V, ? extends V>);
+    method public V computeIfAbsent(K, java.util.function.Function<? super K, ? extends V>);
+    method public V computeIfPresent(K, java.util.function.BiFunction<? super K, ? super V, ? extends V>);
     method public boolean contains(Object);
     method public boolean containsKey(Object);
     method public boolean containsValue(Object);
     method public java.util.Enumeration<V> elements();
-    method public java.util.Set<java.util.Map.Entry<K,V>> entrySet();
+    method public java.util.Set<java.util.Map.Entry<K, V>> entrySet();
     method public boolean equals(Object);
-    method public void forEach(java.util.function.BiConsumer<? super K,? super V>);
+    method public void forEach(java.util.function.BiConsumer<? super K, ? super V>);
     method public V get(Object);
     method public V getOrDefault(Object, V);
     method public int hashCode();
     method public boolean isEmpty();
     method public java.util.Set<K> keySet();
     method public java.util.Enumeration<K> keys();
-    method public V merge(K, V, java.util.function.BiFunction<? super V,? super V,? extends V>);
+    method public V merge(K, V, java.util.function.BiFunction<? super V, ? super V, ? extends V>);
     method public V put(K, V);
-    method public void putAll(java.util.Map<? extends K,? extends V>);
+    method public void putAll(java.util.Map<? extends K, ? extends V>);
     method public V putIfAbsent(K, V);
     method protected void rehash();
     method public V remove(Object);
     method public boolean remove(Object, Object);
     method public V replace(K, V);
     method public boolean replace(K, V, V);
-    method public void replaceAll(java.util.function.BiFunction<? super K,? super V,? extends V>);
+    method public void replaceAll(java.util.function.BiFunction<? super K, ? super V, ? extends V>);
     method public int size();
     method public java.util.Collection<V> values();
   }
@@ -14316,16 +14315,16 @@ package java.util {
     method public java.util.HexFormat withUpperCase();
   }
 
-  public class IdentityHashMap<K, V> extends java.util.AbstractMap<K,V> implements Cloneable java.util.Map<K,V> java.io.Serializable {
+  public class IdentityHashMap<K, V> extends java.util.AbstractMap<K, V> implements Cloneable java.util.Map<K, V> java.io.Serializable {
     ctor public IdentityHashMap();
     ctor public IdentityHashMap(int);
-    ctor public IdentityHashMap(java.util.Map<? extends K,? extends V>);
+    ctor public IdentityHashMap(java.util.Map<? extends K, ? extends V>);
     method public Object clone();
-    method public java.util.Set<java.util.Map.Entry<K,V>> entrySet();
-    method public void forEach(java.util.function.BiConsumer<? super K,? super V>);
+    method public java.util.Set<java.util.Map.Entry<K, V>> entrySet();
+    method public void forEach(java.util.function.BiConsumer<? super K, ? super V>);
     method public boolean remove(Object, Object);
     method public boolean replace(K, V, V);
-    method public void replaceAll(java.util.function.BiFunction<? super K,? super V,? extends V>);
+    method public void replaceAll(java.util.function.BiFunction<? super K, ? super V, ? extends V>);
   }
 
   public class IllegalFormatCodePointException extends java.util.IllegalFormatException {
@@ -14393,18 +14392,18 @@ package java.util {
     method public default void remove();
   }
 
-  public class LinkedHashMap<K, V> extends java.util.HashMap<K,V> implements java.util.Map<K,V> java.util.SequencedMap<K,V> {
+  public class LinkedHashMap<K, V> extends java.util.HashMap<K, V> implements java.util.Map<K, V> java.util.SequencedMap<K, V> {
     ctor public LinkedHashMap();
     ctor public LinkedHashMap(int);
     ctor public LinkedHashMap(int, float);
     ctor public LinkedHashMap(int, float, boolean);
-    ctor public LinkedHashMap(java.util.Map<? extends K,? extends V>);
-    method public static <K, V> java.util.LinkedHashMap<K,V> newLinkedHashMap(int);
+    ctor public LinkedHashMap(java.util.Map<? extends K, ? extends V>);
+    method public static <K, V> java.util.LinkedHashMap<K, V> newLinkedHashMap(int);
     method public V putFirst(K, V);
     method public V putLast(K, V);
-    method protected boolean removeEldestEntry(java.util.Map.Entry<K,V>);
-    method public java.util.SequencedMap<K,V> reversed();
-    method public java.util.SequencedSet<java.util.Map.Entry<K,V>> sequencedEntrySet();
+    method protected boolean removeEldestEntry(java.util.Map.Entry<K, V>);
+    method public java.util.SequencedMap<K, V> reversed();
+    method public java.util.SequencedSet<java.util.Map.Entry<K, V>> sequencedEntrySet();
     method public java.util.SequencedSet<K> sequencedKeySet();
     method public java.util.SequencedCollection<V> sequencedValues();
   }
@@ -14617,9 +14616,9 @@ package java.util {
     ctor public Locale.LanguageRange(@NonNull String, double);
     method @NonNull public String getRange();
     method public double getWeight();
-    method @NonNull public static java.util.List<java.util.Locale.LanguageRange> mapEquivalents(@NonNull java.util.List<java.util.Locale.LanguageRange>, @NonNull java.util.Map<String,java.util.List<String>>);
+    method @NonNull public static java.util.List<java.util.Locale.LanguageRange> mapEquivalents(@NonNull java.util.List<java.util.Locale.LanguageRange>, @NonNull java.util.Map<String, java.util.List<String>>);
     method @NonNull public static java.util.List<java.util.Locale.LanguageRange> parse(@NonNull String);
-    method @NonNull public static java.util.List<java.util.Locale.LanguageRange> parse(@NonNull String, @NonNull java.util.Map<String,java.util.List<String>>);
+    method @NonNull public static java.util.List<java.util.Locale.LanguageRange> parse(@NonNull String, @NonNull java.util.Map<String, java.util.List<String>>);
     field public static final double MAX_WEIGHT = 1.0;
     field public static final double MIN_WEIGHT = 0.0;
   }
@@ -14639,52 +14638,52 @@ package java.util {
 
   public interface Map<K, V> {
     method public void clear();
-    method @Nullable public default V compute(K, @NonNull java.util.function.BiFunction<? super K,? super V,? extends V>);
-    method @Nullable public default V computeIfAbsent(K, @NonNull java.util.function.Function<? super K,? extends V>);
-    method @Nullable public default V computeIfPresent(K, @NonNull java.util.function.BiFunction<? super K,? super V,? extends V>);
+    method @Nullable public default V compute(K, @NonNull java.util.function.BiFunction<? super K, ? super V, ? extends V>);
+    method @Nullable public default V computeIfAbsent(K, @NonNull java.util.function.Function<? super K, ? extends V>);
+    method @Nullable public default V computeIfPresent(K, @NonNull java.util.function.BiFunction<? super K, ? super V, ? extends V>);
     method public boolean containsKey(@Nullable Object);
     method public boolean containsValue(@Nullable Object);
-    method @NonNull public static <K, V> java.util.Map<K,V> copyOf(@NonNull java.util.Map<? extends K,? extends V>);
-    method @NonNull public static <K, V> java.util.Map.Entry<K,V> entry(@NonNull K, @NonNull V);
-    method @NonNull public java.util.Set<java.util.Map.Entry<K,V>> entrySet();
+    method @NonNull public static <K, V> java.util.Map<K, V> copyOf(@NonNull java.util.Map<? extends K, ? extends V>);
+    method @NonNull public static <K, V> java.util.Map.Entry<K, V> entry(@NonNull K, @NonNull V);
+    method @NonNull public java.util.Set<java.util.Map.Entry<K, V>> entrySet();
     method public boolean equals(@Nullable Object);
-    method public default void forEach(@NonNull java.util.function.BiConsumer<? super K,? super V>);
+    method public default void forEach(@NonNull java.util.function.BiConsumer<? super K, ? super V>);
     method @Nullable public V get(@Nullable Object);
     method @Nullable public default V getOrDefault(@Nullable Object, @Nullable V);
     method public int hashCode();
     method public boolean isEmpty();
     method @NonNull public java.util.Set<K> keySet();
-    method @Nullable public default V merge(K, @NonNull V, @NonNull java.util.function.BiFunction<? super V,? super V,? extends V>);
-    method @NonNull public static <K, V> java.util.Map<K,V> of();
-    method @NonNull public static <K, V> java.util.Map<K,V> of(@NonNull K, @NonNull V);
-    method @NonNull public static <K, V> java.util.Map<K,V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V);
-    method @NonNull public static <K, V> java.util.Map<K,V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
-    method @NonNull public static <K, V> java.util.Map<K,V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
-    method @NonNull public static <K, V> java.util.Map<K,V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
-    method @NonNull public static <K, V> java.util.Map<K,V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
-    method @NonNull public static <K, V> java.util.Map<K,V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
-    method @NonNull public static <K, V> java.util.Map<K,V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
-    method @NonNull public static <K, V> java.util.Map<K,V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
-    method @NonNull public static <K, V> java.util.Map<K,V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
-    method @NonNull @java.lang.SafeVarargs public static <K, V> java.util.Map<K,V> ofEntries(@NonNull java.util.Map.Entry<? extends K,? extends V>...);
+    method @Nullable public default V merge(K, @NonNull V, @NonNull java.util.function.BiFunction<? super V, ? super V, ? extends V>);
+    method @NonNull public static <K, V> java.util.Map<K, V> of();
+    method @NonNull public static <K, V> java.util.Map<K, V> of(@NonNull K, @NonNull V);
+    method @NonNull public static <K, V> java.util.Map<K, V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V);
+    method @NonNull public static <K, V> java.util.Map<K, V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
+    method @NonNull public static <K, V> java.util.Map<K, V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
+    method @NonNull public static <K, V> java.util.Map<K, V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
+    method @NonNull public static <K, V> java.util.Map<K, V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
+    method @NonNull public static <K, V> java.util.Map<K, V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
+    method @NonNull public static <K, V> java.util.Map<K, V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
+    method @NonNull public static <K, V> java.util.Map<K, V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
+    method @NonNull public static <K, V> java.util.Map<K, V> of(@NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V, @NonNull K, @NonNull V);
+    method @NonNull @java.lang.SafeVarargs public static <K, V> java.util.Map<K, V> ofEntries(@NonNull java.util.Map.Entry<? extends K, ? extends V>...);
     method @Nullable public V put(K, V);
-    method public void putAll(@NonNull java.util.Map<? extends K,? extends V>);
+    method public void putAll(@NonNull java.util.Map<? extends K, ? extends V>);
     method @Nullable public default V putIfAbsent(K, V);
     method @Nullable public V remove(@Nullable Object);
     method public default boolean remove(@Nullable Object, @Nullable Object);
     method @Nullable public default V replace(K, V);
     method public default boolean replace(K, @Nullable V, V);
-    method public default void replaceAll(@NonNull java.util.function.BiFunction<? super K,? super V,? extends V>);
+    method public default void replaceAll(@NonNull java.util.function.BiFunction<? super K, ? super V, ? extends V>);
     method public int size();
     method @NonNull public java.util.Collection<V> values();
   }
 
   public static interface Map.Entry<K, V> {
-    method @NonNull public static <K extends Comparable<? super K>, V> java.util.Comparator<java.util.Map.Entry<K,V>> comparingByKey();
-    method @NonNull public static <K, V> java.util.Comparator<java.util.Map.Entry<K,V>> comparingByKey(@NonNull java.util.Comparator<? super K>);
-    method @NonNull public static <K, V extends Comparable<? super V>> java.util.Comparator<java.util.Map.Entry<K,V>> comparingByValue();
-    method @NonNull public static <K, V> java.util.Comparator<java.util.Map.Entry<K,V>> comparingByValue(@NonNull java.util.Comparator<? super V>);
-    method @NonNull public static <K, V> java.util.Map.Entry<K,V> copyOf(@NonNull java.util.Map.Entry<? extends K,? extends V>);
+    method @NonNull public static <K extends Comparable<? super K>, V> java.util.Comparator<java.util.Map.Entry<K, V>> comparingByKey();
+    method @NonNull public static <K, V> java.util.Comparator<java.util.Map.Entry<K, V>> comparingByKey(@NonNull java.util.Comparator<? super K>);
+    method @NonNull public static <K, V extends Comparable<? super V>> java.util.Comparator<java.util.Map.Entry<K, V>> comparingByValue();
+    method @NonNull public static <K, V> java.util.Comparator<java.util.Map.Entry<K, V>> comparingByValue(@NonNull java.util.Comparator<? super V>);
+    method @NonNull public static <K, V> java.util.Map.Entry<K, V> copyOf(@NonNull java.util.Map.Entry<? extends K, ? extends V>);
     method public boolean equals(@Nullable Object);
     method public K getKey();
     method public V getValue();
@@ -14708,26 +14707,26 @@ package java.util {
     method public String getKey();
   }
 
-  public interface NavigableMap<K, V> extends java.util.SortedMap<K,V> {
-    method @Nullable public java.util.Map.Entry<K,V> ceilingEntry(K);
+  public interface NavigableMap<K, V> extends java.util.SortedMap<K, V> {
+    method @Nullable public java.util.Map.Entry<K, V> ceilingEntry(K);
     method @Nullable public K ceilingKey(K);
     method @NonNull public java.util.NavigableSet<K> descendingKeySet();
-    method @NonNull public java.util.NavigableMap<K,V> descendingMap();
-    method @Nullable public java.util.Map.Entry<K,V> firstEntry();
-    method @Nullable public java.util.Map.Entry<K,V> floorEntry(K);
+    method @NonNull public java.util.NavigableMap<K, V> descendingMap();
+    method @Nullable public java.util.Map.Entry<K, V> firstEntry();
+    method @Nullable public java.util.Map.Entry<K, V> floorEntry(K);
     method @Nullable public K floorKey(K);
-    method @NonNull public java.util.NavigableMap<K,V> headMap(K, boolean);
-    method @Nullable public java.util.Map.Entry<K,V> higherEntry(K);
+    method @NonNull public java.util.NavigableMap<K, V> headMap(K, boolean);
+    method @Nullable public java.util.Map.Entry<K, V> higherEntry(K);
     method @Nullable public K higherKey(K);
-    method @Nullable public java.util.Map.Entry<K,V> lastEntry();
-    method @Nullable public java.util.Map.Entry<K,V> lowerEntry(K);
+    method @Nullable public java.util.Map.Entry<K, V> lastEntry();
+    method @Nullable public java.util.Map.Entry<K, V> lowerEntry(K);
     method @Nullable public K lowerKey(K);
     method @NonNull public java.util.NavigableSet<K> navigableKeySet();
-    method @Nullable public java.util.Map.Entry<K,V> pollFirstEntry();
-    method @Nullable public java.util.Map.Entry<K,V> pollLastEntry();
-    method @NonNull public default java.util.NavigableMap<K,V> reversed();
-    method @NonNull public java.util.NavigableMap<K,V> subMap(K, boolean, K, boolean);
-    method @NonNull public java.util.NavigableMap<K,V> tailMap(K, boolean);
+    method @Nullable public java.util.Map.Entry<K, V> pollFirstEntry();
+    method @Nullable public java.util.Map.Entry<K, V> pollLastEntry();
+    method @NonNull public default java.util.NavigableMap<K, V> reversed();
+    method @NonNull public java.util.NavigableMap<K, V> subMap(K, boolean, K, boolean);
+    method @NonNull public java.util.NavigableMap<K, V> tailMap(K, boolean);
   }
 
   public interface NavigableSet<E> extends java.util.SortedSet<E> {
@@ -14797,13 +14796,13 @@ package java.util {
   public final class Optional<T> {
     method public static <T> java.util.Optional<T> empty();
     method public java.util.Optional<T> filter(java.util.function.Predicate<? super T>);
-    method public <U> java.util.Optional<U> flatMap(java.util.function.Function<? super T,? extends java.util.Optional<? extends U>>);
+    method public <U> java.util.Optional<U> flatMap(java.util.function.Function<? super T, ? extends java.util.Optional<? extends U>>);
     method public T get();
     method public void ifPresent(java.util.function.Consumer<? super T>);
     method public void ifPresentOrElse(java.util.function.Consumer<? super T>, Runnable);
     method public boolean isEmpty();
     method public boolean isPresent();
-    method public <U> java.util.Optional<U> map(java.util.function.Function<? super T,? extends U>);
+    method public <U> java.util.Optional<U> map(java.util.function.Function<? super T, ? extends U>);
     method public static <T> java.util.Optional<T> of(T);
     method public static <T> java.util.Optional<T> ofNullable(T);
     method public java.util.Optional<T> or(java.util.function.Supplier<? extends java.util.Optional<? extends T>>);
@@ -14863,21 +14862,21 @@ package java.util {
     method public void forEachRemaining(T_CONS);
   }
 
-  public static interface PrimitiveIterator.OfDouble extends java.util.PrimitiveIterator<Double,java.util.function.DoubleConsumer> {
+  public static interface PrimitiveIterator.OfDouble extends java.util.PrimitiveIterator<Double, java.util.function.DoubleConsumer> {
     method public default void forEachRemaining(java.util.function.Consumer<? super Double>);
     method public default void forEachRemaining(java.util.function.DoubleConsumer);
     method public default Double next();
     method public double nextDouble();
   }
 
-  public static interface PrimitiveIterator.OfInt extends java.util.PrimitiveIterator<Integer,java.util.function.IntConsumer> {
+  public static interface PrimitiveIterator.OfInt extends java.util.PrimitiveIterator<Integer, java.util.function.IntConsumer> {
     method public default void forEachRemaining(java.util.function.Consumer<? super Integer>);
     method public default void forEachRemaining(java.util.function.IntConsumer);
     method public default Integer next();
     method public int nextInt();
   }
 
-  public static interface PrimitiveIterator.OfLong extends java.util.PrimitiveIterator<Long,java.util.function.LongConsumer> {
+  public static interface PrimitiveIterator.OfLong extends java.util.PrimitiveIterator<Long, java.util.function.LongConsumer> {
     method public default void forEachRemaining(java.util.function.Consumer<? super Long>);
     method public default void forEachRemaining(java.util.function.LongConsumer);
     method public default Long next();
@@ -14903,16 +14902,16 @@ package java.util {
     method public final java.util.Spliterator<E> spliterator();
   }
 
-  public class Properties extends java.util.Hashtable<Object,Object> {
+  public class Properties extends java.util.Hashtable<Object, Object> {
     ctor public Properties();
     ctor public Properties(int);
     ctor public Properties(java.util.Properties);
-    method public Object compute(Object, java.util.function.BiFunction<? super Object,? super Object,?>);
-    method public Object computeIfAbsent(Object, java.util.function.Function<? super Object,?>);
-    method public Object computeIfPresent(Object, java.util.function.BiFunction<? super Object,? super Object,?>);
+    method public Object compute(Object, java.util.function.BiFunction<? super Object, ? super Object, ?>);
+    method public Object computeIfAbsent(Object, java.util.function.Function<? super Object, ?>);
+    method public Object computeIfPresent(Object, java.util.function.BiFunction<? super Object, ? super Object, ?>);
     method public java.util.Enumeration<Object> elements();
-    method public java.util.Set<java.util.Map.Entry<Object,Object>> entrySet();
-    method public void forEach(java.util.function.BiConsumer<? super Object,? super Object>);
+    method public java.util.Set<java.util.Map.Entry<Object, Object>> entrySet();
+    method public void forEach(java.util.function.BiConsumer<? super Object, ? super Object>);
     method public Object get(Object);
     method public Object getOrDefault(Object, Object);
     method public String getProperty(String);
@@ -14924,15 +14923,15 @@ package java.util {
     method public void load(java.io.InputStream) throws java.io.IOException;
     method public void load(java.io.Reader) throws java.io.IOException;
     method public void loadFromXML(java.io.InputStream) throws java.io.IOException, java.util.InvalidPropertiesFormatException;
-    method public Object merge(Object, Object, java.util.function.BiFunction<? super Object,? super Object,?>);
+    method public Object merge(Object, Object, java.util.function.BiFunction<? super Object, ? super Object, ?>);
     method public java.util.Enumeration<?> propertyNames();
     method public Object put(Object, Object);
-    method public void putAll(java.util.Map<?,?>);
+    method public void putAll(java.util.Map<?, ?>);
     method public Object putIfAbsent(Object, Object);
     method public Object remove(Object);
     method public Object replace(Object, Object);
     method public boolean replace(Object, Object, Object);
-    method public void replaceAll(java.util.function.BiFunction<? super Object,? super Object,?>);
+    method public void replaceAll(java.util.function.BiFunction<? super Object, ? super Object, ?>);
     method @Deprecated public void save(java.io.OutputStream, String);
     method public Object setProperty(String, String);
     method public void store(java.io.OutputStream, String) throws java.io.IOException;
@@ -15122,15 +15121,15 @@ package java.util {
     method public java.util.SequencedCollection<E> reversed();
   }
 
-  public interface SequencedMap<K, V> extends java.util.Map<K,V> {
-    method public default java.util.Map.Entry<K,V> firstEntry();
-    method public default java.util.Map.Entry<K,V> lastEntry();
-    method public default java.util.Map.Entry<K,V> pollFirstEntry();
-    method public default java.util.Map.Entry<K,V> pollLastEntry();
+  public interface SequencedMap<K, V> extends java.util.Map<K, V> {
+    method public default java.util.Map.Entry<K, V> firstEntry();
+    method public default java.util.Map.Entry<K, V> lastEntry();
+    method public default java.util.Map.Entry<K, V> pollFirstEntry();
+    method public default java.util.Map.Entry<K, V> pollLastEntry();
     method public default V putFirst(K, V);
     method public default V putLast(K, V);
-    method public java.util.SequencedMap<K,V> reversed();
-    method public default java.util.SequencedSet<java.util.Map.Entry<K,V>> sequencedEntrySet();
+    method public java.util.SequencedMap<K, V> reversed();
+    method public default java.util.SequencedSet<java.util.Map.Entry<K, V>> sequencedEntrySet();
     method public default java.util.SequencedSet<K> sequencedKeySet();
     method public default java.util.SequencedCollection<V> sequencedValues();
   }
@@ -15198,14 +15197,14 @@ package java.util {
     field public static final int WALL_TIME = 0; // 0x0
   }
 
-  public interface SortedMap<K, V> extends java.util.Map<K,V> java.util.SequencedMap<K,V> {
+  public interface SortedMap<K, V> extends java.util.Map<K, V> java.util.SequencedMap<K, V> {
     method @Nullable public java.util.Comparator<? super K> comparator();
     method public K firstKey();
-    method @NonNull public java.util.SortedMap<K,V> headMap(K);
+    method @NonNull public java.util.SortedMap<K, V> headMap(K);
     method public K lastKey();
-    method @NonNull public default java.util.SortedMap<K,V> reversed();
-    method @NonNull public java.util.SortedMap<K,V> subMap(K, K);
-    method @NonNull public java.util.SortedMap<K,V> tailMap(K);
+    method @NonNull public default java.util.SortedMap<K, V> reversed();
+    method @NonNull public java.util.SortedMap<K, V> subMap(K, K);
+    method @NonNull public java.util.SortedMap<K, V> tailMap(K);
   }
 
   public interface SortedSet<E> extends java.util.SequencedSet<E> java.util.Set<E> {
@@ -15238,7 +15237,7 @@ package java.util {
     field public static final int SUBSIZED = 16384; // 0x4000
   }
 
-  public static interface Spliterator.OfDouble extends java.util.Spliterator.OfPrimitive<Double,java.util.function.DoubleConsumer,java.util.Spliterator.OfDouble> {
+  public static interface Spliterator.OfDouble extends java.util.Spliterator.OfPrimitive<Double, java.util.function.DoubleConsumer, java.util.Spliterator.OfDouble> {
     method public default void forEachRemaining(java.util.function.Consumer<? super Double>);
     method public default void forEachRemaining(java.util.function.DoubleConsumer);
     method public default boolean tryAdvance(java.util.function.Consumer<? super Double>);
@@ -15246,7 +15245,7 @@ package java.util {
     method public java.util.Spliterator.OfDouble trySplit();
   }
 
-  public static interface Spliterator.OfInt extends java.util.Spliterator.OfPrimitive<Integer,java.util.function.IntConsumer,java.util.Spliterator.OfInt> {
+  public static interface Spliterator.OfInt extends java.util.Spliterator.OfPrimitive<Integer, java.util.function.IntConsumer, java.util.Spliterator.OfInt> {
     method public default void forEachRemaining(java.util.function.Consumer<? super Integer>);
     method public default void forEachRemaining(java.util.function.IntConsumer);
     method public default boolean tryAdvance(java.util.function.Consumer<? super Integer>);
@@ -15254,7 +15253,7 @@ package java.util {
     method public java.util.Spliterator.OfInt trySplit();
   }
 
-  public static interface Spliterator.OfLong extends java.util.Spliterator.OfPrimitive<Long,java.util.function.LongConsumer,java.util.Spliterator.OfLong> {
+  public static interface Spliterator.OfLong extends java.util.Spliterator.OfPrimitive<Long, java.util.function.LongConsumer, java.util.Spliterator.OfLong> {
     method public default void forEachRemaining(java.util.function.Consumer<? super Long>);
     method public default void forEachRemaining(java.util.function.LongConsumer);
     method public default boolean tryAdvance(java.util.function.Consumer<? super Long>);
@@ -15435,48 +15434,48 @@ package java.util {
     ctor public TooManyListenersException(String);
   }
 
-  public class TreeMap<K, V> extends java.util.AbstractMap<K,V> implements Cloneable java.util.NavigableMap<K,V> java.io.Serializable {
+  public class TreeMap<K, V> extends java.util.AbstractMap<K, V> implements Cloneable java.util.NavigableMap<K, V> java.io.Serializable {
     ctor public TreeMap();
     ctor public TreeMap(@Nullable java.util.Comparator<? super K>);
-    ctor public TreeMap(@NonNull java.util.Map<? extends K,? extends V>);
-    ctor public TreeMap(@NonNull java.util.SortedMap<K,? extends V>);
-    method @Nullable public java.util.Map.Entry<K,V> ceilingEntry(K);
+    ctor public TreeMap(@NonNull java.util.Map<? extends K, ? extends V>);
+    ctor public TreeMap(@NonNull java.util.SortedMap<K, ? extends V>);
+    method @Nullable public java.util.Map.Entry<K, V> ceilingEntry(K);
     method @Nullable public K ceilingKey(K);
     method @NonNull public Object clone();
     method @Nullable public java.util.Comparator<? super K> comparator();
-    method @Nullable public V compute(K, @NonNull java.util.function.BiFunction<? super K,? super V,? extends V>);
-    method @Nullable public V computeIfAbsent(K, @NonNull java.util.function.Function<? super K,? extends V>);
-    method @Nullable public V computeIfPresent(K, @NonNull java.util.function.BiFunction<? super K,? super V,? extends V>);
+    method @Nullable public V compute(K, @NonNull java.util.function.BiFunction<? super K, ? super V, ? extends V>);
+    method @Nullable public V computeIfAbsent(K, @NonNull java.util.function.Function<? super K, ? extends V>);
+    method @Nullable public V computeIfPresent(K, @NonNull java.util.function.BiFunction<? super K, ? super V, ? extends V>);
     method @NonNull public java.util.NavigableSet<K> descendingKeySet();
-    method @NonNull public java.util.NavigableMap<K,V> descendingMap();
-    method @NonNull public java.util.Set<java.util.Map.Entry<K,V>> entrySet();
-    method @Nullable public java.util.Map.Entry<K,V> firstEntry();
+    method @NonNull public java.util.NavigableMap<K, V> descendingMap();
+    method @NonNull public java.util.Set<java.util.Map.Entry<K, V>> entrySet();
+    method @Nullable public java.util.Map.Entry<K, V> firstEntry();
     method public K firstKey();
-    method @Nullable public java.util.Map.Entry<K,V> floorEntry(K);
+    method @Nullable public java.util.Map.Entry<K, V> floorEntry(K);
     method @Nullable public K floorKey(K);
-    method public void forEach(@NonNull java.util.function.BiConsumer<? super K,? super V>);
-    method @NonNull public java.util.SortedMap<K,V> headMap(K);
-    method @NonNull public java.util.NavigableMap<K,V> headMap(K, boolean);
-    method @Nullable public java.util.Map.Entry<K,V> higherEntry(K);
+    method public void forEach(@NonNull java.util.function.BiConsumer<? super K, ? super V>);
+    method @NonNull public java.util.SortedMap<K, V> headMap(K);
+    method @NonNull public java.util.NavigableMap<K, V> headMap(K, boolean);
+    method @Nullable public java.util.Map.Entry<K, V> higherEntry(K);
     method @Nullable public K higherKey(K);
-    method @Nullable public java.util.Map.Entry<K,V> lastEntry();
+    method @Nullable public java.util.Map.Entry<K, V> lastEntry();
     method public K lastKey();
-    method @Nullable public java.util.Map.Entry<K,V> lowerEntry(K);
+    method @Nullable public java.util.Map.Entry<K, V> lowerEntry(K);
     method @Nullable public K lowerKey(K);
-    method @Nullable public V merge(K, @NonNull V, @NonNull java.util.function.BiFunction<? super V,? super V,? extends V>);
+    method @Nullable public V merge(K, @NonNull V, @NonNull java.util.function.BiFunction<? super V, ? super V, ? extends V>);
     method @NonNull public java.util.NavigableSet<K> navigableKeySet();
-    method @Nullable public java.util.Map.Entry<K,V> pollFirstEntry();
-    method @Nullable public java.util.Map.Entry<K,V> pollLastEntry();
+    method @Nullable public java.util.Map.Entry<K, V> pollFirstEntry();
+    method @Nullable public java.util.Map.Entry<K, V> pollLastEntry();
     method @Nullable public V putFirst(K, V);
     method @Nullable public V putIfAbsent(K, V);
     method @Nullable public V putLast(K, V);
     method public V replace(K, V);
     method public boolean replace(K, @Nullable V, V);
-    method public void replaceAll(@NonNull java.util.function.BiFunction<? super K,? super V,? extends V>);
-    method @NonNull public java.util.NavigableMap<K,V> subMap(K, boolean, K, boolean);
-    method @NonNull public java.util.SortedMap<K,V> subMap(K, K);
-    method @NonNull public java.util.SortedMap<K,V> tailMap(K);
-    method @NonNull public java.util.NavigableMap<K,V> tailMap(K, boolean);
+    method public void replaceAll(@NonNull java.util.function.BiFunction<? super K, ? super V, ? extends V>);
+    method @NonNull public java.util.NavigableMap<K, V> subMap(K, boolean, K, boolean);
+    method @NonNull public java.util.SortedMap<K, V> subMap(K, K);
+    method @NonNull public java.util.SortedMap<K, V> tailMap(K);
+    method @NonNull public java.util.NavigableMap<K, V> tailMap(K, boolean);
   }
 
   public class TreeSet<E> extends java.util.AbstractSet<E> implements Cloneable java.util.NavigableSet<E> java.io.Serializable {
@@ -15569,15 +15568,15 @@ package java.util {
     field @NonNull protected Object[] elementData;
   }
 
-  public class WeakHashMap<K, V> extends java.util.AbstractMap<K,V> implements java.util.Map<K,V> {
+  public class WeakHashMap<K, V> extends java.util.AbstractMap<K, V> implements java.util.Map<K, V> {
     ctor public WeakHashMap();
     ctor public WeakHashMap(int);
     ctor public WeakHashMap(int, float);
-    ctor public WeakHashMap(@NonNull java.util.Map<? extends K,? extends V>);
-    method @NonNull public java.util.Set<java.util.Map.Entry<K,V>> entrySet();
-    method public void forEach(@NonNull java.util.function.BiConsumer<? super K,? super V>);
-    method @NonNull public static <K, V> java.util.WeakHashMap<K,V> newWeakHashMap(int);
-    method public void replaceAll(@NonNull java.util.function.BiFunction<? super K,? super V,? extends V>);
+    ctor public WeakHashMap(@NonNull java.util.Map<? extends K, ? extends V>);
+    method @NonNull public java.util.Set<java.util.Map.Entry<K, V>> entrySet();
+    method public void forEach(@NonNull java.util.function.BiConsumer<? super K, ? super V>);
+    method @NonNull public static <K, V> java.util.WeakHashMap<K, V> newWeakHashMap(int);
+    method public void replaceAll(@NonNull java.util.function.BiFunction<? super K, ? super V, ? extends V>);
   }
 
 }
@@ -15670,9 +15669,9 @@ package java.util.concurrent {
     method public java.util.concurrent.CompletableFuture<Void> acceptEitherAsync(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Consumer<? super T>, java.util.concurrent.Executor);
     method public static java.util.concurrent.CompletableFuture<Void> allOf(java.util.concurrent.CompletableFuture<?>...);
     method public static java.util.concurrent.CompletableFuture<Object> anyOf(java.util.concurrent.CompletableFuture<?>...);
-    method public <U> java.util.concurrent.CompletableFuture<U> applyToEither(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Function<? super T,U>);
-    method public <U> java.util.concurrent.CompletableFuture<U> applyToEitherAsync(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Function<? super T,U>);
-    method public <U> java.util.concurrent.CompletableFuture<U> applyToEitherAsync(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Function<? super T,U>, java.util.concurrent.Executor);
+    method public <U> java.util.concurrent.CompletableFuture<U> applyToEither(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Function<? super T, U>);
+    method public <U> java.util.concurrent.CompletableFuture<U> applyToEitherAsync(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Function<? super T, U>);
+    method public <U> java.util.concurrent.CompletableFuture<U> applyToEitherAsync(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Function<? super T, U>, java.util.concurrent.Executor);
     method public boolean cancel(boolean);
     method public boolean complete(T);
     method public java.util.concurrent.CompletableFuture<T> completeAsync(java.util.function.Supplier<? extends T>);
@@ -15686,21 +15685,21 @@ package java.util.concurrent {
     method public static java.util.concurrent.Executor delayedExecutor(long, java.util.concurrent.TimeUnit);
     method public static java.util.concurrent.Executor delayedExecutor(long, java.util.concurrent.TimeUnit, java.util.concurrent.Executor);
     method public Throwable exceptionNow();
-    method public java.util.concurrent.CompletableFuture<T> exceptionally(java.util.function.Function<Throwable,? extends T>);
-    method public java.util.concurrent.CompletableFuture<T> exceptionallyAsync(java.util.function.Function<Throwable,? extends T>);
-    method public java.util.concurrent.CompletableFuture<T> exceptionallyAsync(java.util.function.Function<Throwable,? extends T>, java.util.concurrent.Executor);
-    method public java.util.concurrent.CompletableFuture<T> exceptionallyCompose(java.util.function.Function<Throwable,? extends java.util.concurrent.CompletionStage<T>>);
-    method public java.util.concurrent.CompletableFuture<T> exceptionallyComposeAsync(java.util.function.Function<Throwable,? extends java.util.concurrent.CompletionStage<T>>);
-    method public java.util.concurrent.CompletableFuture<T> exceptionallyComposeAsync(java.util.function.Function<Throwable,? extends java.util.concurrent.CompletionStage<T>>, java.util.concurrent.Executor);
+    method public java.util.concurrent.CompletableFuture<T> exceptionally(java.util.function.Function<Throwable, ? extends T>);
+    method public java.util.concurrent.CompletableFuture<T> exceptionallyAsync(java.util.function.Function<Throwable, ? extends T>);
+    method public java.util.concurrent.CompletableFuture<T> exceptionallyAsync(java.util.function.Function<Throwable, ? extends T>, java.util.concurrent.Executor);
+    method public java.util.concurrent.CompletableFuture<T> exceptionallyCompose(java.util.function.Function<Throwable, ? extends java.util.concurrent.CompletionStage<T>>);
+    method public java.util.concurrent.CompletableFuture<T> exceptionallyComposeAsync(java.util.function.Function<Throwable, ? extends java.util.concurrent.CompletionStage<T>>);
+    method public java.util.concurrent.CompletableFuture<T> exceptionallyComposeAsync(java.util.function.Function<Throwable, ? extends java.util.concurrent.CompletionStage<T>>, java.util.concurrent.Executor);
     method public static <U> java.util.concurrent.CompletableFuture<U> failedFuture(Throwable);
     method public static <U> java.util.concurrent.CompletionStage<U> failedStage(Throwable);
     method public T get() throws java.util.concurrent.ExecutionException, InterruptedException;
     method public T get(long, java.util.concurrent.TimeUnit) throws java.util.concurrent.ExecutionException, InterruptedException, java.util.concurrent.TimeoutException;
     method public T getNow(T);
     method public int getNumberOfDependents();
-    method public <U> java.util.concurrent.CompletableFuture<U> handle(java.util.function.BiFunction<? super T,Throwable,? extends U>);
-    method public <U> java.util.concurrent.CompletableFuture<U> handleAsync(java.util.function.BiFunction<? super T,Throwable,? extends U>);
-    method public <U> java.util.concurrent.CompletableFuture<U> handleAsync(java.util.function.BiFunction<? super T,Throwable,? extends U>, java.util.concurrent.Executor);
+    method public <U> java.util.concurrent.CompletableFuture<U> handle(java.util.function.BiFunction<? super T, Throwable, ? extends U>);
+    method public <U> java.util.concurrent.CompletableFuture<U> handleAsync(java.util.function.BiFunction<? super T, Throwable, ? extends U>);
+    method public <U> java.util.concurrent.CompletableFuture<U> handleAsync(java.util.function.BiFunction<? super T, Throwable, ? extends U>, java.util.concurrent.Executor);
     method public boolean isCancelled();
     method public boolean isCompletedExceptionally();
     method public boolean isDone();
@@ -15725,25 +15724,25 @@ package java.util.concurrent {
     method public java.util.concurrent.CompletableFuture<Void> thenAccept(java.util.function.Consumer<? super T>);
     method public java.util.concurrent.CompletableFuture<Void> thenAcceptAsync(java.util.function.Consumer<? super T>);
     method public java.util.concurrent.CompletableFuture<Void> thenAcceptAsync(java.util.function.Consumer<? super T>, java.util.concurrent.Executor);
-    method public <U> java.util.concurrent.CompletableFuture<Void> thenAcceptBoth(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiConsumer<? super T,? super U>);
-    method public <U> java.util.concurrent.CompletableFuture<Void> thenAcceptBothAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiConsumer<? super T,? super U>);
-    method public <U> java.util.concurrent.CompletableFuture<Void> thenAcceptBothAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiConsumer<? super T,? super U>, java.util.concurrent.Executor);
-    method public <U> java.util.concurrent.CompletableFuture<U> thenApply(java.util.function.Function<? super T,? extends U>);
-    method public <U> java.util.concurrent.CompletableFuture<U> thenApplyAsync(java.util.function.Function<? super T,? extends U>);
-    method public <U> java.util.concurrent.CompletableFuture<U> thenApplyAsync(java.util.function.Function<? super T,? extends U>, java.util.concurrent.Executor);
-    method public <U, V> java.util.concurrent.CompletableFuture<V> thenCombine(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiFunction<? super T,? super U,? extends V>);
-    method public <U, V> java.util.concurrent.CompletableFuture<V> thenCombineAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiFunction<? super T,? super U,? extends V>);
-    method public <U, V> java.util.concurrent.CompletableFuture<V> thenCombineAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiFunction<? super T,? super U,? extends V>, java.util.concurrent.Executor);
-    method public <U> java.util.concurrent.CompletableFuture<U> thenCompose(java.util.function.Function<? super T,? extends java.util.concurrent.CompletionStage<U>>);
-    method public <U> java.util.concurrent.CompletableFuture<U> thenComposeAsync(java.util.function.Function<? super T,? extends java.util.concurrent.CompletionStage<U>>);
-    method public <U> java.util.concurrent.CompletableFuture<U> thenComposeAsync(java.util.function.Function<? super T,? extends java.util.concurrent.CompletionStage<U>>, java.util.concurrent.Executor);
+    method public <U> java.util.concurrent.CompletableFuture<Void> thenAcceptBoth(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiConsumer<? super T, ? super U>);
+    method public <U> java.util.concurrent.CompletableFuture<Void> thenAcceptBothAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiConsumer<? super T, ? super U>);
+    method public <U> java.util.concurrent.CompletableFuture<Void> thenAcceptBothAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiConsumer<? super T, ? super U>, java.util.concurrent.Executor);
+    method public <U> java.util.concurrent.CompletableFuture<U> thenApply(java.util.function.Function<? super T, ? extends U>);
+    method public <U> java.util.concurrent.CompletableFuture<U> thenApplyAsync(java.util.function.Function<? super T, ? extends U>);
+    method public <U> java.util.concurrent.CompletableFuture<U> thenApplyAsync(java.util.function.Function<? super T, ? extends U>, java.util.concurrent.Executor);
+    method public <U, V> java.util.concurrent.CompletableFuture<V> thenCombine(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiFunction<? super T, ? super U, ? extends V>);
+    method public <U, V> java.util.concurrent.CompletableFuture<V> thenCombineAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiFunction<? super T, ? super U, ? extends V>);
+    method public <U, V> java.util.concurrent.CompletableFuture<V> thenCombineAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiFunction<? super T, ? super U, ? extends V>, java.util.concurrent.Executor);
+    method public <U> java.util.concurrent.CompletableFuture<U> thenCompose(java.util.function.Function<? super T, ? extends java.util.concurrent.CompletionStage<U>>);
+    method public <U> java.util.concurrent.CompletableFuture<U> thenComposeAsync(java.util.function.Function<? super T, ? extends java.util.concurrent.CompletionStage<U>>);
+    method public <U> java.util.concurrent.CompletableFuture<U> thenComposeAsync(java.util.function.Function<? super T, ? extends java.util.concurrent.CompletionStage<U>>, java.util.concurrent.Executor);
     method public java.util.concurrent.CompletableFuture<Void> thenRun(Runnable);
     method public java.util.concurrent.CompletableFuture<Void> thenRunAsync(Runnable);
     method public java.util.concurrent.CompletableFuture<Void> thenRunAsync(Runnable, java.util.concurrent.Executor);
     method public java.util.concurrent.CompletableFuture<T> toCompletableFuture();
-    method public java.util.concurrent.CompletableFuture<T> whenComplete(java.util.function.BiConsumer<? super T,? super Throwable>);
-    method public java.util.concurrent.CompletableFuture<T> whenCompleteAsync(java.util.function.BiConsumer<? super T,? super Throwable>);
-    method public java.util.concurrent.CompletableFuture<T> whenCompleteAsync(java.util.function.BiConsumer<? super T,? super Throwable>, java.util.concurrent.Executor);
+    method public java.util.concurrent.CompletableFuture<T> whenComplete(java.util.function.BiConsumer<? super T, ? super Throwable>);
+    method public java.util.concurrent.CompletableFuture<T> whenCompleteAsync(java.util.function.BiConsumer<? super T, ? super Throwable>);
+    method public java.util.concurrent.CompletableFuture<T> whenCompleteAsync(java.util.function.BiConsumer<? super T, ? super Throwable>, java.util.concurrent.Executor);
   }
 
   public static interface CompletableFuture.AsynchronousCompletionTask {
@@ -15768,18 +15767,18 @@ package java.util.concurrent {
     method public java.util.concurrent.CompletionStage<Void> acceptEither(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Consumer<? super T>);
     method public java.util.concurrent.CompletionStage<Void> acceptEitherAsync(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Consumer<? super T>);
     method public java.util.concurrent.CompletionStage<Void> acceptEitherAsync(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Consumer<? super T>, java.util.concurrent.Executor);
-    method public <U> java.util.concurrent.CompletionStage<U> applyToEither(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Function<? super T,U>);
-    method public <U> java.util.concurrent.CompletionStage<U> applyToEitherAsync(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Function<? super T,U>);
-    method public <U> java.util.concurrent.CompletionStage<U> applyToEitherAsync(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Function<? super T,U>, java.util.concurrent.Executor);
-    method public java.util.concurrent.CompletionStage<T> exceptionally(java.util.function.Function<Throwable,? extends T>);
-    method public default java.util.concurrent.CompletionStage<T> exceptionallyAsync(java.util.function.Function<Throwable,? extends T>);
-    method public default java.util.concurrent.CompletionStage<T> exceptionallyAsync(java.util.function.Function<Throwable,? extends T>, java.util.concurrent.Executor);
-    method public default java.util.concurrent.CompletionStage<T> exceptionallyCompose(java.util.function.Function<Throwable,? extends java.util.concurrent.CompletionStage<T>>);
-    method public default java.util.concurrent.CompletionStage<T> exceptionallyComposeAsync(java.util.function.Function<Throwable,? extends java.util.concurrent.CompletionStage<T>>);
-    method public default java.util.concurrent.CompletionStage<T> exceptionallyComposeAsync(java.util.function.Function<Throwable,? extends java.util.concurrent.CompletionStage<T>>, java.util.concurrent.Executor);
-    method public <U> java.util.concurrent.CompletionStage<U> handle(java.util.function.BiFunction<? super T,Throwable,? extends U>);
-    method public <U> java.util.concurrent.CompletionStage<U> handleAsync(java.util.function.BiFunction<? super T,Throwable,? extends U>);
-    method public <U> java.util.concurrent.CompletionStage<U> handleAsync(java.util.function.BiFunction<? super T,Throwable,? extends U>, java.util.concurrent.Executor);
+    method public <U> java.util.concurrent.CompletionStage<U> applyToEither(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Function<? super T, U>);
+    method public <U> java.util.concurrent.CompletionStage<U> applyToEitherAsync(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Function<? super T, U>);
+    method public <U> java.util.concurrent.CompletionStage<U> applyToEitherAsync(java.util.concurrent.CompletionStage<? extends T>, java.util.function.Function<? super T, U>, java.util.concurrent.Executor);
+    method public java.util.concurrent.CompletionStage<T> exceptionally(java.util.function.Function<Throwable, ? extends T>);
+    method public default java.util.concurrent.CompletionStage<T> exceptionallyAsync(java.util.function.Function<Throwable, ? extends T>);
+    method public default java.util.concurrent.CompletionStage<T> exceptionallyAsync(java.util.function.Function<Throwable, ? extends T>, java.util.concurrent.Executor);
+    method public default java.util.concurrent.CompletionStage<T> exceptionallyCompose(java.util.function.Function<Throwable, ? extends java.util.concurrent.CompletionStage<T>>);
+    method public default java.util.concurrent.CompletionStage<T> exceptionallyComposeAsync(java.util.function.Function<Throwable, ? extends java.util.concurrent.CompletionStage<T>>);
+    method public default java.util.concurrent.CompletionStage<T> exceptionallyComposeAsync(java.util.function.Function<Throwable, ? extends java.util.concurrent.CompletionStage<T>>, java.util.concurrent.Executor);
+    method public <U> java.util.concurrent.CompletionStage<U> handle(java.util.function.BiFunction<? super T, Throwable, ? extends U>);
+    method public <U> java.util.concurrent.CompletionStage<U> handleAsync(java.util.function.BiFunction<? super T, Throwable, ? extends U>);
+    method public <U> java.util.concurrent.CompletionStage<U> handleAsync(java.util.function.BiFunction<? super T, Throwable, ? extends U>, java.util.concurrent.Executor);
     method public java.util.concurrent.CompletionStage<Void> runAfterBoth(java.util.concurrent.CompletionStage<?>, Runnable);
     method public java.util.concurrent.CompletionStage<Void> runAfterBothAsync(java.util.concurrent.CompletionStage<?>, Runnable);
     method public java.util.concurrent.CompletionStage<Void> runAfterBothAsync(java.util.concurrent.CompletionStage<?>, Runnable, java.util.concurrent.Executor);
@@ -15789,83 +15788,83 @@ package java.util.concurrent {
     method public java.util.concurrent.CompletionStage<Void> thenAccept(java.util.function.Consumer<? super T>);
     method public java.util.concurrent.CompletionStage<Void> thenAcceptAsync(java.util.function.Consumer<? super T>);
     method public java.util.concurrent.CompletionStage<Void> thenAcceptAsync(java.util.function.Consumer<? super T>, java.util.concurrent.Executor);
-    method public <U> java.util.concurrent.CompletionStage<Void> thenAcceptBoth(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiConsumer<? super T,? super U>);
-    method public <U> java.util.concurrent.CompletionStage<Void> thenAcceptBothAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiConsumer<? super T,? super U>);
-    method public <U> java.util.concurrent.CompletionStage<Void> thenAcceptBothAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiConsumer<? super T,? super U>, java.util.concurrent.Executor);
-    method public <U> java.util.concurrent.CompletionStage<U> thenApply(java.util.function.Function<? super T,? extends U>);
-    method public <U> java.util.concurrent.CompletionStage<U> thenApplyAsync(java.util.function.Function<? super T,? extends U>);
-    method public <U> java.util.concurrent.CompletionStage<U> thenApplyAsync(java.util.function.Function<? super T,? extends U>, java.util.concurrent.Executor);
-    method public <U, V> java.util.concurrent.CompletionStage<V> thenCombine(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiFunction<? super T,? super U,? extends V>);
-    method public <U, V> java.util.concurrent.CompletionStage<V> thenCombineAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiFunction<? super T,? super U,? extends V>);
-    method public <U, V> java.util.concurrent.CompletionStage<V> thenCombineAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiFunction<? super T,? super U,? extends V>, java.util.concurrent.Executor);
-    method public <U> java.util.concurrent.CompletionStage<U> thenCompose(java.util.function.Function<? super T,? extends java.util.concurrent.CompletionStage<U>>);
-    method public <U> java.util.concurrent.CompletionStage<U> thenComposeAsync(java.util.function.Function<? super T,? extends java.util.concurrent.CompletionStage<U>>);
-    method public <U> java.util.concurrent.CompletionStage<U> thenComposeAsync(java.util.function.Function<? super T,? extends java.util.concurrent.CompletionStage<U>>, java.util.concurrent.Executor);
+    method public <U> java.util.concurrent.CompletionStage<Void> thenAcceptBoth(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiConsumer<? super T, ? super U>);
+    method public <U> java.util.concurrent.CompletionStage<Void> thenAcceptBothAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiConsumer<? super T, ? super U>);
+    method public <U> java.util.concurrent.CompletionStage<Void> thenAcceptBothAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiConsumer<? super T, ? super U>, java.util.concurrent.Executor);
+    method public <U> java.util.concurrent.CompletionStage<U> thenApply(java.util.function.Function<? super T, ? extends U>);
+    method public <U> java.util.concurrent.CompletionStage<U> thenApplyAsync(java.util.function.Function<? super T, ? extends U>);
+    method public <U> java.util.concurrent.CompletionStage<U> thenApplyAsync(java.util.function.Function<? super T, ? extends U>, java.util.concurrent.Executor);
+    method public <U, V> java.util.concurrent.CompletionStage<V> thenCombine(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiFunction<? super T, ? super U, ? extends V>);
+    method public <U, V> java.util.concurrent.CompletionStage<V> thenCombineAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiFunction<? super T, ? super U, ? extends V>);
+    method public <U, V> java.util.concurrent.CompletionStage<V> thenCombineAsync(java.util.concurrent.CompletionStage<? extends U>, java.util.function.BiFunction<? super T, ? super U, ? extends V>, java.util.concurrent.Executor);
+    method public <U> java.util.concurrent.CompletionStage<U> thenCompose(java.util.function.Function<? super T, ? extends java.util.concurrent.CompletionStage<U>>);
+    method public <U> java.util.concurrent.CompletionStage<U> thenComposeAsync(java.util.function.Function<? super T, ? extends java.util.concurrent.CompletionStage<U>>);
+    method public <U> java.util.concurrent.CompletionStage<U> thenComposeAsync(java.util.function.Function<? super T, ? extends java.util.concurrent.CompletionStage<U>>, java.util.concurrent.Executor);
     method public java.util.concurrent.CompletionStage<Void> thenRun(Runnable);
     method public java.util.concurrent.CompletionStage<Void> thenRunAsync(Runnable);
     method public java.util.concurrent.CompletionStage<Void> thenRunAsync(Runnable, java.util.concurrent.Executor);
     method public java.util.concurrent.CompletableFuture<T> toCompletableFuture();
-    method public java.util.concurrent.CompletionStage<T> whenComplete(java.util.function.BiConsumer<? super T,? super Throwable>);
-    method public java.util.concurrent.CompletionStage<T> whenCompleteAsync(java.util.function.BiConsumer<? super T,? super Throwable>);
-    method public java.util.concurrent.CompletionStage<T> whenCompleteAsync(java.util.function.BiConsumer<? super T,? super Throwable>, java.util.concurrent.Executor);
+    method public java.util.concurrent.CompletionStage<T> whenComplete(java.util.function.BiConsumer<? super T, ? super Throwable>);
+    method public java.util.concurrent.CompletionStage<T> whenCompleteAsync(java.util.function.BiConsumer<? super T, ? super Throwable>);
+    method public java.util.concurrent.CompletionStage<T> whenCompleteAsync(java.util.function.BiConsumer<? super T, ? super Throwable>, java.util.concurrent.Executor);
   }
 
-  public class ConcurrentHashMap<K, V> extends java.util.AbstractMap<K,V> implements java.util.concurrent.ConcurrentMap<K,V> java.io.Serializable {
+  public class ConcurrentHashMap<K, V> extends java.util.AbstractMap<K, V> implements java.util.concurrent.ConcurrentMap<K, V> java.io.Serializable {
     ctor public ConcurrentHashMap();
     ctor public ConcurrentHashMap(int);
     ctor public ConcurrentHashMap(int, float);
     ctor public ConcurrentHashMap(int, float, int);
-    ctor public ConcurrentHashMap(@NonNull java.util.Map<? extends K,? extends V>);
-    method @Nullable public V compute(@NonNull K, @NonNull java.util.function.BiFunction<? super K,? super V,? extends V>);
-    method @Nullable public V computeIfAbsent(@NonNull K, @NonNull java.util.function.Function<? super K,? extends V>);
-    method @Nullable public V computeIfPresent(@NonNull K, @NonNull java.util.function.BiFunction<? super K,? super V,? extends V>);
+    ctor public ConcurrentHashMap(@NonNull java.util.Map<? extends K, ? extends V>);
+    method @Nullable public V compute(@NonNull K, @NonNull java.util.function.BiFunction<? super K, ? super V, ? extends V>);
+    method @Nullable public V computeIfAbsent(@NonNull K, @NonNull java.util.function.Function<? super K, ? extends V>);
+    method @Nullable public V computeIfPresent(@NonNull K, @NonNull java.util.function.BiFunction<? super K, ? super V, ? extends V>);
     method public boolean contains(@NonNull Object);
     method @NonNull public java.util.Enumeration<V> elements();
-    method @NonNull public java.util.Set<java.util.Map.Entry<K,V>> entrySet();
-    method public void forEach(@NonNull java.util.function.BiConsumer<? super K,? super V>);
-    method public void forEach(long, @NonNull java.util.function.BiConsumer<? super K,? super V>);
-    method public <U> void forEach(long, @NonNull java.util.function.BiFunction<? super K,? super V,? extends U>, @NonNull java.util.function.Consumer<? super U>);
-    method public void forEachEntry(long, @NonNull java.util.function.Consumer<? super java.util.Map.Entry<K,V>>);
-    method public <U> void forEachEntry(long, @NonNull java.util.function.Function<java.util.Map.Entry<K,V>,? extends U>, @NonNull java.util.function.Consumer<? super U>);
+    method @NonNull public java.util.Set<java.util.Map.Entry<K, V>> entrySet();
+    method public void forEach(@NonNull java.util.function.BiConsumer<? super K, ? super V>);
+    method public void forEach(long, @NonNull java.util.function.BiConsumer<? super K, ? super V>);
+    method public <U> void forEach(long, @NonNull java.util.function.BiFunction<? super K, ? super V, ? extends U>, @NonNull java.util.function.Consumer<? super U>);
+    method public void forEachEntry(long, @NonNull java.util.function.Consumer<? super java.util.Map.Entry<K, V>>);
+    method public <U> void forEachEntry(long, @NonNull java.util.function.Function<java.util.Map.Entry<K, V>, ? extends U>, @NonNull java.util.function.Consumer<? super U>);
     method public void forEachKey(long, @NonNull java.util.function.Consumer<? super K>);
-    method public <U> void forEachKey(long, @NonNull java.util.function.Function<? super K,? extends U>, @NonNull java.util.function.Consumer<? super U>);
+    method public <U> void forEachKey(long, @NonNull java.util.function.Function<? super K, ? extends U>, @NonNull java.util.function.Consumer<? super U>);
     method public void forEachValue(long, @NonNull java.util.function.Consumer<? super V>);
-    method public <U> void forEachValue(long, @NonNull java.util.function.Function<? super V,? extends U>, @NonNull java.util.function.Consumer<? super U>);
+    method public <U> void forEachValue(long, @NonNull java.util.function.Function<? super V, ? extends U>, @NonNull java.util.function.Consumer<? super U>);
     method @Nullable public V getOrDefault(@NonNull Object, @Nullable V);
-    method @NonNull public java.util.concurrent.ConcurrentHashMap.KeySetView<K,V> keySet(@NonNull V);
+    method @NonNull public java.util.concurrent.ConcurrentHashMap.KeySetView<K, V> keySet(@NonNull V);
     method @NonNull public java.util.Enumeration<K> keys();
     method public long mappingCount();
-    method @Nullable public V merge(@NonNull K, @NonNull V, @NonNull java.util.function.BiFunction<? super V,? super V,? extends V>);
-    method @NonNull public static <K> java.util.concurrent.ConcurrentHashMap.KeySetView<K,Boolean> newKeySet();
-    method @NonNull public static <K> java.util.concurrent.ConcurrentHashMap.KeySetView<K,Boolean> newKeySet(int);
+    method @Nullable public V merge(@NonNull K, @NonNull V, @NonNull java.util.function.BiFunction<? super V, ? super V, ? extends V>);
+    method @NonNull public static <K> java.util.concurrent.ConcurrentHashMap.KeySetView<K, Boolean> newKeySet();
+    method @NonNull public static <K> java.util.concurrent.ConcurrentHashMap.KeySetView<K, Boolean> newKeySet(int);
     method @Nullable public V putIfAbsent(@NonNull K, @NonNull V);
-    method @Nullable public <U> U reduce(long, @NonNull java.util.function.BiFunction<? super K,? super V,? extends U>, @NonNull java.util.function.BiFunction<? super U,? super U,? extends U>);
-    method @Nullable public java.util.Map.Entry<K,V> reduceEntries(long, @NonNull java.util.function.BiFunction<java.util.Map.Entry<K,V>,java.util.Map.Entry<K,V>,? extends java.util.Map.Entry<K,V>>);
-    method @Nullable public <U> U reduceEntries(long, @NonNull java.util.function.Function<java.util.Map.Entry<K,V>,? extends U>, @NonNull java.util.function.BiFunction<? super U,? super U,? extends U>);
-    method public double reduceEntriesToDouble(long, @NonNull java.util.function.ToDoubleFunction<java.util.Map.Entry<K,V>>, double, @NonNull java.util.function.DoubleBinaryOperator);
-    method public int reduceEntriesToInt(long, @NonNull java.util.function.ToIntFunction<java.util.Map.Entry<K,V>>, int, @NonNull java.util.function.IntBinaryOperator);
-    method public long reduceEntriesToLong(long, @NonNull java.util.function.ToLongFunction<java.util.Map.Entry<K,V>>, long, @NonNull java.util.function.LongBinaryOperator);
-    method @Nullable public K reduceKeys(long, @NonNull java.util.function.BiFunction<? super K,? super K,? extends K>);
-    method @Nullable public <U> U reduceKeys(long, @NonNull java.util.function.Function<? super K,? extends U>, @NonNull java.util.function.BiFunction<? super U,? super U,? extends U>);
+    method @Nullable public <U> U reduce(long, @NonNull java.util.function.BiFunction<? super K, ? super V, ? extends U>, @NonNull java.util.function.BiFunction<? super U, ? super U, ? extends U>);
+    method @Nullable public java.util.Map.Entry<K, V> reduceEntries(long, @NonNull java.util.function.BiFunction<java.util.Map.Entry<K, V>, java.util.Map.Entry<K, V>, ? extends java.util.Map.Entry<K, V>>);
+    method @Nullable public <U> U reduceEntries(long, @NonNull java.util.function.Function<java.util.Map.Entry<K, V>, ? extends U>, @NonNull java.util.function.BiFunction<? super U, ? super U, ? extends U>);
+    method public double reduceEntriesToDouble(long, @NonNull java.util.function.ToDoubleFunction<java.util.Map.Entry<K, V>>, double, @NonNull java.util.function.DoubleBinaryOperator);
+    method public int reduceEntriesToInt(long, @NonNull java.util.function.ToIntFunction<java.util.Map.Entry<K, V>>, int, @NonNull java.util.function.IntBinaryOperator);
+    method public long reduceEntriesToLong(long, @NonNull java.util.function.ToLongFunction<java.util.Map.Entry<K, V>>, long, @NonNull java.util.function.LongBinaryOperator);
+    method @Nullable public K reduceKeys(long, @NonNull java.util.function.BiFunction<? super K, ? super K, ? extends K>);
+    method @Nullable public <U> U reduceKeys(long, @NonNull java.util.function.Function<? super K, ? extends U>, @NonNull java.util.function.BiFunction<? super U, ? super U, ? extends U>);
     method public double reduceKeysToDouble(long, @NonNull java.util.function.ToDoubleFunction<? super K>, double, @NonNull java.util.function.DoubleBinaryOperator);
     method public int reduceKeysToInt(long, @NonNull java.util.function.ToIntFunction<? super K>, int, @NonNull java.util.function.IntBinaryOperator);
     method public long reduceKeysToLong(long, @NonNull java.util.function.ToLongFunction<? super K>, long, @NonNull java.util.function.LongBinaryOperator);
-    method public double reduceToDouble(long, @NonNull java.util.function.ToDoubleBiFunction<? super K,? super V>, double, @NonNull java.util.function.DoubleBinaryOperator);
-    method public int reduceToInt(long, @NonNull java.util.function.ToIntBiFunction<? super K,? super V>, int, @NonNull java.util.function.IntBinaryOperator);
-    method public long reduceToLong(long, @NonNull java.util.function.ToLongBiFunction<? super K,? super V>, long, @NonNull java.util.function.LongBinaryOperator);
-    method @Nullable public V reduceValues(long, @NonNull java.util.function.BiFunction<? super V,? super V,? extends V>);
-    method @Nullable public <U> U reduceValues(long, @NonNull java.util.function.Function<? super V,? extends U>, @NonNull java.util.function.BiFunction<? super U,? super U,? extends U>);
+    method public double reduceToDouble(long, @NonNull java.util.function.ToDoubleBiFunction<? super K, ? super V>, double, @NonNull java.util.function.DoubleBinaryOperator);
+    method public int reduceToInt(long, @NonNull java.util.function.ToIntBiFunction<? super K, ? super V>, int, @NonNull java.util.function.IntBinaryOperator);
+    method public long reduceToLong(long, @NonNull java.util.function.ToLongBiFunction<? super K, ? super V>, long, @NonNull java.util.function.LongBinaryOperator);
+    method @Nullable public V reduceValues(long, @NonNull java.util.function.BiFunction<? super V, ? super V, ? extends V>);
+    method @Nullable public <U> U reduceValues(long, @NonNull java.util.function.Function<? super V, ? extends U>, @NonNull java.util.function.BiFunction<? super U, ? super U, ? extends U>);
     method public double reduceValuesToDouble(long, @NonNull java.util.function.ToDoubleFunction<? super V>, double, @NonNull java.util.function.DoubleBinaryOperator);
     method public int reduceValuesToInt(long, @NonNull java.util.function.ToIntFunction<? super V>, int, @NonNull java.util.function.IntBinaryOperator);
     method public long reduceValuesToLong(long, @NonNull java.util.function.ToLongFunction<? super V>, long, @NonNull java.util.function.LongBinaryOperator);
     method public boolean remove(@NonNull Object, @Nullable Object);
     method @Nullable public V replace(@NonNull K, @NonNull V);
     method public boolean replace(@NonNull K, @NonNull V, @NonNull V);
-    method public void replaceAll(@NonNull java.util.function.BiFunction<? super K,? super V,? extends V>);
-    method @Nullable public <U> U search(long, @NonNull java.util.function.BiFunction<? super K,? super V,? extends U>);
-    method @Nullable public <U> U searchEntries(long, @NonNull java.util.function.Function<java.util.Map.Entry<K,V>,? extends U>);
-    method @Nullable public <U> U searchKeys(long, @NonNull java.util.function.Function<? super K,? extends U>);
-    method @Nullable public <U> U searchValues(long, @NonNull java.util.function.Function<? super V,? extends U>);
+    method public void replaceAll(@NonNull java.util.function.BiFunction<? super K, ? super V, ? extends V>);
+    method @Nullable public <U> U search(long, @NonNull java.util.function.BiFunction<? super K, ? super V, ? extends U>);
+    method @Nullable public <U> U searchEntries(long, @NonNull java.util.function.Function<java.util.Map.Entry<K, V>, ? extends U>);
+    method @Nullable public <U> U searchKeys(long, @NonNull java.util.function.Function<? super K, ? extends U>);
+    method @Nullable public <U> U searchValues(long, @NonNull java.util.function.Function<? super V, ? extends U>);
   }
 
   public static final class ConcurrentHashMap.KeySetView<K, V> implements java.util.Collection<K> java.io.Serializable java.util.Set<K> {
@@ -15876,7 +15875,7 @@ package java.util.concurrent {
     method public boolean containsAll(@NonNull java.util.Collection<?>);
     method public boolean equals(@Nullable Object);
     method public void forEach(@NonNull java.util.function.Consumer<? super K>);
-    method @NonNull public java.util.concurrent.ConcurrentHashMap<K,V> getMap();
+    method @NonNull public java.util.concurrent.ConcurrentHashMap<K, V> getMap();
     method @Nullable public V getMappedValue();
     method public int hashCode();
     method public boolean isEmpty();
@@ -15935,69 +15934,69 @@ package java.util.concurrent {
     method public java.util.Spliterator<E> spliterator();
   }
 
-  public interface ConcurrentMap<K, V> extends java.util.Map<K,V> {
+  public interface ConcurrentMap<K, V> extends java.util.Map<K, V> {
     method public V putIfAbsent(K, V);
     method public boolean remove(Object, Object);
     method public V replace(K, V);
     method public boolean replace(K, V, V);
   }
 
-  public interface ConcurrentNavigableMap<K, V> extends java.util.concurrent.ConcurrentMap<K,V> java.util.NavigableMap<K,V> {
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> descendingMap();
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> headMap(K);
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> headMap(K, boolean);
+  public interface ConcurrentNavigableMap<K, V> extends java.util.concurrent.ConcurrentMap<K, V> java.util.NavigableMap<K, V> {
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> descendingMap();
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> headMap(K);
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> headMap(K, boolean);
     method public java.util.NavigableSet<K> keySet();
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> subMap(K, boolean, K, boolean);
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> subMap(K, K);
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> tailMap(K);
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> tailMap(K, boolean);
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> subMap(K, boolean, K, boolean);
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> subMap(K, K);
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> tailMap(K);
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> tailMap(K, boolean);
   }
 
-  public class ConcurrentSkipListMap<K, V> extends java.util.AbstractMap<K,V> implements Cloneable java.util.concurrent.ConcurrentNavigableMap<K,V> java.io.Serializable {
+  public class ConcurrentSkipListMap<K, V> extends java.util.AbstractMap<K, V> implements Cloneable java.util.concurrent.ConcurrentNavigableMap<K, V> java.io.Serializable {
     ctor public ConcurrentSkipListMap();
     ctor public ConcurrentSkipListMap(java.util.Comparator<? super K>);
-    ctor public ConcurrentSkipListMap(java.util.Map<? extends K,? extends V>);
-    ctor public ConcurrentSkipListMap(java.util.SortedMap<K,? extends V>);
-    method public java.util.Map.Entry<K,V> ceilingEntry(K);
+    ctor public ConcurrentSkipListMap(java.util.Map<? extends K, ? extends V>);
+    ctor public ConcurrentSkipListMap(java.util.SortedMap<K, ? extends V>);
+    method public java.util.Map.Entry<K, V> ceilingEntry(K);
     method public K ceilingKey(K);
-    method public java.util.concurrent.ConcurrentSkipListMap<K,V> clone();
+    method public java.util.concurrent.ConcurrentSkipListMap<K, V> clone();
     method public java.util.Comparator<? super K> comparator();
-    method public V compute(K, java.util.function.BiFunction<? super K,? super V,? extends V>);
-    method public V computeIfAbsent(K, java.util.function.Function<? super K,? extends V>);
-    method public V computeIfPresent(K, java.util.function.BiFunction<? super K,? super V,? extends V>);
+    method public V compute(K, java.util.function.BiFunction<? super K, ? super V, ? extends V>);
+    method public V computeIfAbsent(K, java.util.function.Function<? super K, ? extends V>);
+    method public V computeIfPresent(K, java.util.function.BiFunction<? super K, ? super V, ? extends V>);
     method public java.util.NavigableSet<K> descendingKeySet();
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> descendingMap();
-    method public java.util.Set<java.util.Map.Entry<K,V>> entrySet();
-    method public java.util.Map.Entry<K,V> firstEntry();
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> descendingMap();
+    method public java.util.Set<java.util.Map.Entry<K, V>> entrySet();
+    method public java.util.Map.Entry<K, V> firstEntry();
     method public K firstKey();
-    method public java.util.Map.Entry<K,V> floorEntry(K);
+    method public java.util.Map.Entry<K, V> floorEntry(K);
     method public K floorKey(K);
-    method public void forEach(java.util.function.BiConsumer<? super K,? super V>);
+    method public void forEach(java.util.function.BiConsumer<? super K, ? super V>);
     method public V getOrDefault(Object, V);
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> headMap(K);
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> headMap(K, boolean);
-    method public java.util.Map.Entry<K,V> higherEntry(K);
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> headMap(K);
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> headMap(K, boolean);
+    method public java.util.Map.Entry<K, V> higherEntry(K);
     method public K higherKey(K);
     method public java.util.NavigableSet<K> keySet();
-    method public java.util.Map.Entry<K,V> lastEntry();
+    method public java.util.Map.Entry<K, V> lastEntry();
     method public K lastKey();
-    method public java.util.Map.Entry<K,V> lowerEntry(K);
+    method public java.util.Map.Entry<K, V> lowerEntry(K);
     method public K lowerKey(K);
-    method public V merge(K, V, java.util.function.BiFunction<? super V,? super V,? extends V>);
+    method public V merge(K, V, java.util.function.BiFunction<? super V, ? super V, ? extends V>);
     method public java.util.NavigableSet<K> navigableKeySet();
-    method public java.util.Map.Entry<K,V> pollFirstEntry();
-    method public java.util.Map.Entry<K,V> pollLastEntry();
+    method public java.util.Map.Entry<K, V> pollFirstEntry();
+    method public java.util.Map.Entry<K, V> pollLastEntry();
     method public V putFirst(K, V);
     method public V putIfAbsent(K, V);
     method public V putLast(K, V);
     method public boolean remove(Object, Object);
     method public V replace(K, V);
     method public boolean replace(K, V, V);
-    method public void replaceAll(java.util.function.BiFunction<? super K,? super V,? extends V>);
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> subMap(K, boolean, K, boolean);
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> subMap(K, K);
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> tailMap(K);
-    method public java.util.concurrent.ConcurrentNavigableMap<K,V> tailMap(K, boolean);
+    method public void replaceAll(java.util.function.BiFunction<? super K, ? super V, ? extends V>);
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> subMap(K, boolean, K, boolean);
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> subMap(K, K);
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> tailMap(K);
+    method public java.util.concurrent.ConcurrentNavigableMap<K, V> tailMap(K, boolean);
   }
 
   public class ConcurrentSkipListSet<E> extends java.util.AbstractSet<E> implements Cloneable java.util.NavigableSet<E> java.io.Serializable {
@@ -16623,7 +16622,7 @@ package java.util.concurrent {
   public class SubmissionPublisher<T> implements AutoCloseable java.util.concurrent.Flow.Publisher<T> {
     ctor public SubmissionPublisher();
     ctor public SubmissionPublisher(java.util.concurrent.Executor, int);
-    ctor public SubmissionPublisher(java.util.concurrent.Executor, int, java.util.function.BiConsumer<? super java.util.concurrent.Flow.Subscriber<? super T>,? super Throwable>);
+    ctor public SubmissionPublisher(java.util.concurrent.Executor, int, java.util.function.BiConsumer<? super java.util.concurrent.Flow.Subscriber<? super T>, ? super Throwable>);
     method public void close();
     method public void closeExceptionally(Throwable);
     method public java.util.concurrent.CompletableFuture<Void> consume(java.util.function.Consumer<? super T>);
@@ -16637,8 +16636,8 @@ package java.util.concurrent {
     method public boolean hasSubscribers();
     method public boolean isClosed();
     method public boolean isSubscribed(java.util.concurrent.Flow.Subscriber<? super T>);
-    method public int offer(T, java.util.function.BiPredicate<java.util.concurrent.Flow.Subscriber<? super T>,? super T>);
-    method public int offer(T, long, java.util.concurrent.TimeUnit, java.util.function.BiPredicate<java.util.concurrent.Flow.Subscriber<? super T>,? super T>);
+    method public int offer(T, java.util.function.BiPredicate<java.util.concurrent.Flow.Subscriber<? super T>, ? super T>);
+    method public int offer(T, long, java.util.concurrent.TimeUnit, java.util.function.BiPredicate<java.util.concurrent.Flow.Subscriber<? super T>, ? super T>);
     method public int submit(T);
     method public void subscribe(java.util.concurrent.Flow.Subscriber<? super T>);
   }
@@ -17066,7 +17065,7 @@ package java.util.concurrent.atomic {
     method public V getAndSet(T, V);
     method public final V getAndUpdate(T, java.util.function.UnaryOperator<V>);
     method public abstract void lazySet(T, V);
-    method public static <U, W> java.util.concurrent.atomic.AtomicReferenceFieldUpdater<U,W> newUpdater(Class<U>, Class<W>, String);
+    method public static <U, W> java.util.concurrent.atomic.AtomicReferenceFieldUpdater<U, W> newUpdater(Class<U>, Class<W>, String);
     method public abstract void set(T, V);
     method public final V updateAndGet(T, java.util.function.UnaryOperator<V>);
     method public abstract boolean weakCompareAndSet(T, V, V);
@@ -17379,22 +17378,22 @@ package java.util.function {
 
   @java.lang.FunctionalInterface public interface BiConsumer<T, U> {
     method public void accept(T, U);
-    method public default java.util.function.BiConsumer<T,U> andThen(java.util.function.BiConsumer<? super T,? super U>);
+    method public default java.util.function.BiConsumer<T, U> andThen(java.util.function.BiConsumer<? super T, ? super U>);
   }
 
   @java.lang.FunctionalInterface public interface BiFunction<T, U, R> {
-    method public default <V> java.util.function.BiFunction<T,U,V> andThen(java.util.function.Function<? super R,? extends V>);
+    method public default <V> java.util.function.BiFunction<T, U, V> andThen(java.util.function.Function<? super R, ? extends V>);
     method public R apply(T, U);
   }
 
   @java.lang.FunctionalInterface public interface BiPredicate<T, U> {
-    method public default java.util.function.BiPredicate<T,U> and(java.util.function.BiPredicate<? super T,? super U>);
-    method public default java.util.function.BiPredicate<T,U> negate();
-    method public default java.util.function.BiPredicate<T,U> or(java.util.function.BiPredicate<? super T,? super U>);
+    method public default java.util.function.BiPredicate<T, U> and(java.util.function.BiPredicate<? super T, ? super U>);
+    method public default java.util.function.BiPredicate<T, U> negate();
+    method public default java.util.function.BiPredicate<T, U> or(java.util.function.BiPredicate<? super T, ? super U>);
     method public boolean test(T, U);
   }
 
-  @java.lang.FunctionalInterface public interface BinaryOperator<T> extends java.util.function.BiFunction<T,T,T> {
+  @java.lang.FunctionalInterface public interface BinaryOperator<T> extends java.util.function.BiFunction<T, T, T> {
     method public static <T> java.util.function.BinaryOperator<T> maxBy(java.util.Comparator<? super T>);
     method public static <T> java.util.function.BinaryOperator<T> minBy(java.util.Comparator<? super T>);
   }
@@ -17448,10 +17447,10 @@ package java.util.function {
   }
 
   @java.lang.FunctionalInterface public interface Function<T, R> {
-    method public default <V> java.util.function.Function<T,V> andThen(java.util.function.Function<? super R,? extends V>);
+    method public default <V> java.util.function.Function<T, V> andThen(java.util.function.Function<? super R, ? extends V>);
     method public R apply(T);
-    method public default <V> java.util.function.Function<V,R> compose(java.util.function.Function<? super V,? extends T>);
-    method public static <T> java.util.function.Function<T,T> identity();
+    method public default <V> java.util.function.Function<V, R> compose(java.util.function.Function<? super V, ? extends T>);
+    method public static <T> java.util.function.Function<T, T> identity();
   }
 
   @java.lang.FunctionalInterface public interface IntBinaryOperator {
@@ -17581,7 +17580,7 @@ package java.util.function {
     method public long applyAsLong(T);
   }
 
-  @java.lang.FunctionalInterface public interface UnaryOperator<T> extends java.util.function.Function<T,T> {
+  @java.lang.FunctionalInterface public interface UnaryOperator<T> extends java.util.function.Function<T, T> {
     method public static <T> java.util.function.UnaryOperator<T> identity();
   }
 
@@ -17589,7 +17588,7 @@ package java.util.function {
 
 package java.util.jar {
 
-  public class Attributes implements Cloneable java.util.Map<Object,Object> {
+  public class Attributes implements Cloneable java.util.Map<Object, Object> {
     ctor public Attributes();
     ctor public Attributes(int);
     ctor public Attributes(java.util.jar.Attributes);
@@ -17597,7 +17596,7 @@ package java.util.jar {
     method public Object clone();
     method public boolean containsKey(Object);
     method public boolean containsValue(Object);
-    method public java.util.Set<java.util.Map.Entry<Object,Object>> entrySet();
+    method public java.util.Set<java.util.Map.Entry<Object, Object>> entrySet();
     method public boolean equals(Object);
     method public Object get(Object);
     method public String getValue(String);
@@ -17606,12 +17605,12 @@ package java.util.jar {
     method public boolean isEmpty();
     method public java.util.Set<Object> keySet();
     method public Object put(Object, Object);
-    method public void putAll(java.util.Map<?,?>);
+    method public void putAll(java.util.Map<?, ?>);
     method public String putValue(String, String);
     method public Object remove(Object);
     method public int size();
     method public java.util.Collection<Object> values();
-    field protected java.util.Map<Object,Object> map;
+    field protected java.util.Map<Object, Object> map;
   }
 
   public static class Attributes.Name {
@@ -17842,7 +17841,7 @@ package java.util.jar {
     method public void clear();
     method public Object clone();
     method public java.util.jar.Attributes getAttributes(String);
-    method public java.util.Map<String,java.util.jar.Attributes> getEntries();
+    method public java.util.Map<String, java.util.jar.Attributes> getEntries();
     method public java.util.jar.Attributes getMainAttributes();
     method public void read(java.io.InputStream) throws java.io.IOException;
     method public void write(java.io.OutputStream) throws java.io.IOException;
@@ -17857,7 +17856,7 @@ package java.util.jar {
     method @Deprecated public default void addPropertyChangeListener(java.beans.PropertyChangeListener);
     method public void pack(java.util.jar.JarFile, java.io.OutputStream) throws java.io.IOException;
     method public void pack(java.util.jar.JarInputStream, java.io.OutputStream) throws java.io.IOException;
-    method public java.util.SortedMap<String,String> properties();
+    method public java.util.SortedMap<String, String> properties();
     method @Deprecated public default void removePropertyChangeListener(java.beans.PropertyChangeListener);
     field public static final String CLASS_ATTRIBUTE_PFX = "pack.class.attribute.";
     field public static final String CODE_ATTRIBUTE_PFX = "pack.code.attribute.";
@@ -17882,7 +17881,7 @@ package java.util.jar {
 
   public static interface Pack200.Unpacker {
     method @Deprecated public default void addPropertyChangeListener(java.beans.PropertyChangeListener);
-    method public java.util.SortedMap<String,String> properties();
+    method public java.util.SortedMap<String, String> properties();
     method @Deprecated public default void removePropertyChangeListener(java.beans.PropertyChangeListener);
     method public void unpack(java.io.File, java.util.jar.JarOutputStream) throws java.io.IOException;
     method public void unpack(java.io.InputStream, java.util.jar.JarOutputStream) throws java.io.IOException;
@@ -18421,9 +18420,9 @@ package java.util.regex {
     method public int regionEnd();
     method public int regionStart();
     method @NonNull public String replaceAll(@NonNull String);
-    method @NonNull public String replaceAll(@NonNull java.util.function.Function<java.util.regex.MatchResult,String>);
+    method @NonNull public String replaceAll(@NonNull java.util.function.Function<java.util.regex.MatchResult, String>);
     method @NonNull public String replaceFirst(@NonNull String);
-    method @NonNull public String replaceFirst(@NonNull java.util.function.Function<java.util.regex.MatchResult,String>);
+    method @NonNull public String replaceFirst(@NonNull java.util.function.Function<java.util.regex.MatchResult, String>);
     method public boolean requireEnd();
     method @NonNull public java.util.regex.Matcher reset();
     method @NonNull public java.util.regex.Matcher reset(@NonNull CharSequence);
@@ -18484,12 +18483,12 @@ package java.util.stream {
   }
 
   public interface Collector<T, A, R> {
-    method public java.util.function.BiConsumer<A,T> accumulator();
+    method public java.util.function.BiConsumer<A, T> accumulator();
     method public java.util.Set<java.util.stream.Collector.Characteristics> characteristics();
     method public java.util.function.BinaryOperator<A> combiner();
-    method public java.util.function.Function<A,R> finisher();
-    method public static <T, A, R> java.util.stream.Collector<T,A,R> of(java.util.function.Supplier<A>, java.util.function.BiConsumer<A,T>, java.util.function.BinaryOperator<A>, java.util.function.Function<A,R>, java.util.stream.Collector.Characteristics...);
-    method public static <T, R> java.util.stream.Collector<T,R,R> of(java.util.function.Supplier<R>, java.util.function.BiConsumer<R,T>, java.util.function.BinaryOperator<R>, java.util.stream.Collector.Characteristics...);
+    method public java.util.function.Function<A, R> finisher();
+    method public static <T, A, R> java.util.stream.Collector<T, A, R> of(java.util.function.Supplier<A>, java.util.function.BiConsumer<A, T>, java.util.function.BinaryOperator<A>, java.util.function.Function<A, R>, java.util.stream.Collector.Characteristics...);
+    method public static <T, R> java.util.stream.Collector<T, R, R> of(java.util.function.Supplier<R>, java.util.function.BiConsumer<R, T>, java.util.function.BinaryOperator<R>, java.util.stream.Collector.Characteristics...);
     method public java.util.function.Supplier<A> supplier();
   }
 
@@ -18500,59 +18499,59 @@ package java.util.stream {
   }
 
   public final class Collectors {
-    method public static <T> java.util.stream.Collector<T,?,Double> averagingDouble(java.util.function.ToDoubleFunction<? super T>);
-    method public static <T> java.util.stream.Collector<T,?,Double> averagingInt(java.util.function.ToIntFunction<? super T>);
-    method public static <T> java.util.stream.Collector<T,?,Double> averagingLong(java.util.function.ToLongFunction<? super T>);
-    method public static <T, A, R, RR> java.util.stream.Collector<T,A,RR> collectingAndThen(java.util.stream.Collector<T,A,R>, java.util.function.Function<R,RR>);
-    method public static <T> java.util.stream.Collector<T,?,Long> counting();
-    method public static <T, A, R> java.util.stream.Collector<T,?,R> filtering(java.util.function.Predicate<? super T>, java.util.stream.Collector<? super T,A,R>);
-    method public static <T, U, A, R> java.util.stream.Collector<T,?,R> flatMapping(java.util.function.Function<? super T,? extends java.util.stream.Stream<? extends U>>, java.util.stream.Collector<? super U,A,R>);
-    method public static <T, K> java.util.stream.Collector<T,?,java.util.Map<K,java.util.List<T>>> groupingBy(java.util.function.Function<? super T,? extends K>);
-    method public static <T, K, D, A, M extends java.util.Map<K, D>> java.util.stream.Collector<T,?,M> groupingBy(java.util.function.Function<? super T,? extends K>, java.util.function.Supplier<M>, java.util.stream.Collector<? super T,A,D>);
-    method public static <T, K, A, D> java.util.stream.Collector<T,?,java.util.Map<K,D>> groupingBy(java.util.function.Function<? super T,? extends K>, java.util.stream.Collector<? super T,A,D>);
-    method public static <T, K> java.util.stream.Collector<T,?,java.util.concurrent.ConcurrentMap<K,java.util.List<T>>> groupingByConcurrent(java.util.function.Function<? super T,? extends K>);
-    method public static <T, K, A, D, M extends java.util.concurrent.ConcurrentMap<K, D>> java.util.stream.Collector<T,?,M> groupingByConcurrent(java.util.function.Function<? super T,? extends K>, java.util.function.Supplier<M>, java.util.stream.Collector<? super T,A,D>);
-    method public static <T, K, A, D> java.util.stream.Collector<T,?,java.util.concurrent.ConcurrentMap<K,D>> groupingByConcurrent(java.util.function.Function<? super T,? extends K>, java.util.stream.Collector<? super T,A,D>);
-    method public static java.util.stream.Collector<CharSequence,?,String> joining();
-    method public static java.util.stream.Collector<CharSequence,?,String> joining(CharSequence);
-    method public static java.util.stream.Collector<CharSequence,?,String> joining(CharSequence, CharSequence, CharSequence);
-    method public static <T, U, A, R> java.util.stream.Collector<T,?,R> mapping(java.util.function.Function<? super T,? extends U>, java.util.stream.Collector<? super U,A,R>);
-    method public static <T> java.util.stream.Collector<T,?,java.util.Optional<T>> maxBy(java.util.Comparator<? super T>);
-    method public static <T> java.util.stream.Collector<T,?,java.util.Optional<T>> minBy(java.util.Comparator<? super T>);
-    method public static <T> java.util.stream.Collector<T,?,java.util.Map<Boolean,java.util.List<T>>> partitioningBy(java.util.function.Predicate<? super T>);
-    method public static <T, D, A> java.util.stream.Collector<T,?,java.util.Map<Boolean,D>> partitioningBy(java.util.function.Predicate<? super T>, java.util.stream.Collector<? super T,A,D>);
-    method public static <T> java.util.stream.Collector<T,?,java.util.Optional<T>> reducing(java.util.function.BinaryOperator<T>);
-    method public static <T> java.util.stream.Collector<T,?,T> reducing(T, java.util.function.BinaryOperator<T>);
-    method public static <T, U> java.util.stream.Collector<T,?,U> reducing(U, java.util.function.Function<? super T,? extends U>, java.util.function.BinaryOperator<U>);
-    method public static <T> java.util.stream.Collector<T,?,java.util.DoubleSummaryStatistics> summarizingDouble(java.util.function.ToDoubleFunction<? super T>);
-    method public static <T> java.util.stream.Collector<T,?,java.util.IntSummaryStatistics> summarizingInt(java.util.function.ToIntFunction<? super T>);
-    method public static <T> java.util.stream.Collector<T,?,java.util.LongSummaryStatistics> summarizingLong(java.util.function.ToLongFunction<? super T>);
-    method public static <T> java.util.stream.Collector<T,?,Double> summingDouble(java.util.function.ToDoubleFunction<? super T>);
-    method public static <T> java.util.stream.Collector<T,?,Integer> summingInt(java.util.function.ToIntFunction<? super T>);
-    method public static <T> java.util.stream.Collector<T,?,Long> summingLong(java.util.function.ToLongFunction<? super T>);
-    method public static <T, R1, R2, R> java.util.stream.Collector<T,?,R> teeing(java.util.stream.Collector<? super T,?,R1>, java.util.stream.Collector<? super T,?,R2>, java.util.function.BiFunction<? super R1,? super R2,R>);
-    method public static <T, C extends java.util.Collection<T>> java.util.stream.Collector<T,?,C> toCollection(java.util.function.Supplier<C>);
-    method public static <T, K, U> java.util.stream.Collector<T,?,java.util.concurrent.ConcurrentMap<K,U>> toConcurrentMap(java.util.function.Function<? super T,? extends K>, java.util.function.Function<? super T,? extends U>);
-    method public static <T, K, U> java.util.stream.Collector<T,?,java.util.concurrent.ConcurrentMap<K,U>> toConcurrentMap(java.util.function.Function<? super T,? extends K>, java.util.function.Function<? super T,? extends U>, java.util.function.BinaryOperator<U>);
-    method public static <T, K, U, M extends java.util.concurrent.ConcurrentMap<K, U>> java.util.stream.Collector<T,?,M> toConcurrentMap(java.util.function.Function<? super T,? extends K>, java.util.function.Function<? super T,? extends U>, java.util.function.BinaryOperator<U>, java.util.function.Supplier<M>);
-    method public static <T> java.util.stream.Collector<T,?,java.util.List<T>> toList();
-    method public static <T, K, U> java.util.stream.Collector<T,?,java.util.Map<K,U>> toMap(java.util.function.Function<? super T,? extends K>, java.util.function.Function<? super T,? extends U>);
-    method public static <T, K, U> java.util.stream.Collector<T,?,java.util.Map<K,U>> toMap(java.util.function.Function<? super T,? extends K>, java.util.function.Function<? super T,? extends U>, java.util.function.BinaryOperator<U>);
-    method public static <T, K, U, M extends java.util.Map<K, U>> java.util.stream.Collector<T,?,M> toMap(java.util.function.Function<? super T,? extends K>, java.util.function.Function<? super T,? extends U>, java.util.function.BinaryOperator<U>, java.util.function.Supplier<M>);
-    method public static <T> java.util.stream.Collector<T,?,java.util.Set<T>> toSet();
-    method public static <T> java.util.stream.Collector<T,?,java.util.List<T>> toUnmodifiableList();
-    method public static <T, K, U> java.util.stream.Collector<T,?,java.util.Map<K,U>> toUnmodifiableMap(java.util.function.Function<? super T,? extends K>, java.util.function.Function<? super T,? extends U>);
-    method public static <T, K, U> java.util.stream.Collector<T,?,java.util.Map<K,U>> toUnmodifiableMap(java.util.function.Function<? super T,? extends K>, java.util.function.Function<? super T,? extends U>, java.util.function.BinaryOperator<U>);
-    method public static <T> java.util.stream.Collector<T,?,java.util.Set<T>> toUnmodifiableSet();
+    method public static <T> java.util.stream.Collector<T, ?, Double> averagingDouble(java.util.function.ToDoubleFunction<? super T>);
+    method public static <T> java.util.stream.Collector<T, ?, Double> averagingInt(java.util.function.ToIntFunction<? super T>);
+    method public static <T> java.util.stream.Collector<T, ?, Double> averagingLong(java.util.function.ToLongFunction<? super T>);
+    method public static <T, A, R, RR> java.util.stream.Collector<T, A, RR> collectingAndThen(java.util.stream.Collector<T, A, R>, java.util.function.Function<R, RR>);
+    method public static <T> java.util.stream.Collector<T, ?, Long> counting();
+    method public static <T, A, R> java.util.stream.Collector<T, ?, R> filtering(java.util.function.Predicate<? super T>, java.util.stream.Collector<? super T, A, R>);
+    method public static <T, U, A, R> java.util.stream.Collector<T, ?, R> flatMapping(java.util.function.Function<? super T, ? extends java.util.stream.Stream<? extends U>>, java.util.stream.Collector<? super U, A, R>);
+    method public static <T, K> java.util.stream.Collector<T, ?, java.util.Map<K, java.util.List<T>>> groupingBy(java.util.function.Function<? super T, ? extends K>);
+    method public static <T, K, D, A, M extends java.util.Map<K, D>> java.util.stream.Collector<T, ?, M> groupingBy(java.util.function.Function<? super T, ? extends K>, java.util.function.Supplier<M>, java.util.stream.Collector<? super T, A, D>);
+    method public static <T, K, A, D> java.util.stream.Collector<T, ?, java.util.Map<K, D>> groupingBy(java.util.function.Function<? super T, ? extends K>, java.util.stream.Collector<? super T, A, D>);
+    method public static <T, K> java.util.stream.Collector<T, ?, java.util.concurrent.ConcurrentMap<K, java.util.List<T>>> groupingByConcurrent(java.util.function.Function<? super T, ? extends K>);
+    method public static <T, K, A, D, M extends java.util.concurrent.ConcurrentMap<K, D>> java.util.stream.Collector<T, ?, M> groupingByConcurrent(java.util.function.Function<? super T, ? extends K>, java.util.function.Supplier<M>, java.util.stream.Collector<? super T, A, D>);
+    method public static <T, K, A, D> java.util.stream.Collector<T, ?, java.util.concurrent.ConcurrentMap<K, D>> groupingByConcurrent(java.util.function.Function<? super T, ? extends K>, java.util.stream.Collector<? super T, A, D>);
+    method public static java.util.stream.Collector<CharSequence, ?, String> joining();
+    method public static java.util.stream.Collector<CharSequence, ?, String> joining(CharSequence);
+    method public static java.util.stream.Collector<CharSequence, ?, String> joining(CharSequence, CharSequence, CharSequence);
+    method public static <T, U, A, R> java.util.stream.Collector<T, ?, R> mapping(java.util.function.Function<? super T, ? extends U>, java.util.stream.Collector<? super U, A, R>);
+    method public static <T> java.util.stream.Collector<T, ?, java.util.Optional<T>> maxBy(java.util.Comparator<? super T>);
+    method public static <T> java.util.stream.Collector<T, ?, java.util.Optional<T>> minBy(java.util.Comparator<? super T>);
+    method public static <T> java.util.stream.Collector<T, ?, java.util.Map<Boolean, java.util.List<T>>> partitioningBy(java.util.function.Predicate<? super T>);
+    method public static <T, D, A> java.util.stream.Collector<T, ?, java.util.Map<Boolean, D>> partitioningBy(java.util.function.Predicate<? super T>, java.util.stream.Collector<? super T, A, D>);
+    method public static <T> java.util.stream.Collector<T, ?, java.util.Optional<T>> reducing(java.util.function.BinaryOperator<T>);
+    method public static <T> java.util.stream.Collector<T, ?, T> reducing(T, java.util.function.BinaryOperator<T>);
+    method public static <T, U> java.util.stream.Collector<T, ?, U> reducing(U, java.util.function.Function<? super T, ? extends U>, java.util.function.BinaryOperator<U>);
+    method public static <T> java.util.stream.Collector<T, ?, java.util.DoubleSummaryStatistics> summarizingDouble(java.util.function.ToDoubleFunction<? super T>);
+    method public static <T> java.util.stream.Collector<T, ?, java.util.IntSummaryStatistics> summarizingInt(java.util.function.ToIntFunction<? super T>);
+    method public static <T> java.util.stream.Collector<T, ?, java.util.LongSummaryStatistics> summarizingLong(java.util.function.ToLongFunction<? super T>);
+    method public static <T> java.util.stream.Collector<T, ?, Double> summingDouble(java.util.function.ToDoubleFunction<? super T>);
+    method public static <T> java.util.stream.Collector<T, ?, Integer> summingInt(java.util.function.ToIntFunction<? super T>);
+    method public static <T> java.util.stream.Collector<T, ?, Long> summingLong(java.util.function.ToLongFunction<? super T>);
+    method public static <T, R1, R2, R> java.util.stream.Collector<T, ?, R> teeing(java.util.stream.Collector<? super T, ?, R1>, java.util.stream.Collector<? super T, ?, R2>, java.util.function.BiFunction<? super R1, ? super R2, R>);
+    method public static <T, C extends java.util.Collection<T>> java.util.stream.Collector<T, ?, C> toCollection(java.util.function.Supplier<C>);
+    method public static <T, K, U> java.util.stream.Collector<T, ?, java.util.concurrent.ConcurrentMap<K, U>> toConcurrentMap(java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends U>);
+    method public static <T, K, U> java.util.stream.Collector<T, ?, java.util.concurrent.ConcurrentMap<K, U>> toConcurrentMap(java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends U>, java.util.function.BinaryOperator<U>);
+    method public static <T, K, U, M extends java.util.concurrent.ConcurrentMap<K, U>> java.util.stream.Collector<T, ?, M> toConcurrentMap(java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends U>, java.util.function.BinaryOperator<U>, java.util.function.Supplier<M>);
+    method public static <T> java.util.stream.Collector<T, ?, java.util.List<T>> toList();
+    method public static <T, K, U> java.util.stream.Collector<T, ?, java.util.Map<K, U>> toMap(java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends U>);
+    method public static <T, K, U> java.util.stream.Collector<T, ?, java.util.Map<K, U>> toMap(java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends U>, java.util.function.BinaryOperator<U>);
+    method public static <T, K, U, M extends java.util.Map<K, U>> java.util.stream.Collector<T, ?, M> toMap(java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends U>, java.util.function.BinaryOperator<U>, java.util.function.Supplier<M>);
+    method public static <T> java.util.stream.Collector<T, ?, java.util.Set<T>> toSet();
+    method public static <T> java.util.stream.Collector<T, ?, java.util.List<T>> toUnmodifiableList();
+    method public static <T, K, U> java.util.stream.Collector<T, ?, java.util.Map<K, U>> toUnmodifiableMap(java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends U>);
+    method public static <T, K, U> java.util.stream.Collector<T, ?, java.util.Map<K, U>> toUnmodifiableMap(java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends U>, java.util.function.BinaryOperator<U>);
+    method public static <T> java.util.stream.Collector<T, ?, java.util.Set<T>> toUnmodifiableSet();
   }
 
-  public interface DoubleStream extends java.util.stream.BaseStream<Double,java.util.stream.DoubleStream> {
+  public interface DoubleStream extends java.util.stream.BaseStream<Double, java.util.stream.DoubleStream> {
     method public boolean allMatch(java.util.function.DoublePredicate);
     method public boolean anyMatch(java.util.function.DoublePredicate);
     method public java.util.OptionalDouble average();
     method public java.util.stream.Stream<Double> boxed();
     method public static java.util.stream.DoubleStream.Builder builder();
-    method public <R> R collect(java.util.function.Supplier<R>, java.util.function.ObjDoubleConsumer<R>, java.util.function.BiConsumer<R,R>);
+    method public <R> R collect(java.util.function.Supplier<R>, java.util.function.ObjDoubleConsumer<R>, java.util.function.BiConsumer<R, R>);
     method public static java.util.stream.DoubleStream concat(java.util.stream.DoubleStream, java.util.stream.DoubleStream);
     method public long count();
     method public java.util.stream.DoubleStream distinct();
@@ -18603,21 +18602,21 @@ package java.util.stream {
   }
 
   public interface Gatherer<T, A, R> {
-    method public default <RR> java.util.stream.Gatherer<T,?,RR> andThen(java.util.stream.Gatherer<? super R,?,? extends RR>);
+    method public default <RR> java.util.stream.Gatherer<T, ?, RR> andThen(java.util.stream.Gatherer<? super R, ?, ? extends RR>);
     method public default java.util.function.BinaryOperator<A> combiner();
     method public static <A> java.util.function.BinaryOperator<A> defaultCombiner();
-    method public static <A, R> java.util.function.BiConsumer<A,java.util.stream.Gatherer.Downstream<? super R>> defaultFinisher();
+    method public static <A, R> java.util.function.BiConsumer<A, java.util.stream.Gatherer.Downstream<? super R>> defaultFinisher();
     method public static <A> java.util.function.Supplier<A> defaultInitializer();
-    method public default java.util.function.BiConsumer<A,java.util.stream.Gatherer.Downstream<? super R>> finisher();
+    method public default java.util.function.BiConsumer<A, java.util.stream.Gatherer.Downstream<? super R>> finisher();
     method public default java.util.function.Supplier<A> initializer();
-    method public java.util.stream.Gatherer.Integrator<A,T,R> integrator();
-    method public static <T, A, R> java.util.stream.Gatherer<T,A,R> of(java.util.function.Supplier<A>, java.util.stream.Gatherer.Integrator<A,T,R>, java.util.function.BinaryOperator<A>, java.util.function.BiConsumer<A,java.util.stream.Gatherer.Downstream<? super R>>);
-    method public static <T, R> java.util.stream.Gatherer<T,Void,R> of(java.util.stream.Gatherer.Integrator<Void,T,R>);
-    method public static <T, R> java.util.stream.Gatherer<T,Void,R> of(java.util.stream.Gatherer.Integrator<Void,T,R>, java.util.function.BiConsumer<Void,java.util.stream.Gatherer.Downstream<? super R>>);
-    method public static <T, A, R> java.util.stream.Gatherer<T,A,R> ofSequential(java.util.function.Supplier<A>, java.util.stream.Gatherer.Integrator<A,T,R>);
-    method public static <T, A, R> java.util.stream.Gatherer<T,A,R> ofSequential(java.util.function.Supplier<A>, java.util.stream.Gatherer.Integrator<A,T,R>, java.util.function.BiConsumer<A,java.util.stream.Gatherer.Downstream<? super R>>);
-    method public static <T, R> java.util.stream.Gatherer<T,Void,R> ofSequential(java.util.stream.Gatherer.Integrator<Void,T,R>);
-    method public static <T, R> java.util.stream.Gatherer<T,Void,R> ofSequential(java.util.stream.Gatherer.Integrator<Void,T,R>, java.util.function.BiConsumer<Void,java.util.stream.Gatherer.Downstream<? super R>>);
+    method public java.util.stream.Gatherer.Integrator<A, T, R> integrator();
+    method public static <T, A, R> java.util.stream.Gatherer<T, A, R> of(java.util.function.Supplier<A>, java.util.stream.Gatherer.Integrator<A, T, R>, java.util.function.BinaryOperator<A>, java.util.function.BiConsumer<A, java.util.stream.Gatherer.Downstream<? super R>>);
+    method public static <T, R> java.util.stream.Gatherer<T, Void, R> of(java.util.stream.Gatherer.Integrator<Void, T, R>);
+    method public static <T, R> java.util.stream.Gatherer<T, Void, R> of(java.util.stream.Gatherer.Integrator<Void, T, R>, java.util.function.BiConsumer<Void, java.util.stream.Gatherer.Downstream<? super R>>);
+    method public static <T, A, R> java.util.stream.Gatherer<T, A, R> ofSequential(java.util.function.Supplier<A>, java.util.stream.Gatherer.Integrator<A, T, R>);
+    method public static <T, A, R> java.util.stream.Gatherer<T, A, R> ofSequential(java.util.function.Supplier<A>, java.util.stream.Gatherer.Integrator<A, T, R>, java.util.function.BiConsumer<A, java.util.stream.Gatherer.Downstream<? super R>>);
+    method public static <T, R> java.util.stream.Gatherer<T, Void, R> ofSequential(java.util.stream.Gatherer.Integrator<Void, T, R>);
+    method public static <T, R> java.util.stream.Gatherer<T, Void, R> ofSequential(java.util.stream.Gatherer.Integrator<Void, T, R>, java.util.function.BiConsumer<Void, java.util.stream.Gatherer.Downstream<? super R>>);
   }
 
   @java.lang.FunctionalInterface public static interface Gatherer.Downstream<T> {
@@ -18627,21 +18626,21 @@ package java.util.stream {
 
   @java.lang.FunctionalInterface public static interface Gatherer.Integrator<A, T, R> {
     method public boolean integrate(A, T, java.util.stream.Gatherer.Downstream<? super R>);
-    method public static <A, T, R> java.util.stream.Gatherer.Integrator<A,T,R> of(java.util.stream.Gatherer.Integrator<A,T,R>);
-    method public static <A, T, R> java.util.stream.Gatherer.Integrator.Greedy<A,T,R> ofGreedy(java.util.stream.Gatherer.Integrator.Greedy<A,T,R>);
+    method public static <A, T, R> java.util.stream.Gatherer.Integrator<A, T, R> of(java.util.stream.Gatherer.Integrator<A, T, R>);
+    method public static <A, T, R> java.util.stream.Gatherer.Integrator.Greedy<A, T, R> ofGreedy(java.util.stream.Gatherer.Integrator.Greedy<A, T, R>);
   }
 
-  @java.lang.FunctionalInterface public static interface Gatherer.Integrator.Greedy<A, T, R> extends java.util.stream.Gatherer.Integrator<A,T,R> {
+  @java.lang.FunctionalInterface public static interface Gatherer.Integrator.Greedy<A, T, R> extends java.util.stream.Gatherer.Integrator<A, T, R> {
   }
 
   public final class Gatherers {
-    method public static <T, R> java.util.stream.Gatherer<T,?,R> fold(java.util.function.Supplier<R>, java.util.function.BiFunction<? super R,? super T,? extends R>);
-    method public static <T, R> java.util.stream.Gatherer<T,?,R> scan(java.util.function.Supplier<R>, java.util.function.BiFunction<? super R,? super T,? extends R>);
-    method public static <TR> java.util.stream.Gatherer<TR,?,java.util.List<TR>> windowFixed(int);
-    method public static <TR> java.util.stream.Gatherer<TR,?,java.util.List<TR>> windowSliding(int);
+    method public static <T, R> java.util.stream.Gatherer<T, ?, R> fold(java.util.function.Supplier<R>, java.util.function.BiFunction<? super R, ? super T, ? extends R>);
+    method public static <T, R> java.util.stream.Gatherer<T, ?, R> scan(java.util.function.Supplier<R>, java.util.function.BiFunction<? super R, ? super T, ? extends R>);
+    method public static <TR> java.util.stream.Gatherer<TR, ?, java.util.List<TR>> windowFixed(int);
+    method public static <TR> java.util.stream.Gatherer<TR, ?, java.util.List<TR>> windowSliding(int);
   }
 
-  public interface IntStream extends java.util.stream.BaseStream<Integer,java.util.stream.IntStream> {
+  public interface IntStream extends java.util.stream.BaseStream<Integer, java.util.stream.IntStream> {
     method public boolean allMatch(java.util.function.IntPredicate);
     method public boolean anyMatch(java.util.function.IntPredicate);
     method public java.util.stream.DoubleStream asDoubleStream();
@@ -18649,7 +18648,7 @@ package java.util.stream {
     method public java.util.OptionalDouble average();
     method public java.util.stream.Stream<Integer> boxed();
     method public static java.util.stream.IntStream.Builder builder();
-    method public <R> R collect(java.util.function.Supplier<R>, java.util.function.ObjIntConsumer<R>, java.util.function.BiConsumer<R,R>);
+    method public <R> R collect(java.util.function.Supplier<R>, java.util.function.ObjIntConsumer<R>, java.util.function.BiConsumer<R, R>);
     method public static java.util.stream.IntStream concat(java.util.stream.IntStream, java.util.stream.IntStream);
     method public long count();
     method public java.util.stream.IntStream distinct();
@@ -18701,14 +18700,14 @@ package java.util.stream {
     method public void accept(int, java.util.function.IntConsumer);
   }
 
-  public interface LongStream extends java.util.stream.BaseStream<Long,java.util.stream.LongStream> {
+  public interface LongStream extends java.util.stream.BaseStream<Long, java.util.stream.LongStream> {
     method public boolean allMatch(java.util.function.LongPredicate);
     method public boolean anyMatch(java.util.function.LongPredicate);
     method public java.util.stream.DoubleStream asDoubleStream();
     method public java.util.OptionalDouble average();
     method public java.util.stream.Stream<Long> boxed();
     method public static java.util.stream.LongStream.Builder builder();
-    method public <R> R collect(java.util.function.Supplier<R>, java.util.function.ObjLongConsumer<R>, java.util.function.BiConsumer<R,R>);
+    method public <R> R collect(java.util.function.Supplier<R>, java.util.function.ObjLongConsumer<R>, java.util.function.BiConsumer<R, R>);
     method public static java.util.stream.LongStream concat(java.util.stream.LongStream, java.util.stream.LongStream);
     method public long count();
     method public java.util.stream.LongStream distinct();
@@ -18760,12 +18759,12 @@ package java.util.stream {
     method public void accept(long, java.util.function.LongConsumer);
   }
 
-  public interface Stream<T> extends java.util.stream.BaseStream<T,java.util.stream.Stream<T>> {
+  public interface Stream<T> extends java.util.stream.BaseStream<T, java.util.stream.Stream<T>> {
     method public boolean allMatch(java.util.function.Predicate<? super T>);
     method public boolean anyMatch(java.util.function.Predicate<? super T>);
     method public static <T> java.util.stream.Stream.Builder<T> builder();
-    method public <R> R collect(java.util.function.Supplier<R>, java.util.function.BiConsumer<R,? super T>, java.util.function.BiConsumer<R,R>);
-    method public <R, A> R collect(java.util.stream.Collector<? super T,A,R>);
+    method public <R> R collect(java.util.function.Supplier<R>, java.util.function.BiConsumer<R, ? super T>, java.util.function.BiConsumer<R, R>);
+    method public <R, A> R collect(java.util.stream.Collector<? super T, A, R>);
     method public static <T> java.util.stream.Stream<T> concat(java.util.stream.Stream<? extends T>, java.util.stream.Stream<? extends T>);
     method public long count();
     method public java.util.stream.Stream<T> distinct();
@@ -18774,22 +18773,22 @@ package java.util.stream {
     method public java.util.stream.Stream<T> filter(java.util.function.Predicate<? super T>);
     method public java.util.Optional<T> findAny();
     method public java.util.Optional<T> findFirst();
-    method public <R> java.util.stream.Stream<R> flatMap(java.util.function.Function<? super T,? extends java.util.stream.Stream<? extends R>>);
-    method public java.util.stream.DoubleStream flatMapToDouble(java.util.function.Function<? super T,? extends java.util.stream.DoubleStream>);
-    method public java.util.stream.IntStream flatMapToInt(java.util.function.Function<? super T,? extends java.util.stream.IntStream>);
-    method public java.util.stream.LongStream flatMapToLong(java.util.function.Function<? super T,? extends java.util.stream.LongStream>);
+    method public <R> java.util.stream.Stream<R> flatMap(java.util.function.Function<? super T, ? extends java.util.stream.Stream<? extends R>>);
+    method public java.util.stream.DoubleStream flatMapToDouble(java.util.function.Function<? super T, ? extends java.util.stream.DoubleStream>);
+    method public java.util.stream.IntStream flatMapToInt(java.util.function.Function<? super T, ? extends java.util.stream.IntStream>);
+    method public java.util.stream.LongStream flatMapToLong(java.util.function.Function<? super T, ? extends java.util.stream.LongStream>);
     method public void forEach(java.util.function.Consumer<? super T>);
     method public void forEachOrdered(java.util.function.Consumer<? super T>);
-    method public default <R> java.util.stream.Stream<R> gather(java.util.stream.Gatherer<? super T,?,R>);
+    method public default <R> java.util.stream.Stream<R> gather(java.util.stream.Gatherer<? super T, ?, R>);
     method public static <T> java.util.stream.Stream<T> generate(java.util.function.Supplier<? extends T>);
     method public static <T> java.util.stream.Stream<T> iterate(T, java.util.function.Predicate<? super T>, java.util.function.UnaryOperator<T>);
     method public static <T> java.util.stream.Stream<T> iterate(T, java.util.function.UnaryOperator<T>);
     method public java.util.stream.Stream<T> limit(long);
-    method public <R> java.util.stream.Stream<R> map(java.util.function.Function<? super T,? extends R>);
-    method public default <R> java.util.stream.Stream<R> mapMulti(java.util.function.BiConsumer<? super T,? super java.util.function.Consumer<R>>);
-    method public default java.util.stream.DoubleStream mapMultiToDouble(java.util.function.BiConsumer<? super T,? super java.util.function.DoubleConsumer>);
-    method public default java.util.stream.IntStream mapMultiToInt(java.util.function.BiConsumer<? super T,? super java.util.function.IntConsumer>);
-    method public default java.util.stream.LongStream mapMultiToLong(java.util.function.BiConsumer<? super T,? super java.util.function.LongConsumer>);
+    method public <R> java.util.stream.Stream<R> map(java.util.function.Function<? super T, ? extends R>);
+    method public default <R> java.util.stream.Stream<R> mapMulti(java.util.function.BiConsumer<? super T, ? super java.util.function.Consumer<R>>);
+    method public default java.util.stream.DoubleStream mapMultiToDouble(java.util.function.BiConsumer<? super T, ? super java.util.function.DoubleConsumer>);
+    method public default java.util.stream.IntStream mapMultiToInt(java.util.function.BiConsumer<? super T, ? super java.util.function.IntConsumer>);
+    method public default java.util.stream.LongStream mapMultiToLong(java.util.function.BiConsumer<? super T, ? super java.util.function.LongConsumer>);
     method public java.util.stream.DoubleStream mapToDouble(java.util.function.ToDoubleFunction<? super T>);
     method public java.util.stream.IntStream mapToInt(java.util.function.ToIntFunction<? super T>);
     method public java.util.stream.LongStream mapToLong(java.util.function.ToLongFunction<? super T>);
@@ -18802,7 +18801,7 @@ package java.util.stream {
     method public java.util.stream.Stream<T> peek(java.util.function.Consumer<? super T>);
     method public java.util.Optional<T> reduce(java.util.function.BinaryOperator<T>);
     method public T reduce(T, java.util.function.BinaryOperator<T>);
-    method public <U> U reduce(U, java.util.function.BiFunction<U,? super T,U>, java.util.function.BinaryOperator<U>);
+    method public <U> U reduce(U, java.util.function.BiFunction<U, ? super T, U>, java.util.function.BinaryOperator<U>);
     method public java.util.stream.Stream<T> skip(long);
     method public java.util.stream.Stream<T> sorted();
     method public java.util.stream.Stream<T> sorted(java.util.Comparator<? super T>);
@@ -19866,7 +19865,7 @@ package javax.net.ssl {
     method public abstract String[] getEnabledCipherSuites();
     method public abstract String[] getEnabledProtocols();
     method public String getHandshakeApplicationProtocol();
-    method public java.util.function.BiFunction<javax.net.ssl.SSLEngine,java.util.List<String>,String> getHandshakeApplicationProtocolSelector();
+    method public java.util.function.BiFunction<javax.net.ssl.SSLEngine, java.util.List<String>, String> getHandshakeApplicationProtocolSelector();
     method public javax.net.ssl.SSLSession getHandshakeSession();
     method public abstract javax.net.ssl.SSLEngineResult.HandshakeStatus getHandshakeStatus();
     method public abstract boolean getNeedClientAuth();
@@ -19883,7 +19882,7 @@ package javax.net.ssl {
     method public abstract void setEnableSessionCreation(boolean);
     method public abstract void setEnabledCipherSuites(String[]);
     method public abstract void setEnabledProtocols(String[]);
-    method public void setHandshakeApplicationProtocolSelector(java.util.function.BiFunction<javax.net.ssl.SSLEngine,java.util.List<String>,String>);
+    method public void setHandshakeApplicationProtocolSelector(java.util.function.BiFunction<javax.net.ssl.SSLEngine, java.util.List<String>, String>);
     method public abstract void setNeedClientAuth(boolean);
     method public void setSSLParameters(javax.net.ssl.SSLParameters);
     method public abstract void setUseClientMode(boolean);
@@ -20060,7 +20059,7 @@ package javax.net.ssl {
     method public abstract String[] getEnabledCipherSuites();
     method public abstract String[] getEnabledProtocols();
     method public String getHandshakeApplicationProtocol();
-    method public java.util.function.BiFunction<javax.net.ssl.SSLSocket,java.util.List<String>,String> getHandshakeApplicationProtocolSelector();
+    method public java.util.function.BiFunction<javax.net.ssl.SSLSocket, java.util.List<String>, String> getHandshakeApplicationProtocolSelector();
     method public javax.net.ssl.SSLSession getHandshakeSession();
     method public abstract boolean getNeedClientAuth();
     method public javax.net.ssl.SSLParameters getSSLParameters();
@@ -20073,7 +20072,7 @@ package javax.net.ssl {
     method public abstract void setEnableSessionCreation(boolean);
     method public abstract void setEnabledCipherSuites(String[]);
     method public abstract void setEnabledProtocols(String[]);
-    method public void setHandshakeApplicationProtocolSelector(java.util.function.BiFunction<javax.net.ssl.SSLSocket,java.util.List<String>,String>);
+    method public void setHandshakeApplicationProtocolSelector(java.util.function.BiFunction<javax.net.ssl.SSLSocket, java.util.List<String>, String>);
     method public abstract void setNeedClientAuth(boolean);
     method public void setSSLParameters(javax.net.ssl.SSLParameters);
     method public abstract void setUseClientMode(boolean);
@@ -20239,12 +20238,12 @@ package javax.security.auth.x500 {
     ctor public X500Principal(byte[]);
     ctor public X500Principal(java.io.InputStream);
     ctor public X500Principal(String);
-    ctor public X500Principal(String, java.util.Map<String,String>);
+    ctor public X500Principal(String, java.util.Map<String, String>);
     method public boolean equals(Object);
     method public byte[] getEncoded();
     method public String getName();
     method public String getName(String);
-    method public String getName(String, java.util.Map<String,String>);
+    method public String getName(String, java.util.Map<String, String>);
     method public int hashCode();
     method public String toString();
     field public static final String CANONICAL = "CANONICAL";
@@ -20371,7 +20370,7 @@ package javax.sql {
     method public String getPassword();
     method public int getQueryTimeout() throws java.sql.SQLException;
     method public int getTransactionIsolation();
-    method public java.util.Map<String,Class<?>> getTypeMap() throws java.sql.SQLException;
+    method public java.util.Map<String, Class<?>> getTypeMap() throws java.sql.SQLException;
     method public String getUrl() throws java.sql.SQLException;
     method public String getUsername();
     method public boolean isReadOnly();
@@ -20471,7 +20470,7 @@ package javax.sql {
     method public void setTimestamp(String, java.sql.Timestamp, java.util.Calendar) throws java.sql.SQLException;
     method public void setTransactionIsolation(int) throws java.sql.SQLException;
     method public void setType(int) throws java.sql.SQLException;
-    method public void setTypeMap(java.util.Map<String,Class<?>>) throws java.sql.SQLException;
+    method public void setTypeMap(java.util.Map<String, Class<?>>) throws java.sql.SQLException;
     method public void setURL(int, java.net.URL) throws java.sql.SQLException;
     method public void setUrl(String) throws java.sql.SQLException;
     method public void setUsername(String) throws java.sql.SQLException;
@@ -22298,7 +22297,7 @@ package org.xmlpull.v1 {
     method public void setValidating(boolean);
     field public static final String PROPERTY_NAME = "org.xmlpull.v1.XmlPullParserFactory";
     field protected String classNamesLocation;
-    field protected java.util.HashMap<String,Boolean> features;
+    field protected java.util.HashMap<String, Boolean> features;
     field protected java.util.ArrayList parserClasses;
     field protected java.util.ArrayList serializerClasses;
   }

@@ -1,6 +1,5 @@
 // Signature format: 6.0
 // - style=java
-// - type-argument-spacing=legacy
 package android.compat {
 
   public final class Compatibility {
@@ -120,7 +119,7 @@ package com.android.okhttp.internalandroidapi {
     method public void close() throws java.io.IOException;
     method public void delete() throws java.io.IOException;
     method public void flush() throws java.io.IOException;
-    method @Nullable public java.net.CacheResponse get(@NonNull java.net.URI, @NonNull String, @Nullable java.util.Map<String,java.util.List<String>>) throws java.io.IOException;
+    method @Nullable public java.net.CacheResponse get(@NonNull java.net.URI, @NonNull String, @Nullable java.util.Map<String, java.util.List<String>>) throws java.io.IOException;
     method @NonNull public com.android.okhttp.internalandroidapi.HasCacheHolder.CacheHolder getCacheHolder();
     method public int getHitCount();
     method public long getMaxSize();
@@ -185,7 +184,7 @@ package dalvik.system {
   }
 
   public static interface BaseDexClassLoader.Reporter {
-    method public void report(@NonNull java.util.Map<String,String>);
+    method public void report(@NonNull java.util.Map<String, String>);
   }
 
   public final class BlockGuard {
@@ -285,7 +284,7 @@ package dalvik.system {
     method public static int getLoadedClassCount();
     method public static int getMethodTracingMode();
     method public static String getRuntimeStat(String);
-    method public static java.util.Map<String,String> getRuntimeStats();
+    method public static java.util.Map<String, String> getRuntimeStats();
     method public static String[] getVmFeatureList();
     method public static boolean isDebuggerConnected();
     method public static boolean isDebuggingEnabled();
@@ -562,8 +561,8 @@ package java.text {
 
 package java.util {
 
-  public class LinkedHashMap<K, V> extends java.util.HashMap<K,V> implements java.util.Map<K,V> java.util.SequencedMap<K,V> {
-    method public java.util.Map.Entry<K,V> eldest();
+  public class LinkedHashMap<K, V> extends java.util.HashMap<K, V> implements java.util.Map<K, V> java.util.SequencedMap<K, V> {
+    method public java.util.Map.Entry<K, V> eldest();
   }
 
 }
