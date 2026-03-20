@@ -1,4 +1,5 @@
-// Signature format: 2.0
+// Signature format: 6.0
+// - style=java
 package dalvik.annotation.compat {
 
   @libcore.api.CorePlatformApi @libcore.api.IntraCoreApi public class VersionCodes {
