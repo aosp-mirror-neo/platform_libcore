@@ -1,7 +1,5 @@
 // Signature format: 6.0
 // - style=java
-// - strip-java-lang-prefix=legacy
-// - type-argument-spacing=legacy
 package java.lang {
 
   public class Runtime {
@@ -9,7 +7,7 @@ package java.lang {
     method @Deprecated public java.io.OutputStream getLocalizedOutputStream(java.io.OutputStream);
   }
 
-  public class Thread implements java.lang.Runnable {
+  public class Thread implements Runnable {
     method @Deprecated public int countStackFrames();
     method @Deprecated public void destroy();
     method @Deprecated public final void resume();
