@@ -1,6 +1,5 @@
 // Signature format: 6.0
 // - style=java
-// - normalize-final-modifier=no
 // - overloaded-method-order=source
 // - sort-whole-extends-list=no
 // - strip-java-lang-prefix=legacy
@@ -15875,23 +15874,23 @@ package java.util.concurrent {
   public static final class ConcurrentHashMap.KeySetView<K, V> implements java.util.Collection<K> java.io.Serializable java.util.Set<K> {
     method public boolean add(@NonNull K);
     method public boolean addAll(@NonNull java.util.Collection<? extends K>);
-    method public final void clear();
+    method public void clear();
     method public boolean contains(@NonNull Object);
-    method public final boolean containsAll(@NonNull java.util.Collection<?>);
+    method public boolean containsAll(@NonNull java.util.Collection<?>);
     method public boolean equals(@Nullable Object);
     method public void forEach(@NonNull java.util.function.Consumer<? super K>);
     method @NonNull public java.util.concurrent.ConcurrentHashMap<K,V> getMap();
     method @Nullable public V getMappedValue();
     method public int hashCode();
-    method public final boolean isEmpty();
+    method public boolean isEmpty();
     method @NonNull public java.util.Iterator<K> iterator();
     method public boolean remove(@NonNull Object);
     method public boolean removeAll(@NonNull java.util.Collection<?>);
-    method public final boolean retainAll(@NonNull java.util.Collection<?>);
-    method public final int size();
+    method public boolean retainAll(@NonNull java.util.Collection<?>);
+    method public int size();
     method @NonNull public java.util.Spliterator<K> spliterator();
-    method @NonNull public final Object[] toArray();
-    method @NonNull public final <T> T[] toArray(@NonNull T[]);
+    method @NonNull public Object[] toArray();
+    method @NonNull public <T> T[] toArray(@NonNull T[]);
   }
 
   public class ConcurrentLinkedDeque<E> extends java.util.AbstractCollection<E> implements java.util.Deque<E> java.io.Serializable {
