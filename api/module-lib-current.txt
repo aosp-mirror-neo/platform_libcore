@@ -1,6 +1,5 @@
 // Signature format: 6.0
 // - style=java
-// - strip-java-lang-prefix=legacy
 // - type-argument-spacing=legacy
 package android.compat {
 
@@ -19,11 +18,11 @@ package android.compat {
   }
 
   public static final class Compatibility.ChangeConfig {
-    ctor public Compatibility.ChangeConfig(@NonNull java.util.Set<java.lang.Long>, @NonNull java.util.Set<java.lang.Long>);
+    ctor public Compatibility.ChangeConfig(@NonNull java.util.Set<Long>, @NonNull java.util.Set<Long>);
     method @NonNull public long[] getDisabledChangesArray();
-    method @NonNull public java.util.Set<java.lang.Long> getDisabledSet();
+    method @NonNull public java.util.Set<Long> getDisabledSet();
     method @NonNull public long[] getEnabledChangesArray();
-    method @NonNull public java.util.Set<java.lang.Long> getEnabledSet();
+    method @NonNull public java.util.Set<Long> getEnabledSet();
     method public boolean isEmpty();
     method public boolean isForceDisabled(long);
     method public boolean isForceEnabled(long);
@@ -121,7 +120,7 @@ package com.android.okhttp.internalandroidapi {
     method public void close() throws java.io.IOException;
     method public void delete() throws java.io.IOException;
     method public void flush() throws java.io.IOException;
-    method @Nullable public java.net.CacheResponse get(@NonNull java.net.URI, @NonNull String, @Nullable java.util.Map<java.lang.String,java.util.List<java.lang.String>>) throws java.io.IOException;
+    method @Nullable public java.net.CacheResponse get(@NonNull java.net.URI, @NonNull String, @Nullable java.util.Map<String,java.util.List<String>>) throws java.io.IOException;
     method @NonNull public com.android.okhttp.internalandroidapi.HasCacheHolder.CacheHolder getCacheHolder();
     method public int getHitCount();
     method public long getMaxSize();
@@ -177,16 +176,16 @@ package dalvik.system {
     method public static void handleCompatChangesBeforeBindingApplication();
   }
 
-  public class BaseDexClassLoader extends java.lang.ClassLoader {
+  public class BaseDexClassLoader extends ClassLoader {
     method public void addDexPath(@Nullable String);
-    method public void addNativePath(@NonNull java.util.Collection<java.lang.String>);
+    method public void addNativePath(@NonNull java.util.Collection<String>);
     method @NonNull public String getLdLibraryPath();
     method public void reportClassLoaderChain();
     method public static void setReporter(@Nullable dalvik.system.BaseDexClassLoader.Reporter);
   }
 
   public static interface BaseDexClassLoader.Reporter {
-    method public void report(@NonNull java.util.Map<java.lang.String,java.lang.String>);
+    method public void report(@NonNull java.util.Map<String,String>);
   }
 
   public final class BlockGuard {
@@ -254,8 +253,8 @@ package dalvik.system {
   }
 
   public final class RuntimeHooks {
-    method public static void setTimeZoneIdSupplier(@NonNull java.util.function.Supplier<java.lang.String>);
-    method public static void setUncaughtExceptionPreHandler(@Nullable java.lang.Thread.UncaughtExceptionHandler);
+    method public static void setTimeZoneIdSupplier(@NonNull java.util.function.Supplier<String>);
+    method public static void setUncaughtExceptionPreHandler(@Nullable Thread.UncaughtExceptionHandler);
   }
 
   public abstract class SocketTagger {
@@ -286,7 +285,7 @@ package dalvik.system {
     method public static int getLoadedClassCount();
     method public static int getMethodTracingMode();
     method public static String getRuntimeStat(String);
-    method public static java.util.Map<java.lang.String,java.lang.String> getRuntimeStats();
+    method public static java.util.Map<String,String> getRuntimeStats();
     method public static String[] getVmFeatureList();
     method public static boolean isDebuggerConnected();
     method public static boolean isDebuggingEnabled();
@@ -369,7 +368,7 @@ package dalvik.system {
     method public void setHiddenApiAccessLogSamplingRate(int);
     method public void setHiddenApiExemptions(String[]);
     method public static void setHiddenApiUsageLogger(dalvik.system.VMRuntime.HiddenApiUsageLogger);
-    method public static void setNonSdkApiUsageConsumer(java.util.function.Consumer<java.lang.String>);
+    method public static void setNonSdkApiUsageConsumer(java.util.function.Consumer<String>);
     method public static void setProcessDataDirectory(String);
     method public static void setProcessPackageName(String);
     method public void setTargetSdkVersion(int);
@@ -425,9 +424,9 @@ package java.io {
 
 package java.lang {
 
-  public class Thread implements java.lang.Runnable {
-    method public static java.lang.Thread.UncaughtExceptionHandler getUncaughtExceptionPreHandler();
-    method public static void setUncaughtExceptionPreHandler(java.lang.Thread.UncaughtExceptionHandler);
+  public class Thread implements Runnable {
+    method public static Thread.UncaughtExceptionHandler getUncaughtExceptionPreHandler();
+    method public static void setUncaughtExceptionPreHandler(Thread.UncaughtExceptionHandler);
   }
 
 }
@@ -477,7 +476,7 @@ package java.net {
 
 package java.nio {
 
-  public abstract class ByteBuffer extends java.nio.Buffer implements java.lang.Comparable<java.nio.ByteBuffer> {
+  public abstract class ByteBuffer extends java.nio.Buffer implements Comparable<java.nio.ByteBuffer> {
     method public void setAccessible(boolean);
   }
 
@@ -571,7 +570,7 @@ package java.util {
 
 package java.util.zip {
 
-  public class ZipEntry implements java.lang.Cloneable {
+  public class ZipEntry implements Cloneable {
     method public long getDataOffset();
   }
 
@@ -587,7 +586,7 @@ package javax.crypto {
     method public javax.crypto.KeyAgreementSpi getCurrentSpi();
   }
 
-  public class Mac implements java.lang.Cloneable {
+  public class Mac implements Cloneable {
     method public javax.crypto.MacSpi getCurrentSpi();
   }
 
@@ -606,18 +605,18 @@ package libcore.content.type {
   public final class MimeMap {
     method @NonNull public libcore.content.type.MimeMap.Builder buildUpon();
     method @NonNull public static libcore.content.type.MimeMap.Builder builder();
-    method @NonNull public java.util.Set<java.lang.String> extensions();
+    method @NonNull public java.util.Set<String> extensions();
     method @NonNull public static libcore.content.type.MimeMap getDefault();
     method @Nullable public String guessExtensionFromMimeType(@Nullable String);
     method @Nullable public String guessMimeTypeFromExtension(@Nullable String);
     method public boolean hasExtension(@Nullable String);
     method public boolean hasMimeType(@Nullable String);
-    method @NonNull public java.util.Set<java.lang.String> mimeTypes();
+    method @NonNull public java.util.Set<String> mimeTypes();
     method public static void setDefaultSupplier(@NonNull java.util.function.Supplier<libcore.content.type.MimeMap>);
   }
 
   public static final class MimeMap.Builder {
-    method @NonNull public libcore.content.type.MimeMap.Builder addMimeMapping(@NonNull String, @NonNull java.util.List<java.lang.String>);
+    method @NonNull public libcore.content.type.MimeMap.Builder addMimeMapping(@NonNull String, @NonNull java.util.List<String>);
     method @NonNull public libcore.content.type.MimeMap build();
   }
 
@@ -788,10 +787,10 @@ package libcore.util {
   }
 
   public class HexEncoding {
-    method public static byte[] decode(char[]) throws java.lang.IllegalArgumentException;
-    method public static byte[] decode(char[], boolean) throws java.lang.IllegalArgumentException;
-    method public static byte[] decode(String) throws java.lang.IllegalArgumentException;
-    method public static byte[] decode(String, boolean) throws java.lang.IllegalArgumentException;
+    method public static byte[] decode(char[]) throws IllegalArgumentException;
+    method public static byte[] decode(char[], boolean) throws IllegalArgumentException;
+    method public static byte[] decode(String) throws IllegalArgumentException;
+    method public static byte[] decode(String, boolean) throws IllegalArgumentException;
     method public static char[] encode(byte[]);
     method public static char[] encode(byte[], boolean);
     method public static char[] encode(byte[], int, int);
@@ -870,14 +869,14 @@ package org.apache.harmony.dalvik.ddmc {
 package org.json {
 
   public class JSONObject {
-    method @NonNull public java.util.Set<java.lang.String> keySet();
+    method @NonNull public java.util.Set<String> keySet();
   }
 
 }
 
 package sun.misc {
 
-  public class Cleaner extends java.lang.ref.PhantomReference<java.lang.Object> {
+  public class Cleaner extends java.lang.ref.PhantomReference<Object> {
     method public void clean();
     method public static sun.misc.Cleaner create(Object, Runnable);
   }
