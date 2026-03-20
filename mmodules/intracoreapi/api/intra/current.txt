@@ -1,6 +1,5 @@
 // Signature format: 6.0
 // - style=java
-// - strip-java-lang-prefix=legacy
 package android.compat {
 
   @libcore.api.IntraCoreApi public final class Compatibility {
@@ -9,11 +8,11 @@ package android.compat {
   }
 
   @libcore.api.IntraCoreApi public static final class Compatibility.ChangeConfig {
-    ctor @libcore.api.IntraCoreApi public Compatibility.ChangeConfig(@NonNull java.util.Set<java.lang.Long>, @NonNull java.util.Set<java.lang.Long>);
+    ctor @libcore.api.IntraCoreApi public Compatibility.ChangeConfig(@NonNull java.util.Set<Long>, @NonNull java.util.Set<Long>);
     method @NonNull @libcore.api.IntraCoreApi public long[] getDisabledChangesArray();
-    method @NonNull @libcore.api.IntraCoreApi public java.util.Set<java.lang.Long> getDisabledSet();
+    method @NonNull @libcore.api.IntraCoreApi public java.util.Set<Long> getDisabledSet();
     method @NonNull @libcore.api.IntraCoreApi public long[] getEnabledChangesArray();
-    method @NonNull @libcore.api.IntraCoreApi public java.util.Set<java.lang.Long> getEnabledSet();
+    method @NonNull @libcore.api.IntraCoreApi public java.util.Set<Long> getEnabledSet();
     method @libcore.api.IntraCoreApi public boolean isEmpty();
     method @libcore.api.IntraCoreApi public boolean isForceDisabled(long);
     method @libcore.api.IntraCoreApi public boolean isForceEnabled(long);
