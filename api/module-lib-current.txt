@@ -1,6 +1,5 @@
 // Signature format: 6.0
 // - style=java
-// - normalize-abstract-modifier=no
 // - overloaded-method-order=source
 // - strip-java-lang-prefix=legacy
 // - type-argument-spacing=legacy
@@ -147,12 +146,12 @@ package com.android.okhttp.internalandroidapi {
 package dalvik.annotation.codegen {
 
   @java.lang.annotation.Repeatable(CovariantReturnType.CovariantReturnTypes.class) @java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.CLASS) @java.lang.annotation.Target({java.lang.annotation.ElementType.METHOD}) public @interface CovariantReturnType {
-    method public abstract int presentAfter();
-    method public abstract Class<?> returnType();
+    method public int presentAfter();
+    method public Class<?> returnType();
   }
 
   @java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.CLASS) @java.lang.annotation.Target({java.lang.annotation.ElementType.METHOD}) public static @interface CovariantReturnType.CovariantReturnTypes {
-    method public abstract dalvik.annotation.codegen.CovariantReturnType[] value();
+    method public dalvik.annotation.codegen.CovariantReturnType[] value();
   }
 
 }
