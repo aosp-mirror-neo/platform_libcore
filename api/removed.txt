@@ -1,6 +1,5 @@
 // Signature format: 6.0
 // - style=java
-// - normalize-final-modifier=no
 // - overloaded-method-order=source
 // - sort-whole-extends-list=no
 // - strip-java-lang-prefix=legacy
