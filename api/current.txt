@@ -1,6 +1,5 @@
 // Signature format: 6.0
 // - style=java
-// - sort-whole-extends-list=no
 // - strip-java-lang-prefix=legacy
 // - type-argument-spacing=legacy
 package android.crypto.hpke {
@@ -1884,7 +1883,7 @@ package java.io {
     ctor public NotSerializableException(String);
   }
 
-  public interface ObjectInput extends java.io.DataInput java.lang.AutoCloseable {
+  public interface ObjectInput extends java.lang.AutoCloseable java.io.DataInput {
     method public int available() throws java.io.IOException;
     method public void close() throws java.io.IOException;
     method public int read() throws java.io.IOException;
@@ -1946,7 +1945,7 @@ package java.io {
     method public void validateObject() throws java.io.InvalidObjectException;
   }
 
-  public interface ObjectOutput extends java.io.DataOutput java.lang.AutoCloseable {
+  public interface ObjectOutput extends java.lang.AutoCloseable java.io.DataOutput {
     method public void close() throws java.io.IOException;
     method public void flush() throws java.io.IOException;
     method public void writeObject(Object) throws java.io.IOException;
@@ -8677,7 +8676,7 @@ package java.security {
     method public String toString();
   }
 
-  public interface PrivateKey extends java.security.Key javax.security.auth.Destroyable {
+  public interface PrivateKey extends javax.security.auth.Destroyable java.security.Key {
     field @Deprecated @java.io.Serial public static final long serialVersionUID = 6034044314589513430L; // 0x53bd3b559a12c6d6L
   }
 
@@ -9540,12 +9539,12 @@ package java.security.interfaces {
     method public java.security.spec.ECParameterSpec getParams();
   }
 
-  public interface ECPrivateKey extends java.security.PrivateKey java.security.interfaces.ECKey {
+  public interface ECPrivateKey extends java.security.interfaces.ECKey java.security.PrivateKey {
     method public java.math.BigInteger getS();
     field @Deprecated @java.io.Serial public static final long serialVersionUID = -7896394956925609184L; // 0x926a5e9fa2435b20L
   }
 
-  public interface ECPublicKey extends java.security.PublicKey java.security.interfaces.ECKey {
+  public interface ECPublicKey extends java.security.interfaces.ECKey java.security.PublicKey {
     method public java.security.spec.ECPoint getW();
     field @Deprecated @java.io.Serial public static final long serialVersionUID = -3314988629879632826L; // 0xd1fecb679990cc46L
   }
@@ -9602,11 +9601,11 @@ package java.security.interfaces {
     method public java.security.spec.AlgorithmParameterSpec getParams();
   }
 
-  public interface XECPrivateKey extends java.security.interfaces.XECKey java.security.PrivateKey {
+  public interface XECPrivateKey extends java.security.PrivateKey java.security.interfaces.XECKey {
     method public java.util.Optional<byte[]> getScalar();
   }
 
-  public interface XECPublicKey extends java.security.interfaces.XECKey java.security.PublicKey {
+  public interface XECPublicKey extends java.security.PublicKey java.security.interfaces.XECKey {
     method public java.math.BigInteger getU();
   }
 
@@ -10058,7 +10057,7 @@ package java.sql {
     method public void truncate(long) throws java.sql.SQLException;
   }
 
-  public interface Connection extends java.sql.Wrapper java.lang.AutoCloseable {
+  public interface Connection extends java.lang.AutoCloseable java.sql.Wrapper {
     method public void clearWarnings() throws java.sql.SQLException;
     method public void close() throws java.sql.SQLException;
     method public void commit() throws java.sql.SQLException;
@@ -10487,7 +10486,7 @@ package java.sql {
     method public void setObject(Object) throws java.sql.SQLException;
   }
 
-  public interface ResultSet extends java.sql.Wrapper java.lang.AutoCloseable {
+  public interface ResultSet extends java.lang.AutoCloseable java.sql.Wrapper {
     method public boolean absolute(int) throws java.sql.SQLException;
     method public void afterLast() throws java.sql.SQLException;
     method public void beforeFirst() throws java.sql.SQLException;
@@ -10991,7 +10990,7 @@ package java.sql {
     method public String getSavepointName() throws java.sql.SQLException;
   }
 
-  public interface Statement extends java.sql.Wrapper java.lang.AutoCloseable {
+  public interface Statement extends java.lang.AutoCloseable java.sql.Wrapper {
     method public void addBatch(String) throws java.sql.SQLException;
     method public void cancel() throws java.sql.SQLException;
     method public void clearBatch() throws java.sql.SQLException;
@@ -12456,7 +12455,7 @@ package java.time.chrono {
     method public String toString();
   }
 
-  public interface ChronoLocalDate extends java.time.temporal.Temporal java.lang.Comparable<java.time.chrono.ChronoLocalDate> java.time.temporal.TemporalAdjuster {
+  public interface ChronoLocalDate extends java.lang.Comparable<java.time.chrono.ChronoLocalDate> java.time.temporal.Temporal java.time.temporal.TemporalAdjuster {
     method public default java.time.temporal.Temporal adjustInto(java.time.temporal.Temporal);
     method public default java.time.chrono.ChronoLocalDateTime<?> atTime(java.time.LocalTime);
     method public default int compareTo(java.time.chrono.ChronoLocalDate);
@@ -12486,7 +12485,7 @@ package java.time.chrono {
     method public default java.time.chrono.ChronoLocalDate with(java.time.temporal.TemporalField, long);
   }
 
-  public interface ChronoLocalDateTime<D extends java.time.chrono.ChronoLocalDate> extends java.time.temporal.Temporal java.lang.Comparable<java.time.chrono.ChronoLocalDateTime<?>> java.time.temporal.TemporalAdjuster {
+  public interface ChronoLocalDateTime<D extends java.time.chrono.ChronoLocalDate> extends java.lang.Comparable<java.time.chrono.ChronoLocalDateTime<?>> java.time.temporal.Temporal java.time.temporal.TemporalAdjuster {
     method public default java.time.temporal.Temporal adjustInto(java.time.temporal.Temporal);
     method public java.time.chrono.ChronoZonedDateTime<D> atZone(java.time.ZoneId);
     method public default int compareTo(java.time.chrono.ChronoLocalDateTime<?>);
@@ -12528,7 +12527,7 @@ package java.time.chrono {
     method public String toString();
   }
 
-  public interface ChronoZonedDateTime<D extends java.time.chrono.ChronoLocalDate> extends java.time.temporal.Temporal java.lang.Comparable<java.time.chrono.ChronoZonedDateTime<?>> {
+  public interface ChronoZonedDateTime<D extends java.time.chrono.ChronoLocalDate> extends java.lang.Comparable<java.time.chrono.ChronoZonedDateTime<?>> java.time.temporal.Temporal {
     method public default int compareTo(java.time.chrono.ChronoZonedDateTime<?>);
     method public boolean equals(Object);
     method public default String format(java.time.format.DateTimeFormatter);
@@ -14458,7 +14457,7 @@ package java.util {
     method @NonNull public java.util.Spliterator<E> spliterator();
   }
 
-  public interface List<E> extends java.util.SequencedCollection<E> java.util.Collection<E> {
+  public interface List<E> extends java.util.Collection<E> java.util.SequencedCollection<E> {
     method public void add(int, E);
     method public boolean addAll(int, @NonNull java.util.Collection<? extends E>);
     method @NonNull public static <E> java.util.List<E> copyOf(@NonNull java.util.Collection<? extends E>);
@@ -15200,7 +15199,7 @@ package java.util {
     field public static final int WALL_TIME = 0; // 0x0
   }
 
-  public interface SortedMap<K, V> extends java.util.SequencedMap<K,V> java.util.Map<K,V> {
+  public interface SortedMap<K, V> extends java.util.Map<K,V> java.util.SequencedMap<K,V> {
     method @Nullable public java.util.Comparator<? super K> comparator();
     method public K firstKey();
     method @NonNull public java.util.SortedMap<K,V> headMap(K);
@@ -15210,7 +15209,7 @@ package java.util {
     method @NonNull public java.util.SortedMap<K,V> tailMap(K);
   }
 
-  public interface SortedSet<E> extends java.util.Set<E> java.util.SequencedSet<E> {
+  public interface SortedSet<E> extends java.util.SequencedSet<E> java.util.Set<E> {
     method public java.util.Comparator<? super E> comparator();
     method public E first();
     method public java.util.SortedSet<E> headSet(E);
@@ -16185,7 +16184,7 @@ package java.util.concurrent {
     method public java.util.concurrent.Future<V> take() throws java.lang.InterruptedException;
   }
 
-  public interface ExecutorService extends java.util.concurrent.Executor java.lang.AutoCloseable {
+  public interface ExecutorService extends java.lang.AutoCloseable java.util.concurrent.Executor {
     method public boolean awaitTermination(long, java.util.concurrent.TimeUnit) throws java.lang.InterruptedException;
     method public default void close();
     method public <T> java.util.List<java.util.concurrent.Future<T>> invokeAll(java.util.Collection<? extends java.util.concurrent.Callable<T>>) throws java.lang.InterruptedException;
@@ -16232,7 +16231,7 @@ package java.util.concurrent {
     method public static int defaultBufferSize();
   }
 
-  public static interface Flow.Processor<T, R> extends java.util.concurrent.Flow.Subscriber<T> java.util.concurrent.Flow.Publisher<R> {
+  public static interface Flow.Processor<T, R> extends java.util.concurrent.Flow.Publisher<R> java.util.concurrent.Flow.Subscriber<T> {
   }
 
   @java.lang.FunctionalInterface public static interface Flow.Publisher<T> {
@@ -16564,7 +16563,7 @@ package java.util.concurrent {
     method public void rejectedExecution(Runnable, java.util.concurrent.ThreadPoolExecutor);
   }
 
-  public interface RunnableFuture<V> extends java.lang.Runnable java.util.concurrent.Future<V> {
+  public interface RunnableFuture<V> extends java.util.concurrent.Future<V> java.lang.Runnable {
   }
 
   public interface RunnableScheduledFuture<V> extends java.util.concurrent.RunnableFuture<V> java.util.concurrent.ScheduledFuture<V> {
@@ -19508,7 +19507,7 @@ package javax.crypto {
     field protected byte[] encodedParams;
   }
 
-  public interface SecretKey extends java.security.Key javax.security.auth.Destroyable {
+  public interface SecretKey extends javax.security.auth.Destroyable java.security.Key {
     field public static final long serialVersionUID = -4795878709595146952L; // 0xbd719db928b8f538L
   }
 
