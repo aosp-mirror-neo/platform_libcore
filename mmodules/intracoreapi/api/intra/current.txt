@@ -1,4 +1,7 @@
-// Signature format: 2.0
+// Signature format: 6.0
+// - style=java
+// - normalize-abstract-modifier=no
+// - strip-java-lang-prefix=legacy
 package android.compat {
 
   @libcore.api.IntraCoreApi public final class Compatibility {
