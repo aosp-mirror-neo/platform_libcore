@@ -1,4 +1,5 @@
-// Signature format: 2.0
+// Signature format: 6.0
+// - style=java
 package android.compat {
 
   @libcore.api.IntraCoreApi public final class Compatibility {
@@ -7,11 +8,11 @@ package android.compat {
   }
 
   @libcore.api.IntraCoreApi public static final class Compatibility.ChangeConfig {
-    ctor @libcore.api.IntraCoreApi public Compatibility.ChangeConfig(@NonNull java.util.Set<java.lang.Long>, @NonNull java.util.Set<java.lang.Long>);
+    ctor @libcore.api.IntraCoreApi public Compatibility.ChangeConfig(@NonNull java.util.Set<Long>, @NonNull java.util.Set<Long>);
     method @NonNull @libcore.api.IntraCoreApi public long[] getDisabledChangesArray();
-    method @NonNull @libcore.api.IntraCoreApi public java.util.Set<java.lang.Long> getDisabledSet();
+    method @NonNull @libcore.api.IntraCoreApi public java.util.Set<Long> getDisabledSet();
     method @NonNull @libcore.api.IntraCoreApi public long[] getEnabledChangesArray();
-    method @NonNull @libcore.api.IntraCoreApi public java.util.Set<java.lang.Long> getEnabledSet();
+    method @NonNull @libcore.api.IntraCoreApi public java.util.Set<Long> getEnabledSet();
     method @libcore.api.IntraCoreApi public boolean isEmpty();
     method @libcore.api.IntraCoreApi public boolean isForceDisabled(long);
     method @libcore.api.IntraCoreApi public boolean isForceEnabled(long);
@@ -110,7 +111,7 @@ package java.security.spec {
 package libcore.api {
 
   @java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.SOURCE) @java.lang.annotation.Target({java.lang.annotation.ElementType.TYPE, java.lang.annotation.ElementType.FIELD, java.lang.annotation.ElementType.METHOD, java.lang.annotation.ElementType.CONSTRUCTOR, java.lang.annotation.ElementType.ANNOTATION_TYPE}) @libcore.api.IntraCoreApi public @interface CorePlatformApi {
-    method @libcore.api.IntraCoreApi public abstract libcore.api.CorePlatformApi.Status status() default libcore.api.CorePlatformApi.Status.LEGACY_ONLY;
+    method @libcore.api.IntraCoreApi public libcore.api.CorePlatformApi.Status status() default libcore.api.CorePlatformApi.Status.LEGACY_ONLY;
   }
 
   @libcore.api.IntraCoreApi public enum CorePlatformApi.Status {
