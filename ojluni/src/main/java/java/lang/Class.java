@@ -605,12 +605,11 @@ public final class Class<T> implements java.io.Serializable,
             ClassLoader classLoader) throws ClassNotFoundException;
 
     public boolean isIdentity() {
-        return true;
+        return !isValue();
     }
 
-    public boolean isValue() {
-        return !isIdentity();
-    }
+    @FastNative
+    public native boolean isValue();
 
     // Android-removed: Remove unsupported forName(Module, String) method.
     /*
