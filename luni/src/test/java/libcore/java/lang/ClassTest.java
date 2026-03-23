@@ -24,6 +24,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
 import dalvik.annotation.compat.VersionCodes;
 import dalvik.system.InMemoryDexClassLoader;
@@ -656,6 +657,12 @@ public class ClassTest {
 
     private static void assertClassFormatError(ClassLoader cl, String className) {
         assertThrows(ClassFormatError.class, () -> cl.loadClass(className));
+    }
+
+    @Test
+    public void testIsValueBased() {
+        assumeTrue(com.android.art.flags.Flags.valueClasses());
+        assertTrue(Integer.class.isValue());
     }
 
     @Test
