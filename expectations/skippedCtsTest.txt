@@ -27,6 +27,12 @@
     ]
   },
   {
+    "description": "The test asserts buggy or non-breaking behaviors, but the behavior has been fixed in a new mainline module version.",
+    "names": [
+      "test.java.lang.Character.UnicodeBlock.CheckBlocks"
+    ]
+  },
+  {
     "bug": 146565491,
     "description": "The test asserts buggy or non-breaking behaviors, but the behavior has been fixed in a new mainline module version.",
     "names": [
@@ -101,6 +107,7 @@
       "libcore.java.text.OldNumberFormatTest#test_getCurrencyInstanceLjava_util_Locale",
       "libcore.java.util.CurrencyTest#test_localeExtension",
       "org.apache.harmony.regex.tests.java.util.regex.PatternTest#testSplitAsStream",
+      "org.apache.harmony.tests.java.lang.Character_UnicodeBlockTest#test_forNameLjava_lang_String",
       "org.apache.harmony.tests.java.lang.Character_UnicodeBlockTest#test_ofC",
       "org.apache.harmony.tests.java.lang.Character_UnicodeBlockTest#test_ofI",
       "org.apache.harmony.tests.java.util.ArrayDequeTest#test_forEachRemaining_CME",
@@ -219,6 +226,14 @@
     "description": "Deleted test.",
     "names": [
       "com.android.org.conscrypt.DuckTypedHpkeSpiTest#vectors"
+    ]
+  },
+  {
+    "bug": 498867260,
+    "description": "The test asserts buggy or non-breaking behaviors, but the behavior has been fixed in a new mainline module version.",
+    "names": [
+      "libcore.java.lang.CharacterTest#test_isSpaceChar_against_icu4c",
+      "libcore.java.lang.CharacterTest#test_isWhitespace_against_icu4c"
     ]
   }
 ]
