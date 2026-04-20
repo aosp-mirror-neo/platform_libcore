@@ -108,9 +108,8 @@ public class AKISerialNumberTest {
     private static Base64.Decoder b64Decoder = Base64.getMimeDecoder();
     private static CertificateFactory cf;
 
-    // Android-changed: Removed args & added @Test
-    @Test
-    public static void main() throws Exception {
+    // Android-changed: Removed args
+    private static void main() throws Exception {
 
         cf = CertificateFactory.getInstance("X.509");
 
