@@ -229,11 +229,26 @@
     ]
   },
   {
+    "bug": 487931212,
+    "description": "The test asserts buggy or non-breaking behaviors, but the behavior has been fixed in a new mainline module version.",
+    "names": [
+      "org.apache.harmony.tests.java.lang.DoubleTest#test_parseDoubleLjava_lang_String_postJava19",
+      "org.apache.harmony.tests.java.text.DecimalFormatTest#test_formatDouble_bug17656132"
+    ]
+  },
+  {
     "bug": 498867260,
     "description": "The test asserts buggy or non-breaking behaviors, but the behavior has been fixed in a new mainline module version.",
     "names": [
       "libcore.java.lang.CharacterTest#test_isSpaceChar_against_icu4c",
       "libcore.java.lang.CharacterTest#test_isWhitespace_against_icu4c"
+    ]
+  },
+  {
+    "bug": 505739417,
+    "description": "British Columbia moved to permanent GMT-7",
+    "names": [
+      "org.apache.harmony.tests.java.util.TimeZoneTest#test_getAvailableIDs_I_16947622"
     ]
   }
 ]
