@@ -92,22 +92,58 @@ public class MulticastSocketTest {
                 System.getProperty("android.cts.device.multicast", "true"));
         Assume.assumeTrue(supportsMulticast);
 
-        while (interfaces.hasMoreElements()
-                && (ipv4NetworkInterface == null || ipv6NetworkInterface == null)) {
+        // Try to find the "best" interface for multicast based on address properties.
+        // We use a priority level system to ensure stable interfaces are preferred.
+        NetworkInterface bestIPv6Interface = null;
+        int bestIPv6Level = 0; // NONE
+
+        NetworkInterface bestIPv4Interface = null;
+        int bestIPv4Level = 0; // NONE
+
+        while (interfaces.hasMoreElements()) {
             NetworkInterface nextInterface = interfaces.nextElement();
             if (willWorkForMulticast(nextInterface)) {
+                boolean hasIPv4 = false;
+                boolean hasGlobalIPv4 = false;
+                boolean hasIPv6 = false;
+                boolean hasGlobalIPv6 = false;
+
                 Enumeration<InetAddress> addresses = nextInterface.getInetAddresses();
                 while (addresses.hasMoreElements()) {
-                    final InetAddress nextAddress = addresses.nextElement();
-                    if (nextAddress instanceof Inet6Address && ipv6NetworkInterface == null) {
-                        ipv6NetworkInterface = nextInterface;
-                    } else if (nextAddress instanceof Inet4Address
-                            && ipv4NetworkInterface == null) {
-                        ipv4NetworkInterface = nextInterface;
+                    InetAddress addr = addresses.nextElement();
+                    if (addr instanceof Inet4Address) {
+                        hasIPv4 = true;
+                        if (!addr.isLinkLocalAddress() && !addr.isLoopbackAddress()) {
+                            hasGlobalIPv4 = true;
+                        }
+                    } else if (addr instanceof Inet6Address) {
+                        hasIPv6 = true;
+                        if (!addr.isLinkLocalAddress() && !addr.isLoopbackAddress()) {
+                            hasGlobalIPv6 = true;
+                        }
                     }
+                }
+
+                boolean hasAnyGlobal = hasGlobalIPv4 || hasGlobalIPv6;
+
+                // Pick the best interface for IPv6
+                int currentIPv6Level = getInterfaceLevel(hasIPv6, hasGlobalIPv6, hasAnyGlobal);
+                if (bestIPv6Interface == null || currentIPv6Level > bestIPv6Level) {
+                    bestIPv6Interface = nextInterface;
+                    bestIPv6Level = currentIPv6Level;
+                }
+
+                // Pick the best interface for IPv4
+                int currentIPv4Level = getInterfaceLevel(hasIPv4, hasGlobalIPv4, hasAnyGlobal);
+                if (bestIPv4Interface == null || currentIPv4Level > bestIPv4Level) {
+                    bestIPv4Interface = nextInterface;
+                    bestIPv4Level = currentIPv4Level;
                 }
             }
         }
+
+        ipv4NetworkInterface = bestIPv4Interface;
+        ipv6NetworkInterface = bestIPv6Interface;
         assertTrue("Test environment must have at least one interface capable of multicast for IPv4"
                         + " and IPv6",
                 ipv4NetworkInterface != null && ipv6NetworkInterface != null);
@@ -920,4 +956,42 @@ public class MulticastSocketTest {
     private static String extractMessage(DatagramPacket rdp) {
         return new String(rdp.getData(), 0, rdp.getLength());
     }
+
+    /**
+    * Calculates the priority level for a network interface under a specific IP family.
+    *
+    * The levels are:
+    * 0: NONE - No addresses of this IP family.
+    * 1: NO_GLOBAL - Has addresses of this IP family, but all are link-local or loopback.
+    * 2: ANY_GLOBAL - Has addresses of this IP family (only link-local/loopback), but has a
+    *    global address of the *other* IP family. This is used to prioritize stable interfaces
+    *    (like wlan0 with Global IPv4) over restricted virtual interfaces (like eth0 with
+    *    only IPv6 link-local).
+    *
+    * Example scenario from "adb shell ip address":
+    * 15: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> ...
+    *     inet6 fe80::fed2:b6ff:fead:cc6d/64 scope link
+    * 16: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> ...
+    *     inet 10.142.162.142/24 brd 10.142.162.255 scope global wlan0
+    *     inet6 fe80::8493:b5ff:fea3:5ebf/64 scope link
+    *
+    * In this case, for IPv6, eth0 is Level 1, but wlan0 is Level 2 because it has a
+    * global IPv4 address. This ensures we pick wlan0 and avoid EPERM errors on eth0.
+    *
+    * 3: IP_FAMILY_GLOBAL - Has at least one global address of this IP family.
+    */
+    private static int getInterfaceLevel(boolean hasIpFamily, boolean hasGlobalIpFamily,
+                                        boolean hasAnyGlobal) {
+        if (!hasIpFamily) {
+            return 0; // NONE
+        }
+        if (hasGlobalIpFamily) {
+            return 3; // IP_FAMILY_GLOBAL
+        }
+        if (hasAnyGlobal) {
+            return 2; // ANY_GLOBAL
+        }
+        return 1; // NO_GLOBAL
+    }
+
 }
