@@ -1724,7 +1724,12 @@ public class DecimalFormatTest extends TestCase {
         // double 9999999999.999998 is decimal 9999999999.9999980926513671875
         assertEquals("9999999999.999998", df.format(9999999999.999998));
         // double 1E23 is decimal 99999999999999991611392
-        assertEquals("99999999999999990000000", df.format(1E23));
+        // Actual result depends on Double.toString implementation.
+        // For ICU this is WAI: https://unicode-org.atlassian.net/browse/ICU-23375
+        // In the RI this behaviour is flagged in DecimalFormat classes. In Android we'd need to
+        // put Double.toString behind a flag. That might create dependency cycles, so decision was
+        // made to roll this out un-flagged.
+        assertEquals("100000000000000000000000", df.format(1E23));
     }
 
     public void test_getDecimalFormatSymbols() {
