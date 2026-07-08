@@ -5,7 +5,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/NestHost;
-    host = Llibcore/java/lang/nestgroup/NestGroupB;
+    value = Llibcore/java/lang/nestgroup/NestGroupB;
 .end annotation
 
 
