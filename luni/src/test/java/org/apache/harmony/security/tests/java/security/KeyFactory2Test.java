@@ -43,9 +43,11 @@ public class KeyFactory2Test extends junit.framework.TestCase {
 
     private static final String KEYFACTORY_ID = "KeyFactory.";
 
-    private String[] keyfactAlgs = null;
+    private String[] keyfactAlgs = {
+        "EC", "RSA"
+    };
 
-    private String providerName = null;
+    private String providerName = "AndroidOpenSSL";
 
     static class KeepAlive extends Thread {
         int sleepTime, iterations;
