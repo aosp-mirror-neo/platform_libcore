@@ -9,6 +9,10 @@
         Llibcore/java/lang/nestgroup/NestGroupInnerA;,
         Llibcore/java/lang/nestgroup/NestGroupB;
     }
+    classes = {
+        Llibcore/java/lang/nestgroup/NestGroupInnerA;,
+        Llibcore/java/lang/nestgroup/NestGroupB;
+    }
 .end annotation
 
 
