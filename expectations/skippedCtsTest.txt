@@ -285,5 +285,14 @@
     "names": [
       "tck.java.time.TCKZoneId#test_constant_OLD_IDS_POST_2005"
     ]
+  },
+  {
+    "bug": 582037208,
+    "description": "Test for internal APIs.",
+    "names": [
+      "libcore.java.util.zip.ZipFileTest#testUseLibziparchiveCompatChange",
+      "libcore.java.util.zip.ZipFileTest#test_keyHashCodeEqualsContract_aliasedPaths",
+      "test.java.util.zip.ZipFile.TestCleaner"
+    ]
   }
 ]
